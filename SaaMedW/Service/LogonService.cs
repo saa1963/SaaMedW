@@ -11,21 +11,19 @@ namespace SaaMedW.Service
         //private static pdbUser m_user;
         public bool RegisterUser(string login, string password)
         {
-            var connstr = ConfigurationManager.ConnectionStrings["TKPBSec.Properties.Settings.conn"].
-                ConnectionString.Replace("%password%", password)
-                .Replace("%login%", login)
-                .Replace("%database%", database)
-                .Replace("%server%", server);
-            clsGlobal.Default.ConnectionString = connstr;
-            try
+            password = password ?? "";
+            var ctx = new SaaMedEntities();
+            var logonUser = ctx.Users.Where(s => s.Login == login).FirstOrDefault();
+            ctx.Dispose();
+            var hash = new System.Security.Cryptography.SHA1CryptoServiceProvider()
+                    .ComputeHash(System.Text.Encoding.ASCII.GetBytes(password));
+            if ((logonUser.Password == null && password == "") || hash.SequenceEqual(logonUser.Password))
             {
-                var dl = (IDataLayer)ServiceLocator.Instance.GetService(Type.GetType("TKPBSec.IDataLayer"));
-                clsGlobal.Default.CurrentUser = dl.getUserBySysname(login, DateTime.Today);
+                Global.Source.rUser = logonUser;
                 return true;
             }
-            catch (Exception e)
+            else
             {
-                MessageBox.Show(e.Message);
                 return false;
             }
         }

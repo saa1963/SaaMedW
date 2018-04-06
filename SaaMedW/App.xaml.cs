@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using SaaMedW.Service;
+using SaaMedW.ViewModel;
+using System.IO;
 
 namespace SaaMedW
 {
@@ -20,6 +22,27 @@ namespace SaaMedW
         {
             base.OnStartup(e);
 
+            var logpath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "saamedw", "logs");
+            if (!Directory.Exists(logpath))
+            {
+                Directory.CreateDirectory(logpath);
+            }
+            log4net.GlobalContext.Properties["LogFileName"] = logpath + "\\log.txt";
+            log4net.Config.XmlConfigurator.Configure();
+            log4net.ILog log = log4net.LogManager.GetLogger("MAINLOGGER");
+
+            using (var ctx = new SaaMedEntities())
+            {
+                var serviceUser = ctx.Users.Where(s => s.Login == "Service").FirstOrDefault();
+                if (serviceUser.Password == null)
+                {
+                    var hash = new System.Security.Cryptography.SHA1CryptoServiceProvider()
+                        .ComputeHash(System.Text.Encoding.ASCII.GetBytes("rfktdfkf"));
+                    serviceUser.Password = hash;
+                    ctx.SaveChanges();
+                }
+            }
+
             this.ShutdownMode = ShutdownMode.OnExplicitShutdown;
             var logonservice = (ILogonService)ServiceLocator.Instance.GetService(typeof(ILogonService));
             var loginViewModel = new LoginViewModel();
@@ -30,12 +53,9 @@ namespace SaaMedW
                 Current.Shutdown();
                 return;
             }
-            if (logonservice.RegisterUser(loginViewModel.Server,
-                    loginViewModel.Database, loginViewModel.Login, loginViewModel.Password))
+            if (logonservice.RegisterUser(loginViewModel.Login, loginViewModel.Password))
             {
                 var storage = (ILocalStorage)ServiceLocator.Instance.GetService(typeof(ILocalStorage));
-                storage.SetServerName(Environment.UserName, loginViewModel.Server);
-                storage.SetDatabaseName(Environment.UserName, loginViewModel.Database);
                 storage.SetLoginName(Environment.UserName, loginViewModel.Login);
                 this.ShutdownMode = ShutdownMode.OnMainWindowClose;
                 var modelview = new MasterWindowViewModel();
@@ -43,7 +63,9 @@ namespace SaaMedW
                 window.DataContext = modelview;
                 Current.MainWindow = window;
                 window.Show();
-                ActivateView(new ExecTypes() { View = typeof(ReceiveView), ViewModel = typeof(ReceiveViewModel) });
+                //ActivateView(new ExecTypes() { View = typeof(ReceiveView), ViewModel = typeof(ReceiveViewModel) });
+
+                log.Info("Старт приложения");
             }
             else
             {

@@ -11,8 +11,6 @@ namespace SaaMedW.ViewModel
     public class LoginViewModel : ViewModelBase, IDataErrorInfo
     {
         private readonly ILocalStorage storage;
-        private string m_server;
-        private string m_database;
         private string m_login;
         private string m_password;
 

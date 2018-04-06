@@ -15,7 +15,7 @@ namespace SaaMedW.Service
         ServiceLocator()
         {
             m_lst = new Dictionary<Type, Type>();
-            //m_lst.Add(typeof(ILocalStorage), typeof(TKPBSec.Service.LocalStorage));
+            m_lst.Add(typeof(ILocalStorage), typeof(SaaMedW.Service.LocalStorage));
             m_lst.Add(typeof(ILogonService), typeof(SaaMedW.Service.LogonService));
             //m_lst.Add(typeof(IDataLayer), typeof(TKPBSec.Service.ADODataService));
             //m_lst.Add(typeof(ISendFile), typeof(TKPBSec.Service.SendFileService));
