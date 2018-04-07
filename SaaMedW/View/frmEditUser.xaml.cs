@@ -26,7 +26,11 @@ namespace SaaMedW.View
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-
+            if (!ValidationDialog.IsValid(this))
+            {
+                return;
+            }
+            DialogResult = true;
         }
 
         private void tbPassword_PasswordChanged(object sender, RoutedEventArgs e)
