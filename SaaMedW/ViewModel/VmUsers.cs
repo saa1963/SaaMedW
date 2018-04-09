@@ -19,6 +19,10 @@ namespace SaaMedW.ViewModel
         {
             m_users = users;
         }
+        public Users users
+        {
+            get => m_users;
+        }
         public string Fio
         {
             get => m_users.Fio;

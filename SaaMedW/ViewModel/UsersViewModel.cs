@@ -109,7 +109,11 @@ namespace SaaMedW.ViewModel
 
         private void DelUser(object obj)
         {
-            throw new NotImplementedException();
+            if (UsersSel == null) return;
+            var user = UsersSel as VmUsers;
+            ctx.Users.Remove(user.users);
+            ctx.SaveChanges();
+            UsersList.Remove(user);
         }
 
         public RelayCommand ChangePassword

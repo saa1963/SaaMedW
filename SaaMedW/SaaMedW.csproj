@@ -106,6 +106,8 @@
     <Compile Include="ViewModel\MasterWindowViewModel.cs" />
     <Compile Include="ViewModel\UsersViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
+    <Compile Include="ViewModel\VmDocumentType.cs" />
+    <Compile Include="ViewModel\VmPerson.cs" />
     <Compile Include="ViewModel\VmUsers.cs" />
     <Compile Include="View\frmEditUser.xaml.cs">
       <DependentUpon>frmEditUser.xaml</DependentUpon>
