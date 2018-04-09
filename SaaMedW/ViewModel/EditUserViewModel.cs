@@ -11,7 +11,6 @@ namespace SaaMedW.ViewModel
 {
     public class EditUserViewModel : ViewModelBase, IDataErrorInfo
     {
-        private readonly ILocalStorage storage;
         private string m_fio;
         private string m_login;
         private string m_password;
@@ -71,9 +70,9 @@ namespace SaaMedW.ViewModel
             get { return m_role; }
         }
 
-        public object RoleSel
+        public Role RoleSel
         {
-            get { return viewroles.CurrentItem; }
+            get { return viewroles.CurrentItem as Role; }
             set { viewroles.MoveCurrentTo(value); }
         }
 
@@ -98,11 +97,18 @@ namespace SaaMedW.ViewModel
             }
         }
 
+        public bool IsEnablePassword { get; set; } = true;
+
         public string this[string columnName]
         {
             get
             {
                 string result = null;
+                if (columnName == "Fio")
+                {
+                    if (String.IsNullOrWhiteSpace(Fio))
+                        result = "Не заполнено поле 'ФИО'";
+                }
                 if (columnName == "Login")
                 {
                     if (String.IsNullOrWhiteSpace(Login))
@@ -112,6 +118,6 @@ namespace SaaMedW.ViewModel
             }
         }
 
-public string Error => throw new NotImplementedException();
+        public string Error => "";
     }
 }

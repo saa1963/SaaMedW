@@ -31,6 +31,7 @@ namespace SaaMedW.View
                 return;
             }
             DialogResult = true;
+            Close();
         }
 
         private void tbPassword_PasswordChanged(object sender, RoutedEventArgs e)

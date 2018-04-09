@@ -135,7 +135,7 @@
                         <Grid>
                             <Border Name="MainBorder" >
                                 <Border.Background>
-                                    <ImageBrush ImageSource="../Image/modules_view_grid_header_background.png"/>
+                                    <ImageBrush ImageSource="../image/modules_view_grid_header_background.png"/>
                                 </Border.Background>
                                 <Grid>
                                     <ContentPresenter Margin="3" 

@@ -5,10 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SaaMedW.View"
         mc:Ignorable="d"
-        Title="" Width="800"
+        Title="" Width="400"
         SizeToContent="Height" ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen" 
-        FocusManager.FocusedElement="{Binding ElementName=tbLogin}"
+        FocusManager.FocusedElement="{Binding ElementName=tbFio}"
         Name="frmUserEditName">
     <Window.Resources>
         <Style TargetType="{x:Type TextBox}">
@@ -22,7 +22,7 @@
         </Style>
     </Window.Resources>
     <Grid>
-        <Grid Margin="15,15,0,15" HorizontalAlignment="Left" Width="764">
+        <Grid Margin="15,15,15,15" HorizontalAlignment="Stretch">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
@@ -48,14 +48,12 @@
                 <TextBox Name="tbPassword0" 
                 Text="{Binding Path=Password, ValidatesOnDataErrors=True, 
                 UpdateSourceTrigger=PropertyChanged}" Visibility="Collapsed"></TextBox>
-                <PasswordBox Name="tbPassword" PasswordChanged="tbPassword_PasswordChanged">
+                <PasswordBox Name="tbPassword" PasswordChanged="tbPassword_PasswordChanged" IsEnabled="{Binding IsEnablePassword}">
                 </PasswordBox>
             </StackPanel>
             <StackPanel Grid.Row="3">
                 <Label>Роль</Label>
-                <ComboBox SelectedItem="{Binding RoleSel}" ItemsSource="{Binding Roles}">
-                    <ComboBoxItem>Администратор</ComboBoxItem>
-                    <ComboBoxItem>Пользователь</ComboBoxItem>
+                <ComboBox SelectedItem="{Binding RoleSel}" ItemsSource="{Binding Roles}" DisplayMemberPath="Name">
                 </ComboBox>
             </StackPanel>
             <StackPanel Grid.Row="4">

@@ -93,6 +93,7 @@
     </Compile>
     <Compile Include="RelayCommand.cs" />
     <Compile Include="Role.cs" />
+    <Compile Include="RoleToStringConverter.cs" />
     <Compile Include="Service\LocalStorage.cs" />
     <Compile Include="Service\LogonService.cs" />
     <Compile Include="Service\ServiceLocator.cs" />
@@ -103,7 +104,9 @@
     <Compile Include="ViewModel\EditUserViewModel.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />
     <Compile Include="ViewModel\MasterWindowViewModel.cs" />
+    <Compile Include="ViewModel\UsersViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
+    <Compile Include="ViewModel\VmUsers.cs" />
     <Compile Include="View\frmEditUser.xaml.cs">
       <DependentUpon>frmEditUser.xaml</DependentUpon>
     </Compile>
@@ -112,6 +115,9 @@
     </Compile>
     <Compile Include="View\MasterWindow.xaml.cs">
       <DependentUpon>MasterWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\UsersView.xaml.cs">
+      <DependentUpon>UsersView.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -134,6 +140,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\MasterWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\UsersView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -173,6 +183,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="image\modules_view_grid_header_background.png" />
     <Content Include="Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Model1.Context.cs</LastGenOutput>
