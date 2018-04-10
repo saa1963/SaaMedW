@@ -5,6 +5,9 @@ using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace SaaMedW
 {
@@ -19,7 +22,32 @@ namespace SaaMedW
 
         public Users rUser { get; set; }
 
-        private void SaveParam<T>(string name, T value)
+        internal void SaveColumnsWidth(UserControl uc)
+        {
+            var fName = uc.Name;
+            DataGrid g = (DataGrid)FindInVisualTreeDown(uc, "DataGrid");
+            foreach (DataGridColumn col in g.Columns)
+            {
+                if (col.Width.IsAbsolute)
+                    Global.Source.SaveParam<double>(fName + "_" + col.DisplayIndex.ToString(), col.Width.Value);
+            }
+        }
+
+        internal void SetColumnsWidth(UserControl uc)
+        {
+            var fName = uc.Name;
+            DataGrid g = (DataGrid)FindInVisualTreeDown(uc, "DataGrid");
+            foreach (DataGridColumn col in g.Columns)
+            {
+                if (col.Width.IsAbsolute)
+                {
+                    var rt = Global.Source.GetParam<double>(fName + "_" + col.DisplayIndex.ToString());
+                    if (rt != 0) col.Width = rt;
+                }
+            }
+        }
+
+        public void SaveParam<T>(string name, T value)
         {
             var pth = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "SaaMedW");
             var fname = Path.Combine(pth, typeof(T).Name + "Params.bin");
@@ -55,9 +83,9 @@ namespace SaaMedW
             }
         }
 
-        private T GetParam<T>(string name) where T : new()
+        public T GetParam<T>(string name) where T : new()
         {
-            var pth = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "SaaMed");
+            var pth = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "SaaMedW");
             var fname = Path.Combine(pth, typeof(T).Name + "Params.bin");
             Dictionary<string, T> d = null;
             BinaryFormatter formatter = new BinaryFormatter();
@@ -101,6 +129,28 @@ namespace SaaMedW
                 { "января", "февраля", "марта", "апреля", "мая", "июня", "июля",
                     "августа", "сентября", "октября", "ноября", "декабря" };
             return mths[month - 1];
+        }
+
+        public DependencyObject FindInVisualTreeDown(DependencyObject obj, string type)
+        {
+            if (obj != null)
+            {
+                if (obj.GetType().Name == type)
+                {
+                    return obj;
+                }
+
+                for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
+                {
+                    DependencyObject childReturn = FindInVisualTreeDown(VisualTreeHelper.GetChild(obj, i), type);
+                    if (childReturn != null)
+                    {
+                        return childReturn;
+                    }
+                }
+            }
+
+            return null;
         }
     }
 }

@@ -1,0 +1,59 @@
+﻿<UserControl x:Name="cardsView" x:Class="SaaMedW.View.CardsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SaaMedW.View"
+             xmlns:local0="clr-namespace:SaaMedW"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800" Unloaded="UserControl_Unloaded" Loaded="UserControl_Loaded">
+    <UserControl.Resources>
+        <local0:RoleToStringConverter x:Key="myConverter" />
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Menu Grid.Row="0" Name="MainMenu">
+            <MenuItem Header="Добавить" Command="{Binding Add}">
+            </MenuItem>
+            <MenuItem Header="Изменить" Command="{Binding Edit}">
+            </MenuItem>
+            <MenuItem Header="Удалить" Command="{Binding Del}">
+            </MenuItem>
+            <MenuItem Header="Печать">
+                <MenuItem Header="Медкарта" Command="{Binding MedCard}">
+                </MenuItem>
+            </MenuItem>
+        </Menu>
+        <DataGrid Name="g" Grid.Row="1" Margin="5" ItemsSource="{Binding CardsList}" 
+                  SelectedItem="{Binding CardsSel}" IsSynchronizedWithCurrentItem="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="50"></DataGridTextColumn>
+                <DataGridTextColumn Header="Фамилия" Binding="{Binding LastName}" Width="150"></DataGridTextColumn>
+                <DataGridTextColumn Header="Имя" Binding="{Binding FirstName}" Width="100"></DataGridTextColumn>
+                <DataGridTextColumn Header="Отчество" Binding="{Binding MiddleName}" Width="100"/>
+                <DataGridTextColumn Header="Дата рожд" Binding="{Binding BirthDate}" Width="100"></DataGridTextColumn>
+                <DataGridTextColumn Header="Телефон" Binding="{Binding Phone}" Width="100"></DataGridTextColumn>
+                <DataGridTextColumn Header="Пол" Binding="{Binding Sex}" Width="100"></DataGridTextColumn>
+                <DataGridTextColumn Header="ИНН" Binding="{Binding Inn}" Width="100"></DataGridTextColumn>
+                <DataGridTextColumn Header="СНИЛС" Binding="{Binding Snils}" Width="100"></DataGridTextColumn>
+                <DataGridTextColumn Header="Тип док" Binding="{Binding DocumentTypeId}" Width="100"></DataGridTextColumn>
+                <DataGridTextColumn Header="Серия док" Binding="{Binding DocSeria}" Width="100"></DataGridTextColumn>
+                <DataGridTextColumn Header="№ док" Binding="{Binding DocNumber}" Width="100"></DataGridTextColumn>
+                <DataGridTextColumn Header="Регион" Binding="{Binding AddressSubject}" Width="100"></DataGridTextColumn>
+                <DataGridTextColumn Header="Район" Binding="{Binding AddressRaion}" Width="100"></DataGridTextColumn>
+                <DataGridTextColumn Header="Город" Binding="{Binding AddressCity}" Width="100"></DataGridTextColumn>
+                <DataGridTextColumn Header="Нас.пункт" Binding="{Binding AddressPunkt}" Width="100"></DataGridTextColumn>
+                <DataGridTextColumn Header="Улица" Binding="{Binding AddressStreet}" Width="100"></DataGridTextColumn>
+                <DataGridTextColumn Header="Дом" Binding="{Binding AddressHouse}" Width="100"></DataGridTextColumn>
+                <DataGridTextColumn Header="Квартира" Binding="{Binding AddressFlat}" Width="100"></DataGridTextColumn>
+                <DataGridTextColumn Header="Местность" Binding="{Binding Mestnost}" Width="100"></DataGridTextColumn>
+                <DataGridTextColumn Header="Создано" Binding="{Binding CreateDate}" Width="100"></DataGridTextColumn>
+
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>

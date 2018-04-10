@@ -77,20 +77,141 @@ namespace SaaMedW.ViewModel
                 OnPropertyChanged("Phone");
             }
         }
-        public Nullable<int> Sex { get; set; }
-        public string Inn { get; set; }
-        public string Snils { get; set; }
-        public Nullable<int> DocumentTypeId { get; set; }
-        public string DocSeria { get; set; }
-        public string DocNumber { get; set; }
-        public string AddressSubject { get; set; }
-        public string AddressRaion { get; set; }
-        public string AddressCity { get; set; }
-        public string AddressPunkt { get; set; }
-        public string AddressStreet { get; set; }
-        public string AddressHouse { get; set; }
-        public string AddressFlat { get; set; }
-        public Nullable<int> Mestnost { get; set; }
+        public int? Sex
+        {
+            get => m_object.Sex;
+            set
+            {
+                m_object.Sex = value;
+                OnPropertyChanged("Sex");
+            }
+        }
+        public string Inn
+        {
+            get => m_object.Inn;
+            set
+            {
+                m_object.Inn = value;
+                OnPropertyChanged("Inn");
+            }
+        }
+        public string Snils
+        {
+            get => m_object.Snils;
+            set
+            {
+                m_object.Snils = value;
+                OnPropertyChanged("Snils");
+            }
+        }
+        public int? DocumentTypeId
+        {
+            get => m_object.DocumentTypeId;
+            set
+            {
+                m_object.DocumentTypeId = value;
+                OnPropertyChanged("DocumentTypeId");
+            }
+        }
+        public string DocSeria
+        {
+            get => m_object.DocSeria;
+            set
+            {
+                m_object.DocSeria = value;
+                OnPropertyChanged("DocSeria");
+            }
+        }
+        public string DocNumber
+        {
+            get => m_object.DocNumber;
+            set
+            {
+                m_object.DocNumber = value;
+                OnPropertyChanged("DocNumber");
+            }
+        }
+        public string AddressSubject
+        {
+            get => m_object.AddressSubject;
+            set
+            {
+                m_object.AddressSubject = value;
+                OnPropertyChanged("AddressSubject");
+            }
+        }
+        public string AddressRaion
+        {
+            get => m_object.AddressRaion;
+            set
+            {
+                m_object.AddressRaion = value;
+                OnPropertyChanged("AddressRaion");
+            }
+        }
+        public string AddressCity
+        {
+            get => m_object.AddressCity;
+            set
+            {
+                m_object.AddressCity = value;
+                OnPropertyChanged("AddressCity");
+            }
+        }
+        public string AddressPunkt
+        {
+            get => m_object.AddressPunkt;
+            set
+            {
+                m_object.AddressPunkt = value;
+                OnPropertyChanged("AddressPunkt");
+            }
+        }
+        public string AddressStreet
+        {
+            get => m_object.AddressStreet;
+            set
+            {
+                m_object.AddressStreet = value;
+                OnPropertyChanged("AddressStreet");
+            }
+        }
+        public string AddressHouse
+        {
+            get => m_object.AddressHouse;
+            set
+            {
+                m_object.AddressHouse = value;
+                OnPropertyChanged("AddressHouse");
+            }
+        }
+        public string AddressFlat
+        {
+            get => m_object.AddressFlat;
+            set
+            {
+                m_object.AddressFlat = value;
+                OnPropertyChanged("AddressFlat");
+            }
+        }
+        public int? Mestnost
+        {
+            get => m_object.Mestnost;
+            set
+            {
+                m_object.Mestnost = value;
+                OnPropertyChanged("Mestnost");
+            }
+        }
+        public DateTime CreateDate
+        {
+            get => m_object.CreateDate;
+            set
+            {
+                m_object.CreateDate = value;
+                OnPropertyChanged("CreateDate");
+            }
+        }
         private void OnPropertyChanged(string PropertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(PropertyName));

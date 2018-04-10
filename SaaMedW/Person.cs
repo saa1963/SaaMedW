@@ -34,6 +34,7 @@ namespace SaaMedW
         public string AddressHouse { get; set; }
         public string AddressFlat { get; set; }
         public Nullable<int> Mestnost { get; set; }
+        public System.DateTime CreateDate { get; set; }
     
         public virtual DocumentType DocumentType { get; set; }
     }

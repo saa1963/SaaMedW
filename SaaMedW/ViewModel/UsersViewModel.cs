@@ -126,7 +126,17 @@ namespace SaaMedW.ViewModel
 
         private void changePassword(object obj)
         {
-            throw new NotImplementedException();
+            if (UsersSel == null) return;
+            var user = (UsersSel as VmUsers).users;
+
+            //var f = new frmChangePassword();
+            //if (f.ShowDialog() == DialogResult.OK)
+            //{
+            //    user.Password = new System.Security.Cryptography.SHA1CryptoServiceProvider()
+            //            .ComputeHash(System.Text.Encoding.ASCII.GetBytes(f.Password));
+            //    ctx.SaveChanges();
+            //    MessageBox.Show("Пароль изменен.");
+            //}
         }
     }
 }

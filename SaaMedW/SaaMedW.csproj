@@ -60,6 +60,9 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="Xceed.Words.NET, Version=1.1.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\DocX.1.1.0\lib\Xceed.Words.NET.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -73,6 +76,7 @@
     <Compile Include="Global.cs" />
     <Compile Include="ILocalStorage.cs" />
     <Compile Include="ILogonService.cs" />
+    <Compile Include="MedCard.cs" />
     <Compile Include="Model1.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -101,6 +105,7 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="ValidationDialog.cs" />
+    <Compile Include="ViewModel\CardsViewModel.cs" />
     <Compile Include="ViewModel\EditUserViewModel.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />
     <Compile Include="ViewModel\MasterWindowViewModel.cs" />
@@ -109,6 +114,9 @@
     <Compile Include="ViewModel\VmDocumentType.cs" />
     <Compile Include="ViewModel\VmPerson.cs" />
     <Compile Include="ViewModel\VmUsers.cs" />
+    <Compile Include="View\ChangePassword.xaml.cs">
+      <DependentUpon>ChangePassword.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\frmEditUser.xaml.cs">
       <DependentUpon>frmEditUser.xaml</DependentUpon>
     </Compile>
@@ -117,6 +125,9 @@
     </Compile>
     <Compile Include="View\MasterWindow.xaml.cs">
       <DependentUpon>MasterWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\CardsView.xaml.cs">
+      <DependentUpon>CardsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\UsersView.xaml.cs">
       <DependentUpon>UsersView.xaml</DependentUpon>
@@ -133,6 +144,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\ChangePassword.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\frmEditUser.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -142,6 +157,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\MasterWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\CardsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -179,6 +198,9 @@
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="templates\Медкарта.docx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>

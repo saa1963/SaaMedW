@@ -16,20 +16,16 @@
             <RowDefinition></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
-        <ToolBar Grid.Row="0">
-            <Button Command="{Binding Add}">
-                Добавить
-            </Button>
-            <Button Command="{Binding Edit}">
-                Изменить
-            </Button>
-            <Button Command="{Binding Del}">
-                Удалить
-            </Button>
-            <Button Command="{Binding ChangePassword}">
-                Сменить пароль
-            </Button>
-        </ToolBar>
+        <Menu Grid.Row="0" Name="MainMenu">
+            <MenuItem Header="Добавить" Command="{Binding Add}">
+            </MenuItem>
+            <MenuItem Header="Изменить" Command="{Binding Edit}">
+            </MenuItem>
+            <MenuItem Header="Удалить" Command="{Binding Del}">
+            </MenuItem>
+            <MenuItem Header="Сменить пароль" Command="{Binding ChangePassword}">
+            </MenuItem>
+        </Menu>
         <DataGrid Grid.Row="1" Margin="5" ItemsSource="{Binding UsersList}" 
                   SelectedItem="{Binding UsersSel}" IsSynchronizedWithCurrentItem="True">
             <DataGrid.Columns>
