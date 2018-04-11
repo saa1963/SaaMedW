@@ -14,10 +14,10 @@ namespace SaaMedW.ViewModel
         private string m_fio;
         private string m_login;
         private string m_password;
-        private readonly ObservableCollection<Role> m_role = 
-            new ObservableCollection<Role> {
-                new Role { Id = 0, Name = "Администратор" },
-                new Role { Id = 1, Name = "Пользователь"}
+        private readonly ObservableCollection<IdName> m_role = 
+            new ObservableCollection<IdName> {
+                new IdName { Id = 0, Name = "Администратор" },
+                new IdName { Id = 1, Name = "Пользователь"}
             };
         private bool m_disabled;
 
@@ -65,14 +65,14 @@ namespace SaaMedW.ViewModel
             }
         }
 
-        public ObservableCollection<Role> Roles
+        public ObservableCollection<IdName> Roles
         {
             get { return m_role; }
         }
 
-        public Role RoleSel
+        public IdName RoleSel
         {
-            get { return viewroles.CurrentItem as Role; }
+            get { return viewroles.CurrentItem as IdName; }
             set { viewroles.MoveCurrentTo(value); }
         }
 

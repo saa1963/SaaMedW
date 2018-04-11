@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 
 namespace SaaMedW.ViewModel
 {
-    public class VmPerson : INotifyPropertyChanged
+    public class VmPerson : ViewModelBase, IDataErrorInfo
     {
         private Person m_object;
-        public event PropertyChangedEventHandler PropertyChanged;
         public VmPerson()
         {
             m_object = new Person();
@@ -19,6 +18,27 @@ namespace SaaMedW.ViewModel
         {
             m_object = par;
         }
+
+        public string this[string columnName]
+        {
+            get
+            {
+                var result = String.Empty;
+                switch (columnName)
+                {
+                    case "LastName":
+                        result = "Не введена фамилия.";
+                        break;
+                    case "FirstName":
+                        result = "Не введено имя.";
+                        break;
+                    default:
+                        break;
+                }
+                return result;
+            }
+        }
+
         public Person Obj
         {
             get => m_object;
@@ -212,9 +232,7 @@ namespace SaaMedW.ViewModel
                 OnPropertyChanged("CreateDate");
             }
         }
-        private void OnPropertyChanged(string PropertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(PropertyName));
-        }
+
+        public string Error => "";
     }
 }

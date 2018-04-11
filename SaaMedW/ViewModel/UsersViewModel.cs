@@ -129,14 +129,16 @@ namespace SaaMedW.ViewModel
             if (UsersSel == null) return;
             var user = (UsersSel as VmUsers).users;
 
-            //var f = new frmChangePassword();
-            //if (f.ShowDialog() == DialogResult.OK)
-            //{
-            //    user.Password = new System.Security.Cryptography.SHA1CryptoServiceProvider()
-            //            .ComputeHash(System.Text.Encoding.ASCII.GetBytes(f.Password));
-            //    ctx.SaveChanges();
-            //    MessageBox.Show("Пароль изменен.");
-            //}
+            var mv = new ChangePasswordViewModel();
+            var f = new ChangePassword { DataContext = mv };
+            var r = f.ShowDialog();
+            if (r ?? false)
+            {
+                user.Password = new System.Security.Cryptography.SHA1CryptoServiceProvider()
+                        .ComputeHash(System.Text.Encoding.ASCII.GetBytes(mv.NewPassword));
+                ctx.SaveChanges();
+                System.Windows.MessageBox.Show("Пароль изменен.");
+            }
         }
     }
 }

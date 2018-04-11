@@ -23,5 +23,30 @@ namespace SaaMedW.View
         {
             InitializeComponent();
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (!ValidationDialog.IsValid(this))
+            {
+                MessageBox.Show("Не введены данные.");
+                return;
+            }
+            if (tbNewPassword0.Text != tbRepPassword0.Text)
+            {
+                MessageBox.Show("Пароли не совпадают.");
+                return;
+            }
+            DialogResult = true;
+        }
+
+        private void tbRepPassword_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            tbRepPassword0.Text = tbRepPassword.Password;
+        }
+
+        private void tbNewPassword_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            tbNewPassword0.Text = tbNewPassword.Password;
+        }
     }
 }

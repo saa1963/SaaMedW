@@ -106,6 +106,7 @@
     </Compile>
     <Compile Include="ValidationDialog.cs" />
     <Compile Include="ViewModel\CardsViewModel.cs" />
+    <Compile Include="ViewModel\ChangePasswordViewModel.cs" />
     <Compile Include="ViewModel\EditUserViewModel.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />
     <Compile Include="ViewModel\MasterWindowViewModel.cs" />
@@ -116,6 +117,9 @@
     <Compile Include="ViewModel\VmUsers.cs" />
     <Compile Include="View\ChangePassword.xaml.cs">
       <DependentUpon>ChangePassword.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\EditCards.xaml.cs">
+      <DependentUpon>EditCards.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\frmEditUser.xaml.cs">
       <DependentUpon>frmEditUser.xaml</DependentUpon>
@@ -145,6 +149,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="View\ChangePassword.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\EditCards.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

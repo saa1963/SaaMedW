@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SaaMedW
 {
-    public class Role
+    public class IdName
     {
         public int Id { get; set; }
         public string Name { get; set; }
