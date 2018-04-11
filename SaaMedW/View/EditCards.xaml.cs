@@ -23,5 +23,15 @@ namespace SaaMedW.View
         {
             InitializeComponent();
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (!ValidationDialog.IsValid(this))
+            {
+                return;
+            }
+            DialogResult = true;
+            Close();
+        }
     }
 }

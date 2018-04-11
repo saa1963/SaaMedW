@@ -1,24 +1,72 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Data;
 
 namespace SaaMedW.ViewModel
 {
     public class VmPerson : ViewModelBase, IDataErrorInfo
     {
         private Person m_object;
+        private readonly ObservableCollection<IdName> m_sex =
+            new ObservableCollection<IdName> {
+                new IdName { Id = 1, Name = "Мужской" },
+                new IdName { Id = 2, Name = "Женский"} };
+        private readonly ObservableCollection<IdName> m_mestnost =
+            new ObservableCollection<IdName> {
+                new IdName { Id = 1, Name = "Городская" },
+                new IdName { Id = 2, Name = "Сельская"} };
+        private ObservableCollection<VmDocumentType> m_doctype =
+            new ObservableCollection<VmDocumentType>();
+        private SaaMedEntities ctx = new SaaMedEntities();
+        public IdName SexCurrent
+        {
+            get { return SexList.CurrentItem as IdName; }
+            set { SexList.MoveCurrentTo(value); }
+        }
+        public ICollectionView SexList
+        {
+            get => CollectionViewSource.GetDefaultView(m_sex);
+        }
+        public IdName MestnostCurrent
+        {
+            get { return MestnostList.CurrentItem as IdName; }
+            set { MestnostList.MoveCurrentTo(value); }
+        }
+        public ICollectionView MestnostList
+        {
+            get => CollectionViewSource.GetDefaultView(m_mestnost);
+        }
+        public VmDocumentType DocTypeCurrent
+        {
+            get { return DocTypeList.CurrentItem as VmDocumentType; }
+            set { DocTypeList.MoveCurrentTo(value); }
+        }
+        public ICollectionView DocTypeList
+        {
+            get => CollectionViewSource.GetDefaultView(m_doctype);
+        }
         public VmPerson()
         {
             m_object = new Person();
+            FillDocType();
         }
         public VmPerson(Person par)
         {
             m_object = par;
+            FillDocType();
         }
-
+        private void FillDocType()
+        {
+            foreach(DocumentType o in ctx.DocumentType)
+            {
+                m_doctype.Add(new VmDocumentType(o));
+            }
+        }
         public string this[string columnName]
         {
             get

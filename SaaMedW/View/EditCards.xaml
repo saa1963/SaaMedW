@@ -6,7 +6,18 @@
         xmlns:local="clr-namespace:SaaMedW.View"
         mc:Ignorable="d"
         Title="EditCards"
-        SizeToContent="Height" Width="600">
+        SizeToContent="Height" Width="600" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <Style TargetType="{x:Type TextBox}">
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="true">
+                    <Setter Property="ToolTip"
+                        Value="{Binding RelativeSource={x:Static RelativeSource.Self},
+                        Path=(Validation.Errors)[0].ErrorContent}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
@@ -84,8 +95,18 @@
                         </StackPanel>
                     </Grid>
                     <StackPanel Grid.Row="6">
-                        <Label>Телефон</Label>
-                        <TextBox Text="{Binding Path=Phone, ValidatesOnDataErrors=True, 
+                        <Label>Тип документа</Label>
+                        <ComboBox ItemsSource="{Binding DocTypeList}" DisplayMemberPath="Name" SelectedValuePath="Id" 
+                                      SelectedValue="{Binding DocTypeCurrent}"/>
+                    </StackPanel>
+                    <StackPanel Grid.Row="7">
+                        <Label>Серия док</Label>
+                        <TextBox Text="{Binding Path=DocSeria, ValidatesOnDataErrors=True, 
+                            UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                    </StackPanel>
+                    <StackPanel Grid.Row="8">
+                        <Label>Номер док</Label>
+                        <TextBox Text="{Binding Path=DocSeria, ValidatesOnDataErrors=True, 
                             UpdateSourceTrigger=PropertyChanged}"></TextBox>
                     </StackPanel>
                 </Grid>
@@ -99,35 +120,48 @@
                         <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
                     </Grid.RowDefinitions>
                     <StackPanel Grid.Row="0">
-                        <Label>ФИО</Label>
-                        <TextBox Name="tbFio1" 
-                Text="{Binding Path=Fio, ValidatesOnDataErrors=True, 
-                UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                        <Label>Местность</Label>
+                        <ComboBox ItemsSource="{Binding MestnostList}" DisplayMemberPath="Name" SelectedValuePath="Id" 
+                                      SelectedValue="{Binding MestnostCurrent}"/>
                     </StackPanel>
                     <StackPanel Grid.Row="1">
-                        <Label>Логин</Label>
-                        <TextBox Name="tbLogin1" 
-                Text="{Binding Path=Login, ValidatesOnDataErrors=True, 
-                UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                        <Label>Регион</Label>
+                        <TextBox Text="{Binding Path=AddressSubject, ValidatesOnDataErrors=True, 
+                            UpdateSourceTrigger=PropertyChanged}"></TextBox>
                     </StackPanel>
                     <StackPanel Grid.Row="2">
-                        <Label>Пароль</Label>
-                        <TextBox Name="tbPassword01" 
-                Text="{Binding Path=Password, ValidatesOnDataErrors=True, 
-                UpdateSourceTrigger=PropertyChanged}" Visibility="Collapsed"></TextBox>
-                        <PasswordBox Name="tbPassword1" PasswordChanged="tbPassword_PasswordChanged" IsEnabled="{Binding IsEnablePassword}">
-                        </PasswordBox>
+                        <Label>Район</Label>
+                        <TextBox Text="{Binding Path=AddressRaion, ValidatesOnDataErrors=True, 
+                            UpdateSourceTrigger=PropertyChanged}"></TextBox>
                     </StackPanel>
                     <StackPanel Grid.Row="3">
-                        <Label>Роль</Label>
-                        <ComboBox SelectedItem="{Binding RoleSel}" ItemsSource="{Binding Roles}" DisplayMemberPath="Name">
-                        </ComboBox>
+                        <Label>Город</Label>
+                        <TextBox Text="{Binding Path=AddressCity, ValidatesOnDataErrors=True, 
+                            UpdateSourceTrigger=PropertyChanged}"></TextBox>
                     </StackPanel>
                     <StackPanel Grid.Row="4">
-                        <CheckBox Margin="0,10,0,10" IsChecked="{Binding Path=Disabled, ValidatesOnDataErrors=True, 
-                UpdateSourceTrigger=PropertyChanged}">Не действует</CheckBox>
+                        <Label>Нас.пункт</Label>
+                        <TextBox Text="{Binding Path=AddressPunkt, ValidatesOnDataErrors=True, 
+                            UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                    </StackPanel>
+                    <StackPanel Grid.Row="5">
+                        <Label>Улица</Label>
+                        <TextBox Text="{Binding Path=AddressStreet, ValidatesOnDataErrors=True, 
+                            UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                    </StackPanel>
+                    <StackPanel Grid.Row="6">
+                        <Label>Дом</Label>
+                        <TextBox Text="{Binding Path=AddressHouse, ValidatesOnDataErrors=True, 
+                            UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                    </StackPanel>
+                    <StackPanel Grid.Row="7">
+                        <Label>Квартира</Label>
+                        <TextBox Text="{Binding Path=AddressFlat, ValidatesOnDataErrors=True, 
+                            UpdateSourceTrigger=PropertyChanged}"></TextBox>
                     </StackPanel>
                 </Grid>
             </Grid>

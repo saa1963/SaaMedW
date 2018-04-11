@@ -24,6 +24,7 @@ namespace SaaMedW
                 {
                     // If the dependency object is invalid, and it can receive the focus,
                     // set the focus
+                    var err = Validation.GetErrors(node);
                     if (node is IInputElement) Keyboard.Focus((IInputElement)node);
                     return false;
                 }

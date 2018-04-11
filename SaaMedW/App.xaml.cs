@@ -34,6 +34,17 @@ namespace SaaMedW
             using (var ctx = new SaaMedEntities())
             {
                 var serviceUser = ctx.Users.Where(s => s.Login == "Service").FirstOrDefault();
+                if (serviceUser == null)
+                {
+                    serviceUser = new Users();
+                    serviceUser.Disabled = false;
+                    serviceUser.Fio = "Service";
+                    serviceUser.Login = "Service";
+                    serviceUser.Role = 0;
+                    ctx.Users.Add(serviceUser);
+                    ctx.SaveChanges();
+                }
+                serviceUser = ctx.Users.Where(s => s.Login == "Service").FirstOrDefault();
                 if (serviceUser.Password == null)
                 {
                     var hash = new System.Security.Cryptography.SHA1CryptoServiceProvider()
