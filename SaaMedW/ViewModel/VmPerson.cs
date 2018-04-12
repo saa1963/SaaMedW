@@ -23,12 +23,22 @@ namespace SaaMedW.ViewModel
         private ObservableCollection<VmDocumentType> m_doctype =
             new ObservableCollection<VmDocumentType>();
         private SaaMedEntities ctx = new SaaMedEntities();
+        public ObservableCollection<IdName> SexList
+        {
+            get => m_sex;
+        }
         public IdName SexCurrent
         {
-            get { return SexList.CurrentItem as IdName; }
-            set { SexList.MoveCurrentTo(value); }
+            get
+            {
+                if (Sex.HasValue)
+                    return viewSex.CurrentItem as IdName;
+                else
+                    return null;
+            }
+            set { viewSex.MoveCurrentTo(value); }
         }
-        public ICollectionView SexList
+        private ICollectionView viewSex
         {
             get => CollectionViewSource.GetDefaultView(m_sex);
         }
@@ -54,11 +64,46 @@ namespace SaaMedW.ViewModel
         {
             m_object = new Person();
             FillDocType();
+            m_object.CreateDate = DateTime.Now;
         }
         public VmPerson(Person par)
         {
             m_object = par;
             FillDocType();
+        }
+        public VmPerson(VmPerson obj)
+        {
+            m_object = new Person();
+            Id = obj.Id;
+            CopyProperties(obj);
+        }
+        public VmPerson Copy(VmPerson obj)
+        {
+            CopyProperties(obj);
+            return this;
+        }
+        private void CopyProperties(VmPerson obj)
+        {
+            AddressCity = obj.AddressCity;
+            AddressFlat = obj.AddressFlat;
+            AddressHouse = obj.AddressHouse;
+            AddressPunkt = obj.AddressPunkt;
+            AddressRaion = obj.AddressRaion;
+            AddressStreet = obj.AddressStreet;
+            AddressSubject = obj.AddressSubject;
+            BirthDate = obj.BirthDate;
+            CreateDate = obj.CreateDate;
+            DocNumber = obj.DocNumber;
+            DocSeria = obj.DocSeria;
+            DocumentTypeId = obj.DocumentTypeId;
+            FirstName = obj.FirstName;
+            Inn = obj.Inn;
+            LastName = obj.LastName;
+            Mestnost = obj.Mestnost;
+            MiddleName = obj.MiddleName;
+            Phone = obj.Phone;
+            Sex = obj.Sex;
+            Snils = obj.Snils;
         }
         private void FillDocType()
         {
@@ -75,10 +120,12 @@ namespace SaaMedW.ViewModel
                 switch (columnName)
                 {
                     case "LastName":
-                        result = "Не введена фамилия.";
+                        if (String.IsNullOrWhiteSpace(LastName))
+                            result = "Не введена фамилия.";
                         break;
                     case "FirstName":
-                        result = "Не введено имя.";
+                        if (String.IsNullOrWhiteSpace(FirstName))
+                            result = "Не введено имя.";
                         break;
                     default:
                         break;

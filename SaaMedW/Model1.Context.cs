@@ -28,5 +28,6 @@ namespace SaaMedW
         public virtual DbSet<DocumentType> DocumentType { get; set; }
         public virtual DbSet<Person> Person { get; set; }
         public virtual DbSet<Users> Users { get; set; }
+        public virtual DbSet<Specialty> Specialty { get; set; }
     }
 }

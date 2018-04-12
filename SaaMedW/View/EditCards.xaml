@@ -68,8 +68,8 @@
                         </StackPanel>
                         <StackPanel Grid.Column="2">
                             <Label>Пол</Label>
-                            <ComboBox ItemsSource="{Binding SexList}" DisplayMemberPath="Name" SelectedValuePath="Id" 
-                                      SelectedValue="{Binding SexCurrent}"/>
+                            <ComboBox ItemsSource="{Binding SexList}" DisplayMemberPath="Name" 
+                                      SelectedValue="{Binding SexCurrent}" IsSynchronizedWithCurrentItem="True"/>
                         </StackPanel>
                     </Grid>
                     <StackPanel Grid.Row="4">

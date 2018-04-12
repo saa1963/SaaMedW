@@ -101,6 +101,9 @@
     <Compile Include="Service\LocalStorage.cs" />
     <Compile Include="Service\LogonService.cs" />
     <Compile Include="Service\ServiceLocator.cs" />
+    <Compile Include="Specialty.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Users.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -110,16 +113,21 @@
     <Compile Include="ViewModel\EditUserViewModel.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />
     <Compile Include="ViewModel\MasterWindowViewModel.cs" />
+    <Compile Include="ViewModel\SpecialtyViewModel.cs" />
     <Compile Include="ViewModel\UsersViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="ViewModel\VmDocumentType.cs" />
     <Compile Include="ViewModel\VmPerson.cs" />
+    <Compile Include="ViewModel\VmSpecialty.cs" />
     <Compile Include="ViewModel\VmUsers.cs" />
     <Compile Include="View\ChangePassword.xaml.cs">
       <DependentUpon>ChangePassword.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\EditCards.xaml.cs">
       <DependentUpon>EditCards.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\EditSpecialty.xaml.cs">
+      <DependentUpon>EditSpecialty.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\frmEditUser.xaml.cs">
       <DependentUpon>frmEditUser.xaml</DependentUpon>
@@ -132,6 +140,9 @@
     </Compile>
     <Compile Include="View\CardsView.xaml.cs">
       <DependentUpon>CardsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SpecialtyView.xaml.cs">
+      <DependentUpon>SpecialtyView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\UsersView.xaml.cs">
       <DependentUpon>UsersView.xaml</DependentUpon>
@@ -156,6 +167,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\EditSpecialty.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\frmEditUser.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -169,6 +184,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\CardsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\SpecialtyView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

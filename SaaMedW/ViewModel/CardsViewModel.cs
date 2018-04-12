@@ -52,21 +52,10 @@ namespace SaaMedW.ViewModel
             var f = new EditCards() { DataContext = modelView };
             if (f.ShowDialog() ?? false)
             {
-                //var user = new Users();
-                //user.Fio = modelView.Fio;
-                //user.Login = modelView.Login;
-                //user.Role = modelView.RoleSel.Id;
-                //if (!String.IsNullOrWhiteSpace(modelView.Password))
-                //{
-                //    user.Password = new System.Security.Cryptography.SHA1CryptoServiceProvider()
-                //        .ComputeHash(System.Text.Encoding.ASCII.GetBytes(modelView.Password));
-                //}
-                //user.Disabled = modelView.Disabled;
-                //ctx.Users.Add(user);
-                //ctx.SaveChanges();
-                //var vmuser = new VmUsers(user);
-                //UsersList.Add(vmuser);
-                //viewUsers.MoveCurrentTo(vmuser);
+                ctx.Person.Add(modelView.Obj);
+                ctx.SaveChanges();
+                CardsList.Add(modelView);
+                viewUsers.MoveCurrentTo(modelView);
             }
         }
 
@@ -80,23 +69,15 @@ namespace SaaMedW.ViewModel
 
         private void EditPerson(object obj)
         {
-            //if (UsersSel == null) return;
-            //var user = UsersSel as VmUsers;
-            //var modelView = new EditUserViewModel();
-            //modelView.Fio = user.Fio;
-            //modelView.Login = user.Login;
-            //modelView.RoleSel = modelView.Roles.FirstOrDefault(s => s.Id == user.Role);
-            //modelView.IsEnablePassword = false;
-            //modelView.Disabled = user.Disabled;
-            //var f = new frmEditUser() { DataContext = modelView };
-            //if (f.ShowDialog() ?? false)
-            //{
-            //    user.Fio = modelView.Fio;
-            //    user.Login = modelView.Login;
-            //    user.Role = modelView.RoleSel.Id;
-            //    user.Disabled = modelView.Disabled;
-            //    ctx.SaveChanges();
-            //}
+            if (CardsSel == null) return;
+            var person = CardsSel as VmPerson;
+            var modelView = new VmPerson(person.Obj);
+            var f = new EditCards() { DataContext = modelView };
+            if (f.ShowDialog() ?? false)
+            {
+                person.Copy(modelView);
+                ctx.SaveChanges();
+            }
         }
 
         public RelayCommand Del
@@ -109,11 +90,11 @@ namespace SaaMedW.ViewModel
 
         private void DelPerson(object obj)
         {
-            //if (UsersSel == null) return;
-            //var user = UsersSel as VmUsers;
-            //ctx.Users.Remove(user.users);
-            //ctx.SaveChanges();
-            //UsersList.Remove(user);
+            if (CardsSel == null) return;
+            var person = CardsSel as VmPerson;
+            ctx.Person.Remove(person.Obj);
+            ctx.SaveChanges();
+            CardsList.Remove(person);
         }
 
         public RelayCommand MedCard

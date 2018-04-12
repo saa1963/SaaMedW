@@ -36,7 +36,14 @@
           <Property Name="AddressHouse" Type="nvarchar" MaxLength="50" />
           <Property Name="AddressFlat" Type="nvarchar" MaxLength="50" />
           <Property Name="Mestnost" Type="int" />
-          <Property Name="CreateDate" Type="date" Nullable="false" />
+          <Property Name="CreateDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Specialty">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
@@ -64,6 +71,7 @@
         <EntityContainer Name="Хранилище SaaMedModelContainer">
           <EntitySet Name="DocumentType" EntityType="Self.DocumentType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Person" EntityType="Self.Person" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Specialty" EntityType="Self.Specialty" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Person_DocumentType" Association="Self.FK_Person_DocumentType">
             <End Role="DocumentType" EntitySet="DocumentType" />
@@ -107,7 +115,7 @@
           <Property Name="AddressFlat" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Mestnost" Type="Int32" />
           <NavigationProperty Name="DocumentType" Relationship="Self.FK_Person_DocumentType" FromRole="Person" ToRole="DocumentType" />
-          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
@@ -140,7 +148,15 @@
             <End Role="DocumentType" EntitySet="DocumentType" />
             <End Role="Person" EntitySet="Person" />
           </AssociationSet>
+          <EntitySet Name="Specialty" EntityType="SaaMedModel.Specialty" />
         </EntityContainer>
+        <EntityType Name="Specialty">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -191,6 +207,14 @@
                 <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="Role" ColumnName="Role" />
                 <ScalarProperty Name="Disabled" ColumnName="Disabled" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Specialty">
+            <EntityTypeMapping TypeName="SaaMedModel.Specialty">
+              <MappingFragment StoreEntitySet="Specialty">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

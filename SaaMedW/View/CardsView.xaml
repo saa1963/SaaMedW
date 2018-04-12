@@ -35,7 +35,7 @@
                 <DataGridTextColumn Header="Фамилия" Binding="{Binding LastName}" Width="150"></DataGridTextColumn>
                 <DataGridTextColumn Header="Имя" Binding="{Binding FirstName}" Width="100"></DataGridTextColumn>
                 <DataGridTextColumn Header="Отчество" Binding="{Binding MiddleName}" Width="100"/>
-                <DataGridTextColumn Header="Дата рожд" Binding="{Binding BirthDate}" Width="100"></DataGridTextColumn>
+                <DataGridTextColumn Header="Дата рожд" Binding="{Binding BirthDate, StringFormat={}{0:dd.MM.yyyy}}" Width="100"></DataGridTextColumn>
                 <DataGridTextColumn Header="Телефон" Binding="{Binding Phone}" Width="100"></DataGridTextColumn>
                 <DataGridTextColumn Header="Пол" Binding="{Binding Sex}" Width="100"></DataGridTextColumn>
                 <DataGridTextColumn Header="ИНН" Binding="{Binding Inn}" Width="100"></DataGridTextColumn>
@@ -51,7 +51,7 @@
                 <DataGridTextColumn Header="Дом" Binding="{Binding AddressHouse}" Width="100"></DataGridTextColumn>
                 <DataGridTextColumn Header="Квартира" Binding="{Binding AddressFlat}" Width="100"></DataGridTextColumn>
                 <DataGridTextColumn Header="Местность" Binding="{Binding Mestnost}" Width="100"></DataGridTextColumn>
-                <DataGridTextColumn Header="Создано" Binding="{Binding CreateDate}" Width="100"></DataGridTextColumn>
+                <DataGridTextColumn Header="Создано" Binding="{Binding CreateDate, StringFormat={}{0:dd.MM.yyyy HH:mm:ss}}" Width="100"></DataGridTextColumn>
 
             </DataGrid.Columns>
         </DataGrid>

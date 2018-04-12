@@ -43,5 +43,9 @@ namespace SaaMedW.ViewModel
         {
             get { return new ExecTypes { View = typeof(CardsView), ViewModel = typeof(CardsViewModel) }; }
         }
+        public object CmdSpec
+        {
+            get { return new ExecTypes { View = typeof(SpecialtyView), ViewModel = typeof(SpecialtyViewModel) }; }
+        }
     }
 }
