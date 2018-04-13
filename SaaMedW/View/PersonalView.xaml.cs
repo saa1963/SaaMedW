@@ -10,28 +10,19 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace SaaMedW.View
 {
     /// <summary>
-    /// Логика взаимодействия для EditPersonal.xaml
+    /// Логика взаимодействия для PersonalView.xaml
     /// </summary>
-    public partial class EditPersonal : Window
+    public partial class PersonalView : UserControl
     {
-        public EditPersonal()
+        public PersonalView()
         {
             InitializeComponent();
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            if (!ValidationDialog.IsValid(this))
-            {
-                return;
-            }
-            DialogResult = true;
-            Close();
         }
     }
 }

@@ -47,5 +47,9 @@ namespace SaaMedW.ViewModel
         {
             get { return new ExecTypes { View = typeof(SpecialtyView), ViewModel = typeof(SpecialtyViewModel) }; }
         }
+        public object CmdSotrud
+        {
+            get { return new ExecTypes { View = typeof(PersonalView), ViewModel = typeof(PersonalViewModel) }; }
+        }
     }
 }

@@ -117,6 +117,7 @@
     <Compile Include="ViewModel\Dialogs\LoginViewModel.cs" />
     <Compile Include="ViewModel\Bases\MasterWindowViewModel.cs" />
     <Compile Include="ViewModel\Dialogs\VmPersonal.cs" />
+    <Compile Include="ViewModel\PersonalViewModel.cs" />
     <Compile Include="ViewModel\SpecialtyViewModel.cs" />
     <Compile Include="ViewModel\UsersViewModel.cs" />
     <Compile Include="ViewModel\Bases\ViewModelBase.cs" />
@@ -147,6 +148,9 @@
     </Compile>
     <Compile Include="View\CardsView.xaml.cs">
       <DependentUpon>CardsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\PersonalView.xaml.cs">
+      <DependentUpon>PersonalView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\SpecialtyView.xaml.cs">
       <DependentUpon>SpecialtyView.xaml</DependentUpon>
@@ -195,6 +199,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\CardsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\PersonalView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

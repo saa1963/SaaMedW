@@ -30,6 +30,7 @@ namespace SaaMedW.ViewModel
             m_object = new Personal();
             Id = obj.Id;
             CopyProperties(obj);
+            m_object.Specialty1 = ctx.Specialty.Find(obj.Specialty);
         }
         public VmPersonal Copy(VmPersonal obj)
         {
@@ -97,6 +98,10 @@ namespace SaaMedW.ViewModel
                 m_object.Specialty = value;
                 OnPropertyChanged("Specialty");
             }
+        }
+        public string SpecialtyName
+        {
+            get => m_object.Specialty1.Name;
         }
         public bool Active
         {
