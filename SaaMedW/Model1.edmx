@@ -38,6 +38,15 @@
           <Property Name="Mestnost" Type="int" />
           <Property Name="CreateDate" Type="datetime" Nullable="false" />
         </EntityType>
+        <EntityType Name="Personal">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Fio" Type="nchar" MaxLength="50" Nullable="false" />
+          <Property Name="Specialty" Type="int" />
+          <Property Name="Active" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="Specialty">
           <Key>
             <PropertyRef Name="Id" />
@@ -68,14 +77,31 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Personal_Specialty">
+          <End Role="Specialty" Type="Self.Specialty" Multiplicity="0..1" />
+          <End Role="Personal" Type="Self.Personal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Specialty">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Personal">
+              <PropertyRef Name="Specialty" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="Хранилище SaaMedModelContainer">
           <EntitySet Name="DocumentType" EntityType="Self.DocumentType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Person" EntityType="Self.Person" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Personal" EntityType="Self.Personal" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Specialty" EntityType="Self.Specialty" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Person_DocumentType" Association="Self.FK_Person_DocumentType">
             <End Role="DocumentType" EntitySet="DocumentType" />
             <End Role="Person" EntitySet="Person" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Personal_Specialty" Association="Self.FK_Personal_Specialty">
+            <End Role="Specialty" EntitySet="Specialty" />
+            <End Role="Personal" EntitySet="Personal" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -149,6 +175,11 @@
             <End Role="Person" EntitySet="Person" />
           </AssociationSet>
           <EntitySet Name="Specialty" EntityType="SaaMedModel.Specialty" />
+          <EntitySet Name="Personal" EntityType="SaaMedModel.Personal" />
+          <AssociationSet Name="FK_Personal_Specialty" Association="SaaMedModel.FK_Personal_Specialty">
+            <End Role="Specialty" EntitySet="Specialty" />
+            <End Role="Personal" EntitySet="Personal" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Specialty">
           <Key>
@@ -156,7 +187,30 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Personal" Relationship="SaaMedModel.FK_Personal_Specialty" FromRole="Specialty" ToRole="Personal" />
         </EntityType>
+        <EntityType Name="Personal">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Fio" Type="String" Nullable="false" MaxLength="50" FixedLength="true" Unicode="true" />
+          <Property Name="Specialty" Type="Int32" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Specialty1" Relationship="SaaMedModel.FK_Personal_Specialty" FromRole="Personal" ToRole="Specialty" />
+        </EntityType>
+        <Association Name="FK_Personal_Specialty">
+          <End Type="SaaMedModel.Specialty" Role="Specialty" Multiplicity="0..1" />
+          <End Type="SaaMedModel.Personal" Role="Personal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Specialty">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Personal">
+              <PropertyRef Name="Specialty" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -214,6 +268,16 @@
             <EntityTypeMapping TypeName="SaaMedModel.Specialty">
               <MappingFragment StoreEntitySet="Specialty">
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Personal">
+            <EntityTypeMapping TypeName="SaaMedModel.Personal">
+              <MappingFragment StoreEntitySet="Personal">
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="Specialty" ColumnName="Specialty" />
+                <ScalarProperty Name="Fio" ColumnName="Fio" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

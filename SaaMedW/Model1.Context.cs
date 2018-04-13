@@ -29,5 +29,6 @@ namespace SaaMedW
         public virtual DbSet<Person> Person { get; set; }
         public virtual DbSet<Users> Users { get; set; }
         public virtual DbSet<Specialty> Specialty { get; set; }
+        public virtual DbSet<Personal> Personal { get; set; }
     }
 }

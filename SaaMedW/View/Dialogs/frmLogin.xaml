@@ -27,7 +27,7 @@
             <Label>Пользователь</Label>
             <TextBox Name="tbLogin" 
                 Text="{Binding Path=Login, ValidatesOnDataErrors=True, 
-                UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                UpdateSourceTrigger=PropertyChanged}" MaxLength="50"></TextBox>
         </StackPanel>
         <StackPanel Grid.Row="1">
             <Label>Пароль</Label>

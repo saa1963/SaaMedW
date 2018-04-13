@@ -10,6 +10,8 @@
         <EntityTypeShape EntityType="SaaMedModel.Users" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
         <AssociationConnector Association="SaaMedModel.FK_Person_DocumentType" ManuallyRouted="false" />
         <EntityTypeShape EntityType="SaaMedModel.Specialty" Width="1.5" PointX="5.375" PointY="3.75" />
+        <EntityTypeShape EntityType="SaaMedModel.Personal" Width="1.5" PointX="7.625" PointY="4.5" />
+        <AssociationConnector Association="SaaMedModel.FK_Personal_Specialty" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

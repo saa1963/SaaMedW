@@ -8,7 +8,7 @@
         Title="EditCards"
         SizeToContent="Height" Width="600" WindowStartupLocation="CenterScreen">
     <Window.Resources>
-        <Style TargetType="{x:Type TextBox}">
+        <Style x:Key="k1" TargetType="{x:Type TextBox}">
             <Style.Triggers>
                 <Trigger Property="Validation.HasError" Value="true">
                     <Setter Property="ToolTip"
@@ -44,17 +44,17 @@
                     <StackPanel Grid.Row="0">
                         <Label>Фамилия</Label>
                         <TextBox Text="{Binding Path=LastName, ValidatesOnDataErrors=True, 
-                            UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                            UpdateSourceTrigger=PropertyChanged}" MaxLength="50"></TextBox>
                     </StackPanel>
                     <StackPanel Grid.Row="1">
                         <Label>Имя</Label>
                         <TextBox Text="{Binding Path=FirstName, ValidatesOnDataErrors=True, 
-                            UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                            UpdateSourceTrigger=PropertyChanged}" MaxLength="50"></TextBox>
                     </StackPanel>
                     <StackPanel Grid.Row="2">
                         <Label>Отчество</Label>
                         <TextBox Text="{Binding Path=MiddleName, ValidatesOnDataErrors=True, 
-                            UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                            UpdateSourceTrigger=PropertyChanged}" MaxLength="50"></TextBox>
                     </StackPanel>
                     <Grid Grid.Row="3">
                         <Grid.ColumnDefinitions>
@@ -75,7 +75,7 @@
                     <StackPanel Grid.Row="4">
                         <Label>Телефон</Label>
                         <TextBox Text="{Binding Path=Phone, ValidatesOnDataErrors=True, 
-                            UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                            UpdateSourceTrigger=PropertyChanged}" MaxLength="10"></TextBox>
                     </StackPanel>
                     <Grid Grid.Row="5">
                         <Grid.ColumnDefinitions>
@@ -86,12 +86,12 @@
                         <StackPanel Grid.Column="0">
                             <Label>ИНН</Label>
                             <TextBox Text="{Binding Path=Inn, ValidatesOnDataErrors=True, 
-                                UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                                UpdateSourceTrigger=PropertyChanged}" MaxLength="12"></TextBox>
                         </StackPanel>
                         <StackPanel Grid.Column="2">
                             <Label>СНИЛС</Label>
                             <TextBox Text="{Binding Path=Snils, ValidatesOnDataErrors=True, 
-                                UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                                UpdateSourceTrigger=PropertyChanged}" MaxLength="11"></TextBox>
                         </StackPanel>
                     </Grid>
                     <StackPanel Grid.Row="6">
@@ -102,12 +102,12 @@
                     <StackPanel Grid.Row="7">
                         <Label>Серия док</Label>
                         <TextBox Text="{Binding Path=DocSeria, ValidatesOnDataErrors=True, 
-                            UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                            UpdateSourceTrigger=PropertyChanged}" MaxLength="50"></TextBox>
                     </StackPanel>
                     <StackPanel Grid.Row="8">
                         <Label>Номер док</Label>
                         <TextBox Text="{Binding Path=DocSeria, ValidatesOnDataErrors=True, 
-                            UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                            UpdateSourceTrigger=PropertyChanged}" MaxLength="50"></TextBox>
                     </StackPanel>
                 </Grid>
             </Grid>
@@ -131,37 +131,37 @@
                     <StackPanel Grid.Row="1">
                         <Label>Регион</Label>
                         <TextBox Text="{Binding Path=AddressSubject, ValidatesOnDataErrors=True, 
-                            UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                            UpdateSourceTrigger=PropertyChanged}" MaxLength="50"></TextBox>
                     </StackPanel>
                     <StackPanel Grid.Row="2">
                         <Label>Район</Label>
                         <TextBox Text="{Binding Path=AddressRaion, ValidatesOnDataErrors=True, 
-                            UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                            UpdateSourceTrigger=PropertyChanged}" MaxLength="50"></TextBox>
                     </StackPanel>
                     <StackPanel Grid.Row="3">
                         <Label>Город</Label>
                         <TextBox Text="{Binding Path=AddressCity, ValidatesOnDataErrors=True, 
-                            UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                            UpdateSourceTrigger=PropertyChanged}" MaxLength="50"></TextBox>
                     </StackPanel>
                     <StackPanel Grid.Row="4">
                         <Label>Нас.пункт</Label>
                         <TextBox Text="{Binding Path=AddressPunkt, ValidatesOnDataErrors=True, 
-                            UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                            UpdateSourceTrigger=PropertyChanged}" MaxLength="50"></TextBox>
                     </StackPanel>
                     <StackPanel Grid.Row="5">
                         <Label>Улица</Label>
                         <TextBox Text="{Binding Path=AddressStreet, ValidatesOnDataErrors=True, 
-                            UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                            UpdateSourceTrigger=PropertyChanged}" MaxLength="50"></TextBox>
                     </StackPanel>
                     <StackPanel Grid.Row="6">
                         <Label>Дом</Label>
                         <TextBox Text="{Binding Path=AddressHouse, ValidatesOnDataErrors=True, 
-                            UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                            UpdateSourceTrigger=PropertyChanged}" MaxLength="50"></TextBox>
                     </StackPanel>
                     <StackPanel Grid.Row="7">
                         <Label>Квартира</Label>
                         <TextBox Text="{Binding Path=AddressFlat, ValidatesOnDataErrors=True, 
-                            UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                            UpdateSourceTrigger=PropertyChanged}" MaxLength="50"></TextBox>
                     </StackPanel>
                 </Grid>
             </Grid>

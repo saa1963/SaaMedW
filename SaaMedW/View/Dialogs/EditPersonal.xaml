@@ -1,0 +1,51 @@
+﻿<Window x:Class="SaaMedW.View.Dialogs.EditPersonal"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SaaMedW.View.Dialogs"
+        mc:Ignorable="d"
+        Title="EditPersonal" SizeToContent="Height" Width="400"
+        WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <Style TargetType="{x:Type TextBox}">
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="true">
+                    <Setter Property="ToolTip"
+                        Value="{Binding RelativeSource={x:Static RelativeSource.Self},
+                        Path=(Validation.Errors)[0].ErrorContent}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid>
+            <Grid Margin="15,15,15,15" HorizontalAlignment="Stretch">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                </Grid.RowDefinitions>
+                <StackPanel Grid.Row="0">
+                    <Label>ФИО</Label>
+                    <TextBox Text="{Binding Path=Fio, ValidatesOnDataErrors=True, 
+                        UpdateSourceTrigger=PropertyChanged}" MaxLength="50"></TextBox>
+                </StackPanel>
+                <StackPanel Grid.Column="1">
+                    <Label>Специальность</Label>
+                    <ComboBox ItemsSource="{Binding SpecialtyList}" DisplayMemberPath="Name" 
+                                      SelectedValue="{Binding SpecialtyCurrent}" IsSynchronizedWithCurrentItem="True"/>
+                </StackPanel>
+                <StackPanel Grid.Row="2">
+                    <CheckBox Margin="0,10,0,10" IsChecked="{Binding Path=Active, ValidatesOnDataErrors=True, 
+                        UpdateSourceTrigger=PropertyChanged}">Активен</CheckBox>
+                </StackPanel>
+                <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Button Width="60" Margin="10" IsDefault="True" Click="Button_Click">ОК</Button>
+                    <Button Width="60" Margin="10" IsCancel="True">Отмена</Button>
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>

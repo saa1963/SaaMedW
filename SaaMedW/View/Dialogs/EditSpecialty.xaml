@@ -27,7 +27,7 @@
             <StackPanel Grid.Row="0">
                 <Label>Наименование</Label>
                 <TextBox Text="{Binding Path=Name, ValidatesOnDataErrors=True, 
-                        UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                        UpdateSourceTrigger=PropertyChanged}" MaxLength="100"></TextBox>
             </StackPanel>
             <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
                 <Button Width="60" Margin="10" IsDefault="True" Click="Button_Click">ОК</Button>

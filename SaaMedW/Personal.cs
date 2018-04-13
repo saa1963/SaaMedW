@@ -12,18 +12,13 @@ namespace SaaMedW
     using System;
     using System.Collections.Generic;
     
-    public partial class Specialty
+    public partial class Personal
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Specialty()
-        {
-            this.Personal = new HashSet<Personal>();
-        }
-    
         public int Id { get; set; }
-        public string Name { get; set; }
+        public string Fio { get; set; }
+        public Nullable<int> Specialty { get; set; }
+        public bool Active { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Personal> Personal { get; set; }
+        public virtual Specialty Specialty1 { get; set; }
     }
 }

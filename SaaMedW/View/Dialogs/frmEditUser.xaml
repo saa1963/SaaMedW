@@ -35,13 +35,13 @@
                 <Label>ФИО</Label>
                 <TextBox Name="tbFio" 
                 Text="{Binding Path=Fio, ValidatesOnDataErrors=True, 
-                UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                UpdateSourceTrigger=PropertyChanged}" MaxLength="50"></TextBox>
             </StackPanel>
             <StackPanel Grid.Row="1">
                 <Label>Логин</Label>
                 <TextBox Name="tbLogin" 
                 Text="{Binding Path=Login, ValidatesOnDataErrors=True, 
-                UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                UpdateSourceTrigger=PropertyChanged}" MaxLength="50"></TextBox>
             </StackPanel>
             <StackPanel Grid.Row="2">
                 <Label>Пароль</Label>
