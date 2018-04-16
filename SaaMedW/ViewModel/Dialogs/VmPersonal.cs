@@ -9,68 +9,21 @@ using System.Windows.Data;
 
 namespace SaaMedW.ViewModel
 {
-    public class VmPersonal : ViewModelBase, IDataErrorInfo
+    public class VmPersonal : ViewModelBase
     {
         private Personal m_object;
-        private SaaMedEntities ctx = new SaaMedEntities();
-        private ObservableCollection<VmSpecialty> m_specialtylist = new ObservableCollection<VmSpecialty>();
 
         public VmPersonal()
         {
             m_object = new Personal();
-            FillSpecialty();
         }
         public VmPersonal(Personal par)
         {
             m_object = par;
-            FillSpecialty();
-        }
-        public VmPersonal(VmPersonal obj)
-        {
-            m_object = new Personal();
-            Id = obj.Id;
-            CopyProperties(obj);
-            m_object.Specialty1 = ctx.Specialty.Find(obj.Specialty);
-        }
-        public VmPersonal Copy(VmPersonal obj)
-        {
-            CopyProperties(obj);
-            return this;
-        }
-        private void CopyProperties(VmPersonal obj)
-        {
-            Fio = obj.Fio;
-            Specialty = obj.Specialty;
-            Active = obj.Active;
-        }
-        private void FillSpecialty()
-        {
-            foreach (Specialty o in ctx.Specialty)
-            {
-                m_specialtylist.Add(new VmSpecialty(o));
-            }
-        }
-        public ObservableCollection<VmSpecialty> SpecialtyList
-        {
-            get => m_specialtylist;
-        }
-        public VmSpecialty SpecialtyCurrent
-        {
-            get => viewSpecialty.CurrentItem as VmSpecialty;
-            set { viewSpecialty.MoveCurrentTo(value); }
-        }
-        private ICollectionView viewSpecialty
-        {
-            get => CollectionViewSource.GetDefaultView(m_specialtylist);
         }
         public Personal Obj
         {
             get => m_object;
-            set
-            {
-                m_object = value;
-                OnPropertyChanged("Obj");
-            }
         }
         public int Id
         {
@@ -97,11 +50,18 @@ namespace SaaMedW.ViewModel
             {
                 m_object.Specialty = value;
                 OnPropertyChanged("Specialty");
+                OnPropertyChanged("SpecialtyName");
             }
+        }
+        public void SetSpecialty1(SaaMedEntities ctx)
+        {
+            ctx.Entry(m_object).Reference(s => s.Specialty1).Load();
+            OnPropertyChanged("Specialty");
+            OnPropertyChanged("SpecialtyName");
         }
         public string SpecialtyName
         {
-            get => m_object.Specialty1.Name;
+            get => m_object.Specialty1?.Name;
         }
         public bool Active
         {
@@ -112,23 +72,5 @@ namespace SaaMedW.ViewModel
                 OnPropertyChanged("Active");
             }
         }
-        public string this[string columnName]
-        {
-            get
-            {
-                var result = String.Empty;
-                switch (columnName)
-                {
-                    case "Fio":
-                        if (String.IsNullOrWhiteSpace(Fio))
-                            result = "Не введена ФИО.";
-                        break;
-                    default:
-                        break;
-                }
-                return result;
-            }
-        }
-        public string Error => "";
     }
 }

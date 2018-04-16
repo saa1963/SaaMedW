@@ -12,21 +12,16 @@ namespace SaaMedW
     using System;
     using System.Collections.Generic;
     
-    public partial class Personal
+    public partial class Graphic
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Personal()
-        {
-            this.Graphic = new HashSet<Graphic>();
-        }
-    
         public int Id { get; set; }
-        public string Fio { get; set; }
-        public Nullable<int> Specialty { get; set; }
-        public bool Active { get; set; }
+        public int PersonalId { get; set; }
+        public System.DateTime Dt { get; set; }
+        public int H1 { get; set; }
+        public int M1 { get; set; }
+        public int H2 { get; set; }
+        public int M2 { get; set; }
     
-        public virtual Specialty Specialty1 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Graphic> Graphic { get; set; }
+        public virtual Personal Personal { get; set; }
     }
 }

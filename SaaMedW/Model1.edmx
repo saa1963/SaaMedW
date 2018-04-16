@@ -12,6 +12,18 @@
           <Property Name="Id" Type="int" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="300" Nullable="false" />
         </EntityType>
+        <EntityType Name="Graphic">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PersonalId" Type="int" Nullable="false" />
+          <Property Name="Dt" Type="date" Nullable="false" />
+          <Property Name="H1" Type="int" Nullable="false" />
+          <Property Name="M1" Type="int" Nullable="false" />
+          <Property Name="H2" Type="int" Nullable="false" />
+          <Property Name="M2" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="Person">
           <Key>
             <PropertyRef Name="Id" />
@@ -65,6 +77,18 @@
           <Property Name="Role" Type="int" Nullable="false" />
           <Property Name="Disabled" Type="bit" Nullable="false" />
         </EntityType>
+        <Association Name="FK_Graphic_Personal">
+          <End Role="Personal" Type="Self.Personal" Multiplicity="1" />
+          <End Role="Graphic" Type="Self.Graphic" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Personal">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Graphic">
+              <PropertyRef Name="PersonalId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Person_DocumentType">
           <End Role="DocumentType" Type="Self.DocumentType" Multiplicity="0..1" />
           <End Role="Person" Type="Self.Person" Multiplicity="*" />
@@ -91,10 +115,15 @@
         </Association>
         <EntityContainer Name="Хранилище SaaMedModelContainer">
           <EntitySet Name="DocumentType" EntityType="Self.DocumentType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Graphic" EntityType="Self.Graphic" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Person" EntityType="Self.Person" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Personal" EntityType="Self.Personal" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Specialty" EntityType="Self.Specialty" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Graphic_Personal" Association="Self.FK_Graphic_Personal">
+            <End Role="Personal" EntitySet="Personal" />
+            <End Role="Graphic" EntitySet="Graphic" />
+          </AssociationSet>
           <AssociationSet Name="FK_Person_DocumentType" Association="Self.FK_Person_DocumentType">
             <End Role="DocumentType" EntitySet="DocumentType" />
             <End Role="Person" EntitySet="Person" />
@@ -180,6 +209,11 @@
             <End Role="Specialty" EntitySet="Specialty" />
             <End Role="Personal" EntitySet="Personal" />
           </AssociationSet>
+          <EntitySet Name="Graphic" EntityType="SaaMedModel.Graphic" />
+          <AssociationSet Name="FK_Graphic_Personal" Association="SaaMedModel.FK_Graphic_Personal">
+            <End Role="Personal" EntitySet="Personal" />
+            <End Role="Graphic" EntitySet="Graphic" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Specialty">
           <Key>
@@ -198,6 +232,7 @@
           <Property Name="Specialty" Type="Int32" />
           <Property Name="Active" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Specialty1" Relationship="SaaMedModel.FK_Personal_Specialty" FromRole="Personal" ToRole="Specialty" />
+          <NavigationProperty Name="Graphic" Relationship="SaaMedModel.FK_Graphic_Personal" FromRole="Personal" ToRole="Graphic" />
         </EntityType>
         <Association Name="FK_Personal_Specialty">
           <End Type="SaaMedModel.Specialty" Role="Specialty" Multiplicity="0..1" />
@@ -208,6 +243,31 @@
             </Principal>
             <Dependent Role="Personal">
               <PropertyRef Name="Specialty" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Graphic">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PersonalId" Type="Int32" Nullable="false" />
+          <Property Name="Dt" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="H1" Type="Int32" Nullable="false" />
+          <Property Name="M1" Type="Int32" Nullable="false" />
+          <Property Name="H2" Type="Int32" Nullable="false" />
+          <Property Name="M2" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Personal" Relationship="SaaMedModel.FK_Graphic_Personal" FromRole="Graphic" ToRole="Personal" />
+        </EntityType>
+        <Association Name="FK_Graphic_Personal">
+          <End Type="SaaMedModel.Personal" Role="Personal" Multiplicity="1" />
+          <End Type="SaaMedModel.Graphic" Role="Graphic" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Personal">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Graphic">
+              <PropertyRef Name="PersonalId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -278,6 +338,19 @@
                 <ScalarProperty Name="Active" ColumnName="Active" />
                 <ScalarProperty Name="Specialty" ColumnName="Specialty" />
                 <ScalarProperty Name="Fio" ColumnName="Fio" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Graphic">
+            <EntityTypeMapping TypeName="SaaMedModel.Graphic">
+              <MappingFragment StoreEntitySet="Graphic">
+                <ScalarProperty Name="M2" ColumnName="M2" />
+                <ScalarProperty Name="H2" ColumnName="H2" />
+                <ScalarProperty Name="M1" ColumnName="M1" />
+                <ScalarProperty Name="H1" ColumnName="H1" />
+                <ScalarProperty Name="Dt" ColumnName="Dt" />
+                <ScalarProperty Name="PersonalId" ColumnName="PersonalId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

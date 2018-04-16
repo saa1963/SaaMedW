@@ -74,6 +74,9 @@
     </Compile>
     <Compile Include="ExecTypes.cs" />
     <Compile Include="Global.cs" />
+    <Compile Include="Graphic.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="ILocalStorage.cs" />
     <Compile Include="ILogonService.cs" />
     <Compile Include="MedCard.cs" />
@@ -113,10 +116,12 @@
     <Compile Include="ValidationDialog.cs" />
     <Compile Include="ViewModel\CardsViewModel.cs" />
     <Compile Include="ViewModel\Dialogs\ChangePasswordViewModel.cs" />
+    <Compile Include="ViewModel\Dialogs\EditPersonalViewModel.cs" />
     <Compile Include="ViewModel\Dialogs\EditUserViewModel.cs" />
     <Compile Include="ViewModel\Dialogs\LoginViewModel.cs" />
     <Compile Include="ViewModel\Bases\MasterWindowViewModel.cs" />
     <Compile Include="ViewModel\Dialogs\VmPersonal.cs" />
+    <Compile Include="ViewModel\GraphicViewModel.cs" />
     <Compile Include="ViewModel\PersonalViewModel.cs" />
     <Compile Include="ViewModel\SpecialtyViewModel.cs" />
     <Compile Include="ViewModel\UsersViewModel.cs" />
@@ -125,6 +130,7 @@
     <Compile Include="ViewModel\Dialogs\VmPerson.cs" />
     <Compile Include="ViewModel\Dialogs\VmSpecialty.cs" />
     <Compile Include="ViewModel\Dialogs\VmUsers.cs" />
+    <Compile Include="ViewModel\VmGraphic.cs" />
     <Compile Include="View\Dialogs\ChangePassword.xaml.cs">
       <DependentUpon>ChangePassword.xaml</DependentUpon>
     </Compile>
@@ -148,6 +154,9 @@
     </Compile>
     <Compile Include="View\CardsView.xaml.cs">
       <DependentUpon>CardsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\GraphicView.xaml.cs">
+      <DependentUpon>GraphicView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\PersonalView.xaml.cs">
       <DependentUpon>PersonalView.xaml</DependentUpon>
@@ -199,6 +208,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\CardsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\GraphicView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
