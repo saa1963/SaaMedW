@@ -8,11 +8,14 @@ namespace SaaMedW.ViewModel
 {
     public class GraphicViewModel : ViewModelBase
     {
+        SaaMedEntities ctx = new SaaMedEntities();
         private DateTime m_dt1;
         private DateTime m_dt2;
         private const int m_DaysInWeek = 7;
         private const int m_WeeksInMonth = 6;
-        private ObservableCollection
+        private VmGraphic[] m_mas = new VmGraphic[42];
+
+        public GraphicViewModel():this(DateTime.Today) { }
 
         public GraphicViewModel(DateTime dt)
         {
@@ -22,12 +25,19 @@ namespace SaaMedW.ViewModel
                 dt1 = dt1.AddDays(-1);
             }
             Dt1 = dt1;
-            var dt2 = Dt1.AddMonths(1).AddDays(-1);
-            while (dt1.DayOfWeek != DayOfWeek.Sunday)
+            Dt2 = Dt1.AddDays(m_DaysInWeek * m_WeeksInMonth - 1);
+            DateTime d = Dt1;
+            int i = 0;
+            while (d <= Dt2)
             {
-                dt2 = dt2.AddDays(1);
+                m_mas[i] = VmGraphic.GetGraphic(ctx, d, null);
+                d = d.AddDays(1);
+                i++;
             }
-            Dt2 = dt2;
+        }
+        public VmGraphic[] Mas
+        {
+            get => m_mas;
         }
         public DateTime Dt1
         {

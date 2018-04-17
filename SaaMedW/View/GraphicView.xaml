@@ -6,8 +6,21 @@
              xmlns:local="clr-namespace:SaaMedW.View"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="FontSize" Value="11"></Setter>
+        </Style>
+    </UserControl.Resources>
     <Grid>
-        <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="5,5,5,5">
+            <Label>Врач</Label>
+            <ComboBox Width="300"></ComboBox>
+        </StackPanel>
+        <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
@@ -18,6 +31,7 @@
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
+                <RowDefinition Height="30"></RowDefinition>
                 <RowDefinition></RowDefinition>
                 <RowDefinition></RowDefinition>
                 <RowDefinition></RowDefinition>
@@ -25,6 +39,35 @@
                 <RowDefinition></RowDefinition>
                 <RowDefinition></RowDefinition>
             </Grid.RowDefinitions>
+            <Border Grid.Column="0" Grid.Row="0"  BorderBrush="Black" BorderThickness="1">
+                <Label HorizontalAlignment="Center" VerticalAlignment="Center">Пн</Label>
+            </Border>
+            <Border Grid.Column="1" Grid.Row="0" BorderBrush="Black" BorderThickness="1">
+                <Label HorizontalAlignment="Center" VerticalAlignment="Center">Вт</Label>
+            </Border>
+            <Border Grid.Column="2" Grid.Row="0"  BorderBrush="Black" BorderThickness="1">
+                <Label HorizontalAlignment="Center" VerticalAlignment="Center">Ср</Label>
+            </Border>
+            <Border Grid.Column="3" Grid.Row="0" BorderBrush="Black" BorderThickness="1">
+                <Label HorizontalAlignment="Center" VerticalAlignment="Center">Чт</Label>
+            </Border>
+            <Border Grid.Column="4" Grid.Row="0" BorderBrush="Black" BorderThickness="1">
+                <Label HorizontalAlignment="Center" VerticalAlignment="Center">Пт</Label>
+            </Border>
+            <Border Grid.Column="5" Grid.Row="0" BorderBrush="Black" BorderThickness="1">
+                <Label HorizontalAlignment="Center" VerticalAlignment="Center">Сб</Label>
+            </Border>
+            <Border Grid.Column="6" Grid.Row="0" BorderBrush="Black" BorderThickness="1">
+                <Label HorizontalAlignment="Center" VerticalAlignment="Center">Вс</Label>
+            </Border>
+            <Border Grid.Column="0" Grid.Row="1" BorderBrush="Black" BorderThickness="1">
+                <StackPanel>
+                    <TextBlock Text="{Binding Path=Mas[0].Dt, StringFormat={}{0:dd.MM.yyyy}}">
+                    </TextBlock>
+                    <TextBlock Text="11">
+                    </TextBlock>
+                </StackPanel>
+            </Border>
         </Grid>            
     </Grid>
 </UserControl>

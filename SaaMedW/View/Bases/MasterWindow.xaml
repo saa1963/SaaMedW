@@ -242,7 +242,7 @@
                 <MenuItem Header="Сотрудники" Command="{Binding Cmd}" 
                           CommandParameter="{Binding CmdSotrud}"></MenuItem>
                 <MenuItem Header="График приема" Command="{Binding Cmd}" 
-                          CommandParameter="{Binding CmdGriphic}"></MenuItem>
+                          CommandParameter="{Binding CmdGraphic}"></MenuItem>
             </MenuItem>
             <MenuItem Header="Статистика" Command="{Binding Cmd}" 
                           CommandParameter="{Binding CmdStat}">
