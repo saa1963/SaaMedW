@@ -30,6 +30,7 @@ namespace SaaMedW.ViewModel
                 o.H2 = 12;
                 o.M2 = 0;
                 lst.Add(o);
+                lst.Add(o);
             }
             return lst;
         }

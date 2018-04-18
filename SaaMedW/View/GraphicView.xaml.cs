@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SaaMedW.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -27,12 +28,15 @@ namespace SaaMedW.View
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            int row = 1, col = 0;
+            int row = 1, col = 0, ind = 0;
+            List<VmGraphic> lst;
+            var dataContext = this.DataContext as GraphicViewModel;
             while (row <= 6)
             {
                 col = 0;
                 while (col <= 6)
                 {
+                    lst = dataContext.Mas[ind];
                     var b1 = new Border();
                     b1.BorderBrush = Brushes.Black;
                     b1.BorderThickness = new Thickness(1);
@@ -52,13 +56,13 @@ namespace SaaMedW.View
                     var converter = new System.Windows.Media.BrushConverter();
                     var brush = (Brush)converter.ConvertFromString("#FF1B1180");
                     r1.Foreground = brush;
-                    var bind1 = new Binding("Mas[0].Dt");
+                    var bind1 = new Binding($"Mas[{ind}][0].Dt");
                     bind1.StringFormat = "dd.MM.yy";
                     r1.SetBinding(Run.TextProperty, bind1);
                     tb0.Inlines.Add(r1);
                     sp.Children.Add(tb0);
 
-                    while (true)
+                    for (var j = 0; j < lst.Count;  j++)
                     {
                         var b2 = new Border();
                         b2.CornerRadius = new CornerRadius(6);
@@ -71,12 +75,12 @@ namespace SaaMedW.View
                         tb.TextWrapping = TextWrapping.Wrap;
 
                         var r2 = new Run();
-                        r2.SetBinding(Run.TextProperty, "Mas[0].personal.Fio");
+                        r2.SetBinding(Run.TextProperty, $"Mas[{ind}][{j}].personal.Fio");
 
                         var r3 = new Run();
-                        r3.SetBinding(Run.TextProperty, "Mas[0].personal.Specialty1.Name");
+                        r3.SetBinding(Run.TextProperty, $"Mas[{ind}][{j}].personal.Specialty1.Name");
 
-                        var bind2 = new Binding("Mas[0].Interval");
+                        var bind2 = new Binding($"Mas[{ind}][{j}].Interval");
                         bind2.Mode = BindingMode.OneWay;
 
                         var r4 = new Run();
@@ -91,6 +95,7 @@ namespace SaaMedW.View
                         tb.Inlines.Add(r4);
                     }
                     col++;
+                    ind++;
                 }
                 row++;
             }
