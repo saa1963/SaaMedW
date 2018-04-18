@@ -10,18 +10,33 @@ namespace SaaMedW.ViewModel
     {
         private Graphic m_object;
 
-        public static VmGraphic GetGraphic(SaaMedEntities ctx, DateTime dt, int? pid)
+        public static List<VmGraphic> GetGraphics(SaaMedEntities ctx, DateTime dt, int? pid)
         {
-            VmGraphic o;
+            var lst = new List<VmGraphic>();
+            IQueryable<Graphic> q;
             if (pid.HasValue)
             {
-                o = new VmGraphic(ctx.Graphic.FirstOrDefault(s => s.Dt == dt && s.PersonalId == pid.Value));
+                q = ctx.Graphic.Where(s => s.Dt == dt && s.PersonalId == pid.Value);
             }
             else
             {
-                o = new VmGraphic();
+                q = ctx.Graphic.Where(s => s.Dt == dt);
+                o = new VmGraphic(ctx.Graphic.FirstOrDefault(s => s.Dt == dt));
                 o.Dt = dt;
-            }  
+                o.personal = ctx.Personal.Find(5);
+                o.H1 = 8;
+                o.M1 = 0;
+                o.H2 = 12;
+                o.M2 = 0;
+            }
+            foreach (var graphic in q)
+            {
+                lst.Add(new VmGraphic(graphic));
+            }
+            if (lst.Count == 0)
+            {
+                lst.Add();
+            }
             return o;
         }
         public VmGraphic()
@@ -95,5 +110,31 @@ namespace SaaMedW.ViewModel
                 OnPropertyChanged("M2");
             }
         }
+        public Personal personal
+        {
+            get => m_object.Personal;
+            set
+            {
+                m_object.Personal = value;
+                OnPropertyChanged("personal");
+            }
+        }
+        public string Interval
+        {
+            get
+            {
+                if (H1 != 0 && H2 != 0)
+                    return H1.ToString() + ":" + M1.ToString("00") + "-" + H2.ToString() + ":" + M2.ToString("00");
+                else
+                    return "";
+            }
+        }
+        //public string Text
+        //{
+        //    get
+        //    {
+        //        Dt.ToString("dd.MM.yy" + )
+        //    }
+        //}
     }
 }

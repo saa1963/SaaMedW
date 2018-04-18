@@ -5,10 +5,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SaaMedW.View"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800" Loaded="UserControl_Loaded">
     <UserControl.Resources>
         <Style TargetType="TextBlock">
-            <Setter Property="FontSize" Value="11"></Setter>
+            <Setter Property="FontSize" Value="10"></Setter>
         </Style>
     </UserControl.Resources>
     <Grid>
@@ -20,7 +20,7 @@
             <Label>Врач</Label>
             <ComboBox Width="300"></ComboBox>
         </StackPanel>
-        <Grid Grid.Row="1">
+        <Grid x:Name="g1" Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
@@ -60,14 +60,20 @@
             <Border Grid.Column="6" Grid.Row="0" BorderBrush="Black" BorderThickness="1">
                 <Label HorizontalAlignment="Center" VerticalAlignment="Center">Вс</Label>
             </Border>
-            <Border Grid.Column="0" Grid.Row="1" BorderBrush="Black" BorderThickness="1">
-                <StackPanel>
-                    <TextBlock Text="{Binding Path=Mas[0].Dt, StringFormat={}{0:dd.MM.yyyy}}">
-                    </TextBlock>
-                    <TextBlock Text="11">
-                    </TextBlock>
-                </StackPanel>
-            </Border>
+            <!--<Border Grid.Column="0" Grid.Row="1" BorderBrush="Black" BorderThickness="1">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel>
+                        <Border CornerRadius="6" Background="{DynamicResource {x:Static SystemColors.GradientActiveCaptionBrushKey}}" UseLayoutRounding="True">
+                            <TextBlock Margin="5" TextWrapping="Wrap">
+                                <Run Text="{Binding Path=Mas[0].Dt, StringFormat={}{0:dd.MM.yyyy}}" FontWeight="Bold" Foreground="#FF1B1180"></Run>
+                                <Run Text="{Binding Path=Mas[0].personal.Fio}"></Run>
+                                <Run Text="{Binding Path=Mas[0].personal.Specialty1.Name}"></Run>
+                                <Run Text="{Binding Path=Mas[0].Interval, Mode=OneWay}" FontWeight="Bold"></Run>
+                            </TextBlock>
+                        </Border>
+                    </StackPanel>
+                </ScrollViewer>
+            </Border>-->
         </Grid>            
     </Grid>
 </UserControl>
