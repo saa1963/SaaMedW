@@ -15,29 +15,23 @@ namespace SaaMedW.ViewModel
             var lst = new List<VmGraphic>();
             IQueryable<Graphic> q;
             if (pid.HasValue)
-            {
                 q = ctx.Graphic.Where(s => s.Dt == dt && s.PersonalId == pid.Value);
-            }
             else
-            {
                 q = ctx.Graphic.Where(s => s.Dt == dt);
-                o = new VmGraphic(ctx.Graphic.FirstOrDefault(s => s.Dt == dt));
+            foreach (var graphic in q)
+                lst.Add(new VmGraphic(graphic));
+            if (lst.Count == 0)
+            {
+                var o = new VmGraphic();
                 o.Dt = dt;
                 o.personal = ctx.Personal.Find(5);
                 o.H1 = 8;
                 o.M1 = 0;
                 o.H2 = 12;
                 o.M2 = 0;
+                lst.Add(o);
             }
-            foreach (var graphic in q)
-            {
-                lst.Add(new VmGraphic(graphic));
-            }
-            if (lst.Count == 0)
-            {
-                lst.Add();
-            }
-            return o;
+            return lst;
         }
         public VmGraphic()
         {

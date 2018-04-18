@@ -45,8 +45,8 @@ namespace SaaMedW.View
 
                     var sp = new StackPanel();
                     scrollViewer.Content = sp;
-                    var tb0 = new TextBlock();
 
+                    var tb0 = new TextBlock();
                     var r1 = new Run();
                     r1.FontWeight = FontWeights.Bold;
                     var converter = new System.Windows.Media.BrushConverter();
@@ -58,30 +58,38 @@ namespace SaaMedW.View
                     tb0.Inlines.Add(r1);
                     sp.Children.Add(tb0);
 
-                    var b2 = new Border();
-                    b2.CornerRadius = new CornerRadius(6);
-                    b2.SetResourceReference(
-                        Control.BackgroundProperty,
-                        SystemColors.GradientActiveCaptionBrushKey);
-                    sp.Children.Add(b2);
-                    var tb = new TextBlock();
-                    tb.Margin = new Thickness(5);
-                    tb.TextWrapping = TextWrapping.Wrap;
-                    b2.Child = tb;
-                    
-                    var r2 = new Run();
-                    r2.SetBinding(Run.TextProperty, "Mas[0].personal.Fio");
-                    tb.Inlines.Add(r2);
-                    tb.Inlines.Add(" ");
-                    var r3 = new Run();
-                    r3.SetBinding(Run.TextProperty, "Mas[0].personal.Specialty1.Name");
-                    tb.Inlines.Add(r3);
-                    tb.Inlines.Add(" ");
-                    var r4 = new Run();
-                    var bind2 = new Binding("Mas[0].Interval");
-                    bind2.Mode = BindingMode.OneWay;
-                    r4.SetBinding(Run.TextProperty, bind2);
-                    tb.Inlines.Add(r4);
+                    while (true)
+                    {
+                        var b2 = new Border();
+                        b2.CornerRadius = new CornerRadius(6);
+                        b2.SetResourceReference(
+                            Control.BackgroundProperty,
+                            SystemColors.GradientActiveCaptionBrushKey);
+
+                        var tb = new TextBlock();
+                        tb.Margin = new Thickness(5);
+                        tb.TextWrapping = TextWrapping.Wrap;
+
+                        var r2 = new Run();
+                        r2.SetBinding(Run.TextProperty, "Mas[0].personal.Fio");
+
+                        var r3 = new Run();
+                        r3.SetBinding(Run.TextProperty, "Mas[0].personal.Specialty1.Name");
+
+                        var bind2 = new Binding("Mas[0].Interval");
+                        bind2.Mode = BindingMode.OneWay;
+
+                        var r4 = new Run();
+                        r4.SetBinding(Run.TextProperty, bind2);
+
+                        sp.Children.Add(b2);
+                        b2.Child = tb;
+                        tb.Inlines.Add(r2);
+                        tb.Inlines.Add(" ");
+                        tb.Inlines.Add(r3);
+                        tb.Inlines.Add(" ");
+                        tb.Inlines.Add(r4);
+                    }
                     col++;
                 }
                 row++;

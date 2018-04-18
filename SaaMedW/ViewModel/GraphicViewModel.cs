@@ -13,7 +13,7 @@ namespace SaaMedW.ViewModel
         private DateTime m_dt2;
         private const int m_DaysInWeek = 7;
         private const int m_WeeksInMonth = 6;
-        private VmGraphic[] m_mas = new VmGraphic[42];
+        private List<VmGraphic>[] m_mas = new List<VmGraphic>[42];
 
         public GraphicViewModel():this(DateTime.Today) { }
 
@@ -30,12 +30,12 @@ namespace SaaMedW.ViewModel
             int i = 0;
             while (d <= Dt2)
             {
-                m_mas[i] = VmGraphic.GetGraphic(ctx, d, null);
+                m_mas[i] = VmGraphic.GetGraphics(ctx, d, null);
                 d = d.AddDays(1);
                 i++;
             }
         }
-        public VmGraphic[] Mas
+        public List<VmGraphic>[] Mas
         {
             get => m_mas;
         }
