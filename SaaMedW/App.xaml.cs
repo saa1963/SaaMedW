@@ -10,6 +10,7 @@ using System.Windows.Controls;
 using SaaMedW.Service;
 using SaaMedW.ViewModel;
 using System.IO;
+using System.Reflection;
 
 namespace SaaMedW
 {
@@ -98,6 +99,11 @@ namespace SaaMedW
             // создаем экземпляр ViewModel
             var vm = Activator.CreateInstance(ob.ViewModel);
             f.DataContext = vm;
+            PropertyInfo prop = vm.GetType().GetProperty("Form", BindingFlags.Public | BindingFlags.Instance);
+            if (null != prop && prop.CanWrite)
+            {
+                prop.SetValue(vm, f, null);
+            }
             window.Wplace.Children.Clear();
             window.Wplace.Children.Add(f);
         }

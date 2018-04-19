@@ -26,15 +26,15 @@ namespace SaaMedW.View
             InitializeComponent();
         }
 
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        public void Init()
         {
             int row = 1, col = 0, ind = 0;
-            
+
             List<VmGraphic> lst;
             var dataContext = this.DataContext as GraphicViewModel;
             DateTime dt = dataContext.Dt1;
 
-            
+
             while (row <= 6)
             {
                 col = 0;
@@ -76,7 +76,7 @@ namespace SaaMedW.View
                     menu.Items.Add(mi1);
                     b1.ContextMenu = menu;
 
-                    for (var j = 0; j < lst.Count;  j++)
+                    for (var j = 0; j < lst.Count; j++)
                     {
                         var b2 = new Border();
                         b2.CornerRadius = new CornerRadius(6);
@@ -114,6 +114,11 @@ namespace SaaMedW.View
                 }
                 row++;
             }
+        }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            Init();
         }
     }
 }

@@ -138,7 +138,7 @@
     <Compile Include="ViewModel\Dialogs\VmPerson.cs" />
     <Compile Include="ViewModel\Dialogs\VmSpecialty.cs" />
     <Compile Include="ViewModel\Dialogs\VmUsers.cs" />
-    <Compile Include="ViewModel\VmGraphic.cs" />
+    <Compile Include="ViewModel\Dialogs\VmGraphic.cs" />
     <Compile Include="View\Dialogs\ChangePassword.xaml.cs">
       <DependentUpon>ChangePassword.xaml</DependentUpon>
     </Compile>

@@ -30,8 +30,8 @@ namespace SaaMedW.ViewModel
                 d = d.AddMonths(1);
             }
             m_personal = ctx.Personal.Where(s => s.Active).OrderBy(s => s.Fio).ToList();
-            Init(dt);
             PersonalCurrent = null;
+            Init(dt);
             MonthsCurrent = m_months.FirstOrDefault(s => s.Year == dt.Year && s.Month == dt.Month);
         }
         private void Init(DateTime dt)
@@ -53,6 +53,7 @@ namespace SaaMedW.ViewModel
                 i++;
             }
         }
+        public GraphicView Form { get; set; }
         public Months[] Months
         {
             get => m_months;
@@ -159,7 +160,7 @@ namespace SaaMedW.ViewModel
                 o.PersonalId = mv.SotrCurrent.Id;
                 ctx.Graphic.Add(o);
                 ctx.SaveChanges();
-                RefreshGridProc(null);
+                Form.Init();
             }
         }
     }
