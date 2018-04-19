@@ -20,18 +20,18 @@ namespace SaaMedW.ViewModel
                 q = ctx.Graphic.Where(s => s.Dt == dt);
             foreach (var graphic in q)
                 lst.Add(new VmGraphic(graphic));
-            if (lst.Count == 0)
-            {
-                var o = new VmGraphic();
-                o.Dt = dt;
-                o.personal = ctx.Personal.Find(5);
-                o.H1 = 8;
-                o.M1 = 0;
-                o.H2 = 12;
-                o.M2 = 0;
-                lst.Add(o);
-                lst.Add(o);
-            }
+            //if (lst.Count == 0)
+            //{
+            //    var o = new VmGraphic();
+            //    o.Dt = dt;
+            //    o.personal = ctx.Personal.Find(5);
+            //    o.H1 = 8;
+            //    o.M1 = 0;
+            //    o.H2 = 12;
+            //    o.M2 = 0;
+            //    lst.Add(o);
+            //    lst.Add(o);
+            //}
             return lst;
         }
         public VmGraphic()

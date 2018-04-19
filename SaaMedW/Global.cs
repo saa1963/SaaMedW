@@ -131,6 +131,14 @@ namespace SaaMedW
             return mths[month - 1];
         }
 
+        public string GetNameOfMonth0(int month)
+        {
+            string[] mths =
+                { "январь", "февраль", "март", "апрель", "май", "июнь", "июль",
+                    "август", "сентябрь", "октябрь", "ноябрь", "декабрь" };
+            return mths[month - 1];
+        }
+
         public DependencyObject FindInVisualTreeDown(DependencyObject obj, string type)
         {
             if (obj != null)

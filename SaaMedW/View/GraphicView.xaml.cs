@@ -29,8 +29,12 @@ namespace SaaMedW.View
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             int row = 1, col = 0, ind = 0;
+            
             List<VmGraphic> lst;
             var dataContext = this.DataContext as GraphicViewModel;
+            DateTime dt = dataContext.Dt1;
+
+            
             while (row <= 6)
             {
                 col = 0;
@@ -40,6 +44,7 @@ namespace SaaMedW.View
                     var b1 = new Border();
                     b1.BorderBrush = Brushes.Black;
                     b1.BorderThickness = new Thickness(1);
+                    b1.Background = Brushes.Transparent;
                     g1.Children.Add(b1);
                     Grid.SetColumn(b1, col);
                     Grid.SetRow(b1, row);
@@ -56,11 +61,20 @@ namespace SaaMedW.View
                     var converter = new System.Windows.Media.BrushConverter();
                     var brush = (Brush)converter.ConvertFromString("#FF1B1180");
                     r1.Foreground = brush;
-                    var bind1 = new Binding($"Mas[{ind}][0].Dt");
+                    var bind1 = new Binding($"Dt[{ind}]");
                     bind1.StringFormat = "dd.MM.yy";
                     r1.SetBinding(Run.TextProperty, bind1);
                     tb0.Inlines.Add(r1);
                     sp.Children.Add(tb0);
+
+                    var bind00 = new Binding("AddSotr");
+                    var mi1 = new MenuItem();
+                    mi1.Header = "Добавить сотрудника";
+                    mi1.SetBinding(MenuItem.CommandProperty, bind00);
+                    mi1.CommandParameter = ind;
+                    var menu = new ContextMenu();
+                    menu.Items.Add(mi1);
+                    b1.ContextMenu = menu;
 
                     for (var j = 0; j < lst.Count;  j++)
                     {
@@ -96,6 +110,7 @@ namespace SaaMedW.View
                     }
                     col++;
                     ind++;
+                    dt = dt.AddDays(1);
                 }
                 row++;
             }
