@@ -21,6 +21,7 @@ namespace SaaMedW.View
     /// </summary>
     public partial class GraphicView : UserControl
     {
+        private List<Border> borderList = new List<Border>();
         public GraphicView()
         {
             InitializeComponent();
@@ -34,18 +35,26 @@ namespace SaaMedW.View
             var dataContext = this.DataContext as GraphicViewModel;
             DateTime dt = dataContext.Dt1;
 
+            foreach (var o in borderList)
+            {
+                g1.Children.Remove(o);
+            }
 
             while (row <= 6)
             {
                 col = 0;
                 while (col <= 6)
                 {
-                    lst = dataContext.Mas[ind];
+                    if (dataContext.PersonalCurrent == null)
+                        lst = dataContext.Mas[ind];
+                    else
+                        lst = dataContext.Mas[ind].Where(s => s.PersonalId == dataContext.PersonalCurrent.Id).ToList();
                     var b1 = new Border();
                     b1.BorderBrush = Brushes.Black;
                     b1.BorderThickness = new Thickness(1);
                     b1.Background = Brushes.Transparent;
                     g1.Children.Add(b1);
+                    borderList.Add(b1);
                     Grid.SetColumn(b1, col);
                     Grid.SetRow(b1, row);
                     var scrollViewer = new ScrollViewer();

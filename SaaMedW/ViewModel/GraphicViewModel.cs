@@ -119,6 +119,7 @@ namespace SaaMedW.ViewModel
 
         private void RefreshGridProc(object obj)
         {
+            Form.Init();
             Init(new DateTime(MonthsCurrent.Year, MonthsCurrent.Month, 1));
             OnPropertyChanged("Mas");
             OnPropertyChanged("Dt");
@@ -132,9 +133,7 @@ namespace SaaMedW.ViewModel
         private void ClearPersonalProc(object obj)
         {
             PersonalCurrent = null;
-            Init(new DateTime(MonthsCurrent.Year, MonthsCurrent.Month, 1));
-            OnPropertyChanged("Mas");
-            OnPropertyChanged("Dt");
+            RefreshGridProc(null);
         }
 
         public RelayCommand AddSotr
@@ -160,7 +159,8 @@ namespace SaaMedW.ViewModel
                 o.PersonalId = mv.SotrCurrent.Id;
                 ctx.Graphic.Add(o);
                 ctx.SaveChanges();
-                Form.Init();
+                Mas[ind].Add(new VmGraphic(o));
+                RefreshGridProc(null);
             }
         }
     }

@@ -84,12 +84,6 @@
                 <Label HorizontalAlignment="Center" VerticalAlignment="Center">Сб</Label>
             </Border>
             <Border Grid.Column="6" Grid.Row="0" Background="Transparent" BorderBrush="Black" BorderThickness="1">
-                <Border.ContextMenu>
-                    <ContextMenu>
-                        <MenuItem Header="Добавить сотрудника" Command="{Binding AddSotr}">
-                        </MenuItem>
-                    </ContextMenu>
-                </Border.ContextMenu>
                 <Label HorizontalAlignment="Center" VerticalAlignment="Center">Вс</Label>
             </Border>
             <!--<Border Grid.Column="0" Grid.Row="1" BorderBrush="Black" BorderThickness="1">
