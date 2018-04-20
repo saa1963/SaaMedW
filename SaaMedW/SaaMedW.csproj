@@ -166,6 +166,9 @@
     <Compile Include="View\CardsView.xaml.cs">
       <DependentUpon>CardsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\GraphicControl.xaml.cs">
+      <DependentUpon>GraphicControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\GraphicView.xaml.cs">
       <DependentUpon>GraphicView.xaml</DependentUpon>
     </Compile>
@@ -223,6 +226,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\CardsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\GraphicControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

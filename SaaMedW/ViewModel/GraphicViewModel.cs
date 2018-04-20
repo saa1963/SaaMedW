@@ -119,7 +119,6 @@ namespace SaaMedW.ViewModel
 
         private void RefreshGridProc(object obj)
         {
-            Form.Init();
             Init(new DateTime(MonthsCurrent.Year, MonthsCurrent.Month, 1));
             OnPropertyChanged("Mas");
             OnPropertyChanged("Dt");
