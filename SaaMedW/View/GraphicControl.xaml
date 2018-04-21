@@ -6,11 +6,34 @@
              xmlns:local="clr-namespace:SaaMedW.View"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <Style x:Key="myLBStyle" TargetType="{x:Type ListBoxItem}">
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True" >
+                    <Setter Property="FontWeight" Value="Bold" />
+                    <Setter Property="Background" Value="Transparent" />
+                    <Setter Property="Foreground" Value="Black" />
+                </Trigger>
+            </Style.Triggers>
+            <Style.Resources>
+                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
+                             Color="Transparent"/>
+            </Style.Resources>
+        </Style>
+    </UserControl.Resources>
     <ListBox ItemsSource="{Binding}" BorderBrush="Black" BorderThickness="1" HorizontalContentAlignment="Stretch"
-                 ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemContainerStyle="{StaticResource myLBStyle}" LostFocus="ListBox_LostFocus">
+        <ListBox.ContextMenu>
+            <ContextMenu x:Name="contextMenu">
+                <MenuItem x:Name="addSotr" Header="Добавить" Command="{Binding Path=AddSotrCommand}">
+                </MenuItem>
+                <MenuItem x:Name="editSotr" Header="Изменить" Command="{Binding Path=EditSotrCommand}">
+                </MenuItem>
+            </ContextMenu>
+        </ListBox.ContextMenu>
         <ListBox.ItemTemplate>
             <DataTemplate>
-                <TextBlock Margin="5" TextWrapping="Wrap">
+                <TextBlock Margin="5" TextWrapping="Wrap" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
                     <Run Text="{Binding Path=Dt, StringFormat={}{0:dd.MM.yyyy}}" FontWeight="Bold"></Run>
                     <Run Text="{Binding Path=personal.Fio}"></Run>
                     <Run Text="{Binding Path=personal.Specialty1.Name}"></Run>

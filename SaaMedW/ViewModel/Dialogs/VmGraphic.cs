@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,9 +11,9 @@ namespace SaaMedW.ViewModel
     {
         private Graphic m_object;
 
-        public static List<VmGraphic> GetGraphics(SaaMedEntities ctx, DateTime dt, int? pid)
+        public static ObservableCollection<VmGraphic> GetGraphics(SaaMedEntities ctx, DateTime dt, int? pid)
         {
-            var lst = new List<VmGraphic>();
+            var lst = new ObservableCollection<VmGraphic>();
             IQueryable<Graphic> q;
             if (pid.HasValue)
                 q = ctx.Graphic.Where(s => s.Dt == dt && s.PersonalId == pid.Value);

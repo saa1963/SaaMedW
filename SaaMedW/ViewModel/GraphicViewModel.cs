@@ -1,6 +1,7 @@
 ﻿using SaaMedW.View;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -15,8 +16,10 @@ namespace SaaMedW.ViewModel
         private DateTime m_dt1;
         private DateTime m_dt2;
         private const int CELLS_COUNT = 42;
-        private List<VmGraphic>[] m_mas = new List<VmGraphic>[CELLS_COUNT];
+        private ObservableCollection<VmGraphic>[] m_mas = new ObservableCollection<VmGraphic>[CELLS_COUNT];
         private DateTime[] m_dt = new DateTime[CELLS_COUNT];
+        private VmGraphic[] m_current = new VmGraphic[CELLS_COUNT];
+        private ICollectionView[] m_views = new ICollectionView[CELLS_COUNT];
         private Months[] m_months = new Months[12];
         private List<Personal> m_personal = new List<Personal>();
 
@@ -49,11 +52,12 @@ namespace SaaMedW.ViewModel
             {
                 m_mas[i] = VmGraphic.GetGraphics(ctx, d, PersonalCurrent?.Id);
                 m_dt[i] = d;
+                m_views[i] = CollectionViewSource.GetDefaultView(m_mas[i]);
                 d = d.AddDays(1);
                 i++;
             }
         }
-        public GraphicView Form { get; set; }
+        public VmGraphic
         public Months[] Months
         {
             get => m_months;
@@ -86,7 +90,7 @@ namespace SaaMedW.ViewModel
                 return CollectionViewSource.GetDefaultView(m_personal);
             }
         }
-        public List<VmGraphic>[] Mas
+        public ObservableCollection<VmGraphic>[] Mas
         {
             get => m_mas;
         }
@@ -135,7 +139,7 @@ namespace SaaMedW.ViewModel
             RefreshGridProc(null);
         }
 
-        public RelayCommand AddSotr
+        public RelayCommand AddSotrCommand
         {
             get { return new RelayCommand(AddSotrProc); }
         }

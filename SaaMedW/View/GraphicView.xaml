@@ -86,20 +86,6 @@
             <Border Grid.Column="6" Grid.Row="0" Background="Transparent" BorderBrush="Black" BorderThickness="1">
                 <Label HorizontalAlignment="Center" VerticalAlignment="Center">Вс</Label>
             </Border>
-            <!--<Border Grid.Column="0" Grid.Row="1" BorderBrush="Black" BorderThickness="1">
-                <ScrollViewer VerticalScrollBarVisibility="Auto">
-                    <StackPanel>
-                        <Border CornerRadius="6" Background="{DynamicResource {x:Static SystemColors.GradientActiveCaptionBrushKey}}" UseLayoutRounding="True">
-                            <TextBlock Margin="5" TextWrapping="Wrap">
-                                <Run Text="{Binding Path=Mas[0].Dt, StringFormat={}{0:dd.MM.yyyy}}" FontWeight="Bold" Foreground="#FF1B1180"></Run>
-                                <Run Text="{Binding Path=Mas[0].personal.Fio}"></Run>
-                                <Run Text="{Binding Path=Mas[0].personal.Specialty1.Name}"></Run>
-                                <Run Text="{Binding Path=Mas[0].Interval, Mode=OneWay}" FontWeight="Bold"></Run>
-                            </TextBlock>
-                        </Border>
-                    </StackPanel>
-                </ScrollViewer>
-            </Border>-->
         </Grid>            
     </Grid>
 </UserControl>
