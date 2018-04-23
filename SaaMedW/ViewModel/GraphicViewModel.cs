@@ -16,10 +16,8 @@ namespace SaaMedW.ViewModel
         private DateTime m_dt1;
         private DateTime m_dt2;
         private const int CELLS_COUNT = 42;
-        private ObservableCollection<VmGraphic>[] m_mas = new ObservableCollection<VmGraphic>[CELLS_COUNT];
+        private ListGraphicViewModel[] m_mas = new ListGraphicViewModel[CELLS_COUNT];
         private DateTime[] m_dt = new DateTime[CELLS_COUNT];
-        private VmGraphic[] m_current = new VmGraphic[CELLS_COUNT];
-        private ICollectionView[] m_views = new ICollectionView[CELLS_COUNT];
         private Months[] m_months = new Months[12];
         private List<Personal> m_personal = new List<Personal>();
 
@@ -51,13 +49,13 @@ namespace SaaMedW.ViewModel
             while (d <= Dt2)
             {
                 m_mas[i] = VmGraphic.GetGraphics(ctx, d, PersonalCurrent?.Id);
+                m_mas[i].Dt = d;
+                m_mas[i].Ind = i;
                 m_dt[i] = d;
-                m_views[i] = CollectionViewSource.GetDefaultView(m_mas[i]);
                 d = d.AddDays(1);
                 i++;
             }
         }
-        //public VmGraphic[] 
         public Months[] Months
         {
             get => m_months;
@@ -137,34 +135,6 @@ namespace SaaMedW.ViewModel
         {
             PersonalCurrent = null;
             RefreshGridProc(null);
-        }
-
-        public RelayCommand AddSotrCommand
-        {
-            get { return new RelayCommand(AddSotrProc); }
-        }
-
-        private void AddSotrProc(object obj)
-        {
-            int ind = (int)obj;
-            DateTime dt = m_dt[ind];
-            var mv = new EditGraphicViewModel();
-            mv.SotrCurrent = null;
-            var f = new EditGraphic() { DataContext = mv };
-            if (f.ShowDialog() ?? false)
-            {
-                var o = new Graphic();
-                o.Dt = dt;
-                o.H1 = mv.H1;
-                o.M1 = mv.M1;
-                o.H2 = mv.H2;
-                o.M2 = mv.M2;
-                o.PersonalId = mv.SotrCurrent.Id;
-                ctx.Graphic.Add(o);
-                ctx.SaveChanges();
-                Mas[ind].Add(new VmGraphic(o));
-                RefreshGridProc(null);
-            }
         }
     }
 }

@@ -38,10 +38,10 @@ namespace SaaMedW.View
                 while (col < 7)
                 {
                     var uc = new GraphicControl();
-                    uc.DataContext = new ListGraphicViewModel((this.DataContext as GraphicViewModel).Mas[ind]);
-                    uc.contextMenu.DataContext = this.DataContext;
+                    uc.DataContext = (this.DataContext as GraphicViewModel).Mas[ind];
+                    //uc.contextMenu.DataContext = this.DataContext;
                     uc.addSotr.CommandParameter = ind;
-                    uc.editSotr.CommandParameter = ind;
+                    //uc.editSotr.CommandParameter = (uc.DataContext as ListGraphicViewModel).Current;
                     Grid.SetColumn(uc, col);
                     Grid.SetRow(uc, row);
                     g1.Children.Add(uc);
@@ -54,28 +54,12 @@ namespace SaaMedW.View
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            Init();
+            //Init();
         }
 
         private void UserControl_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            //Init();
-        }
-    }
-
-    class ListGraphicViewModel
-    {
-        private ObservableCollection<VmGraphic> m_lst;
-        private ICollectionView view;
-        public ListGraphicViewModel(ObservableCollection<VmGraphic> par)
-        {
-            m_lst = par;
-            view = CollectionViewSource.GetDefaultView(m_lst);
-        }
-
-        public ObservableCollection<VmGraphic> Mas
-        {
-            get => m_lst;
+            Init();
         }
     }
 }

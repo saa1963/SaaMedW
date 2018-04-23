@@ -11,9 +11,9 @@ namespace SaaMedW.ViewModel
     {
         private Graphic m_object;
 
-        public static ObservableCollection<VmGraphic> GetGraphics(SaaMedEntities ctx, DateTime dt, int? pid)
+        public static ListGraphicViewModel GetGraphics(SaaMedEntities ctx, DateTime dt, int? pid)
         {
-            var lst = new ObservableCollection<VmGraphic>();
+            var lst = new ListGraphicViewModel();
             IQueryable<Graphic> q;
             if (pid.HasValue)
                 q = ctx.Graphic.Where(s => s.Dt == dt && s.PersonalId == pid.Value);

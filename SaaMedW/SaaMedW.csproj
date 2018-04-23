@@ -130,6 +130,7 @@
     <Compile Include="ViewModel\Bases\MasterWindowViewModel.cs" />
     <Compile Include="ViewModel\Dialogs\VmPersonal.cs" />
     <Compile Include="ViewModel\GraphicViewModel.cs" />
+    <Compile Include="ViewModel\ListGraphicViewModel.cs" />
     <Compile Include="ViewModel\PersonalViewModel.cs" />
     <Compile Include="ViewModel\SpecialtyViewModel.cs" />
     <Compile Include="ViewModel\UsersViewModel.cs" />

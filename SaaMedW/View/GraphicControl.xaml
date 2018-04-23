@@ -21,14 +21,15 @@
             </Style.Resources>
         </Style>
     </UserControl.Resources>
-    <ListBox x:Name="listBox" ItemsSource="{Binding}" BorderBrush="Black" BorderThickness="1" HorizontalContentAlignment="Stretch"
+    <ListBox x:Name="listBox" ItemsSource="{Binding}" SelectedItem="Current" BorderBrush="Black" BorderThickness="1" HorizontalContentAlignment="Stretch"
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemContainerStyle="{StaticResource myLBStyle}"
                 IsSynchronizedWithCurrentItem="True" LostFocus="ListBox_LostFocus">
         <ListBox.ContextMenu>
             <ContextMenu x:Name="contextMenu">
                 <MenuItem x:Name="addSotr" Header="Добавить" Command="{Binding Path=AddSotrCommand}">
                 </MenuItem>
-                <MenuItem x:Name="editSotr" Header="Изменить" Command="{Binding Path=EditSotrCommand}">
+                <MenuItem x:Name="editSotr" Header="Изменить" Command="{Binding Path=EditSotrCommand}" 
+                          CommandParameter="{Binding Path=Current}">
                 </MenuItem>
             </ContextMenu>
         </ListBox.ContextMenu>
