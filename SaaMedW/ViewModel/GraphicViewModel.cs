@@ -57,7 +57,7 @@ namespace SaaMedW.ViewModel
                 i++;
             }
         }
-        public VmGraphic
+        //public VmGraphic[] 
         public Months[] Months
         {
             get => m_months;

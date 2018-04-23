@@ -21,8 +21,9 @@
             </Style.Resources>
         </Style>
     </UserControl.Resources>
-    <ListBox ItemsSource="{Binding}" BorderBrush="Black" BorderThickness="1" HorizontalContentAlignment="Stretch"
-                 ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemContainerStyle="{StaticResource myLBStyle}" LostFocus="ListBox_LostFocus">
+    <ListBox x:Name="listBox" ItemsSource="{Binding}" BorderBrush="Black" BorderThickness="1" HorizontalContentAlignment="Stretch"
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemContainerStyle="{StaticResource myLBStyle}"
+                IsSynchronizedWithCurrentItem="True" LostFocus="ListBox_LostFocus">
         <ListBox.ContextMenu>
             <ContextMenu x:Name="contextMenu">
                 <MenuItem x:Name="addSotr" Header="Добавить" Command="{Binding Path=AddSotrCommand}">
