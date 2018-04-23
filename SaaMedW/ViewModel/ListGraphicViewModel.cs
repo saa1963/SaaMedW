@@ -57,7 +57,7 @@ namespace SaaMedW.ViewModel
         }
         private void EditSotrProc(object obj)
         {
-            VmGraphic o = (VmGraphic)obj;
+            VmGraphic o = Current;
             var mv = new EditGraphicViewModel();
             mv.SotrCurrent = o.personal;
             mv.H1 = o.H1;
@@ -67,7 +67,6 @@ namespace SaaMedW.ViewModel
             var f = new EditGraphic() { DataContext = mv };
             if (f.ShowDialog() ?? false)
             {
-                o.Dt = Dt;
                 o.H1 = mv.H1;
                 o.M1 = mv.M1;
                 o.H2 = mv.H2;

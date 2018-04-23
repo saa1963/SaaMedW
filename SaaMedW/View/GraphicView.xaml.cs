@@ -39,9 +39,7 @@ namespace SaaMedW.View
                 {
                     var uc = new GraphicControl();
                     uc.DataContext = (this.DataContext as GraphicViewModel).Mas[ind];
-                    //uc.contextMenu.DataContext = this.DataContext;
                     uc.addSotr.CommandParameter = ind;
-                    //uc.editSotr.CommandParameter = (uc.DataContext as ListGraphicViewModel).Current;
                     Grid.SetColumn(uc, col);
                     Grid.SetRow(uc, row);
                     g1.Children.Add(uc);
