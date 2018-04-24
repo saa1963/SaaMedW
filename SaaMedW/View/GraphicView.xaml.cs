@@ -40,6 +40,7 @@ namespace SaaMedW.View
                     var uc = new GraphicControl();
                     uc.SetBinding(UserControl.DataContextProperty, $"Mas[{ind}]");
                     uc.addSotr.CommandParameter = ind;
+                    
                     Grid.SetColumn(uc, col);
                     Grid.SetRow(uc, row);
                     g1.Children.Add(uc);

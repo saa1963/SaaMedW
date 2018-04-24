@@ -38,32 +38,33 @@
                     <ContextMenu x:Name="contextMenu">
                         <MenuItem x:Name="addSotr" Header="Добавить" Command="{Binding Path=AddSotrCommand}">
                         </MenuItem>
-                        <MenuItem x:Name="editSotr" Header="Изменить" Command="{Binding Path=EditSotrCommand}" 
-                          CommandParameter="{Binding Path=Current}">
+                        <MenuItem x:Name="editSotr" Header="Изменить" Command="{Binding Path=EditSotrCommand}">
                         </MenuItem>
-                        <MenuItem x:Name="delSotr" Header="Удалить" Command="{Binding Path=DelSotrCommand}" 
-                          CommandParameter="{Binding Path=Current}">
+                        <MenuItem x:Name="delSotr" Header="Удалить" Command="{Binding Path=DelSotrCommand}">
                         </MenuItem>
                     </ContextMenu>
                 </ListBox.ContextMenu>
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <TextBlock Margin="5" TextWrapping="Wrap" Background="Transparent">
-                            <TextBlock.InputBindings>
-                                <MouseBinding Gesture="LeftDoubleClick" 
+                        <Grid>
+                            <TextBlock Margin="5" TextWrapping="Wrap" Background="Transparent">
+                                <TextBlock.InputBindings>
+                                    <MouseBinding Gesture="LeftDoubleClick" 
                                     Command="{Binding Path=DataContext.EditSotrCommand, 
-                                        RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}" 
-                                    CommandParameter="{Binding Path=DataContext.Current, 
-                                        RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}">
-                                </MouseBinding>
-                            </TextBlock.InputBindings>
+                                        RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBox}}}">
+                                    </MouseBinding>
+                                </TextBlock.InputBindings>
                             <Run Text="{Binding Path=personal.Fio}"></Run>
                             <Run Text="{Binding Path=personal.Specialty1.Name}"></Run>
                             <Run Text="{Binding Path=Interval, Mode=OneWay}"></Run>
-                            <Button FlowDirection="LeftToRight">
-                                <Image Height="20" Width="20" Source="..\image\delete_32.png"></Image>
+                            </TextBlock>
+                            <Button HorizontalAlignment="Right" VerticalAlignment="Top">
+                                <Button.InputBindings>
+                                    <MouseBinding Gesture="LeftDoubleClick"></MouseBinding>
+                                </Button.InputBindings>
+                                <Image Height="10" Width="10" Source="..\image\delete_32.png"></Image>
                             </Button>
-                        </TextBlock>
+                        </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>

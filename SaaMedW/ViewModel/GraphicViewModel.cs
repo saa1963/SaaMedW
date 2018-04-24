@@ -17,7 +17,6 @@ namespace SaaMedW.ViewModel
         private DateTime m_dt2;
         private const int CELLS_COUNT = 42;
         private ListGraphicViewModel[] m_mas = new ListGraphicViewModel[CELLS_COUNT];
-        private DateTime[] m_dt = new DateTime[CELLS_COUNT];
         private Months[] m_months = new Months[12];
         private List<Personal> m_personal = new List<Personal>();
 
@@ -52,7 +51,6 @@ namespace SaaMedW.ViewModel
                 m_mas[i].Dt = d;
                 m_mas[i].Ind = i;
                 m_mas[i].CurrentSotr = this.PersonalCurrent;
-                m_dt[i] = d;
                 d = d.AddDays(1);
                 i++;
             }
@@ -92,10 +90,6 @@ namespace SaaMedW.ViewModel
         public ObservableCollection<VmGraphic>[] Mas
         {
             get => m_mas;
-        }
-        public DateTime[] Dt
-        {
-            get => m_dt;
         }
         public DateTime Dt1
         {
