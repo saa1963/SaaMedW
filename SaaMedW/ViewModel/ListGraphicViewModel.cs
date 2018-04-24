@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,10 +13,11 @@ namespace SaaMedW.ViewModel
 {
     public class ListGraphicViewModel : ObservableCollection<VmGraphic>
     {
-        private SaaMedEntities ctx = new SaaMedEntities();
+        private SaaMedEntities ctx;
         private ICollectionView view;
-        public ListGraphicViewModel()
+        public ListGraphicViewModel(SaaMedEntities _ctx)
         {
+            ctx = _ctx;
             view = CollectionViewSource.GetDefaultView(this);
         }
         public VmGraphic Current
@@ -25,6 +27,15 @@ namespace SaaMedW.ViewModel
         }
         public DateTime Dt { get; set; }
         public int Ind { get; set; }
+        public Personal CurrentSotr { get; set; }
+        public double Opacity
+        {
+            get
+            {
+                if (Dt < DateTime.Today) return 0.2;
+                else return 1;
+            }
+        }
         public RelayCommand AddSotrCommand
         {
             get { return new RelayCommand(AddSotrProc); }
@@ -33,7 +44,7 @@ namespace SaaMedW.ViewModel
         {
             int ind = (int)obj;
             var mv = new EditGraphicViewModel();
-            mv.SotrCurrent = null;
+            mv.SotrCurrent = this.CurrentSotr;
             var f = new EditGraphic() { DataContext = mv };
             if (f.ShowDialog() ?? false)
             {
@@ -71,9 +82,21 @@ namespace SaaMedW.ViewModel
                 o.M1 = mv.M1;
                 o.H2 = mv.H2;
                 o.M2 = mv.M2;
-                o.PersonalId = mv.SotrCurrent.Id;
+                o.personal = ctx.Personal.Find(mv.SotrCurrent.Id);
                 ctx.SaveChanges();
             }
+        }
+        public RelayCommand DelSotrCommand
+        {
+            get { return new RelayCommand(DelSotrProc); }
+        }
+
+        private void DelSotrProc(object obj)
+        {
+            VmGraphic o = Current;
+            ctx.Graphic.Remove(o.Obj);
+            ctx.SaveChanges();
+            this.Remove(o);
         }
     }
 }

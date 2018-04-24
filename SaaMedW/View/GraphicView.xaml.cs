@@ -38,7 +38,7 @@ namespace SaaMedW.View
                 while (col < 7)
                 {
                     var uc = new GraphicControl();
-                    uc.DataContext = (this.DataContext as GraphicViewModel).Mas[ind];
+                    uc.SetBinding(UserControl.DataContextProperty, $"Mas[{ind}]");
                     uc.addSotr.CommandParameter = ind;
                     Grid.SetColumn(uc, col);
                     Grid.SetRow(uc, row);

@@ -51,6 +51,7 @@ namespace SaaMedW.ViewModel
                 m_mas[i] = VmGraphic.GetGraphics(ctx, d, PersonalCurrent?.Id);
                 m_mas[i].Dt = d;
                 m_mas[i].Ind = i;
+                m_mas[i].CurrentSotr = this.PersonalCurrent;
                 m_dt[i] = d;
                 d = d.AddDays(1);
                 i++;

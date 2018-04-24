@@ -31,7 +31,9 @@ namespace SaaMedW.ViewModel
             }
             set
             {
-                var currentPersonal = m_personal.Find(s => s.Id == value.Id);
+                Personal currentPersonal = null;
+                if (value != null)
+                    currentPersonal = m_personal.Find(s => s.Id == value.Id);
                 var success = view.MoveCurrentTo(currentPersonal);
                 OnPropertyChanged("SotrCurrent");
             }

@@ -13,7 +13,7 @@ namespace SaaMedW.ViewModel
 
         public static ListGraphicViewModel GetGraphics(SaaMedEntities ctx, DateTime dt, int? pid)
         {
-            var lst = new ListGraphicViewModel();
+            var lst = new ListGraphicViewModel(ctx);
             IQueryable<Graphic> q;
             if (pid.HasValue)
                 q = ctx.Graphic.Where(s => s.Dt == dt && s.PersonalId == pid.Value);
@@ -21,18 +21,6 @@ namespace SaaMedW.ViewModel
                 q = ctx.Graphic.Where(s => s.Dt == dt);
             foreach (var graphic in q)
                 lst.Add(new VmGraphic(graphic));
-            //if (lst.Count == 0)
-            //{
-            //    var o = new VmGraphic();
-            //    o.Dt = dt;
-            //    o.personal = ctx.Personal.Find(5);
-            //    o.H1 = 8;
-            //    o.M1 = 0;
-            //    o.H2 = 12;
-            //    o.M2 = 0;
-            //    lst.Add(o);
-            //    lst.Add(o);
-            //}
             return lst;
         }
         public VmGraphic()
@@ -42,6 +30,10 @@ namespace SaaMedW.ViewModel
         public VmGraphic(Graphic obj)
         {
             m_object = obj;
+        }
+        public Graphic Obj
+        {
+            get => m_object;
         }
         public int Id
         {

@@ -3,7 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              xmlns:local="clr-namespace:SaaMedW.View"
+             xmlns:local0="clr-namespace:SaaMedW.ViewModel"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
@@ -21,27 +23,50 @@
             </Style.Resources>
         </Style>
     </UserControl.Resources>
-    <ListBox x:Name="listBox" ItemsSource="{Binding}" SelectedItem="Current" BorderBrush="Black" BorderThickness="1" HorizontalContentAlignment="Stretch"
-                 ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemContainerStyle="{StaticResource myLBStyle}"
-                IsSynchronizedWithCurrentItem="True" LostFocus="ListBox_LostFocus">
-        <ListBox.ContextMenu>
-            <ContextMenu x:Name="contextMenu">
-                <MenuItem x:Name="addSotr" Header="Добавить" Command="{Binding Path=AddSotrCommand}">
-                </MenuItem>
-                <MenuItem x:Name="editSotr" Header="Изменить" Command="{Binding Path=EditSotrCommand}" 
+    <Border BorderBrush="Black" BorderThickness="0,0,1,1" Background="AliceBlue">
+        <Grid Opacity="{Binding Opacity}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Content="{Binding Path=Dt}" ContentStringFormat="dd.MM.yyyy"></Label>
+            <ListBox BorderBrush="Transparent" Grid.Row="1" x:Name="listBox" ItemsSource="{Binding}" 
+                     SelectedItem="Current" HorizontalContentAlignment="Stretch"
+                        ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemContainerStyle="{StaticResource myLBStyle}"
+                        IsSynchronizedWithCurrentItem="True" LostFocus="ListBox_LostFocus">
+                <ListBox.ContextMenu>
+                    <ContextMenu x:Name="contextMenu">
+                        <MenuItem x:Name="addSotr" Header="Добавить" Command="{Binding Path=AddSotrCommand}">
+                        </MenuItem>
+                        <MenuItem x:Name="editSotr" Header="Изменить" Command="{Binding Path=EditSotrCommand}" 
                           CommandParameter="{Binding Path=Current}">
-                </MenuItem>
-            </ContextMenu>
-        </ListBox.ContextMenu>
-        <ListBox.ItemTemplate>
-            <DataTemplate>
-                <TextBlock Margin="5" TextWrapping="Wrap" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
-                    <Run Text="{Binding Path=Dt, StringFormat={}{0:dd.MM.yyyy}}" FontWeight="Bold"></Run>
-                    <Run Text="{Binding Path=personal.Fio}"></Run>
-                    <Run Text="{Binding Path=personal.Specialty1.Name}"></Run>
-                    <Run Text="{Binding Path=Interval, Mode=OneWay}"></Run>
-                </TextBlock>
-            </DataTemplate>
-        </ListBox.ItemTemplate>
-    </ListBox>
+                        </MenuItem>
+                        <MenuItem x:Name="delSotr" Header="Удалить" Command="{Binding Path=DelSotrCommand}" 
+                          CommandParameter="{Binding Path=Current}">
+                        </MenuItem>
+                    </ContextMenu>
+                </ListBox.ContextMenu>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Margin="5" TextWrapping="Wrap" Background="Transparent">
+                            <TextBlock.InputBindings>
+                                <MouseBinding Gesture="LeftDoubleClick" 
+                                    Command="{Binding Path=DataContext.EditSotrCommand, 
+                                        RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}" 
+                                    CommandParameter="{Binding Path=DataContext.Current, 
+                                        RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}">
+                                </MouseBinding>
+                            </TextBlock.InputBindings>
+                            <Run Text="{Binding Path=personal.Fio}"></Run>
+                            <Run Text="{Binding Path=personal.Specialty1.Name}"></Run>
+                            <Run Text="{Binding Path=Interval, Mode=OneWay}"></Run>
+                            <Button FlowDirection="LeftToRight">
+                                <Image Height="20" Width="20" Source="..\image\delete_32.png"></Image>
+                            </Button>
+                        </TextBlock>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Grid>
+    </Border>
 </UserControl>
