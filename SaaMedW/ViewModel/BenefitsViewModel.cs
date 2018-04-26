@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SaaMedW.View;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -47,17 +48,17 @@ namespace SaaMedW.ViewModel
 
         private void AddBenefit(object obj)
         {
-            //var modelView = new EditPersonalViewModel();
-            //modelView.Specialty = null;
-            //var f = new EditPersonal() { DataContext = modelView };
-            //if (f.ShowDialog() ?? false)
-            //{
-            //    ctx.Personal.Add(modelView.Obj);
-            //    ctx.SaveChanges();
-            //    var pm = new VmPersonal(modelView.Obj);
-            //    PersonalList.Add(pm);
-            //    view.MoveCurrentTo(pm);
-            //}
+            var modelView = new EditBenefitViewModel();
+            modelView.SpecialtyCurrent = null;
+            var f = new EditBenefit() { DataContext = modelView };
+            if (f.ShowDialog() ?? false)
+            {
+                ctx.Benefit.Add(modelView.Obj);
+                ctx.SaveChanges();
+                var pm = new VmBenefit(modelView.Obj);
+                BenefitsList.Add(pm);
+                view.MoveCurrentTo(pm);
+            }
         }
 
         public RelayCommand Edit

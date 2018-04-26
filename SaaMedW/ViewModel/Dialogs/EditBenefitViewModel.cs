@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
 
-namespace SaaMedW.ViewModel.Dialogs
+namespace SaaMedW.ViewModel
 {
     public class EditBenefitViewModel : VmBenefit, IDataErrorInfo
     {
@@ -51,6 +51,18 @@ namespace SaaMedW.ViewModel.Dialogs
                     case "Name":
                         if (String.IsNullOrWhiteSpace(Name))
                             result = "Не введено наименование";
+                        break;
+                    case "Specialty":
+                        if (Specialty == null)
+                            result = "Не введена специальность";
+                        break;
+                    case "Duration":
+                        if (Duration <= 0)
+                            result = "Не введена продолжительность";
+                        break;
+                    case "Price":
+                        if (Price <= 0)
+                            result = "Не введена цена";
                         break;
                     default:
                         break;

@@ -55,5 +55,9 @@ namespace SaaMedW.ViewModel
         {
             get { return new ExecTypes { View = typeof(GraphicView), ViewModel = typeof(GraphicViewModel) }; }
         }
+        public object CmdBenefits
+        {
+            get { return new ExecTypes { View = typeof(BenefitsView), ViewModel = typeof(BenefitsViewModel) }; }
+        }
     }
 }

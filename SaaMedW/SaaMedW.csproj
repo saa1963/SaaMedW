@@ -82,6 +82,7 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="ClickCommand.cs" />
+    <Compile Include="ClickSelectTextBox.cs" />
     <Compile Include="CloseButton.cs" />
     <Compile Include="DocumentType.cs">
       <DependentUpon>Model1.tt</DependentUpon>
@@ -157,6 +158,9 @@
     <Compile Include="View\Dialogs\ChangePassword.xaml.cs">
       <DependentUpon>ChangePassword.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Dialogs\EditBenefit.xaml.cs">
+      <DependentUpon>EditBenefit.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Dialogs\EditCards.xaml.cs">
       <DependentUpon>EditCards.xaml</DependentUpon>
     </Compile>
@@ -213,6 +217,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Dialogs\ChangePassword.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Dialogs\EditBenefit.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
