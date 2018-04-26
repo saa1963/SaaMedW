@@ -8,7 +8,7 @@ namespace SaaMedW.ViewModel
 {
     public class VmBenefit : ViewModelBase
     {
-        private Benefit m_object;
+        protected Benefit m_object;
 
         public VmBenefit()
         {

@@ -20,29 +20,6 @@ namespace SaaMedW.ViewModel
             m_object = new Personal();
             FillSpecialty();
         }
-        public EditPersonalViewModel(Personal par)
-        {
-            m_object = par;
-            FillSpecialty();
-        }
-        //public VmPersonal(VmPersonal obj)
-        //{
-        //    m_object = new Personal();
-        //    Id = obj.Id;
-        //    CopyProperties(obj);
-        //    m_object.Specialty1 = ctx.Specialty.Find(obj.Specialty);
-        //}
-        //public VmPersonal Copy(VmPersonal obj)
-        //{
-        //    CopyProperties(obj);
-        //    return this;
-        //}
-        //private void CopyProperties(VmPersonal obj)
-        //{
-        //    Fio = obj.Fio;
-        //    Specialty = obj.Specialty;
-        //    Active = obj.Active;
-        //}
         private void FillSpecialty()
         {
             foreach (Specialty o in ctx.Specialty)
