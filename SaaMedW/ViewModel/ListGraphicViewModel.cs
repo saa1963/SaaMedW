@@ -69,6 +69,7 @@ namespace SaaMedW.ViewModel
         private void EditSotrProc(object obj)
         {
             VmGraphic o = Current;
+            if (o == null) return;
             var mv = new EditGraphicViewModel();
             mv.SotrCurrent = o.personal;
             mv.H1 = o.H1;

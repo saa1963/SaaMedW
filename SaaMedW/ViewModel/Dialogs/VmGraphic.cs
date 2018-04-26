@@ -69,6 +69,7 @@ namespace SaaMedW.ViewModel
             {
                 m_object.H1 = value;
                 OnPropertyChanged("H1");
+                OnPropertyChanged("Interval");
             }
         }
         public int M1
@@ -78,6 +79,7 @@ namespace SaaMedW.ViewModel
             {
                 m_object.M1 = value;
                 OnPropertyChanged("M1");
+                OnPropertyChanged("Interval");
             }
         }
         public int H2
@@ -87,6 +89,7 @@ namespace SaaMedW.ViewModel
             {
                 m_object.H2 = value;
                 OnPropertyChanged("H2");
+                OnPropertyChanged("Interval");
             }
         }
         public int M2
@@ -96,6 +99,7 @@ namespace SaaMedW.ViewModel
             {
                 m_object.M2 = value;
                 OnPropertyChanged("M2");
+                OnPropertyChanged("Interval");
             }
         }
         public Personal personal

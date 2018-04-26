@@ -38,6 +38,7 @@ namespace SaaMedW.View
                 while (col < 7)
                 {
                     var uc = new GraphicControl();
+                    
                     uc.SetBinding(UserControl.DataContextProperty, $"Mas[{ind}]");
                     uc.addSotr.CommandParameter = ind;
                     
@@ -51,14 +52,16 @@ namespace SaaMedW.View
             }
         }
 
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
-        {
-            //Init();
-        }
-
         private void UserControl_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             Init();
+        }
+
+        private void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            ScrollViewer scv = (ScrollViewer)sender;
+            scv.ScrollToVerticalOffset(scv.VerticalOffset - e.Delta);
+            e.Handled = true;
         }
     }
 }

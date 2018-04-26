@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SaaMedW.View"
         mc:Ignorable="d"
-        Title="EditGraphic" SizeToContent="Height" Width="400" WindowStartupLocation="CenterScreen">
+        SizeToContent="Height" Width="400" WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize">
     <Window.Resources>
         <Style TargetType="{x:Type TextBox}">
             <Style.Triggers>
@@ -31,15 +32,53 @@
         <StackPanel Grid.Row="1">
             <Label>Интервал времени</Label>
             <StackPanel Orientation="Horizontal">
-                <TextBox Text="{Binding H1,  ValidatesOnDataErrors=True, 
-                            UpdateSourceTrigger=PropertyChanged}" Width="30"></TextBox>
-                <TextBox Text="{Binding M1,  ValidatesOnDataErrors=True, 
-                            UpdateSourceTrigger=PropertyChanged}" Width="30"></TextBox>
+                <ComboBox Text="{Binding H1,  ValidatesOnDataErrors=True, 
+                            UpdateSourceTrigger=PropertyChanged}" Width="50">
+                    <ComboBoxItem>8</ComboBoxItem>
+                    <ComboBoxItem>9</ComboBoxItem>
+                    <ComboBoxItem>10</ComboBoxItem>
+                    <ComboBoxItem>11</ComboBoxItem>
+                    <ComboBoxItem>12</ComboBoxItem>
+                    <ComboBoxItem>13</ComboBoxItem>
+                    <ComboBoxItem>14</ComboBoxItem>
+                    <ComboBoxItem>15</ComboBoxItem>
+                    <ComboBoxItem>16</ComboBoxItem>
+                    <ComboBoxItem>17</ComboBoxItem>
+                    <ComboBoxItem>18</ComboBoxItem>
+                    <ComboBoxItem>19</ComboBoxItem>
+                    <ComboBoxItem>20</ComboBoxItem>
+                </ComboBox>
+                <ComboBox Text="{Binding M1,  ValidatesOnDataErrors=True, 
+                            UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:00}}" Width="50">
+                    <ComboBoxItem>00</ComboBoxItem>
+                    <ComboBoxItem>15</ComboBoxItem>
+                    <ComboBoxItem>30</ComboBoxItem>
+                    <ComboBoxItem>45</ComboBoxItem>
+                </ComboBox>
                 <Label> - </Label>
-                <TextBox Text="{Binding H2,  ValidatesOnDataErrors=True, 
-                            UpdateSourceTrigger=PropertyChanged}" Width="30"></TextBox>
-                <TextBox Text="{Binding M2,  ValidatesOnDataErrors=True, 
-                            UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:0}}" Width="30"></TextBox>
+                <ComboBox Text="{Binding H2,  ValidatesOnDataErrors=True, 
+                            UpdateSourceTrigger=PropertyChanged}" Width="50">
+                    <ComboBoxItem>8</ComboBoxItem>
+                    <ComboBoxItem>9</ComboBoxItem>
+                    <ComboBoxItem>10</ComboBoxItem>
+                    <ComboBoxItem>11</ComboBoxItem>
+                    <ComboBoxItem>12</ComboBoxItem>
+                    <ComboBoxItem>13</ComboBoxItem>
+                    <ComboBoxItem>14</ComboBoxItem>
+                    <ComboBoxItem>15</ComboBoxItem>
+                    <ComboBoxItem>16</ComboBoxItem>
+                    <ComboBoxItem>17</ComboBoxItem>
+                    <ComboBoxItem>18</ComboBoxItem>
+                    <ComboBoxItem>19</ComboBoxItem>
+                    <ComboBoxItem>20</ComboBoxItem>
+                </ComboBox>
+                <ComboBox Text="{Binding M2,  ValidatesOnDataErrors=True, 
+                            UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:00}}" Width="50">
+                    <ComboBoxItem>00</ComboBoxItem>
+                    <ComboBoxItem>15</ComboBoxItem>
+                    <ComboBoxItem>30</ComboBoxItem>
+                    <ComboBoxItem>45</ComboBoxItem>
+                </ComboBox>
             </StackPanel>
         </StackPanel>
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">

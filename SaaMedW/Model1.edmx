@@ -5,6 +5,16 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="Хранилище SaaMedModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Benefit">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Price" Type="money" Nullable="false" />
+          <Property Name="SpecialtyId" Type="int" Nullable="false" />
+          <Property Name="Duration" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="DocumentType">
           <Key>
             <PropertyRef Name="Id" />
@@ -77,6 +87,18 @@
           <Property Name="Role" Type="int" Nullable="false" />
           <Property Name="Disabled" Type="bit" Nullable="false" />
         </EntityType>
+        <Association Name="FK_Benefit_ToTable">
+          <End Role="Specialty" Type="Self.Specialty" Multiplicity="1" />
+          <End Role="Benefit" Type="Self.Benefit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Specialty">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Benefit">
+              <PropertyRef Name="SpecialtyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Graphic_Personal">
           <End Role="Personal" Type="Self.Personal" Multiplicity="1" />
           <End Role="Graphic" Type="Self.Graphic" Multiplicity="*" />
@@ -114,12 +136,17 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="Хранилище SaaMedModelContainer">
+          <EntitySet Name="Benefit" EntityType="Self.Benefit" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DocumentType" EntityType="Self.DocumentType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Graphic" EntityType="Self.Graphic" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Person" EntityType="Self.Person" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Personal" EntityType="Self.Personal" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Specialty" EntityType="Self.Specialty" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Benefit_ToTable" Association="Self.FK_Benefit_ToTable">
+            <End Role="Specialty" EntitySet="Specialty" />
+            <End Role="Benefit" EntitySet="Benefit" />
+          </AssociationSet>
           <AssociationSet Name="FK_Graphic_Personal" Association="Self.FK_Graphic_Personal">
             <End Role="Personal" EntitySet="Personal" />
             <End Role="Graphic" EntitySet="Graphic" />
@@ -214,6 +241,11 @@
             <End Role="Personal" EntitySet="Personal" />
             <End Role="Graphic" EntitySet="Graphic" />
           </AssociationSet>
+          <EntitySet Name="Benefit" EntityType="SaaMedModel.Benefit" />
+          <AssociationSet Name="FK_Benefit_ToTable" Association="SaaMedModel.FK_Benefit_ToTable">
+            <End Role="Specialty" EntitySet="Specialty" />
+            <End Role="Benefit" EntitySet="Benefit" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Specialty">
           <Key>
@@ -222,6 +254,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Personal" Relationship="SaaMedModel.FK_Personal_Specialty" FromRole="Specialty" ToRole="Personal" />
+          <NavigationProperty Name="Benefit" Relationship="SaaMedModel.FK_Benefit_ToTable" FromRole="Specialty" ToRole="Benefit" />
         </EntityType>
         <EntityType Name="Personal">
           <Key>
@@ -268,6 +301,29 @@
             </Principal>
             <Dependent Role="Graphic">
               <PropertyRef Name="PersonalId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Benefit">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Price" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="SpecialtyId" Type="Int32" Nullable="false" />
+          <Property Name="Duration" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Specialty" Relationship="SaaMedModel.FK_Benefit_ToTable" FromRole="Benefit" ToRole="Specialty" />
+        </EntityType>
+        <Association Name="FK_Benefit_ToTable">
+          <End Type="SaaMedModel.Specialty" Role="Specialty" Multiplicity="1" />
+          <End Type="SaaMedModel.Benefit" Role="Benefit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Specialty">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Benefit">
+              <PropertyRef Name="SpecialtyId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -351,6 +407,17 @@
                 <ScalarProperty Name="H1" ColumnName="H1" />
                 <ScalarProperty Name="Dt" ColumnName="Dt" />
                 <ScalarProperty Name="PersonalId" ColumnName="PersonalId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Benefit">
+            <EntityTypeMapping TypeName="SaaMedModel.Benefit">
+              <MappingFragment StoreEntitySet="Benefit">
+                <ScalarProperty Name="Duration" ColumnName="Duration" />
+                <ScalarProperty Name="SpecialtyId" ColumnName="SpecialtyId" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

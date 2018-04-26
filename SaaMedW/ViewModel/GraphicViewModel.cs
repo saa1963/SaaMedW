@@ -118,7 +118,6 @@ namespace SaaMedW.ViewModel
         {
             Init(new DateTime(MonthsCurrent.Year, MonthsCurrent.Month, 1));
             OnPropertyChanged("Mas");
-            OnPropertyChanged("Dt");
         }
 
         public RelayCommand ClearPersonal

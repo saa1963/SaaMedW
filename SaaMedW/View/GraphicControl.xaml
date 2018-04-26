@@ -6,22 +6,10 @@
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              xmlns:local="clr-namespace:SaaMedW.View"
              xmlns:local0="clr-namespace:SaaMedW.ViewModel"
+             xmlns:saamedw="clr-namespace:SaaMedW"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
-        <Style x:Key="myLBStyle" TargetType="{x:Type ListBoxItem}">
-            <Style.Triggers>
-                <Trigger Property="IsSelected" Value="True" >
-                    <Setter Property="FontWeight" Value="Bold" />
-                    <Setter Property="Background" Value="Transparent" />
-                    <Setter Property="Foreground" Value="Black" />
-                </Trigger>
-            </Style.Triggers>
-            <Style.Resources>
-                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
-                             Color="Transparent"/>
-            </Style.Resources>
-        </Style>
     </UserControl.Resources>
     <Border BorderBrush="Black" BorderThickness="0,0,1,1" Background="AliceBlue">
         <Grid Opacity="{Binding Opacity}">
@@ -32,7 +20,7 @@
             <Label Grid.Row="0" Content="{Binding Path=Dt}" ContentStringFormat="dd.MM.yyyy"></Label>
             <ListBox BorderBrush="Transparent" Grid.Row="1" x:Name="listBox" ItemsSource="{Binding}" 
                      SelectedItem="Current" HorizontalContentAlignment="Stretch"
-                        ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemContainerStyle="{StaticResource myLBStyle}"
+                        ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                         IsSynchronizedWithCurrentItem="True" LostFocus="ListBox_LostFocus">
                 <ListBox.ContextMenu>
                     <ContextMenu x:Name="contextMenu">
@@ -47,23 +35,23 @@
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Grid>
-                            <TextBlock Margin="5" TextWrapping="Wrap" Background="Transparent">
+                            <TextBlock Margin="5" TextWrapping="Wrap">
                                 <TextBlock.InputBindings>
                                     <MouseBinding Gesture="LeftDoubleClick" 
                                     Command="{Binding Path=DataContext.EditSotrCommand, 
                                         RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBox}}}">
                                     </MouseBinding>
                                 </TextBlock.InputBindings>
-                            <Run Text="{Binding Path=personal.Fio}"></Run>
-                            <Run Text="{Binding Path=personal.Specialty1.Name}"></Run>
-                            <Run Text="{Binding Path=Interval, Mode=OneWay}"></Run>
+                                <Run Text="{Binding Path=personal.Fio}"></Run>
+                                <Run Text="{Binding Path=personal.Specialty1.Name}"></Run>
+                                <Run Text="{Binding Path=Interval, Mode=OneWay}"></Run>
                             </TextBlock>
-                            <Button HorizontalAlignment="Right" VerticalAlignment="Top">
-                                <Button.InputBindings>
-                                    <MouseBinding Gesture="LeftDoubleClick"></MouseBinding>
-                                </Button.InputBindings>
-                                <Image Height="10" Width="10" Source="..\image\delete_32.png"></Image>
-                            </Button>
+                            <Image HorizontalAlignment="Right" VerticalAlignment="Top" Height="10" Width="10" 
+                                   Source="..\image\delete_32.png" Cursor="Hand"
+                                   saamedw:ClickCommand.Command="{Binding Path=DataContext.DelSotrCommand, 
+                                        RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBox}}}"
+                                        ToolTip="Удалить">
+                            </Image>
                         </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
