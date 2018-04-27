@@ -34,8 +34,13 @@
         </StackPanel>
         <StackPanel Grid.Row="1">
             <Label>Специальность</Label>
+            <!--<ComboBox ItemsSource="{Binding SpecialtyList}" DisplayMemberPath="Name" 
+                        SelectedItem="{Binding SpecialtyCurrent, UpdateSourceTrigger=PropertyChanged}"
+                        SelectedValue="{Binding SpecialtyId}" SelectedValuePath="Id"
+                        IsSynchronizedWithCurrentItem="True"/>-->
             <ComboBox ItemsSource="{Binding SpecialtyList}" DisplayMemberPath="Name" 
-                                      SelectedValue="{Binding SpecialtyCurrent}" IsSynchronizedWithCurrentItem="True"/>
+                        SelectedValue="{Binding SpecialtyId}" SelectedValuePath="Id"
+                        />
         </StackPanel>
         <StackPanel Grid.Row="2">
             <Label>Продолжительность</Label>

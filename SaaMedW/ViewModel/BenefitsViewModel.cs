@@ -49,12 +49,13 @@ namespace SaaMedW.ViewModel
         private void AddBenefit(object obj)
         {
             var modelView = new EditBenefitViewModel();
-            modelView.SpecialtyCurrent = null;
+            modelView.SpecialtyId = -1;
             var f = new EditBenefit() { DataContext = modelView };
             if (f.ShowDialog() ?? false)
             {
                 ctx.Benefit.Add(modelView.Obj);
                 ctx.SaveChanges();
+                ctx.Entry(modelView.Obj).Reference(s => s.Specialty).Load();
                 var pm = new VmBenefit(modelView.Obj);
                 BenefitsList.Add(pm);
                 view.MoveCurrentTo(pm);
@@ -71,18 +72,27 @@ namespace SaaMedW.ViewModel
 
         private void EditBenefit(object obj)
         {
-            //if (PersonalSel == null) return;
-            //var personal = PersonalSel as VmPersonal;
-            //var modelView = new EditPersonalViewModel() { Fio = personal.Fio, Specialty = personal.Specialty, Active = personal.Active };
-            //var f = new EditPersonal() { DataContext = modelView };
-            //if (f.ShowDialog() ?? false)
-            //{
-            //    personal.Fio = modelView.Fio;
-            //    personal.Specialty = modelView.Specialty;
-            //    personal.SetSpecialty1(ctx);
-            //    personal.Active = modelView.Active;
-            //    ctx.SaveChanges();
-            //}
+            if (BenefitSel == null) return;
+            var benefit = BenefitSel as VmBenefit;
+            var modelView = new EditBenefitViewModel()
+            {
+                Name = benefit.Name,
+                SpecialtyId = benefit.SpecialtyId,
+                Duration = benefit.Duration,
+                Price = benefit.Price
+            };
+            var f = new EditBenefit() { DataContext = modelView };
+            if (f.ShowDialog() ?? false)
+            {
+                benefit.Name = modelView.Name;
+                benefit.SpecialtyId = modelView.SpecialtyId;
+                benefit.Duration = modelView.Duration;
+                benefit.Price = modelView.Price;
+                ctx.SaveChanges();
+                //benefit.Specialty = benefit.Specialty;
+                benefit.OnPropertyChanged("SpecialtyId");
+                benefit.OnPropertyChanged("Specialty");
+            }
         }
 
         public RelayCommand Del
@@ -95,11 +105,11 @@ namespace SaaMedW.ViewModel
 
         private void DelBenefit(object obj)
         {
-            //if (PersonalSel == null) return;
-            //var personal = PersonalSel as VmPersonal;
-            //ctx.Personal.Remove(personal.Obj);
-            //ctx.SaveChanges();
-            //PersonalList.Remove(personal);
+            if (BenefitSel == null) return;
+            var benefit = BenefitSel as VmBenefit;
+            ctx.Benefit.Remove(benefit.Obj);
+            ctx.SaveChanges();
+            BenefitsList.Remove(benefit);
         }
     }
 }

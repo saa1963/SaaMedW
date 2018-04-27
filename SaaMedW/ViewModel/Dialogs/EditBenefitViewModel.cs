@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,18 +29,6 @@ namespace SaaMedW.ViewModel
         public ObservableCollection<VmSpecialty> SpecialtyList
         {
             get => m_list;
-        }
-        public VmSpecialty SpecialtyCurrent
-        {
-            get => viewSpecialty.CurrentItem as VmSpecialty;
-            set
-            {
-                viewSpecialty.MoveCurrentTo(value);
-            }
-        }
-        private ICollectionView viewSpecialty
-        {
-            get => CollectionViewSource.GetDefaultView(m_list);
         }
         public string this[string columnName]
         {

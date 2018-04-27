@@ -27,6 +27,8 @@
                 <MenuItem Header="Медкарта" Command="{Binding MedCard}">
                 </MenuItem>
             </MenuItem>
+            <MenuItem Header="Посещения" Command="{Binding Visits}">
+            </MenuItem>
         </Menu>
         <DataGrid Name="g" Grid.Row="1" Margin="5" ItemsSource="{Binding CardsList}" 
                   SelectedItem="{Binding CardsSel}" IsSynchronizedWithCurrentItem="True">
