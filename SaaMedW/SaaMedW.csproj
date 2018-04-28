@@ -146,6 +146,7 @@
     <Compile Include="ViewModel\Dialogs\EditUserViewModel.cs" />
     <Compile Include="ViewModel\Dialogs\LoginViewModel.cs" />
     <Compile Include="ViewModel\Bases\MasterWindowViewModel.cs" />
+    <Compile Include="Vm\VmInvoiceDetail.cs" />
     <Compile Include="Vm\VmInvoice.cs" />
     <Compile Include="Vm\VmVisitBenefit.cs" />
     <Compile Include="Visit.cs">
