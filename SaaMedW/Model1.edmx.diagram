@@ -16,6 +16,16 @@
         <AssociationConnector Association="SaaMedModel.FK_Graphic_Personal" />
         <EntityTypeShape EntityType="SaaMedModel.Benefit" Width="1.5" PointX="7.625" PointY="7.5" />
         <AssociationConnector Association="SaaMedModel.FK_Benefit_ToTable" />
+        <EntityTypeShape EntityType="SaaMedModel.Invoice" Width="1.5" PointX="0.625" PointY="6.375" />
+        <EntityTypeShape EntityType="SaaMedModel.InvoiceDetail" Width="1.5" PointX="3.125" PointY="7.375" />
+        <EntityTypeShape EntityType="SaaMedModel.Visit" Width="1.5" PointX="9.875" PointY="0.75" />
+        <EntityTypeShape EntityType="SaaMedModel.VisitBenefit" Width="1.5" PointX="12.125" PointY="4.125" />
+        <AssociationConnector Association="SaaMedModel.FK_Table_Benefit" />
+        <AssociationConnector Association="SaaMedModel.FK_Invoice_Person" />
+        <AssociationConnector Association="SaaMedModel.FK_Table_ToTable" />
+        <AssociationConnector Association="SaaMedModel.FK_Visit_ToPerson" />
+        <AssociationConnector Association="SaaMedModel.FK_Visit_ToPersonal" />
+        <AssociationConnector Association="SaaMedModel.FK_Table_Visit" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -34,6 +34,28 @@
           <Property Name="H2" Type="int" Nullable="false" />
           <Property Name="M2" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="Invoice">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Dt" Type="date" Nullable="false" />
+          <Property Name="Num" Type="int" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="PersonId" Type="int" Nullable="false" />
+          <Property Name="Sm" Type="money" Nullable="false" />
+        </EntityType>
+        <EntityType Name="InvoiceDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BenefitName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Kol" Type="int" Nullable="false" />
+          <Property Name="Price" Type="money" Nullable="false" />
+          <Property Name="Sm" Type="money" Nullable="false" />
+          <Property Name="InvoiceId" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="Person">
           <Key>
             <PropertyRef Name="Id" />
@@ -87,6 +109,26 @@
           <Property Name="Role" Type="int" Nullable="false" />
           <Property Name="Disabled" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="Visit">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PersonId" Type="int" Nullable="false" />
+          <Property Name="PersonalId" Type="int" Nullable="false" />
+          <Property Name="Dt" Type="datetime" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="VisitBenefit">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="VisitId" Type="int" Nullable="false" />
+          <Property Name="BenefitId" Type="int" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="Kol" Type="int" Nullable="false" />
+        </EntityType>
         <Association Name="FK_Benefit_ToTable">
           <End Role="Specialty" Type="Self.Specialty" Multiplicity="1" />
           <End Role="Benefit" Type="Self.Benefit" Multiplicity="*" />
@@ -108,6 +150,18 @@
             </Principal>
             <Dependent Role="Graphic">
               <PropertyRef Name="PersonalId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Invoice_Person">
+          <End Role="Person" Type="Self.Person" Multiplicity="1" />
+          <End Role="Invoice" Type="Self.Invoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Invoice">
+              <PropertyRef Name="PersonId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -135,14 +189,78 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Table_Benefit">
+          <End Role="Benefit" Type="Self.Benefit" Multiplicity="1" />
+          <End Role="VisitBenefit" Type="Self.VisitBenefit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Benefit">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="VisitBenefit">
+              <PropertyRef Name="BenefitId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Table_ToTable">
+          <End Role="Invoice" Type="Self.Invoice" Multiplicity="1" />
+          <End Role="InvoiceDetail" Type="Self.InvoiceDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Invoice">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="InvoiceDetail">
+              <PropertyRef Name="InvoiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Table_Visit">
+          <End Role="Visit" Type="Self.Visit" Multiplicity="1" />
+          <End Role="VisitBenefit" Type="Self.VisitBenefit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Visit">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="VisitBenefit">
+              <PropertyRef Name="VisitId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Visit_ToPerson">
+          <End Role="Person" Type="Self.Person" Multiplicity="1" />
+          <End Role="Visit" Type="Self.Visit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Visit">
+              <PropertyRef Name="PersonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Visit_ToPersonal">
+          <End Role="Personal" Type="Self.Personal" Multiplicity="1" />
+          <End Role="Visit" Type="Self.Visit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Personal">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Visit">
+              <PropertyRef Name="PersonalId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="Хранилище SaaMedModelContainer">
           <EntitySet Name="Benefit" EntityType="Self.Benefit" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DocumentType" EntityType="Self.DocumentType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Graphic" EntityType="Self.Graphic" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Invoice" EntityType="Self.Invoice" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="InvoiceDetail" EntityType="Self.InvoiceDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Person" EntityType="Self.Person" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Personal" EntityType="Self.Personal" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Specialty" EntityType="Self.Specialty" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Visit" EntityType="Self.Visit" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="VisitBenefit" EntityType="Self.VisitBenefit" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Benefit_ToTable" Association="Self.FK_Benefit_ToTable">
             <End Role="Specialty" EntitySet="Specialty" />
             <End Role="Benefit" EntitySet="Benefit" />
@@ -151,6 +269,10 @@
             <End Role="Personal" EntitySet="Personal" />
             <End Role="Graphic" EntitySet="Graphic" />
           </AssociationSet>
+          <AssociationSet Name="FK_Invoice_Person" Association="Self.FK_Invoice_Person">
+            <End Role="Person" EntitySet="Person" />
+            <End Role="Invoice" EntitySet="Invoice" />
+          </AssociationSet>
           <AssociationSet Name="FK_Person_DocumentType" Association="Self.FK_Person_DocumentType">
             <End Role="DocumentType" EntitySet="DocumentType" />
             <End Role="Person" EntitySet="Person" />
@@ -158,6 +280,26 @@
           <AssociationSet Name="FK_Personal_Specialty" Association="Self.FK_Personal_Specialty">
             <End Role="Specialty" EntitySet="Specialty" />
             <End Role="Personal" EntitySet="Personal" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Table_Benefit" Association="Self.FK_Table_Benefit">
+            <End Role="Benefit" EntitySet="Benefit" />
+            <End Role="VisitBenefit" EntitySet="VisitBenefit" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Table_ToTable" Association="Self.FK_Table_ToTable">
+            <End Role="Invoice" EntitySet="Invoice" />
+            <End Role="InvoiceDetail" EntitySet="InvoiceDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Table_Visit" Association="Self.FK_Table_Visit">
+            <End Role="Visit" EntitySet="Visit" />
+            <End Role="VisitBenefit" EntitySet="VisitBenefit" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Visit_ToPerson" Association="Self.FK_Visit_ToPerson">
+            <End Role="Person" EntitySet="Person" />
+            <End Role="Visit" EntitySet="Visit" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Visit_ToPersonal" Association="Self.FK_Visit_ToPersonal">
+            <End Role="Personal" EntitySet="Personal" />
+            <End Role="Visit" EntitySet="Visit" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -198,6 +340,8 @@
           <Property Name="Mestnost" Type="Int32" />
           <NavigationProperty Name="DocumentType" Relationship="Self.FK_Person_DocumentType" FromRole="Person" ToRole="DocumentType" />
           <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Invoice" Relationship="SaaMedModel.FK_Invoice_Person" FromRole="Person" ToRole="Invoice" />
+          <NavigationProperty Name="Visit" Relationship="SaaMedModel.FK_Visit_ToPerson" FromRole="Person" ToRole="Visit" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
@@ -246,6 +390,34 @@
             <End Role="Specialty" EntitySet="Specialty" />
             <End Role="Benefit" EntitySet="Benefit" />
           </AssociationSet>
+          <EntitySet Name="Invoice" EntityType="SaaMedModel.Invoice" />
+          <EntitySet Name="InvoiceDetail" EntityType="SaaMedModel.InvoiceDetail" />
+          <EntitySet Name="Visit" EntityType="SaaMedModel.Visit" />
+          <EntitySet Name="VisitBenefit" EntityType="SaaMedModel.VisitBenefit" />
+          <AssociationSet Name="FK_Table_Benefit" Association="SaaMedModel.FK_Table_Benefit">
+            <End Role="Benefit" EntitySet="Benefit" />
+            <End Role="VisitBenefit" EntitySet="VisitBenefit" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Invoice_Person" Association="SaaMedModel.FK_Invoice_Person">
+            <End Role="Person" EntitySet="Person" />
+            <End Role="Invoice" EntitySet="Invoice" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Table_ToTable" Association="SaaMedModel.FK_Table_ToTable">
+            <End Role="Invoice" EntitySet="Invoice" />
+            <End Role="InvoiceDetail" EntitySet="InvoiceDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Visit_ToPerson" Association="SaaMedModel.FK_Visit_ToPerson">
+            <End Role="Person" EntitySet="Person" />
+            <End Role="Visit" EntitySet="Visit" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Visit_ToPersonal" Association="SaaMedModel.FK_Visit_ToPersonal">
+            <End Role="Personal" EntitySet="Personal" />
+            <End Role="Visit" EntitySet="Visit" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Table_Visit" Association="SaaMedModel.FK_Table_Visit">
+            <End Role="Visit" EntitySet="Visit" />
+            <End Role="VisitBenefit" EntitySet="VisitBenefit" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Specialty">
           <Key>
@@ -266,6 +438,7 @@
           <Property Name="Active" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Specialty1" Relationship="SaaMedModel.FK_Personal_Specialty" FromRole="Personal" ToRole="Specialty" />
           <NavigationProperty Name="Graphic" Relationship="SaaMedModel.FK_Graphic_Personal" FromRole="Personal" ToRole="Graphic" />
+          <NavigationProperty Name="Visit" Relationship="SaaMedModel.FK_Visit_ToPersonal" FromRole="Personal" ToRole="Visit" />
         </EntityType>
         <Association Name="FK_Personal_Specialty">
           <End Type="SaaMedModel.Specialty" Role="Specialty" Multiplicity="0..1" />
@@ -314,6 +487,7 @@
           <Property Name="SpecialtyId" Type="Int32" Nullable="false" />
           <Property Name="Duration" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Specialty" Relationship="SaaMedModel.FK_Benefit_ToTable" FromRole="Benefit" ToRole="Specialty" />
+          <NavigationProperty Name="VisitBenefit" Relationship="SaaMedModel.FK_Table_Benefit" FromRole="Benefit" ToRole="VisitBenefit" />
         </EntityType>
         <Association Name="FK_Benefit_ToTable">
           <End Type="SaaMedModel.Specialty" Role="Specialty" Multiplicity="1" />
@@ -324,6 +498,128 @@
             </Principal>
             <Dependent Role="Benefit">
               <PropertyRef Name="SpecialtyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Invoice">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Dt" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Num" Type="Int32" Nullable="false" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="PersonId" Type="Int32" Nullable="false" />
+          <Property Name="Sm" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <NavigationProperty Name="Person" Relationship="SaaMedModel.FK_Invoice_Person" FromRole="Invoice" ToRole="Person" />
+          <NavigationProperty Name="InvoiceDetail" Relationship="SaaMedModel.FK_Table_ToTable" FromRole="Invoice" ToRole="InvoiceDetail" />
+        </EntityType>
+        <EntityType Name="InvoiceDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BenefitName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Kol" Type="Int32" Nullable="false" />
+          <Property Name="Price" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="Sm" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="InvoiceId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Invoice" Relationship="SaaMedModel.FK_Table_ToTable" FromRole="InvoiceDetail" ToRole="Invoice" />
+        </EntityType>
+        <EntityType Name="Visit">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PersonId" Type="Int32" Nullable="false" />
+          <Property Name="PersonalId" Type="Int32" Nullable="false" />
+          <Property Name="Dt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Person" Relationship="SaaMedModel.FK_Visit_ToPerson" FromRole="Visit" ToRole="Person" />
+          <NavigationProperty Name="Personal" Relationship="SaaMedModel.FK_Visit_ToPersonal" FromRole="Visit" ToRole="Personal" />
+          <NavigationProperty Name="VisitBenefit" Relationship="SaaMedModel.FK_Table_Visit" FromRole="Visit" ToRole="VisitBenefit" />
+        </EntityType>
+        <EntityType Name="VisitBenefit">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="VisitId" Type="Int32" Nullable="false" />
+          <Property Name="BenefitId" Type="Int32" Nullable="false" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="Kol" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Benefit" Relationship="SaaMedModel.FK_Table_Benefit" FromRole="VisitBenefit" ToRole="Benefit" />
+          <NavigationProperty Name="Visit" Relationship="SaaMedModel.FK_Table_Visit" FromRole="VisitBenefit" ToRole="Visit" />
+        </EntityType>
+        <Association Name="FK_Table_Benefit">
+          <End Type="SaaMedModel.Benefit" Role="Benefit" Multiplicity="1" />
+          <End Type="SaaMedModel.VisitBenefit" Role="VisitBenefit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Benefit">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="VisitBenefit">
+              <PropertyRef Name="BenefitId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Invoice_Person">
+          <End Type="SaaMedModel.Person" Role="Person" Multiplicity="1" />
+          <End Type="SaaMedModel.Invoice" Role="Invoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Invoice">
+              <PropertyRef Name="PersonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Table_ToTable">
+          <End Type="SaaMedModel.Invoice" Role="Invoice" Multiplicity="1" />
+          <End Type="SaaMedModel.InvoiceDetail" Role="InvoiceDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Invoice">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="InvoiceDetail">
+              <PropertyRef Name="InvoiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Visit_ToPerson">
+          <End Type="SaaMedModel.Person" Role="Person" Multiplicity="1" />
+          <End Type="SaaMedModel.Visit" Role="Visit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Visit">
+              <PropertyRef Name="PersonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Visit_ToPersonal">
+          <End Type="SaaMedModel.Personal" Role="Personal" Multiplicity="1" />
+          <End Type="SaaMedModel.Visit" Role="Visit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Personal">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Visit">
+              <PropertyRef Name="PersonalId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Table_Visit">
+          <End Type="SaaMedModel.Visit" Role="Visit" Multiplicity="1" />
+          <End Type="SaaMedModel.VisitBenefit" Role="VisitBenefit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Visit">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="VisitBenefit">
+              <PropertyRef Name="VisitId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -418,6 +714,52 @@
                 <ScalarProperty Name="SpecialtyId" ColumnName="SpecialtyId" />
                 <ScalarProperty Name="Price" ColumnName="Price" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Invoice">
+            <EntityTypeMapping TypeName="SaaMedModel.Invoice">
+              <MappingFragment StoreEntitySet="Invoice">
+                <ScalarProperty Name="Sm" ColumnName="Sm" />
+                <ScalarProperty Name="PersonId" ColumnName="PersonId" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Num" ColumnName="Num" />
+                <ScalarProperty Name="Dt" ColumnName="Dt" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="InvoiceDetail">
+            <EntityTypeMapping TypeName="SaaMedModel.InvoiceDetail">
+              <MappingFragment StoreEntitySet="InvoiceDetail">
+                <ScalarProperty Name="InvoiceId" ColumnName="InvoiceId" />
+                <ScalarProperty Name="Sm" ColumnName="Sm" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Kol" ColumnName="Kol" />
+                <ScalarProperty Name="BenefitName" ColumnName="BenefitName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Visit">
+            <EntityTypeMapping TypeName="SaaMedModel.Visit">
+              <MappingFragment StoreEntitySet="Visit">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Dt" ColumnName="Dt" />
+                <ScalarProperty Name="PersonalId" ColumnName="PersonalId" />
+                <ScalarProperty Name="PersonId" ColumnName="PersonId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VisitBenefit">
+            <EntityTypeMapping TypeName="SaaMedModel.VisitBenefit">
+              <MappingFragment StoreEntitySet="VisitBenefit">
+                <ScalarProperty Name="Kol" ColumnName="Kol" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="BenefitId" ColumnName="BenefitId" />
+                <ScalarProperty Name="VisitId" ColumnName="VisitId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

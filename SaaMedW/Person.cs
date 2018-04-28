@@ -14,6 +14,13 @@ namespace SaaMedW
     
     public partial class Person
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Person()
+        {
+            this.Invoice = new HashSet<Invoice>();
+            this.Visit = new HashSet<Visit>();
+        }
+    
         public int Id { get; set; }
         public string LastName { get; set; }
         public string FirstName { get; set; }
@@ -37,5 +44,9 @@ namespace SaaMedW
         public System.DateTime CreateDate { get; set; }
     
         public virtual DocumentType DocumentType { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Invoice> Invoice { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Visit> Visit { get; set; }
     }
 }

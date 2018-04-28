@@ -12,22 +12,15 @@ namespace SaaMedW
     using System;
     using System.Collections.Generic;
     
-    public partial class Benefit
+    public partial class InvoiceDetail
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Benefit()
-        {
-            this.VisitBenefit = new HashSet<VisitBenefit>();
-        }
-    
         public int Id { get; set; }
-        public string Name { get; set; }
+        public string BenefitName { get; set; }
+        public int Kol { get; set; }
         public decimal Price { get; set; }
-        public int SpecialtyId { get; set; }
-        public int Duration { get; set; }
+        public decimal Sm { get; set; }
+        public int InvoiceId { get; set; }
     
-        public virtual Specialty Specialty { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<VisitBenefit> VisitBenefit { get; set; }
+        public virtual Invoice Invoice { get; set; }
     }
 }

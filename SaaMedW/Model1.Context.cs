@@ -32,5 +32,9 @@ namespace SaaMedW
         public virtual DbSet<Personal> Personal { get; set; }
         public virtual DbSet<Graphic> Graphic { get; set; }
         public virtual DbSet<Benefit> Benefit { get; set; }
+        public virtual DbSet<Invoice> Invoice { get; set; }
+        public virtual DbSet<InvoiceDetail> InvoiceDetail { get; set; }
+        public virtual DbSet<Visit> Visit { get; set; }
+        public virtual DbSet<VisitBenefit> VisitBenefit { get; set; }
     }
 }

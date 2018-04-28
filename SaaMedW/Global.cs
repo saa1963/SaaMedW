@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SaaMedW.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -157,7 +158,6 @@ namespace SaaMedW
                     }
                 }
             }
-
             return null;
         }
     }
