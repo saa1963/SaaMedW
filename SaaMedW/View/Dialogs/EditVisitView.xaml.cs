@@ -17,7 +17,7 @@ namespace SaaMedW.View
     /// <summary>
     /// Логика взаимодействия для EditVisitView.xaml
     /// </summary>
-    public partial class EditVisitView : Window
+    public partial class EditVisitView : UserControl
     {
         public EditVisitView()
         {
