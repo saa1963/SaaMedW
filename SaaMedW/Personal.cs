@@ -19,17 +19,18 @@ namespace SaaMedW
         {
             this.Graphic = new HashSet<Graphic>();
             this.Visit = new HashSet<Visit>();
+            this.PersonalSpecialty = new HashSet<PersonalSpecialty>();
         }
     
         public int Id { get; set; }
         public string Fio { get; set; }
-        public Nullable<int> Specialty { get; set; }
         public bool Active { get; set; }
     
-        public virtual Specialty Specialty1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Graphic> Graphic { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Visit> Visit { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PersonalSpecialty> PersonalSpecialty { get; set; }
     }
 }

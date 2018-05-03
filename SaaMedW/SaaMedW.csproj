@@ -123,6 +123,9 @@
     <Compile Include="Personal.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="PersonalSpecialty.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="RelayCommand.cs" />
     <Compile Include="Role.cs" />
     <Compile Include="RoleToStringConverter.cs" />

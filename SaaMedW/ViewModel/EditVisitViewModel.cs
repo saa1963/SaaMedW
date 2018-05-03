@@ -12,7 +12,8 @@ namespace SaaMedW.ViewModel
     public class EditVisitViewModel : ViewModelBase
     {
         SaaMedEntities ctx = new SaaMedEntities();
-        ObservableCollection<Benefit> benefits = new ObservableCollection<Benefit>();
+        ObservableCollection<Benefit> benefits = 
+            new ObservableCollection<Benefit>();
 
         public EditVisitViewModel()
         {
@@ -21,6 +22,7 @@ namespace SaaMedW.ViewModel
             {
                 benefits.Add(o);
             }
+            BenefitCurrent = null;
         }
         public ObservableCollection<Benefit> BenefitsList
         {

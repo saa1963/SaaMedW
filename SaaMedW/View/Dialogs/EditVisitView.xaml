@@ -14,8 +14,9 @@
         <Border Padding="10">
             <WrapPanel Grid.Row="0">
                 <Label>Услуги</Label>
-                <ComboBox MinWidth="300" ItemsSource="{Binding BenefitsList}" DisplayMemberPath="Name" 
-                          SelectedValue="{Binding /}" SelectedItem="BenefitCurrent">
+                <ComboBox MinWidth="300" ItemsSource="{Binding BenefitsList}" 
+                          DisplayMemberPath="Name" 
+                          SelectedValue="{Binding /}" SelectedItem="{Binding BenefitCurrent}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="SelectionChanged">
                             <i:InvokeCommandAction Command="{Binding RefreshGrid}"/>

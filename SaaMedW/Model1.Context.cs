@@ -36,5 +36,6 @@ namespace SaaMedW
         public virtual DbSet<InvoiceDetail> InvoiceDetail { get; set; }
         public virtual DbSet<Visit> Visit { get; set; }
         public virtual DbSet<VisitBenefit> VisitBenefit { get; set; }
+        public virtual DbSet<PersonalSpecialty> PersonalSpecialty { get; set; }
     }
 }
