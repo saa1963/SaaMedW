@@ -43,26 +43,6 @@ namespace SaaMedW.ViewModel
                 OnPropertyChanged("Fio");
             }
         }
-        public int? Specialty
-        {
-            get => m_object.Specialty;
-            set
-            {
-                m_object.Specialty = value;
-                OnPropertyChanged("Specialty");
-                OnPropertyChanged("SpecialtyName");
-            }
-        }
-        public void SetSpecialty1(SaaMedEntities ctx)
-        {
-            ctx.Entry(m_object).Reference(s => s.Specialty1).Load();
-            OnPropertyChanged("Specialty");
-            OnPropertyChanged("SpecialtyName");
-        }
-        public string SpecialtyName
-        {
-            get => m_object.Specialty1?.Name;
-        }
         public bool Active
         {
             get => m_object.Active;
@@ -70,6 +50,15 @@ namespace SaaMedW.ViewModel
             {
                 m_object.Active = value;
                 OnPropertyChanged("Active");
+            }
+        }
+        public ICollection<PersonalSpecialty> PersonalSpecialty
+        {
+            get => m_object.PersonalSpecialty;
+            set
+            {
+                m_object.PersonalSpecialty = value;
+                OnPropertyChanged("PersonalSpecialty");
             }
         }
     }

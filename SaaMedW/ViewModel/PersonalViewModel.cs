@@ -7,24 +7,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
+using System.Data.Entity;
 
 namespace SaaMedW.ViewModel
 {
     public class PersonalViewModel : ViewModelBase
     {
         private SaaMedEntities ctx = new SaaMedEntities();
-        private readonly ObservableCollection<VmPersonal> m_personal = new ObservableCollection<VmPersonal>();
+        public ObservableCollection<VmPersonal> PersonalList { get; private set; } 
+            = new ObservableCollection<VmPersonal>();
 
         public PersonalViewModel()
         {
-            foreach (var o in ctx.Personal.Include("Specialty1"))
+            foreach (var o in ctx.Personal.Include(s => s.PersonalSpecialty.Select(x => x.Specialty)))
             {
-                m_personal.Add(new VmPersonal(o));
+                PersonalList.Add(new VmPersonal(o));
             }
-        }
-        public ObservableCollection<VmPersonal> PersonalList
-        {
-            get { return m_personal; }
         }
         public object PersonalSel
         {
@@ -49,7 +47,6 @@ namespace SaaMedW.ViewModel
         private void AddPersonal(object obj)
         {
             var modelView = new EditPersonalViewModel();
-            modelView.Specialty = null;
             var f = new EditPersonal() { DataContext = modelView };
             if (f.ShowDialog() ?? false)
             {
@@ -73,15 +70,15 @@ namespace SaaMedW.ViewModel
         {
             if (PersonalSel == null) return;
             var personal = PersonalSel as VmPersonal;
-            var modelView = new EditPersonalViewModel() { Fio = personal.Fio, Specialty = personal.Specialty, Active = personal.Active};
+            var modelView = new EditPersonalViewModel(personal.Obj); ;
             var f = new EditPersonal() { DataContext = modelView };
             if (f.ShowDialog() ?? false)
             {
-                personal.Fio = modelView.Fio;
-                personal.Specialty = modelView.Specialty;
-                personal.SetSpecialty1(ctx);
-                personal.Active = modelView.Active;
-                ctx.SaveChanges();
+                //personal.Fio = modelView.Fio;
+                //personal.
+                //personal.SetSpecialty1(ctx);
+                //personal.Active = modelView.Active;
+                //ctx.SaveChanges();
             }
         }
 

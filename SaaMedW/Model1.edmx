@@ -134,7 +134,7 @@
           <Property Name="VisitId" Type="int" Nullable="false" />
           <Property Name="BenefitId" Type="int" Nullable="false" />
           <Property Name="Status" Type="int" Nullable="false" />
-          <Property Name="Kol" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="Kol" Type="int" Nullable="false" />
         </EntityType>
         <Association Name="FK_Benefit_ToTable">
           <End Role="Specialty" Type="Self.Specialty" Multiplicity="1" />

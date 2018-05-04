@@ -354,6 +354,7 @@
     <Resource Include="image\delete_32.png" />
     <Resource Include="image\Icon1.ico" />
     <Resource Include="icons8-саквояж-врача-50.ico" />
+    <Resource Include="image\add_32.png" />
     <Content Include="Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Model1.Context.cs</LastGenOutput>

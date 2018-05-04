@@ -9,92 +9,57 @@ using System.Windows.Data;
 
 namespace SaaMedW.ViewModel
 {
-    public class EditPersonalViewModel : ViewModelBase, IDataErrorInfo
+    public class EditPersonalViewModel : VmPersonal, IDataErrorInfo
     {
         private Personal m_object;
         private SaaMedEntities ctx = new SaaMedEntities();
-        private ObservableCollection<VmSpecialty> m_specialtylist = new ObservableCollection<VmSpecialty>();
+
+        public ObservableCollection<VmSpecialty> SpecialtyCombo { get; private set; } 
+            = new ObservableCollection<VmSpecialty>();
+        public ObservableCollection<VmSpecialty> SpecialtyListBox { get; private set; } 
+            = new ObservableCollection<VmSpecialty>();
 
         public EditPersonalViewModel()
         {
             m_object = new Personal();
             FillSpecialty();
         }
+        public EditPersonalViewModel(Personal obj)
+        {
+            m_object = new Personal();
+            m_object.Active = obj.Active;
+            m_object.Fio = obj.Fio;
+            m_object.Id = obj.Id;
+            foreach (var o in obj.PersonalSpecialty)
+            {
+                m_object.PersonalSpecialty.Add(o);
+            }
+            FillSpecialty();
+            foreach (var o in m_object.PersonalSpecialty)
+            {
+                SpecialtyListBox.Add(new VmSpecialty(o.Specialty));
+            }
+        }
         private void FillSpecialty()
         {
             foreach (Specialty o in ctx.Specialty)
             {
-                m_specialtylist.Add(new VmSpecialty(o));
-            }
-            if (Specialty.HasValue)
-                SpecialtyCurrent = m_specialtylist.FirstOrDefault(s => s.Id == Specialty);
-            else
-                SpecialtyCurrent = null;
-        }
-        public ObservableCollection<VmSpecialty> SpecialtyList
-        {
-            get => m_specialtylist;
-        }
-        public VmSpecialty SpecialtyCurrent
-        {
-            get => viewSpecialty.CurrentItem as VmSpecialty;
-            set
-            {
-                m_object.Specialty = value?.Id;
-                viewSpecialty.MoveCurrentTo(value);
+                SpecialtyCombo.Add(new VmSpecialty(o));
             }
         }
-        private ICollectionView viewSpecialty
+        private ICollectionView view
         {
-            get => CollectionViewSource.GetDefaultView(m_specialtylist);
+            get => CollectionViewSource.GetDefaultView(SpecialtyListBox);
         }
-        public Personal Obj
+        public VmSpecialty CurrentSpecialty
         {
-            get => m_object;
+            get => view.CurrentItem as VmSpecialty;
             set
             {
-                m_object = value;
-                OnPropertyChanged("Obj");
-            }
-        }
-        public int Id
-        {
-            get => m_object.Id;
-            set
-            {
-                m_object.Id = value;
-                OnPropertyChanged("Id");
-            }
-        }
-        public string Fio
-        {
-            get => m_object.Fio;
-            set
-            {
-                m_object.Fio = value;
-                OnPropertyChanged("Fio");
-            }
-        }
-        public int? Specialty
-        {
-            get => m_object.Specialty;
-            set
-            {
-                m_object.Specialty = value;
-                if (value.HasValue)
-                    SpecialtyCurrent = m_specialtylist.FirstOrDefault(s => s.Id == value);
+                if (value == null)
+                    view.MoveCurrentToPosition(-1);
                 else
-                    SpecialtyCurrent = null;
-                OnPropertyChanged("Specialty");
-            }
-        }
-        public bool Active
-        {
-            get => m_object.Active;
-            set
-            {
-                m_object.Active = value;
-                OnPropertyChanged("Active");
+                    view.MoveCurrentTo(value);
             }
         }
         public string this[string columnName]
@@ -108,12 +73,35 @@ namespace SaaMedW.ViewModel
                         if (String.IsNullOrWhiteSpace(Fio))
                             result = "Не введена ФИО.";
                         break;
+                    case "SpecialtyListBox":
+                        if (SpecialtyListBox.Count == 0)
+                            result = "Не выбраны специальности";
+                        break;
                     default:
                         break;
                 }
                 return result;
             }
         }
-        public string Error => "";
+        public string Error
+        {
+            get => null;
+        }
+        public RelayCommand AddSpecialtyCommand
+        {
+            get => new RelayCommand(AddSpecialty, (x) => CurrentSpecialty != null);
+        }
+        private void AddSpecialty(object obj)
+        {
+            throw new NotImplementedException();
+        }
+        public RelayCommand DelSpecialtyCommand
+        {
+            get => new RelayCommand(DelSpecialty, (x) => CurrentSpecialty != null);
+        }
+        private void DelSpecialty(object obj)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

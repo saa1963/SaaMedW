@@ -24,7 +24,6 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="Auto"></DataGridTextColumn>
                 <DataGridTextColumn Header="ФИО" Binding="{Binding Fio}" Width="Auto"></DataGridTextColumn>
-                <DataGridTextColumn Header="Специальность" Binding="{Binding Path=SpecialtyName}" Width="Auto"></DataGridTextColumn>
                 <DataGridCheckBoxColumn Header="Активен" Binding="{Binding Active}" Width="Auto"></DataGridCheckBoxColumn>
             </DataGrid.Columns>
         </DataGrid>

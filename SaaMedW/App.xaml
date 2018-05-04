@@ -1,11 +1,9 @@
 ﻿<Application x:Class="SaaMedW.App" 
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:SaaMedW">
+             xmlns:local="clr-namespace:SaaMedW"
+             xmlns:saamedw="clr-namespace:SaaMedW">
     <Application.Resources>
-        <!--<Style TargetType="Window">
-            <Setter Property="Icon" Value="C:\Users\soshin.OPER\source\Repos\SaaMedW\SaaMedW\image\icons8-саквояж-врача-50.png">
-            </Setter>
-        </Style>-->     
+        
     </Application.Resources>
 </Application>

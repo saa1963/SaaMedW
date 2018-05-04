@@ -4,11 +4,12 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SaaMedW.View"
+        xmlns:saamedw="clr-namespace:SaaMedW"
         mc:Ignorable="d"
-        Title="EditPersonal" SizeToContent="Height" Width="400"
-        WindowStartupLocation="CenterScreen">
+        SizeToContent="Height" Width="400"
+        WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Window.Resources>
-        <Style TargetType="{x:Type TextBox}">
+        <!--<Style TargetType="{x:Type saamedw:ClickSelectTextBox}">
             <Style.Triggers>
                 <Trigger Property="Validation.HasError" Value="true">
                     <Setter Property="ToolTip"
@@ -16,7 +17,7 @@
                         Path=(Validation.Errors)[0].ErrorContent}"/>
                 </Trigger>
             </Style.Triggers>
-        </Style>
+        </Style>-->
     </Window.Resources>
     <Grid>
         <Grid>
@@ -29,8 +30,8 @@
                 </Grid.RowDefinitions>
                 <StackPanel Grid.Row="0">
                     <Label>ФИО</Label>
-                    <TextBox Text="{Binding Path=Fio, ValidatesOnDataErrors=True, 
-                        UpdateSourceTrigger=PropertyChanged}" MaxLength="50"></TextBox>
+                    <saamedw:ClickSelectTextBox Text="{Binding Path=Fio, ValidatesOnDataErrors=True, 
+                        UpdateSourceTrigger=PropertyChanged}" MaxLength="50"></saamedw:ClickSelectTextBox>
                 </StackPanel>
                 <StackPanel Grid.Row="1">
                     <Label>Специальность</Label>
@@ -40,12 +41,18 @@
                             <ColumnDefinition Width="Auto"></ColumnDefinition>
                             <ColumnDefinition Width="Auto"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
-                        <ComboBox Grid.Column="0" ItemsSource="{Binding SpecialtyList}" DisplayMemberPath="Name" 
-                                      SelectedValue="{Binding SpecialtyCurrent}" IsSynchronizedWithCurrentItem="True"/>
-                        <Button Grid.Column="1" Width="30"></Button>
-                        <Button Grid.Column="2" Width="30"></Button>
+                        <ComboBox Grid.Column="0" ItemsSource="{Binding SpecialtyCombo}" DisplayMemberPath="Name"
+                                  SelectedValue="{Binding Id}" SelectedValuePath="Id">
+                        </ComboBox>
+                        <Button Grid.Column="1" Width="30" Command="{Binding AddSpecialtyCommand}">
+                            <Image Source="C:\Users\soshin.OPER\source\Repos\SaaMedW\SaaMedW\image\add_32.png"></Image>
+                        </Button>
+                        <Button Grid.Column="2" Width="30" Command="{Binding DelSpecialtyCommand}">
+                            <Image Source="C:\Users\soshin.OPER\source\Repos\SaaMedW\SaaMedW\image\delete_32.png"></Image>
+                        </Button>
                     </Grid>
-                    <ListBox ItemsSource="{Binding Specialties}" DisplayMemberPath="Name"
+                    <ListBox ItemsSource="{Binding Path=SpecialtyListBox, ValidatesOnDataErrors=True}" SelectedItem="{Binding CurrentSpecialty}" 
+                             IsSynchronizedWithCurrentItem="True" DisplayMemberPath="Name"
                              MinHeight="100"></ListBox>
                 </StackPanel>
                 <StackPanel Grid.Row="2">
