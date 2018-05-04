@@ -47,21 +47,26 @@ namespace SaaMedW.ViewModel
                 SpecialtyCombo.Add(new VmSpecialty(o));
             }
         }
-        private ICollectionView view
-        {
-            get => CollectionViewSource.GetDefaultView(SpecialtyListBox);
-        }
-        public VmSpecialty CurrentSpecialty
-        {
-            get => view.CurrentItem as VmSpecialty;
-            set
-            {
-                if (value == null)
-                    view.MoveCurrentToPosition(-1);
-                else
-                    view.MoveCurrentTo(value);
-            }
-        }
+        //private ICollectionView view
+        //{
+        //    get => CollectionViewSource.GetDefaultView(SpecialtyListBox);
+        //}
+        //public VmSpecialty CurrentSpecialty
+        //{
+        //    get
+        //    {
+        //        return view.CurrentItem as VmSpecialty;
+        //    }
+        //    set
+        //    {
+        //        if (value == null)
+        //            view.MoveCurrentToPosition(-1);
+        //        else
+        //            view.MoveCurrentTo(value);
+        //    }
+        //}
+        public int SelectedCombo { get; set; }
+        public int SelectedListBox { get; set; }
         public string this[string columnName]
         {
             get
@@ -89,19 +94,23 @@ namespace SaaMedW.ViewModel
         }
         public RelayCommand AddSpecialtyCommand
         {
-            get => new RelayCommand(AddSpecialty, (x) => CurrentSpecialty != null);
+            get => new RelayCommand(AddSpecialty, (x) => SelectedCombo > 0);
         }
         private void AddSpecialty(object obj)
         {
-            throw new NotImplementedException();
+            SpecialtyListBox.Add(SpecialtyCombo.Single(s => s.Id == SelectedCombo));
+            OnPropertyChanged("SpecialtyListBox");
         }
         public RelayCommand DelSpecialtyCommand
         {
-            get => new RelayCommand(DelSpecialty, (x) => CurrentSpecialty != null);
+            get => new RelayCommand(DelSpecialty, (x) => SelectedListBox > 0);
         }
         private void DelSpecialty(object obj)
         {
-            throw new NotImplementedException();
+            SpecialtyListBox.Remove(SpecialtyListBox.Single(s => s.Id == SelectedListBox));
+            OnPropertyChanged("SpecialtyListBox");
+            if (SpecialtyListBox.Count == 0) SelectedListBox = 0;
+            
         }
     }
 }

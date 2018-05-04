@@ -9,15 +9,7 @@
         SizeToContent="Height" Width="400"
         WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Window.Resources>
-        <!--<Style TargetType="{x:Type saamedw:ClickSelectTextBox}">
-            <Style.Triggers>
-                <Trigger Property="Validation.HasError" Value="true">
-                    <Setter Property="ToolTip"
-                        Value="{Binding RelativeSource={x:Static RelativeSource.Self},
-                        Path=(Validation.Errors)[0].ErrorContent}"/>
-                </Trigger>
-            </Style.Triggers>
-        </Style>-->
+        
     </Window.Resources>
     <Grid>
         <Grid>
@@ -42,17 +34,18 @@
                             <ColumnDefinition Width="Auto"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
                         <ComboBox Grid.Column="0" ItemsSource="{Binding SpecialtyCombo}" DisplayMemberPath="Name"
-                                  SelectedValue="{Binding Id}" SelectedValuePath="Id">
+                                  SelectedValue="{Binding SelectedCombo}" SelectedValuePath="Id">
                         </ComboBox>
                         <Button Grid.Column="1" Width="30" Command="{Binding AddSpecialtyCommand}">
-                            <Image Source="C:\Users\soshin.OPER\source\Repos\SaaMedW\SaaMedW\image\add_32.png"></Image>
+                            <Image Source="..\..\image\add_32.png"></Image>
                         </Button>
                         <Button Grid.Column="2" Width="30" Command="{Binding DelSpecialtyCommand}">
-                            <Image Source="C:\Users\soshin.OPER\source\Repos\SaaMedW\SaaMedW\image\delete_32.png"></Image>
+                            <Image Source="..\..\image\delete_32.png"></Image>
                         </Button>
                     </Grid>
-                    <ListBox ItemsSource="{Binding Path=SpecialtyListBox, ValidatesOnDataErrors=True}" SelectedItem="{Binding CurrentSpecialty}" 
-                             IsSynchronizedWithCurrentItem="True" DisplayMemberPath="Name"
+                    <ListBox ItemsSource="{Binding Path=SpecialtyListBox, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" 
+                             SelectedValue="{Binding SelectedListBox}" 
+                             SelectedValuePath="Id" DisplayMemberPath="Name" IsSynchronizedWithCurrentItem="True"
                              MinHeight="100"></ListBox>
                 </StackPanel>
                 <StackPanel Grid.Row="2">
