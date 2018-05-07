@@ -43,10 +43,19 @@
                             <Image Source="..\..\image\delete_32.png"></Image>
                         </Button>
                     </Grid>
-                    <ListBox ItemsSource="{Binding Path=SpecialtyListBox, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" 
-                             SelectedValue="{Binding SelectedListBox}" 
+                    <ListBox ItemsSource="{Binding Path=SpecialtyListBox, ValidatesOnDataErrors=True, 
+                                UpdateSourceTrigger=PropertyChanged}" 
                              SelectedValuePath="Id" DisplayMemberPath="Name" IsSynchronizedWithCurrentItem="True"
-                             MinHeight="100"></ListBox>
+                             MinHeight="100">
+                        <ListBox.SelectedValue>
+                            <Binding Path="SelectedListBox">
+                                <Binding.ValidationRules>
+                                    <saamedw:SpecialtyListRule ValidatesOnTargetUpdated="True">
+                                    </saamedw:SpecialtyListRule>
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </ListBox.SelectedValue>
+                    </ListBox>
                 </StackPanel>
                 <StackPanel Grid.Row="2">
                     <CheckBox Margin="0,10,0,10" IsChecked="{Binding Path=Active, ValidatesOnDataErrors=True, 

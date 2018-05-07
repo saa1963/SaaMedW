@@ -66,7 +66,18 @@ namespace SaaMedW.ViewModel
         //    }
         //}
         public int SelectedCombo { get; set; }
-        public int SelectedListBox { get; set; }
+        private int m_SelectedListBox;
+        public int SelectedListBox
+        {
+            get
+            {
+                return m_SelectedListBox;
+            }
+            set
+            {
+                m_SelectedListBox = value;
+            }
+        }
         public string this[string columnName]
         {
             get
@@ -98,8 +109,12 @@ namespace SaaMedW.ViewModel
         }
         private void AddSpecialty(object obj)
         {
-            SpecialtyListBox.Add(SpecialtyCombo.Single(s => s.Id == SelectedCombo));
-            OnPropertyChanged("SpecialtyListBox");
+            var o = SpecialtyCombo.Single(s => s.Id == SelectedCombo);
+            if (!SpecialtyListBox.Contains(o))
+            {
+                SpecialtyListBox.Add(o);
+                OnPropertyChanged("SpecialtyListBox");
+            }
         }
         public RelayCommand DelSpecialtyCommand
         {
