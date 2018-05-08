@@ -46,15 +46,14 @@ namespace SaaMedW.ViewModel
 
         private void AddPersonal(object obj)
         {
-            var modelView = new EditPersonalViewModel();
+            var modelView = new EditPersonalViewModel(ctx);
             var f = new EditPersonal() { DataContext = modelView };
             if (f.ShowDialog() ?? false)
             {
                 ctx.Personal.Add(modelView.Obj);
                 ctx.SaveChanges();
-                var pm = new VmPersonal(modelView.Obj);
-                PersonalList.Add(pm);
-                view.MoveCurrentTo(pm);
+                PersonalList.Add(modelView);
+                view.MoveCurrentTo(modelView);
             }
         }
 
@@ -70,15 +69,19 @@ namespace SaaMedW.ViewModel
         {
             if (PersonalSel == null) return;
             var personal = PersonalSel as VmPersonal;
-            var modelView = new EditPersonalViewModel(personal.Obj); ;
+            var modelView = new EditPersonalViewModel(ctx, personal.Obj); ;
             var f = new EditPersonal() { DataContext = modelView };
             if (f.ShowDialog() ?? false)
             {
-                //personal.Fio = modelView.Fio;
-                //personal.
-                //personal.SetSpecialty1(ctx);
-                //personal.Active = modelView.Active;
-                //ctx.SaveChanges();
+                personal.Fio = modelView.Fio;
+                personal.Active = modelView.Active;
+                personal.PersonalSpecialty.Clear();
+                ctx.SaveChanges();
+                foreach (var o in modelView.PersonalSpecialty)
+                {
+                    personal.PersonalSpecialty.Add(o);
+                }
+                ctx.SaveChanges();
             }
         }
 

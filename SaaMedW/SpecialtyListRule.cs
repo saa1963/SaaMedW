@@ -5,27 +5,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Windows.Data;
 
 namespace SaaMedW
 {
-    public class SpecialtyListRule : ValidationRule
+    public class SpecialtySelectedValueConverter : IValueConverter
     {
-        public SpecialtyListRule()
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            return value;
         }
-        public override ValidationResult Validate(object value, CultureInfo cultureInfo)
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            int id;
-            try
-            {
-                if (((string)value).Length > 0)
-                    id = Int32.Parse((String)value);
-            }
-            catch (Exception e)
-            {
-                return new ValidationResult(false, "Фигня полная " + e.Message);
-            }
-            return ValidationResult.ValidResult;
+            return value ?? 0;
         }
     }
 }

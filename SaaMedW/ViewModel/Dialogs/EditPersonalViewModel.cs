@@ -11,31 +11,30 @@ namespace SaaMedW.ViewModel
 {
     public class EditPersonalViewModel : VmPersonal, IDataErrorInfo
     {
-        private Personal m_object;
-        private SaaMedEntities ctx = new SaaMedEntities();
-
-        public ObservableCollection<VmSpecialty> SpecialtyCombo { get; private set; } 
+        SaaMedEntities ctx;
+        public ObservableCollection<VmSpecialty> SpecialtyCombo { get; private set; }
             = new ObservableCollection<VmSpecialty>();
-        public ObservableCollection<VmSpecialty> SpecialtyListBox { get; private set; } 
+        public ObservableCollection<VmSpecialty> SpecialtyListBox { get; private set; }
             = new ObservableCollection<VmSpecialty>();
 
-        public EditPersonalViewModel()
+        public EditPersonalViewModel(SaaMedEntities _ctx): base()
         {
-            m_object = new Personal();
+            ctx = _ctx;
             FillSpecialty();
         }
-        public EditPersonalViewModel(Personal obj)
+        public EditPersonalViewModel(SaaMedEntities _ctx, Personal obj)
         {
-            m_object = new Personal();
-            m_object.Active = obj.Active;
-            m_object.Fio = obj.Fio;
-            m_object.Id = obj.Id;
+            ctx = _ctx;
+            Obj = new Personal();
+            Active = obj.Active;
+            Fio = obj.Fio;
+            Id = obj.Id;
             foreach (var o in obj.PersonalSpecialty)
             {
-                m_object.PersonalSpecialty.Add(o);
+                PersonalSpecialty.Add(o);
             }
             FillSpecialty();
-            foreach (var o in m_object.PersonalSpecialty)
+            foreach (var o in PersonalSpecialty)
             {
                 SpecialtyListBox.Add(new VmSpecialty(o.Specialty));
             }
@@ -47,37 +46,8 @@ namespace SaaMedW.ViewModel
                 SpecialtyCombo.Add(new VmSpecialty(o));
             }
         }
-        //private ICollectionView view
-        //{
-        //    get => CollectionViewSource.GetDefaultView(SpecialtyListBox);
-        //}
-        //public VmSpecialty CurrentSpecialty
-        //{
-        //    get
-        //    {
-        //        return view.CurrentItem as VmSpecialty;
-        //    }
-        //    set
-        //    {
-        //        if (value == null)
-        //            view.MoveCurrentToPosition(-1);
-        //        else
-        //            view.MoveCurrentTo(value);
-        //    }
-        //}
         public int SelectedCombo { get; set; }
-        private int m_SelectedListBox;
-        public int SelectedListBox
-        {
-            get
-            {
-                return m_SelectedListBox;
-            }
-            set
-            {
-                m_SelectedListBox = value;
-            }
-        }
+        public int SelectedListBox { get; set; }
         public string this[string columnName]
         {
             get
@@ -113,6 +83,7 @@ namespace SaaMedW.ViewModel
             if (!SpecialtyListBox.Contains(o))
             {
                 SpecialtyListBox.Add(o);
+                PersonalSpecialty.Add(new SaaMedW.PersonalSpecialty() { Specialty = o.Obj, Personal = this.Obj });
                 OnPropertyChanged("SpecialtyListBox");
             }
         }
@@ -123,9 +94,8 @@ namespace SaaMedW.ViewModel
         private void DelSpecialty(object obj)
         {
             SpecialtyListBox.Remove(SpecialtyListBox.Single(s => s.Id == SelectedListBox));
+            PersonalSpecialty.Remove(PersonalSpecialty.Single(s => s.SpecialtyId == SelectedListBox));
             OnPropertyChanged("SpecialtyListBox");
-            if (SpecialtyListBox.Count == 0) SelectedListBox = 0;
-            
         }
     }
 }

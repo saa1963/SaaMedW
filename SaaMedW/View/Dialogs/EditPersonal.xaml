@@ -43,16 +43,17 @@
                             <Image Source="..\..\image\delete_32.png"></Image>
                         </Button>
                     </Grid>
-                    <ListBox ItemsSource="{Binding Path=SpecialtyListBox, ValidatesOnDataErrors=True, 
-                                UpdateSourceTrigger=PropertyChanged}" 
-                             SelectedValuePath="Id" DisplayMemberPath="Name" IsSynchronizedWithCurrentItem="True"
+                    <ListBox SelectedValuePath="Id" DisplayMemberPath="Name" IsSynchronizedWithCurrentItem="True"
                              MinHeight="100">
+                        <ListBox.ItemsSource>
+                            <Binding Path="SpecialtyListBox" ValidatesOnDataErrors="True">
+                            </Binding>
+                        </ListBox.ItemsSource>
                         <ListBox.SelectedValue>
                             <Binding Path="SelectedListBox">
-                                <Binding.ValidationRules>
-                                    <saamedw:SpecialtyListRule ValidatesOnTargetUpdated="True">
-                                    </saamedw:SpecialtyListRule>
-                                </Binding.ValidationRules>
+                                <Binding.Converter>
+                                    <saamedw:SpecialtySelectedValueConverter></saamedw:SpecialtySelectedValueConverter>
+                                </Binding.Converter>
                             </Binding>
                         </ListBox.SelectedValue>
                     </ListBox>
