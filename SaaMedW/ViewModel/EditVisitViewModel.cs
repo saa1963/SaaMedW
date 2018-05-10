@@ -12,36 +12,18 @@ namespace SaaMedW.ViewModel
     public class EditVisitViewModel : ViewModelBase
     {
         SaaMedEntities ctx = new SaaMedEntities();
-        ObservableCollection<Benefit> benefits = 
-            new ObservableCollection<Benefit>();
-
+        public ObservableCollection<Benefit> BenefitsList { get; set; } =
+                new ObservableCollection<Benefit>();
+        public ObservableCollection<PersonalVisitsViewModel> PersonalVisits { get; set; }
+            = new ObservableCollection<PersonalVisitsViewModel>();
+        public int SelectedBenefitId { get; set; }
         public EditVisitViewModel()
         {
             var q = ctx.Benefit.OrderBy(s => s.Name);
             foreach(var o in q)
             {
-                benefits.Add(o);
+                BenefitsList.Add(o);
             }
-            BenefitCurrent = null;
-        }
-        public ObservableCollection<Benefit> BenefitsList
-        {
-            get => benefits;
-        }
-        public Benefit BenefitCurrent
-        {
-            get => benefits_view.CurrentItem as Benefit;
-            set
-            {
-                if (value == null)
-                    benefits_view.MoveCurrentToPosition(-1);
-                else
-                    benefits_view.MoveCurrentTo(value);
-            }
-        }
-        ICollectionView benefits_view
-        {
-            get => CollectionViewSource.GetDefaultView(benefits);
         }
         public RelayCommand RefreshGrid
         {
@@ -50,7 +32,14 @@ namespace SaaMedW.ViewModel
 
         private void RefreshGridProc(object obj)
         {
-            System.Windows.MessageBox.Show(BenefitCurrent.Name);
+            PersonalVisits.Clear();
+            int specialtyCurrent = BenefitsList.Single(s0 => s0.Id == SelectedBenefitId).SpecialtyId;
+            foreach (var o in ctx.PersonalSpecialty
+                .Where(s => s.SpecialtyId == specialtyCurrent)
+                .Select(s => new PersonalVisitsViewModel() { PersonalId = s.PersonalId }))
+            {
+                PersonalVisits.Add(o);
+            }
         }
     }
 }

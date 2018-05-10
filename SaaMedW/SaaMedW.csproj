@@ -143,6 +143,7 @@
     <Compile Include="ValidationDialog.cs" />
     <Compile Include="ViewModel\BenefitsViewModel.cs" />
     <Compile Include="ViewModel\CardsViewModel.cs" />
+    <Compile Include="ViewModel\DateIntervalsViewModel.cs" />
     <Compile Include="ViewModel\Dialogs\ChangePasswordViewModel.cs" />
     <Compile Include="ViewModel\Dialogs\EditBenefitViewModel.cs" />
     <Compile Include="ViewModel\Dialogs\EditGraphicViewModel.cs" />
@@ -151,6 +152,7 @@
     <Compile Include="ViewModel\Dialogs\LoginViewModel.cs" />
     <Compile Include="ViewModel\Bases\MasterWindowViewModel.cs" />
     <Compile Include="ViewModel\EditVisitViewModel.cs" />
+    <Compile Include="ViewModel\PersonalVisitsViewModel.cs" />
     <Compile Include="Vm\VmInvoiceDetail.cs" />
     <Compile Include="Vm\VmInvoice.cs" />
     <Compile Include="Vm\VmVisitBenefit.cs" />

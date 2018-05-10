@@ -16,7 +16,9 @@
                 <Label>Услуги</Label>
                 <ComboBox MinWidth="300" ItemsSource="{Binding BenefitsList}" 
                           DisplayMemberPath="Name" 
-                          SelectedValue="{Binding /}" SelectedItem="{Binding BenefitCurrent}">
+                          SelectedValue="{Binding SelectedBenefitId}"
+                          SelectedValuePath="Id"
+                          >
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="SelectionChanged">
                             <i:InvokeCommandAction Command="{Binding RefreshGrid}"/>

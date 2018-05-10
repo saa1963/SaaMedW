@@ -9,32 +9,26 @@ using System.Windows.Data;
 
 namespace SaaMedW.ViewModel
 {
-    public class EditPersonalViewModel : VmPersonal, IDataErrorInfo
+    public class EditPersonalViewModel : ViewModelBase, IDataErrorInfo
     {
-        SaaMedEntities ctx;
+        SaaMedEntities ctx = new SaaMedEntities();
+        public string Fio { get; set; }
+        public bool Active { get; set; }
         public ObservableCollection<VmSpecialty> SpecialtyCombo { get; private set; }
             = new ObservableCollection<VmSpecialty>();
         public ObservableCollection<VmSpecialty> SpecialtyListBox { get; private set; }
             = new ObservableCollection<VmSpecialty>();
 
-        public EditPersonalViewModel(SaaMedEntities _ctx): base()
+        public EditPersonalViewModel()
         {
-            ctx = _ctx;
             FillSpecialty();
         }
-        public EditPersonalViewModel(SaaMedEntities _ctx, Personal obj)
+        public EditPersonalViewModel(Personal obj)
         {
-            ctx = _ctx;
-            Obj = new Personal();
             Active = obj.Active;
             Fio = obj.Fio;
-            Id = obj.Id;
-            foreach (var o in obj.PersonalSpecialty)
-            {
-                PersonalSpecialty.Add(o);
-            }
             FillSpecialty();
-            foreach (var o in PersonalSpecialty)
+            foreach (var o in obj.PersonalSpecialty)
             {
                 SpecialtyListBox.Add(new VmSpecialty(o.Specialty));
             }
@@ -83,7 +77,7 @@ namespace SaaMedW.ViewModel
             if (!SpecialtyListBox.Contains(o))
             {
                 SpecialtyListBox.Add(o);
-                PersonalSpecialty.Add(new SaaMedW.PersonalSpecialty() { Specialty = o.Obj, Personal = this.Obj });
+                //PersonalSpecialty.Add(new SaaMedW.PersonalSpecialty() { Specialty = o.Obj, Personal = this.Obj });
                 OnPropertyChanged("SpecialtyListBox");
             }
         }
@@ -94,7 +88,7 @@ namespace SaaMedW.ViewModel
         private void DelSpecialty(object obj)
         {
             SpecialtyListBox.Remove(SpecialtyListBox.Single(s => s.Id == SelectedListBox));
-            PersonalSpecialty.Remove(PersonalSpecialty.Single(s => s.SpecialtyId == SelectedListBox));
+            //PersonalSpecialty.Remove(PersonalSpecialty.Single(s => s.SpecialtyId == SelectedListBox));
             OnPropertyChanged("SpecialtyListBox");
         }
     }

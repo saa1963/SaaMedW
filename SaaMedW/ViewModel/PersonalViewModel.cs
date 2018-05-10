@@ -46,14 +46,23 @@ namespace SaaMedW.ViewModel
 
         private void AddPersonal(object obj)
         {
-            var modelView = new EditPersonalViewModel(ctx);
+            var modelView = new EditPersonalViewModel();
             var f = new EditPersonal() { DataContext = modelView };
             if (f.ShowDialog() ?? false)
             {
-                ctx.Personal.Add(modelView.Obj);
+                var p = new Personal();
+                p.Active = modelView.Active;
+                p.Fio = modelView.Fio;
+                foreach (var o in modelView.SpecialtyListBox)
+                {
+                    var o1 = ctx.Specialty.Find(o.Id);
+                    p.PersonalSpecialty.Add(new PersonalSpecialty { Specialty = o1 });
+                }
+                ctx.Personal.Add(p);
                 ctx.SaveChanges();
-                PersonalList.Add(modelView);
-                view.MoveCurrentTo(modelView);
+                var vp = new VmPersonal(p);
+                PersonalList.Add(vp);
+                view.MoveCurrentTo(vp);
             }
         }
 
@@ -69,17 +78,20 @@ namespace SaaMedW.ViewModel
         {
             if (PersonalSel == null) return;
             var personal = PersonalSel as VmPersonal;
-            var modelView = new EditPersonalViewModel(ctx, personal.Obj); ;
+            var modelView = new EditPersonalViewModel(personal.Obj); ;
             var f = new EditPersonal() { DataContext = modelView };
             if (f.ShowDialog() ?? false)
             {
                 personal.Fio = modelView.Fio;
                 personal.Active = modelView.Active;
+
+                ctx.PersonalSpecialty.RemoveRange(personal.Obj.PersonalSpecialty);
                 personal.PersonalSpecialty.Clear();
-                ctx.SaveChanges();
-                foreach (var o in modelView.PersonalSpecialty)
+
+                foreach (var o in modelView.SpecialtyListBox)
                 {
-                    personal.PersonalSpecialty.Add(o);
+                    var o1 = ctx.Specialty.Find(o.Id);
+                    personal.PersonalSpecialty.Add(new PersonalSpecialty { Specialty = o1 });
                 }
                 ctx.SaveChanges();
             }
