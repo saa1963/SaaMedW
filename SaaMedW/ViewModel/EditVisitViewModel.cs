@@ -12,6 +12,7 @@ namespace SaaMedW.ViewModel
     public class EditVisitViewModel : ViewModelBase
     {
         SaaMedEntities ctx = new SaaMedEntities();
+
         public ObservableCollection<Benefit> BenefitsList { get; set; } =
                 new ObservableCollection<Benefit>();
         public ObservableCollection<PersonalVisitsViewModel> PersonalVisits { get; set; }
@@ -29,7 +30,6 @@ namespace SaaMedW.ViewModel
         {
             get { return new RelayCommand(RefreshGridProc); }
         }
-
         private void RefreshGridProc(object obj)
         {
             PersonalVisits.Clear();
@@ -38,6 +38,7 @@ namespace SaaMedW.ViewModel
                 .Where(s => s.SpecialtyId == specialtyCurrent)
                 .Select(s => new PersonalVisitsViewModel() { PersonalId = s.PersonalId }))
             {
+                o.Fill();
                 PersonalVisits.Add(o);
             }
         }
