@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
+using System.Data.Entity;
 
 namespace SaaMedW.ViewModel
 {
@@ -20,8 +21,7 @@ namespace SaaMedW.ViewModel
         public int SelectedBenefitId { get; set; }
         public EditVisitViewModel()
         {
-            var q = ctx.Benefit.OrderBy(s => s.Name);
-            foreach(var o in q)
+            foreach(var o in ctx.Benefit.OrderBy(s => s.Name))
             {
                 BenefitsList.Add(o);
             }
@@ -34,13 +34,16 @@ namespace SaaMedW.ViewModel
         {
             PersonalVisits.Clear();
             int specialtyCurrent = BenefitsList.Single(s0 => s0.Id == SelectedBenefitId).SpecialtyId;
-            foreach (var o in ctx.PersonalSpecialty
+            foreach (var o in ctx.PersonalSpecialty.Include(s => s.Personal)
                 .Where(s => s.SpecialtyId == specialtyCurrent)
-                .Select(s => new PersonalVisitsViewModel() { PersonalId = s.PersonalId }))
+                .Select(s => new PersonalVisitsViewModel()
+                    { PersonalId = s.PersonalId, PersonalFio = s.Personal.Fio }))
             {
                 o.Fill();
-                PersonalVisits.Add(o);
+                if (o.DateIntervals.Count > 0)
+                    PersonalVisits.Add(o);
             }
+            OnPropertyChanged("PersonalVisits");
         }
     }
 }

@@ -16,8 +16,8 @@ namespace SaaMedW.ViewModel
 
         public EditGraphicViewModel()
         {
-            m_personal = ctx.Personal.Include("Specialty1").
-                Where(s => s.Active).OrderBy(s => s.Fio).ToList();
+            m_personal = ctx.Personal
+                .Where(s => s.Active).OrderBy(s => s.Fio).ToList();
         }
         public List<Personal> SotrList
         {

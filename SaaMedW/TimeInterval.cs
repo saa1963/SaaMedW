@@ -37,6 +37,7 @@ namespace SaaMedW
             get => Begin.AddTicks(Interval.Ticks);
         }
 
+        public TimeInterval() { }
         public TimeInterval(DateTime bg, int h1, int m1, int h2, int m2): 
             this(bg, h1, m1, (h2 * 60 + m2) - (h1 * 60 + m1))
         {
@@ -63,8 +64,8 @@ namespace SaaMedW
         }
         public override string ToString()
         {
-            return Begin.Hour.ToString("0") + Begin.Minute.ToString("00") + "-" + 
-                End.Hour.ToString("0") + End.Minute.ToString("00");
+            return Begin.Hour.ToString("0") + ":" + Begin.Minute.ToString("00") + "-" + 
+                End.Hour.ToString("0") + ":" + End.Minute.ToString("00");
         }
         public bool IsIntersected(TimeInterval i)
         {

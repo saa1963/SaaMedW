@@ -12,6 +12,7 @@ namespace SaaMedW.ViewModel
         private SaaMedEntities ctx = new SaaMedEntities();
 
         public int PersonalId { get; set; }
+        public string PersonalFio { get; set; }
         public ObservableCollection<DateIntervalsViewModel> DateIntervals { get; set; }
          = new ObservableCollection<DateIntervalsViewModel>();
 

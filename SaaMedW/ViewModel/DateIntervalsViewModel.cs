@@ -37,12 +37,12 @@ namespace SaaMedW.ViewModel
         public void Fill()
         {
             var intervals = ctx.Graphic
-                .Where(s => s.Dt.Date == Dt.Date && s.PersonalId == PersonalId)
-                .Select(s => new TimeInterval(s.Dt, s.H1, s.M1, s.H2, s.M2))
-                .OrderBy(s => s.Begin);
+                .Where(s => s.Dt.Year == Dt.Year && s.Dt.Month == Dt.Month
+                    && s.Dt.Day == Dt.Day && s.PersonalId == PersonalId)
+                    .OrderBy(s => s.Dt).ThenBy(s => s.H1).ThenBy(s => s.M1);
             foreach(var o in intervals)
             {
-                Intervals.Add(o);
+                Intervals.Add(new TimeInterval(o.Dt, o.H1, o.M1, o.H2, o.M2));
             }
         }
     }
