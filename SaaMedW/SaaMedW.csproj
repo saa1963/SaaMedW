@@ -153,6 +153,7 @@
     <Compile Include="ViewModel\Bases\MasterWindowViewModel.cs" />
     <Compile Include="ViewModel\EditVisitViewModel.cs" />
     <Compile Include="ViewModel\PersonalVisitsViewModel.cs" />
+    <Compile Include="ViewModel\VisitTimeInterval.cs" />
     <Compile Include="Vm\VmInvoiceDetail.cs" />
     <Compile Include="Vm\VmInvoice.cs" />
     <Compile Include="Vm\VmVisitBenefit.cs" />

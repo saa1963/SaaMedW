@@ -6,6 +6,14 @@
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         xmlns:local="clr-namespace:SaaMedW.View"
         mc:Ignorable="d">
+    <UserControl.Resources>
+        <Style x:Key="NoBorder0" TargetType="ItemsControl">
+            <Setter Property="BorderBrush" Value="Transparent"></Setter>
+        </Style>
+        <Style x:Key="NoBorder" TargetType="ListBox">
+            <Setter Property="BorderBrush" Value="Transparent"></Setter>
+        </Style>
+    </UserControl.Resources>
     <Border Padding="10">
         <Grid>
             <Grid.RowDefinitions>
@@ -26,13 +34,14 @@
                     </i:Interaction.Triggers>
                 </ComboBox>
             </WrapPanel>
-            <ListBox Grid.Row="1" Margin="5" ItemsSource="{Binding PersonalVisits}">
-                <ListBox.ItemsPanel>
+            <ItemsControl Grid.Row="1" Margin="5" ItemsSource="{Binding PersonalVisits}">
+                <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <StackPanel  VerticalAlignment="Top" HorizontalAlignment="Center" Orientation="Horizontal"/>
+                        <StackPanel  VerticalAlignment="Top" HorizontalAlignment="Left" 
+                                     Orientation="Horizontal"/>
                     </ItemsPanelTemplate>
-                </ListBox.ItemsPanel>
-                <ListBox.ItemTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Grid>
                             <Grid.RowDefinitions>
@@ -40,8 +49,8 @@
                                 <RowDefinition></RowDefinition>
                             </Grid.RowDefinitions>
                             <Label Grid.Row="0" Content="{Binding PersonalFio}"></Label>
-                            <ListBox Grid.Row="1" ItemsSource="{Binding DateIntervals}">
-                                <ListBox.ItemTemplate>
+                            <ItemsControl Grid.Row="1" ItemsSource="{Binding DateIntervals}">
+                                <ItemsControl.ItemTemplate>
                                     <DataTemplate>
                                         <Grid>
                                             <Grid.RowDefinitions>
@@ -50,22 +59,30 @@
                                             </Grid.RowDefinitions>
                                             <Label Grid.Row="0" Content="{Binding Dt}" 
                                                    ContentStringFormat="{}{0:dd.MM.yyyy}"></Label>
-                                            <ListBox Grid.Row="1" ItemsSource="{Binding Intervals}" 
-                                                     DisplayMemberPath="DisplayName">
+                                            <ListBox Grid.Row="1" ItemsSource="{Binding Intervals}">
+                                                <ListBox.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <StackPanel>
+                                                            <Button Content="{Binding DisplayName}" 
+                                                                Command="{Binding AddVisit}">
+                                                            </Button>
+                                                        </StackPanel>
+                                                    </DataTemplate>
+                                                </ListBox.ItemTemplate>
                                             </ListBox>
                                         </Grid>
                                     </DataTemplate>
-                                </ListBox.ItemTemplate>
-                            </ListBox>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
                         </Grid>
                     </DataTemplate>
-                </ListBox.ItemTemplate>
-                <ListBox.ItemContainerStyle>
-                    <Style TargetType="ListBoxItem">
+                </ItemsControl.ItemTemplate>
+                <!--<ItemsControl.ItemContainerStyle>
+                    <Style TargetType="ContentPresenter">
                         <Setter Property="VerticalContentAlignment" Value="Top"></Setter>
                     </Style>
-                </ListBox.ItemContainerStyle>
-            </ListBox>
+                </ItemsControl.ItemContainerStyle>-->
+            </ItemsControl>
         </Grid>
     </Border>
 </UserControl>
