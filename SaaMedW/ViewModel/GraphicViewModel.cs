@@ -71,6 +71,7 @@ namespace SaaMedW.ViewModel
             }
             for (dt = dt1; dt <= dt2; dt = dt.AddDays(1))
             {
+                ctx.Database.ExecuteSqlCommand("DELETE FROM graphic WHERE dt = @p0", dt.AddDays(7));
                 foreach(var o in ctx.Graphic.Where(s => s.Dt == dt))
                 {
                     var o1 = new Graphic();
