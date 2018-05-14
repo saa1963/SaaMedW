@@ -16,6 +16,9 @@ namespace SaaMedW.ViewModel
 
         public ObservableCollection<Benefit> BenefitsList { get; set; } =
                 new ObservableCollection<Benefit>();
+        public ObservableCollection<VmPerson> PersonList { get; set; } =
+                new ObservableCollection<VmPerson>();
+        public int SelectedPersonId { get; set; }
         public ObservableCollection<PersonalVisitsViewModel> PersonalVisits { get; set; }
             = new ObservableCollection<PersonalVisitsViewModel>();
         public int SelectedBenefitId { get; set; }
@@ -25,6 +28,11 @@ namespace SaaMedW.ViewModel
             {
                 BenefitsList.Add(o);
             }
+            foreach (var o in ctx.Person.OrderBy(s => s.LastName).ThenBy(s => s.FirstName)
+                .ThenBy(s => s.MiddleName))
+            {
+                PersonList.Add(new VmPerson(o));
+            }
         }
         public RelayCommand RefreshGrid
         {
@@ -33,12 +41,14 @@ namespace SaaMedW.ViewModel
         private void RefreshGridProc(object obj)
         {
             PersonalVisits.Clear();
-            int specialtyCurrent = BenefitsList.Single(s0 => s0.Id == SelectedBenefitId).SpecialtyId;
+            Benefit curBenefit = BenefitsList.Single(s0 => s0.Id == SelectedBenefitId);
+            int specialtyCurrent = curBenefit.SpecialtyId;
             foreach (var o in ctx.PersonalSpecialty.Include(s => s.Personal)
                 .Where(s => s.SpecialtyId == specialtyCurrent)
                 .Select(s => new PersonalVisitsViewModel()
                     { PersonalId = s.PersonalId, PersonalFio = s.Personal.Fio }))
             {
+                o.Benefit = curBenefit;
                 o.Fill();
                 if (o.DateIntervals.Count > 0)
                     PersonalVisits.Add(o);

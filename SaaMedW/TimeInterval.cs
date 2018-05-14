@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -38,6 +39,11 @@ namespace SaaMedW
         }
 
         public TimeInterval() { }
+        public TimeInterval(TimeInterval ti)
+        {
+            Begin = ti.Begin;
+            Interval = ti.Interval;
+        }
         public TimeInterval(DateTime bg, int h1, int m1, int h2, int m2): 
             this(bg, h1, m1, (h2 * 60 + m2) - (h1 * 60 + m1))
         {
@@ -94,6 +100,22 @@ namespace SaaMedW
                 return true;
             else
                 return false;
+        }
+        public ObservableCollection<TimeInterval> Split(int duration)
+        {
+            TimeSpan ts = new TimeSpan(0, duration, 0);
+            var rt = new ObservableCollection<TimeInterval>();
+            DateTime dt = Begin;
+            while (dt.AddMinutes(duration) < End)
+            {
+                rt.Add(new TimeInterval() { Begin = dt, Interval = ts });
+                dt = dt.AddMinutes(duration);
+            }
+            if (rt.Count > 0)
+                rt.Add(new TimeInterval() { Begin = rt.Last().End, Interval = new TimeSpan(this.End.Ticks - rt.Last().End.Ticks) });
+            else
+                rt.Add(new TimeInterval() { Begin = this.Begin, Interval = new TimeSpan(this.End.Ticks - this.Begin.Ticks)});
+            return rt;
         }
     }
 }

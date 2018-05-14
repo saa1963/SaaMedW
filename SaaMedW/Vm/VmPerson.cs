@@ -327,7 +327,14 @@ namespace SaaMedW.ViewModel
                 OnPropertyChanged("CreateDate");
             }
         }
-
+        public string FullName
+        {
+            get => ToString();
+        }
+        public override string ToString()
+        {
+            return (LastName + " " + FirstName + " " + MiddleName ?? "").TrimEnd();
+        }
         public string Error => "";
     }
 }

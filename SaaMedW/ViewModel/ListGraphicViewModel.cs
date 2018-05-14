@@ -15,6 +15,7 @@ namespace SaaMedW.ViewModel
     {
         private SaaMedEntities ctx;
         private ICollectionView view;
+        public GraphicViewModel parent { get; set; }
         public ListGraphicViewModel(SaaMedEntities _ctx)
         {
             ctx = _ctx;
@@ -98,6 +99,11 @@ namespace SaaMedW.ViewModel
             ctx.Graphic.Remove(o.Obj);
             ctx.SaveChanges();
             this.Remove(o);
+        }
+
+        public RelayCommand CopyWeekCommand
+        {
+            get { return new RelayCommand(s => parent.CopyWeek(Dt)); }
         }
     }
 }

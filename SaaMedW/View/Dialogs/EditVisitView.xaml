@@ -33,6 +33,13 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </ComboBox>
+                <Label>Пациент</Label>
+                <ComboBox MinWidth="300" ItemsSource="{Binding PersonList}" 
+                        DisplayMemberPath="FullName" 
+                        SelectedValue="{Binding SelectedPersonId}"
+                        SelectedValuePath="Id"
+                        >
+                </ComboBox>
             </WrapPanel>
             <ItemsControl Grid.Row="1" Margin="5" ItemsSource="{Binding PersonalVisits}">
                 <ItemsControl.ItemsPanel>
@@ -43,45 +50,43 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Grid>
+                        <Grid Margin="10,0,10,0">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"></RowDefinition>
                                 <RowDefinition></RowDefinition>
                             </Grid.RowDefinitions>
                             <Label Grid.Row="0" Content="{Binding PersonalFio}"></Label>
-                            <ItemsControl Grid.Row="1" ItemsSource="{Binding DateIntervals}">
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <Grid>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="Auto"></RowDefinition>
-                                                <RowDefinition></RowDefinition>
-                                            </Grid.RowDefinitions>
-                                            <Label Grid.Row="0" Content="{Binding Dt}" 
-                                                   ContentStringFormat="{}{0:dd.MM.yyyy}"></Label>
-                                            <ListBox Grid.Row="1" ItemsSource="{Binding Intervals}">
-                                                <ListBox.ItemTemplate>
-                                                    <DataTemplate>
-                                                        <StackPanel>
-                                                            <Button Content="{Binding DisplayName}" 
+                                <ScrollViewer Grid.Row="1" PreviewMouseWheel="ScrollViewer_PreviewMouseWheel">
+                                    <ItemsControl ItemsSource="{Binding DateIntervals}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Grid>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="Auto"></RowDefinition>
+                                                        <RowDefinition></RowDefinition>
+                                                    </Grid.RowDefinitions>
+                                                    <Label Grid.Row="0" Content="{Binding Dt}" 
+                                                            ContentStringFormat="{}{0:dd.MM.yyyy}"></Label>
+                                                            <ListBox Grid.Row="1" ItemsSource="{Binding Intervals}" 
+                                                            HorizontalContentAlignment="Stretch">
+                                                        <ListBox.ItemTemplate>
+                                                            <DataTemplate>
+                                                                <StackPanel>
+                                                                    <Button Content="{Binding DisplayName}" 
                                                                 Command="{Binding AddVisit}">
-                                                            </Button>
-                                                        </StackPanel>
-                                                    </DataTemplate>
-                                                </ListBox.ItemTemplate>
-                                            </ListBox>
-                                        </Grid>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-                        </Grid>
+                                                                    </Button>
+                                                                </StackPanel>
+                                                            </DataTemplate>
+                                                        </ListBox.ItemTemplate>
+                                                    </ListBox>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </ScrollViewer>
+                            </Grid>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
-                <!--<ItemsControl.ItemContainerStyle>
-                    <Style TargetType="ContentPresenter">
-                        <Setter Property="VerticalContentAlignment" Value="Top"></Setter>
-                    </Style>
-                </ItemsControl.ItemContainerStyle>-->
             </ItemsControl>
         </Grid>
     </Border>

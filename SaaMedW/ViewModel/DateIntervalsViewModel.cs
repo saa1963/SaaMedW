@@ -31,6 +31,7 @@ namespace SaaMedW.ViewModel
                 OnPropertyChanged("PersonalId");
             }
         }
+        public Benefit Benefit { get; set; }
         public ObservableCollection<VisitTimeInterval> Intervals { get; set; }
             = new ObservableCollection<VisitTimeInterval>();
 
@@ -42,10 +43,12 @@ namespace SaaMedW.ViewModel
                     .OrderBy(s => s.Dt).ThenBy(s => s.H1).ThenBy(s => s.M1);
             foreach(var o in intervals)
             {
-                var ob = new VisitTimeInterval(o.Dt, o.H1, o.M1, o.H2, o.M2);
-                ob.Dt = Dt;
-                ob.PersonalId = PersonalId;
-                Intervals.Add(ob);
+                var ob = new TimeInterval(o.Dt, o.H1, o.M1, o.H2, o.M2);
+                var obs = ob.Split(Benefit.Duration);
+                foreach(var obs0 in obs)
+                {
+                    Intervals.Add(new VisitTimeInterval(obs0) { Dt = this.Dt, PersonalId = this.PersonalId });
+                }
             }
         }
     }

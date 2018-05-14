@@ -30,6 +30,8 @@
                         </MenuItem>
                         <MenuItem x:Name="delSotr" Header="Удалить" Command="{Binding Path=DelSotrCommand}">
                         </MenuItem>
+                        <MenuItem x:Name="copyWeek" Header="Копировать неделю" Command="{Binding Path=CopyWeekCommand}">
+                        </MenuItem>
                     </ContextMenu>
                 </ListBox.ContextMenu>
                 <ListBox.ItemTemplate>

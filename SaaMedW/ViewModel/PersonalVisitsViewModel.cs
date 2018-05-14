@@ -13,6 +13,7 @@ namespace SaaMedW.ViewModel
 
         public int PersonalId { get; set; }
         public string PersonalFio { get; set; }
+        public Benefit Benefit { get; set; }
         public ObservableCollection<DateIntervalsViewModel> DateIntervals { get; set; }
          = new ObservableCollection<DateIntervalsViewModel>();
 
@@ -24,7 +25,7 @@ namespace SaaMedW.ViewModel
                 .Where(s => s.Dt >= DateTime.Today && s.PersonalId == PersonalId)
                 .GroupBy(s => s.Dt)
                 .Select(s => new DateIntervalsViewModel()
-                    { Dt = s.Key, PersonalId = this.PersonalId })
+                    { Dt = s.Key, PersonalId = this.PersonalId, Benefit = this.Benefit })
                 .OrderBy(s => s.Dt);
             foreach(var o in dates)
             {

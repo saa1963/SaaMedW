@@ -125,6 +125,7 @@
           <Property Name="PersonalId" Type="int" Nullable="false" />
           <Property Name="Dt" Type="datetime" Nullable="false" />
           <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="Duration" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="VisitBenefit">
           <Key>
@@ -554,6 +555,7 @@
           <NavigationProperty Name="Person" Relationship="SaaMedModel.FK_Visit_ToPerson" FromRole="Visit" ToRole="Person" />
           <NavigationProperty Name="Personal" Relationship="SaaMedModel.FK_Visit_ToPersonal" FromRole="Visit" ToRole="Personal" />
           <NavigationProperty Name="VisitBenefit" Relationship="SaaMedModel.FK_Table_Visit" FromRole="Visit" ToRole="VisitBenefit" />
+          <Property Name="Duration" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="VisitBenefit">
           <Key>
@@ -794,6 +796,7 @@
           <EntitySetMapping Name="Visit">
             <EntityTypeMapping TypeName="SaaMedModel.Visit">
               <MappingFragment StoreEntitySet="Visit">
+                <ScalarProperty Name="Duration" ColumnName="Duration" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="Dt" ColumnName="Dt" />
                 <ScalarProperty Name="PersonalId" ColumnName="PersonalId" />

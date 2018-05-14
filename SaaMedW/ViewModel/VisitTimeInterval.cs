@@ -11,6 +11,9 @@ namespace SaaMedW.ViewModel
         public int PersonalId { get; set; }
         public DateTime Dt{ get; set; }
 
+        public VisitTimeInterval(TimeInterval timeInterval): base(timeInterval)
+        {
+        }
         public VisitTimeInterval(DateTime dt, int h1, int m1, int h2, int m2): 
             base(dt, h1, m1, h2, m2) { }
 

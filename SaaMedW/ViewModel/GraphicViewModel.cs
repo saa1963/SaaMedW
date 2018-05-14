@@ -19,10 +19,12 @@ namespace SaaMedW.ViewModel
         private ListGraphicViewModel[] m_mas = new ListGraphicViewModel[CELLS_COUNT];
         private Months[] m_months = new Months[12];
         private List<Personal> m_personal = new List<Personal>();
+        private DateTime m_dt;
 
         public GraphicViewModel():this(DateTime.Today) { }
         public GraphicViewModel(DateTime dt)
         {
+            m_dt = dt;
             DateTime d = DateTime.Today;
             for (int i = 0; i < 12; i++)
             {
@@ -48,12 +50,41 @@ namespace SaaMedW.ViewModel
             while (d <= Dt2)
             {
                 m_mas[i] = VmGraphic.GetGraphics(ctx, d, PersonalCurrent?.Id);
+                m_mas[i].parent = this;
                 m_mas[i].Dt = d;
                 m_mas[i].Ind = i;
                 m_mas[i].CurrentSotr = this.PersonalCurrent;
                 d = d.AddDays(1);
                 i++;
             }
+        }
+        public void CopyWeek(DateTime dt)
+        {
+            DateTime dt1 = dt, dt2 = dt;
+            while(dt1.DayOfWeek != DayOfWeek.Monday)
+            {
+                dt1 = dt1.AddDays(-1).Date;
+            }
+            while (dt2.DayOfWeek != DayOfWeek.Sunday)
+            {
+                dt2 = dt2.AddDays(1).Date;
+            }
+            for (dt = dt1; dt <= dt2; dt = dt.AddDays(1))
+            {
+                foreach(var o in ctx.Graphic.Where(s => s.Dt == dt))
+                {
+                    var o1 = new Graphic();
+                    o1.Dt = o.Dt.AddDays(7);
+                    o1.H1 = o.H1;
+                    o1.H2 = o.H2;
+                    o1.M1 = o.M1;
+                    o1.M2 = o.M2;
+                    o1.PersonalId = o.PersonalId;
+                    ctx.Graphic.Add(o1);
+                }
+            }
+            ctx.SaveChanges();
+            RefreshGridProc(null);
         }
         public Months[] Months
         {
