@@ -8,7 +8,7 @@
              xmlns:local0="clr-namespace:SaaMedW.ViewModel"
              xmlns:saamedw="clr-namespace:SaaMedW"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800" AllowDrop="True" Drop="GraphicControl_Drop">
     <UserControl.Resources>
     </UserControl.Resources>
     <Border BorderBrush="Black" BorderThickness="0,0,1,1" Background="AliceBlue">
@@ -21,7 +21,7 @@
             <ListBox BorderBrush="Transparent" Grid.Row="1" x:Name="listBox" ItemsSource="{Binding}" 
                      SelectedItem="Current" HorizontalContentAlignment="Stretch"
                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                        IsSynchronizedWithCurrentItem="True" LostFocus="ListBox_LostFocus">
+                        IsSynchronizedWithCurrentItem="True">
                 <ListBox.ContextMenu>
                     <ContextMenu x:Name="contextMenu">
                         <MenuItem x:Name="addSotr" Header="Добавить" Command="{Binding Path=AddSotrCommand}">
@@ -37,7 +37,7 @@
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Grid>
-                            <TextBlock Margin="5" TextWrapping="Wrap">
+                            <TextBlock Margin="5" TextWrapping="Wrap" MouseMove="TextBlock_MouseMove">
                                 <TextBlock.InputBindings>
                                     <MouseBinding Gesture="LeftDoubleClick" 
                                     Command="{Binding Path=DataContext.EditSotrCommand, 
@@ -45,7 +45,6 @@
                                     </MouseBinding>
                                 </TextBlock.InputBindings>
                                 <Run Text="{Binding Path=personal.Fio}"></Run>
-                                <Run Text="{Binding Path=personal.Specialty1.Name}"></Run>
                                 <Run Text="{Binding Path=Interval, Mode=OneWay}"></Run>
                             </TextBlock>
                             <Image HorizontalAlignment="Right" VerticalAlignment="Top" Height="10" Width="10" 

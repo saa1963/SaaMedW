@@ -105,5 +105,20 @@ namespace SaaMedW.ViewModel
         {
             get { return new RelayCommand(s => parent.CopyWeek(Dt)); }
         }
+
+        public void AddGraphic(VmGraphic graphic)
+        {
+            var o = new Graphic();
+            o.Dt = Dt;
+            o.H1 = graphic.H1;
+            o.M1 = graphic.M1;
+            o.H2 = graphic.H2;
+            o.M2 = graphic.M2;
+            o.PersonalId = graphic.PersonalId;
+            o.Personal = ctx.Personal.Find(o.PersonalId);
+            ctx.Graphic.Add(o);
+            ctx.SaveChanges();
+            this.Add(new VmGraphic(o));
+        }
     }
 }

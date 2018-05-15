@@ -97,9 +97,9 @@ namespace SaaMedW
                 midDt2 = i.End;
             }
             if ((midDt1 >= minDt && midDt1 <= maxDt) || (midDt2 >= minDt && midDt2 <= maxDt))
-                return true;
-            else
                 return false;
+            else
+                return true;
         }
         public ObservableCollection<TimeInterval> Split(int duration)
         {
