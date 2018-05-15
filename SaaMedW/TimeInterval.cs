@@ -75,31 +75,15 @@ namespace SaaMedW
         }
         public bool IsIntersected(TimeInterval i)
         {
-            DateTime minDt, maxDt, midDt1, midDt2;
-            if (i.Begin <= this.Begin)
+            if ((i.Begin >= this.Begin && i.Begin <= this.End) ||
+                (i.End >= this.Begin && i.End <= this.End) ||
+                (this.Begin >= i.Begin && this.Begin <= i.End) ||
+                (this.End >= i.Begin && this.End <= i.End))
             {
-                minDt = i.Begin;
-                midDt1 = this.Begin;
-            }
-            else
-            {
-                minDt = this.Begin;
-                midDt1 = i.Begin;
-            }
-            if (i.End > this.End)
-            {
-                maxDt = i.End;
-                midDt2 = this.End;
-            }
-            else
-            {
-                maxDt = this.End;
-                midDt2 = i.End;
-            }
-            if ((midDt1 >= minDt && midDt1 <= maxDt) || (midDt2 >= minDt && midDt2 <= maxDt))
-                return false;
-            else
                 return true;
+            }
+            else
+                return false;
         }
         public ObservableCollection<TimeInterval> Split(int duration)
         {
