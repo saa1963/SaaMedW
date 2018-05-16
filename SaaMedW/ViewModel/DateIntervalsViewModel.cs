@@ -37,6 +37,7 @@ namespace SaaMedW.ViewModel
 
         public void Fill()
         {
+            var t_intervals = new List<VisitTimeInterval>();
             var intervalsFromGraphic = ctx.Graphic
                 .Where(s => s.Dt.Year == Dt.Year && s.Dt.Month == Dt.Month
                     && s.Dt.Day == Dt.Day && s.PersonalId == PersonalId)
@@ -48,7 +49,7 @@ namespace SaaMedW.ViewModel
             foreach (var o in intervalsFromVisit)
             {
                 var ob = new TimeInterval() { Begin = o.Dt, Interval = new TimeSpan(0, o.Duration, 0) };
-                Intervals.Add(new VisitTimeInterval(ob) { PersonalId = this.PersonalId, Dt = this.Dt, typeTimeInterval = TypeTimeInterval.Visit });
+                t_intervals.Add(new VisitTimeInterval(ob) { PersonalId = this.PersonalId, Dt = this.Dt, typeTimeInterval = TypeTimeInterval.Visit });
             }
             foreach (var o in intervalsFromGraphic)
             {
@@ -57,11 +58,14 @@ namespace SaaMedW.ViewModel
                 foreach(var obs0 in obs)
                 {
                     var vti = new VisitTimeInterval(obs0) { Dt = this.Dt, PersonalId = this.PersonalId, typeTimeInterval = TypeTimeInterval.Graphic };
-                    if (Intervals.All(s => !s.IsIntersected(vti)))
-                        Intervals.Add(vti);
+                    if (t_intervals.All(s => !s.IsIntersected(vti)))
+                        t_intervals.Add(vti);
                 }
             }
-            
+            foreach(var o in t_intervals.Where(s => s.Begin > DateTime.Now).OrderBy(s => s))
+            {
+                Intervals.Add(o);
+            }
         }
     }
 }

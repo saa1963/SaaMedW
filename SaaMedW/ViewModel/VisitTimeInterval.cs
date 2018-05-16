@@ -23,13 +23,13 @@ namespace SaaMedW.ViewModel
         public VisitTimeInterval(DateTime dt, int h1, int m1, int h2, int m2): 
             base(dt, h1, m1, h2, m2) { }
 
-        public RelayCommand AddVisit
-        {
-            get { return new RelayCommand(AddVisitProc); }
-        }
-        private void AddVisitProc(object obj)
-        {
-            //new Visit() { Dt = this.Begin, Duration = this.Interval.Minutes }
-        }
+        //public RelayCommand AddVisit
+        //{
+        //    get { return new RelayCommand(AddVisitProc); }
+        //}
+        //private void AddVisitProc(object obj)
+        //{
+        //    //new Visit() { Dt = this.Begin, Duration = this.Interval.Minutes }
+        //}
     }
 }

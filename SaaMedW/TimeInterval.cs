@@ -75,15 +75,12 @@ namespace SaaMedW
         }
         public bool IsIntersected(TimeInterval i)
         {
-            if ((i.Begin >= this.Begin && i.Begin <= this.End) ||
-                (i.End >= this.Begin && i.End <= this.End) ||
-                (this.Begin >= i.Begin && this.Begin <= i.End) ||
-                (this.End >= i.Begin && this.End <= i.End))
+            if (i.End <= this.Begin || this.End <= i.Begin)
             {
-                return true;
+                return false;
             }
             else
-                return false;
+                return true;
         }
         public ObservableCollection<TimeInterval> Split(int duration)
         {

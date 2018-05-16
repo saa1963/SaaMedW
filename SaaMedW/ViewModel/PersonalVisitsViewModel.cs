@@ -22,7 +22,7 @@ namespace SaaMedW.ViewModel
             // Список дат из графика
             var personal = ctx.Personal.Find(PersonalId);
             var dates = personal.Graphic
-                .Where(s => s.Dt >= DateTime.Today && s.PersonalId == PersonalId)
+                .Where(s => s.Dt.AddHours(s.H1).AddMinutes(s.M1) >= DateTime.Now && s.PersonalId == PersonalId)
                 .GroupBy(s => s.Dt)
                 .Select(s => new DateIntervalsViewModel()
                     { Dt = s.Key, PersonalId = this.PersonalId, Benefit = this.Benefit })

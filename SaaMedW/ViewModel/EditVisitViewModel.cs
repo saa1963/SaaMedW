@@ -47,7 +47,7 @@ namespace SaaMedW.ViewModel
             foreach (var o in ctx.PersonalSpecialty.Include(s => s.Personal)
                 .Where(s => s.SpecialtyId == specialtyCurrent)
                 .Select(s => new PersonalVisitsViewModel()
-                    { PersonalId = s.PersonalId, PersonalFio = s.Personal.Fio }))
+                    { PersonalId = s.PersonalId, PersonalFio = s.Personal.Fio, Parent =  }))
             {
                 o.Benefit = curBenefit;
                 o.Fill();

@@ -43,6 +43,7 @@ namespace SaaMedW.View
         public void ExecuteButton(object sender, ExecutedRoutedEventArgs e)
         {
             var viewmodel = this.DataContext as EditVisitViewModel;
+            //var dc = (e.OriginalSource as FrameworkElement).DataContext;
             viewmodel.AddVisit(e.Parameter as VisitTimeInterval);
         }
     }
