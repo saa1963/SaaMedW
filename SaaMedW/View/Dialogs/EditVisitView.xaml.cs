@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SaaMedW.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -29,6 +30,20 @@ namespace SaaMedW.View
             ScrollViewer scv = (ScrollViewer)sender;
             scv.ScrollToVerticalOffset(scv.VerticalOffset - e.Delta);
             e.Handled = true;
+        }
+
+        public void CanExecuteButton(object sender, CanExecuteRoutedEventArgs e )
+        {
+            if (PersonCombo.SelectedValue != null)
+            {
+                e.CanExecute = true;
+            }
+        }
+
+        public void ExecuteButton(object sender, ExecutedRoutedEventArgs e)
+        {
+            var viewmodel = this.DataContext as EditVisitViewModel;
+            viewmodel.AddVisit(e.Parameter as VisitTimeInterval);
         }
     }
 }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SaaMedW
 {
-    public class TimeInterval : INotifyPropertyChanged
+    public class TimeInterval : INotifyPropertyChanged, IComparable<TimeInterval>
     {
         private DateTime m_begin;
         private TimeSpan m_interval;
@@ -100,6 +100,13 @@ namespace SaaMedW
             else
                 rt.Add(new TimeInterval() { Begin = this.Begin, Interval = new TimeSpan(this.End.Ticks - this.Begin.Ticks)});
             return rt;
+        }
+
+        public int CompareTo(TimeInterval other)
+        {
+            if (other == null) return 1;
+            else if (this.Begin != other.Begin) return this.Begin.CompareTo(other.Begin);
+            else return this.End.CompareTo(other.End);
         }
     }
 }

@@ -6,11 +6,17 @@ using System.Threading.Tasks;
 
 namespace SaaMedW.ViewModel
 {
+    public enum TypeTimeInterval
+    {
+        Visit, Graphic
+    }
     public class VisitTimeInterval : TimeInterval
     {
         public int PersonalId { get; set; }
         public DateTime Dt{ get; set; }
+        public TypeTimeInterval typeTimeInterval { get; set; }
 
+        public VisitTimeInterval():base() { }
         public VisitTimeInterval(TimeInterval timeInterval): base(timeInterval)
         {
         }
@@ -23,7 +29,7 @@ namespace SaaMedW.ViewModel
         }
         private void AddVisitProc(object obj)
         {
-            System.Windows.MessageBox.Show("1");
+            //new Visit() { Dt = this.Begin, Duration = this.Interval.Minutes }
         }
     }
 }

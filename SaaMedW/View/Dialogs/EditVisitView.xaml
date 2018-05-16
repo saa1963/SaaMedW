@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         xmlns:local="clr-namespace:SaaMedW.View"
+        xmlns:saamedw="clr-namespace:SaaMedW"
         mc:Ignorable="d">
     <UserControl.Resources>
         <Style x:Key="NoBorder0" TargetType="ItemsControl">
@@ -13,7 +14,22 @@
         <Style x:Key="NoBorder" TargetType="ListBox">
             <Setter Property="BorderBrush" Value="Transparent"></Setter>
         </Style>
+        <DataTemplate x:Key="GraphicTemplate">
+            <StackPanel>
+                <Button Content="{Binding DisplayName}" Command="{x:Static ApplicationCommands.Find}" CommandParameter="{Binding}">
+                </Button>
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="VisitTemplate">
+            <StackPanel>
+                <Button Content="{Binding DisplayName}" Background="Aqua">
+                </Button>
+            </StackPanel>
+        </DataTemplate>
     </UserControl.Resources>
+    <UserControl.CommandBindings>
+        <CommandBinding Command="{x:Static ApplicationCommands.Find}" CanExecute="CanExecuteButton" Executed="ExecuteButton" />
+    </UserControl.CommandBindings>
     <Border Padding="10">
         <Grid>
             <Grid.RowDefinitions>
@@ -34,7 +50,7 @@
                     </i:Interaction.Triggers>
                 </ComboBox>
                 <Label>Пациент</Label>
-                <ComboBox MinWidth="300" ItemsSource="{Binding PersonList}" 
+                <ComboBox x:Name="PersonCombo" MinWidth="300" ItemsSource="{Binding PersonList}" 
                         DisplayMemberPath="FullName" 
                         SelectedValue="{Binding SelectedPersonId}"
                         SelectedValuePath="Id"
@@ -67,18 +83,13 @@
                                                     </Grid.RowDefinitions>
                                                     <Label Grid.Row="0" Content="{Binding Dt}" 
                                                             ContentStringFormat="{}{0:dd.MM.yyyy}"></Label>
-                                                            <ListBox Grid.Row="1" ItemsSource="{Binding Intervals}" 
-                                                            HorizontalContentAlignment="Stretch">
-                                                        <ListBox.ItemTemplate>
-                                                            <DataTemplate>
-                                                                <StackPanel>
-                                                                    <Button Content="{Binding DisplayName}" 
-                                                                Command="{Binding AddVisit}">
-                                                                    </Button>
-                                                                </StackPanel>
-                                                            </DataTemplate>
-                                                        </ListBox.ItemTemplate>
-                                                    </ListBox>
+                                                    <ListBox Grid.Row="1" ItemsSource="{Binding Intervals}" 
+                                                        HorizontalContentAlignment="Stretch">
+                                                    <ListBox.ItemTemplateSelector>
+                                                        <saamedw:IntervalTemplateSelector VisitDataTemplate="{StaticResource VisitTemplate}" 
+                                                                                          GraphicDataTemplate="{StaticResource GraphicTemplate}"/>
+                                                    </ListBox.ItemTemplateSelector>
+                                                </ListBox>
                                                 </Grid>
                                             </DataTemplate>
                                         </ItemsControl.ItemTemplate>

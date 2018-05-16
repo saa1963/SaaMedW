@@ -94,6 +94,7 @@
     </Compile>
     <Compile Include="ILocalStorage.cs" />
     <Compile Include="ILogonService.cs" />
+    <Compile Include="IntervalTemplateSelector.cs" />
     <Compile Include="Invoice.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
