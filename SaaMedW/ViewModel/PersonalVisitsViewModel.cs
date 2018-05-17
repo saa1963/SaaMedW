@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data.Entity.Core.Objects;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,6 +12,7 @@ namespace SaaMedW.ViewModel
     {
         private SaaMedEntities ctx = new SaaMedEntities();
 
+        public EditVisitViewModel Parent { get; set; }
         public int PersonalId { get; set; }
         public string PersonalFio { get; set; }
         public Benefit Benefit { get; set; }
@@ -22,15 +24,15 @@ namespace SaaMedW.ViewModel
             // Список дат из графика
             var personal = ctx.Personal.Find(PersonalId);
             var dates = personal.Graphic
-                .Where(s => s.Dt.AddHours(s.H1).AddMinutes(s.M1) >= DateTime.Now && s.PersonalId == PersonalId)
+                .Where(s => s.Dt >= DateTime.Today && s.PersonalId == PersonalId)
                 .GroupBy(s => s.Dt)
                 .Select(s => new DateIntervalsViewModel()
-                    { Dt = s.Key, PersonalId = this.PersonalId, Benefit = this.Benefit })
+                    { Dt = s.Key, PersonalId = this.PersonalId, Benefit = this.Benefit, Parent = this })
                 .OrderBy(s => s.Dt);
             foreach(var o in dates)
             {
-                o.Fill();
-                DateIntervals.Add(o);
+                if (o.Fill() > 0)
+                    DateIntervals.Add(o);
             }
         }
     }

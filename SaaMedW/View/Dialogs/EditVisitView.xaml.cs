@@ -31,20 +31,5 @@ namespace SaaMedW.View
             scv.ScrollToVerticalOffset(scv.VerticalOffset - e.Delta);
             e.Handled = true;
         }
-
-        public void CanExecuteButton(object sender, CanExecuteRoutedEventArgs e )
-        {
-            if (PersonCombo.SelectedValue != null)
-            {
-                e.CanExecute = true;
-            }
-        }
-
-        public void ExecuteButton(object sender, ExecutedRoutedEventArgs e)
-        {
-            var viewmodel = this.DataContext as EditVisitViewModel;
-            //var dc = (e.OriginalSource as FrameworkElement).DataContext;
-            viewmodel.AddVisit(e.Parameter as VisitTimeInterval);
-        }
     }
 }

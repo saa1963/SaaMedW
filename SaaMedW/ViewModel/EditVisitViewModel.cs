@@ -13,13 +13,23 @@ namespace SaaMedW.ViewModel
 {
     public class EditVisitViewModel : ViewModelBase
     {
-        SaaMedEntities ctx = new SaaMedEntities();
+        public SaaMedEntities ctx = new SaaMedEntities();
 
         public ObservableCollection<Benefit> BenefitsList { get; set; } =
                 new ObservableCollection<Benefit>();
         public ObservableCollection<VmPerson> PersonList { get; set; } =
                 new ObservableCollection<VmPerson>();
-        public int SelectedPersonId { get; set; }
+        private int m_SelectedPersonId;
+        public int SelectedPersonId
+        {
+            get => m_SelectedPersonId;
+            set
+            {
+                m_SelectedPersonId = value;
+                OnPropertyChanged("IsSelectedPerson");
+            }
+        }
+        public bool IsSelectedPerson { get => SelectedPersonId > 0; }
         public ObservableCollection<PersonalVisitsViewModel> PersonalVisits { get; set; }
             = new ObservableCollection<PersonalVisitsViewModel>();
         public int SelectedBenefitId { get; set; }
@@ -47,8 +57,9 @@ namespace SaaMedW.ViewModel
             foreach (var o in ctx.PersonalSpecialty.Include(s => s.Personal)
                 .Where(s => s.SpecialtyId == specialtyCurrent)
                 .Select(s => new PersonalVisitsViewModel()
-                    { PersonalId = s.PersonalId, PersonalFio = s.Personal.Fio, Parent =  }))
+                    { PersonalId = s.PersonalId, PersonalFio = s.Personal.Fio }))
             {
+                o.Parent = this;
                 o.Benefit = curBenefit;
                 o.Fill();
                 if (o.DateIntervals.Count > 0)
@@ -56,16 +67,16 @@ namespace SaaMedW.ViewModel
             }
             OnPropertyChanged("PersonalVisits");
         }
-        public void AddVisit(VisitTimeInterval ti)
-        {
-            var visit = new Visit()
-            { Dt = ti.Begin, Duration = ti.Interval.Minutes, PersonId = SelectedPersonId,
-                PersonalId = ti.PersonalId, Status = 0 };
-            var benefit = ctx.Benefit.Find(SelectedBenefitId);
-            visit.VisitBenefit.Add(new VisitBenefit() { Benefit = benefit, Kol = 1, Status = 0 });
-            ctx.Visit.Add(visit);
-            ctx.SaveChanges();
-            RefreshGridProc(null);
-        }
+        //public void AddVisit(VisitTimeInterval ti)
+        //{
+        //    var visit = new Visit()
+        //    { Dt = ti.Begin, Duration = ti.Interval.Minutes, PersonId = SelectedPersonId,
+        //        PersonalId = ti.PersonalId, Status = 0 };
+        //    var benefit = ctx.Benefit.Find(SelectedBenefitId);
+        //    visit.VisitBenefit.Add(new VisitBenefit() { Benefit = benefit, Kol = 1, Status = 0 });
+        //    ctx.Visit.Add(visit);
+        //    ctx.SaveChanges();
+        //    RefreshGridProc(null);
+        //}
     }
 }

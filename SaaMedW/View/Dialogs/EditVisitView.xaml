@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         xmlns:local="clr-namespace:SaaMedW.View"
+        xmlns:local0="clr-namespace:SaaMedW.ViewModel"
         xmlns:saamedw="clr-namespace:SaaMedW"
         mc:Ignorable="d">
     <UserControl.Resources>
@@ -14,22 +15,28 @@
         <Style x:Key="NoBorder" TargetType="ListBox">
             <Setter Property="BorderBrush" Value="Transparent"></Setter>
         </Style>
+        <Style x:Key="LabelStyle" TargetType="Label">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding typeTimeInterval}" Value="{x:Static local0:TypeTimeInterval.Visit}">
+                    <Setter Property="Background" Value="Aqua"></Setter>
+                    <Setter Property="FontWeight" Value="Bold"></Setter>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
         <DataTemplate x:Key="GraphicTemplate">
             <StackPanel>
-                <Button Content="{Binding DisplayName}" Command="{x:Static ApplicationCommands.Find}" CommandParameter="{Binding}">
-                </Button>
-            </StackPanel>
-        </DataTemplate>
-        <DataTemplate x:Key="VisitTemplate">
-            <StackPanel>
-                <Button Content="{Binding DisplayName}" Background="Aqua">
-                </Button>
+                <Label Style="{StaticResource LabelStyle}" Content="{Binding DisplayName}">
+                    <Label.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Добавить" Command="{Binding AddVisitCommand}" IsEnabled="{Binding Parent.Parent.Parent.IsSelectedPerson}"></MenuItem>
+                            <MenuItem Header="Изменить" Command="{Binding EditVisitCommand}" IsEnabled="{Binding IsVisit}"></MenuItem>
+                            <MenuItem Header="Удалить" Command="{Binding DelVisitCommand}" IsEnabled="{Binding IsVisit}"></MenuItem>
+                        </ContextMenu>
+                    </Label.ContextMenu>
+                </Label>
             </StackPanel>
         </DataTemplate>
     </UserControl.Resources>
-    <UserControl.CommandBindings>
-        <CommandBinding Command="{x:Static ApplicationCommands.Find}" CanExecute="CanExecuteButton" Executed="ExecuteButton" />
-    </UserControl.CommandBindings>
     <Border Padding="10">
         <Grid>
             <Grid.RowDefinitions>
@@ -84,11 +91,7 @@
                                                     <Label Grid.Row="0" Content="{Binding Dt}" 
                                                             ContentStringFormat="{}{0:dd.MM.yyyy}"></Label>
                                                     <ListBox Grid.Row="1" ItemsSource="{Binding Intervals}" 
-                                                        HorizontalContentAlignment="Stretch">
-                                                    <ListBox.ItemTemplateSelector>
-                                                        <saamedw:IntervalTemplateSelector VisitDataTemplate="{StaticResource VisitTemplate}" 
-                                                                                          GraphicDataTemplate="{StaticResource GraphicTemplate}"/>
-                                                    </ListBox.ItemTemplateSelector>
+                                                        HorizontalContentAlignment="Stretch" ItemTemplate="{StaticResource GraphicTemplate}">
                                                 </ListBox>
                                                 </Grid>
                                             </DataTemplate>

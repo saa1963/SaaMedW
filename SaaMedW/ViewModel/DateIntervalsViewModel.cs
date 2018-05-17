@@ -11,6 +11,7 @@ namespace SaaMedW.ViewModel
     {
         private SaaMedEntities ctx = new SaaMedEntities();
 
+        public PersonalVisitsViewModel Parent { get; set; }
         private DateTime m_Dt;
         public DateTime Dt
         {
@@ -35,7 +36,7 @@ namespace SaaMedW.ViewModel
         public ObservableCollection<VisitTimeInterval> Intervals { get; set; }
             = new ObservableCollection<VisitTimeInterval>();
 
-        public void Fill()
+        public int Fill()
         {
             var t_intervals = new List<VisitTimeInterval>();
             var intervalsFromGraphic = ctx.Graphic
@@ -48,8 +49,10 @@ namespace SaaMedW.ViewModel
                     .OrderBy(s => s.Dt);
             foreach (var o in intervalsFromVisit)
             {
-                var ob = new TimeInterval() { Begin = o.Dt, Interval = new TimeSpan(0, o.Duration, 0) };
-                t_intervals.Add(new VisitTimeInterval(ob) { PersonalId = this.PersonalId, Dt = this.Dt, typeTimeInterval = TypeTimeInterval.Visit });
+                var ob = new TimeInterval()
+                { Begin = o.Dt, Interval = new TimeSpan(0, o.Duration, 0) };
+                    t_intervals.Add(new VisitTimeInterval(ob)
+                    { PersonalId = this.PersonalId, Dt = this.Dt, typeTimeInterval = TypeTimeInterval.Visit, Parent = this, VisitId = o.Id });
             }
             foreach (var o in intervalsFromGraphic)
             {
@@ -57,7 +60,8 @@ namespace SaaMedW.ViewModel
                 var obs = ob.Split(Benefit.Duration);
                 foreach(var obs0 in obs)
                 {
-                    var vti = new VisitTimeInterval(obs0) { Dt = this.Dt, PersonalId = this.PersonalId, typeTimeInterval = TypeTimeInterval.Graphic };
+                    var vti = new VisitTimeInterval(obs0)
+                    { Dt = this.Dt, PersonalId = this.PersonalId, typeTimeInterval = TypeTimeInterval.Graphic, Parent = this };
                     if (t_intervals.All(s => !s.IsIntersected(vti)))
                         t_intervals.Add(vti);
                 }
@@ -66,6 +70,7 @@ namespace SaaMedW.ViewModel
             {
                 Intervals.Add(o);
             }
+            return Intervals.Count();
         }
     }
 }
