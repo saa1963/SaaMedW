@@ -86,6 +86,15 @@ namespace SaaMedW.ViewModel
                 OnPropertyChanged("Personal");
             }
         }
+        public int Duration
+        {
+            get => m_object.Duration;
+            set
+            {
+                m_object.Duration = value;
+                OnPropertyChanged("Duration");
+            }
+        }
         public ICollection<VisitBenefit> VisitBenefit
         {
             get => m_object.VisitBenefit;

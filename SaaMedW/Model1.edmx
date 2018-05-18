@@ -87,7 +87,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Fio" Type="nchar" MaxLength="50" Nullable="false" />
+          <Property Name="Fio" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Active" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="PersonalSpecialty">
@@ -463,7 +463,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Fio" Type="String" Nullable="false" MaxLength="50" FixedLength="true" Unicode="true" />
+          <Property Name="Fio" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Active" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Graphic" Relationship="SaaMedModel.FK_Graphic_Personal" FromRole="Personal" ToRole="Graphic" />
           <NavigationProperty Name="Visit" Relationship="SaaMedModel.FK_Visit_ToPersonal" FromRole="Personal" ToRole="Visit" />

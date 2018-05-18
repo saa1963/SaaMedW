@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SaaMedW.View;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -48,7 +49,24 @@ namespace SaaMedW.ViewModel
             this.VisitId = visit.Id;
             this.typeTimeInterval = TypeTimeInterval.Visit;
             OnPropertyChanged("typeTimeInterval");
+            OnPropertyChanged("IsVisit");
         }
+        public RelayCommand EditVisitCommand
+        {
+            get { return new RelayCommand(EditVisitProc); }
+        }
+
+        private void EditVisitProc(object obj)
+        {
+            var root = this.Parent.Parent.Parent;
+            var modelView = new EditOneVisitViewModel(root.ctx.Visit.Find(VisitId));
+            var f = new EditOneVisitView() { DataContext = modelView };
+            if (f.ShowDialog() ?? false)
+            {
+
+            }
+        }
+
         public RelayCommand DelVisitCommand
         {
             get { return new RelayCommand(DelVisitProc); }

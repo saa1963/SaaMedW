@@ -152,9 +152,13 @@
     <Compile Include="ViewModel\Dialogs\EditUserViewModel.cs" />
     <Compile Include="ViewModel\Dialogs\LoginViewModel.cs" />
     <Compile Include="ViewModel\Bases\MasterWindowViewModel.cs" />
+    <Compile Include="ViewModel\Dialogs\EditOneVisitViewModel.cs" />
     <Compile Include="ViewModel\EditVisitViewModel.cs" />
     <Compile Include="ViewModel\PersonalVisitsViewModel.cs" />
     <Compile Include="ViewModel\VisitTimeInterval.cs" />
+    <Compile Include="View\Dialogs\EditOneVisitView.xaml.cs">
+      <DependentUpon>EditOneVisitView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Vm\VmInvoiceDetail.cs" />
     <Compile Include="Vm\VmInvoice.cs" />
     <Compile Include="Vm\VmVisitBenefit.cs" />
@@ -268,6 +272,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\Dialogs\EditOneVisitView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Dialogs\EditPersonal.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -364,6 +372,8 @@
     <Resource Include="image\Icon1.ico" />
     <Resource Include="icons8-саквояж-врача-50.ico" />
     <Resource Include="image\add_32.png" />
+    <Resource Include="image\back.png" />
+    <Resource Include="image\forward.png" />
     <Content Include="Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Model1.Context.cs</LastGenOutput>
