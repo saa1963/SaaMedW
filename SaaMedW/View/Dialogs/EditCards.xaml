@@ -69,7 +69,8 @@
                         <StackPanel Grid.Column="2">
                             <Label>Пол</Label>
                             <ComboBox ItemsSource="{Binding SexList}" DisplayMemberPath="Name" 
-                                      SelectedValue="{Binding SexCurrent}" IsSynchronizedWithCurrentItem="True"/>
+                                      SelectedValue="{Binding Sex}"
+                                      SelectedValuePath="Id"/>
                         </StackPanel>
                     </Grid>
                     <StackPanel Grid.Row="4">
@@ -96,8 +97,9 @@
                     </Grid>
                     <StackPanel Grid.Row="6">
                         <Label>Тип документа</Label>
-                        <ComboBox ItemsSource="{Binding DocTypeList}" DisplayMemberPath="Name" SelectedValuePath="Id" 
-                                      SelectedValue="{Binding DocTypeCurrent}"/>
+                        <ComboBox ItemsSource="{Binding DocTypeList}" DisplayMemberPath="Name" 
+                                  SelectedValuePath="Id" 
+                                  SelectedValue="{Binding DocumentTypeId}"/>
                     </StackPanel>
                     <StackPanel Grid.Row="7">
                         <Label>Серия док</Label>
@@ -106,7 +108,7 @@
                     </StackPanel>
                     <StackPanel Grid.Row="8">
                         <Label>Номер док</Label>
-                        <TextBox Text="{Binding Path=DocSeria, ValidatesOnDataErrors=True, 
+                        <TextBox Text="{Binding Path=DocNumber, ValidatesOnDataErrors=True, 
                             UpdateSourceTrigger=PropertyChanged}" MaxLength="50"></TextBox>
                     </StackPanel>
                 </Grid>
@@ -125,8 +127,9 @@
                     </Grid.RowDefinitions>
                     <StackPanel Grid.Row="0">
                         <Label>Местность</Label>
-                        <ComboBox ItemsSource="{Binding MestnostList}" DisplayMemberPath="Name" SelectedValuePath="Id" 
-                                      SelectedValue="{Binding MestnostCurrent}"/>
+                        <ComboBox ItemsSource="{Binding MestnostList}" DisplayMemberPath="Name" 
+                                  SelectedValuePath="Id" 
+                                  SelectedValue="{Binding Mestnost}"/>
                     </StackPanel>
                     <StackPanel Grid.Row="1">
                         <Label>Регион</Label>

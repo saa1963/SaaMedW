@@ -12,54 +12,18 @@ namespace SaaMedW.ViewModel
     public class VmPerson : ViewModelBase, IDataErrorInfo
     {
         private Person m_object;
-        private readonly ObservableCollection<IdName> m_sex =
-            new ObservableCollection<IdName> {
+        public List<IdName> SexList { get; } =
+            new List<IdName> {
                 new IdName { Id = 1, Name = "Мужской" },
                 new IdName { Id = 2, Name = "Женский"} };
-        private readonly ObservableCollection<IdName> m_mestnost =
-            new ObservableCollection<IdName> {
+        public List<IdName> MestnostList { get; } =
+            new List<IdName> {
                 new IdName { Id = 1, Name = "Городская" },
                 new IdName { Id = 2, Name = "Сельская"} };
-        private ObservableCollection<VmDocumentType> m_doctype =
+        public ObservableCollection<VmDocumentType> DocTypeList { get; set; } =
             new ObservableCollection<VmDocumentType>();
         private SaaMedEntities ctx = new SaaMedEntities();
-        public ObservableCollection<IdName> SexList
-        {
-            get => m_sex;
-        }
-        public IdName SexCurrent
-        {
-            get
-            {
-                if (Sex.HasValue)
-                    return viewSex.CurrentItem as IdName;
-                else
-                    return null;
-            }
-            set { viewSex.MoveCurrentTo(value); }
-        }
-        private ICollectionView viewSex
-        {
-            get => CollectionViewSource.GetDefaultView(m_sex);
-        }
-        public IdName MestnostCurrent
-        {
-            get { return MestnostList.CurrentItem as IdName; }
-            set { MestnostList.MoveCurrentTo(value); }
-        }
-        public ICollectionView MestnostList
-        {
-            get => CollectionViewSource.GetDefaultView(m_mestnost);
-        }
-        public VmDocumentType DocTypeCurrent
-        {
-            get { return DocTypeList.CurrentItem as VmDocumentType; }
-            set { DocTypeList.MoveCurrentTo(value); }
-        }
-        public ICollectionView DocTypeList
-        {
-            get => CollectionViewSource.GetDefaultView(m_doctype);
-        }
+
         public VmPerson()
         {
             m_object = new Person();
@@ -109,7 +73,7 @@ namespace SaaMedW.ViewModel
         {
             foreach(DocumentType o in ctx.DocumentType)
             {
-                m_doctype.Add(new VmDocumentType(o));
+                DocTypeList.Add(new VmDocumentType(o));
             }
         }
         public string this[string columnName]

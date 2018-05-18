@@ -67,16 +67,5 @@ namespace SaaMedW.ViewModel
             }
             OnPropertyChanged("PersonalVisits");
         }
-        //public void AddVisit(VisitTimeInterval ti)
-        //{
-        //    var visit = new Visit()
-        //    { Dt = ti.Begin, Duration = ti.Interval.Minutes, PersonId = SelectedPersonId,
-        //        PersonalId = ti.PersonalId, Status = 0 };
-        //    var benefit = ctx.Benefit.Find(SelectedBenefitId);
-        //    visit.VisitBenefit.Add(new VisitBenefit() { Benefit = benefit, Kol = 1, Status = 0 });
-        //    ctx.Visit.Add(visit);
-        //    ctx.SaveChanges();
-        //    RefreshGridProc(null);
-        //}
     }
 }

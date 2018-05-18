@@ -15,17 +15,16 @@
         <Style x:Key="NoBorder" TargetType="ListBox">
             <Setter Property="BorderBrush" Value="Transparent"></Setter>
         </Style>
-        <Style x:Key="LabelStyle" TargetType="Label">
+        <Style x:Key="TimeIntervalStyle" TargetType="Border">
             <Style.Triggers>
                 <DataTrigger Binding="{Binding typeTimeInterval}" Value="{x:Static local0:TypeTimeInterval.Visit}">
                     <Setter Property="Background" Value="Aqua"></Setter>
-                    <Setter Property="FontWeight" Value="Bold"></Setter>
                 </DataTrigger>
             </Style.Triggers>
         </Style>
         <DataTemplate x:Key="GraphicTemplate">
-            <StackPanel>
-                <Label Style="{StaticResource LabelStyle}" Content="{Binding DisplayName}">
+            <Border BorderBrush="Transparent" Style="{StaticResource TimeIntervalStyle}" CornerRadius="10">
+                <Label Content="{Binding DisplayName}">
                     <Label.ContextMenu>
                         <ContextMenu>
                             <MenuItem Header="Добавить" Command="{Binding AddVisitCommand}" IsEnabled="{Binding Parent.Parent.Parent.IsSelectedPerson}"></MenuItem>
@@ -34,7 +33,7 @@
                         </ContextMenu>
                     </Label.ContextMenu>
                 </Label>
-            </StackPanel>
+            </Border>
         </DataTemplate>
     </UserControl.Resources>
     <Border Padding="10">
@@ -64,7 +63,7 @@
                         >
                 </ComboBox>
             </WrapPanel>
-            <ItemsControl Grid.Row="1" Margin="5" ItemsSource="{Binding PersonalVisits}">
+            <ItemsControl Grid.Row="1" Margin="5" ItemsSource="{Binding PersonalVisits}" BorderBrush="Transparent">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <StackPanel  VerticalAlignment="Top" HorizontalAlignment="Left" 
@@ -78,27 +77,31 @@
                                 <RowDefinition Height="Auto"></RowDefinition>
                                 <RowDefinition></RowDefinition>
                             </Grid.RowDefinitions>
-                            <Label Grid.Row="0" Content="{Binding PersonalFio}"></Label>
-                                <ScrollViewer Grid.Row="1" PreviewMouseWheel="ScrollViewer_PreviewMouseWheel">
-                                    <ItemsControl ItemsSource="{Binding DateIntervals}">
-                                        <ItemsControl.ItemTemplate>
-                                            <DataTemplate>
-                                                <Grid>
-                                                    <Grid.RowDefinitions>
-                                                        <RowDefinition Height="Auto"></RowDefinition>
-                                                        <RowDefinition></RowDefinition>
-                                                    </Grid.RowDefinitions>
-                                                    <Label Grid.Row="0" Content="{Binding Dt}" 
-                                                            ContentStringFormat="{}{0:dd.MM.yyyy}"></Label>
-                                                    <ListBox Grid.Row="1" ItemsSource="{Binding Intervals}" 
-                                                        HorizontalContentAlignment="Stretch" ItemTemplate="{StaticResource GraphicTemplate}">
+                            <Border Grid.Row="0" CornerRadius="5" Background="CadetBlue">
+                                <Label Content="{Binding PersonalFio}"></Label>
+                            </Border>
+                            <ScrollViewer Grid.Row="1" PreviewMouseWheel="ScrollViewer_PreviewMouseWheel">
+                                <ItemsControl ItemsSource="{Binding DateIntervals}" BorderBrush="Transparent">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto"></RowDefinition>
+                                                    <RowDefinition></RowDefinition>
+                                                </Grid.RowDefinitions>
+                                                <Border Grid.Row="0" CornerRadius="10" Background="{DynamicResource {x:Static SystemColors.GradientActiveCaptionBrushKey}}">
+                                                    <Label Content="{Binding Dt}" 
+                                                        ContentStringFormat="{}{0:dd.MM.yyyy}"></Label>
+                                                </Border>
+                                                <ListBox Grid.Row="1" ItemsSource="{Binding Intervals}" 
+                                                    HorizontalContentAlignment="Stretch" ItemTemplate="{StaticResource GraphicTemplate}" BorderBrush="Transparent">
                                                 </ListBox>
-                                                </Grid>
-                                            </DataTemplate>
-                                        </ItemsControl.ItemTemplate>
-                                    </ItemsControl>
-                                </ScrollViewer>
-                            </Grid>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </ScrollViewer>
+                        </Grid>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
