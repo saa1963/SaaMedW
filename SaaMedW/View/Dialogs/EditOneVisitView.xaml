@@ -17,7 +17,7 @@
             </Style.Triggers>
         </Style>
     </Window.Resources>
-    <Grid Margin="15,0,15,15">
+    <Grid Margin="15,15,15,15">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"></ColumnDefinition>
             <ColumnDefinition Width="Auto"/>
@@ -99,15 +99,19 @@
                 <Button Margin="20" Width="60" Content="Отмена" IsCancel="True"></Button>
             </StackPanel>
         </Grid>
-        <ListBox Grid.Column="1" MinWidth="100"></ListBox>
+        <ListBox Grid.Column="1" MinWidth="100" ItemsSource="{Binding ListBenefit}"
+                 DisplayMemberPath="Name" IsSynchronizedWithCurrentItem="True"
+                 SelectedItem="{Binding SelectedBenefit1}"></ListBox>
         <StackPanel Grid.Column="2" VerticalAlignment="Center">
-            <Button Margin="10">
+            <Button Margin="10" Command="{Binding AddBenefitCommand}">
                 <Image Source="../../image/forward.png"></Image>
             </Button>
-            <Button Margin="10">
+            <Button Margin="10" Command="{Binding RemoveBenefitCommand}">
                 <Image Source="../../image/back.png"></Image>
             </Button>
         </StackPanel>
-        <ListBox Grid.Column="3" MinWidth="100"></ListBox>
+        <ListBox Grid.Column="3" MinWidth="100" ItemsSource="{Binding VisitBenefit}"
+                 DisplayMemberPath="Name" IsSynchronizedWithCurrentItem="True"
+                 SelectedItem="{Binding SelectedBenefit2}"></ListBox>
     </Grid>
 </Window>

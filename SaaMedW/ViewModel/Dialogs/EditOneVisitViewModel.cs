@@ -21,21 +21,15 @@ namespace SaaMedW.ViewModel
         public List<IdName> ListStatus { get; private set; } = new List<IdName>();
         public EditOneVisitViewModel()
         {
-            FillPerson();
-            FillPersonal();
-            ListStatus.Add(new IdName() { Id = 0, Name = "Предварительный" });
-            ListStatus.Add(new IdName() { Id = 1, Name = "Завершен" });
-        }
-
-        private void FillPersonal()
-        {
-            ListPersonal = ctx.Personal.Where(s => s.Active).OrderBy(s => s.Fio).ToList();
-        }
-
-        private void FillPerson()
-        {
             ListPerson = ctx.Person.OrderBy(s => s.LastName).ThenBy(s => s.FirstName)
                 .ThenBy(s => s.MiddleName).ToList();
+            ListPersonal = ctx.Personal.Where(s => s.Active).OrderBy(s => s.Fio).ToList();
+            foreach (var o in ctx.Benefit.OrderBy(s => s.SpecialtyId))
+            {
+                ListBenefit.Add(o);
+            }
+            ListStatus.Add(new IdName() { Id = 0, Name = "Предварительный" });
+            ListStatus.Add(new IdName() { Id = 1, Name = "Завершен" });
         }
         public EditOneVisitViewModel(Visit visit):this()
         {
@@ -44,7 +38,19 @@ namespace SaaMedW.ViewModel
             Dt = visit.Dt;
             Duration = visit.Duration;
             Status = visit.Status;
+            foreach(var o in visit.VisitBenefit)
+            {
+                VisitBenefit.Add(o.Benefit);
+                ListBenefit.Remove(ListBenefit.Single(s => s.Id == o.BenefitId));
+            }
+            
         }
+        public ObservableCollection<Benefit> VisitBenefit { get; set; } 
+            = new ObservableCollection<Benefit>();
+        public ObservableCollection<Benefit> ListBenefit { get; set; }
+            = new ObservableCollection<Benefit>();
+        public Benefit SelectedBenefit1 { get; set; }
+        public Benefit SelectedBenefit2 { get; set; }
         public int PersonId
         {
             get => m_PersonId;
@@ -95,6 +101,24 @@ namespace SaaMedW.ViewModel
                 m_Status = value;
                 OnPropertyChanged("Status");
             }
+        }
+        public RelayCommand AddBenefitCommand
+        {
+            get => new RelayCommand(AddBenefit, s => SelectedBenefit1 != null);
+        }
+
+        private void AddBenefit(object obj)
+        {
+            throw new NotImplementedException();
+        }
+        public RelayCommand RemoveBenefitCommand
+        {
+            get => new RelayCommand(RemoveBenefit, s => SelectedBenefit2 != null);
+        }
+
+        private void RemoveBenefit(object obj)
+        {
+            throw new NotImplementedException();
         }
     }
 }
