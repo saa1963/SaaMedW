@@ -1,0 +1,51 @@
+﻿<UserControl x:Class="SaaMedW.View.VisitView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SaaMedW.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800" Padding="10">
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+            <Label DockPanel.Dock="Left" Content="Дата"></Label>
+            <DatePicker SelectedDateFormat="Short"></DatePicker>
+        </StackPanel>
+        <ListBox BorderBrush="Transparent">
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel>
+                    </WrapPanel>
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid Margin="10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <DockPanel Grid.Row="0">
+                            <Label DockPanel.Dock="Left" Content="Время"></Label>
+                            <TextBlock Text="{Binding Time}"></TextBlock>
+                        </DockPanel>
+                        <DockPanel Grid.Row="1">
+                            <Label DockPanel.Dock="Left" Content="Пациент"></Label>
+                            <TextBlock Text="{Binding Person.FioBirthday}"></TextBlock>
+                        </DockPanel>
+                        <DockPanel Grid.Row="2">
+                            <Label DockPanel.Dock="Left" Content="Врач"></Label>
+                            <TextBlock Text="{Binding Personal.Fio}"></TextBlock>
+                        </DockPanel>
+                        <DockPanel Grid.Row="3">
+                            <Label DockPanel.Dock="Left" Content="Продолжительность(мин)"></Label>
+                            <TextBlock Text="{Binding Duration}"></TextBlock>
+                        </DockPanel>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </DockPanel>
+</UserControl>

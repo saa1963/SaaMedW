@@ -127,6 +127,7 @@
     <Compile Include="PersonalSpecialty.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\PersonPartial.cs" />
     <Compile Include="RelayCommand.cs" />
     <Compile Include="Role.cs" />
     <Compile Include="RoleToStringConverter.cs" />
@@ -158,6 +159,9 @@
     <Compile Include="ViewModel\VisitTimeInterval.cs" />
     <Compile Include="View\Dialogs\EditOneVisitView.xaml.cs">
       <DependentUpon>EditOneVisitView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\VisitView.xaml.cs">
+      <DependentUpon>VisitView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Vm\VmInvoiceDetail.cs" />
     <Compile Include="Vm\VmInvoice.cs" />
@@ -325,6 +329,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\VisitsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\VisitView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

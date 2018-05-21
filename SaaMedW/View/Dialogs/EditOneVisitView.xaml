@@ -38,7 +38,7 @@
             </Grid.RowDefinitions>
             <StackPanel Grid.Row="0">
                 <Label Content="Пациент"></Label>
-                <ComboBox ItemsSource="{Binding ListPerson}" DisplayMemberPath="LastName" 
+                <ComboBox ItemsSource="{Binding ListPerson}" DisplayMemberPath="FioBirthday" 
                           SelectedValuePath="Id" SelectedValue="{Binding PersonId}"></ComboBox>
             </StackPanel>
             <StackPanel Grid.Row="1">
