@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SaaMedW.View"
         xmlns:local0="clr-namespace:SaaMedW"
-        mc:Ignorable="d" SizeToContent="WidthAndHeight" ResizeMode="NoResize">
+        mc:Ignorable="d" SizeToContent="WidthAndHeight" ResizeMode="NoResize" 
+        WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <Style TargetType="{x:Type TextBox}">
             <Style.Triggers>
@@ -99,9 +100,12 @@
                 <Button Margin="20" Width="60" Content="Отмена" IsCancel="True"></Button>
             </StackPanel>
         </Grid>
-        <ListBox Grid.Column="1" MinWidth="100" ItemsSource="{Binding ListBenefit}"
+        <DockPanel Grid.Column="1">
+            <Label DockPanel.Dock="Top" Content="Все услуги"></Label>
+            <ListBox DockPanel.Dock="Top" MinWidth="100" ItemsSource="{Binding ListBenefit}"
                  DisplayMemberPath="Name" IsSynchronizedWithCurrentItem="True"
                  SelectedItem="{Binding SelectedBenefit1}"></ListBox>
+        </DockPanel>
         <StackPanel Grid.Column="2" VerticalAlignment="Center">
             <Button Margin="10" Command="{Binding AddBenefitCommand}">
                 <Image Source="../../image/forward.png"></Image>
@@ -110,8 +114,22 @@
                 <Image Source="../../image/back.png"></Image>
             </Button>
         </StackPanel>
-        <ListBox Grid.Column="3" MinWidth="100" ItemsSource="{Binding VisitBenefit}"
-                 DisplayMemberPath="Name" IsSynchronizedWithCurrentItem="True"
-                 SelectedItem="{Binding SelectedBenefit2}"></ListBox>
+        <DockPanel Grid.Column="3">
+            <Label DockPanel.Dock="Top" Content="Выбранные услуги (Кол. + Наименование)"></Label>
+            <ListBox DockPanel.Dock="Top" MinWidth="100" ItemsSource="{Binding VisitBenefit}"
+                 IsSynchronizedWithCurrentItem="True"
+                 SelectedItem="{Binding SelectedBenefit2}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <DockPanel>
+                            <TextBox Margin="5" DockPanel.Dock="Left" Text="{Binding Kol, 
+                            UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:0}}"
+                                    Width="40" HorizontalContentAlignment="Right"></TextBox>
+                            <TextBlock Margin="5" DockPanel.Dock="Left" Text="{Binding Benefit.Name}"></TextBlock>
+                        </DockPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </DockPanel>
     </Grid>
 </Window>

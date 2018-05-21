@@ -60,12 +60,24 @@ namespace SaaMedW.ViewModel
         {
             var root = this.Parent.Parent.Parent;
             var visit = root.ctx.Visit.Find(VisitId);
-            //root.ctx.Entry(visit).Collection(s => s.VisitBenefit).Load();
             var modelView = new EditOneVisitViewModel(visit);
             var f = new EditOneVisitView() { DataContext = modelView };
             if (f.ShowDialog() ?? false)
             {
-
+                visit.Dt = modelView.Dt.AddHours(modelView.H1).AddMinutes(modelView.M1);
+                visit.Duration = modelView.Duration;
+                visit.PersonalId = modelView.PersonalId;
+                visit.PersonId = modelView.PersonId;
+                visit.Status = modelView.Status;
+                root.ctx.VisitBenefit.RemoveRange(visit.VisitBenefit);
+                visit.VisitBenefit.Clear();
+                foreach (var o in modelView.VisitBenefit)
+                {
+                    visit.VisitBenefit.Add(new VisitBenefit()
+                        { BenefitId = o.BenefitId,
+                            Kol = o.Kol, Status = o.Status });
+                }
+                root.ctx.SaveChanges();
             }
         }
 

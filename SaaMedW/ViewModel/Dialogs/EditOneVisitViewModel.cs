@@ -40,17 +40,18 @@ namespace SaaMedW.ViewModel
             Status = visit.Status;
             foreach(var o in visit.VisitBenefit)
             {
-                VisitBenefit.Add(o.Benefit);
+                VisitBenefit.Add(new VisitBenefit()
+                    { BenefitId = o.BenefitId, Benefit = ctx.Benefit.Find(o.BenefitId), Kol = o.Kol });
                 ListBenefit.Remove(ListBenefit.Single(s => s.Id == o.BenefitId));
             }
             
         }
-        public ObservableCollection<Benefit> VisitBenefit { get; set; } 
-            = new ObservableCollection<Benefit>();
+        public ObservableCollection<VisitBenefit> VisitBenefit { get; set; } 
+            = new ObservableCollection<VisitBenefit>();
         public ObservableCollection<Benefit> ListBenefit { get; set; }
             = new ObservableCollection<Benefit>();
         public Benefit SelectedBenefit1 { get; set; }
-        public Benefit SelectedBenefit2 { get; set; }
+        public VisitBenefit SelectedBenefit2 { get; set; }
         public int PersonId
         {
             get => m_PersonId;
@@ -109,7 +110,9 @@ namespace SaaMedW.ViewModel
 
         private void AddBenefit(object obj)
         {
-            throw new NotImplementedException();
+            VisitBenefit.Add(new VisitBenefit()
+                { BenefitId = SelectedBenefit1.Id, Benefit = SelectedBenefit1, Kol = 1  });
+            ListBenefit.Remove(SelectedBenefit1);
         }
         public RelayCommand RemoveBenefitCommand
         {
@@ -118,7 +121,14 @@ namespace SaaMedW.ViewModel
 
         private void RemoveBenefit(object obj)
         {
-            throw new NotImplementedException();
+            ListBenefit.Add(SelectedBenefit2.Benefit);
+            VisitBenefit.Remove(SelectedBenefit2);
         }
+    }
+
+    public class NameKol
+    {
+        public string Name { get; set; }
+        public int Kol { get; set; }
     }
 }
