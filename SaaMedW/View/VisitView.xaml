@@ -6,12 +6,19 @@
              xmlns:local="clr-namespace:SaaMedW.View"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" Padding="10">
+    <UserControl.Resources>
+        <Style x:Key="head" TargetType="TextBlock">
+            <Setter Property="FontWeight" Value="Bold"></Setter>
+        </Style>
+    </UserControl.Resources>
     <DockPanel>
         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
             <Label DockPanel.Dock="Left" Content="Дата"></Label>
-            <DatePicker SelectedDateFormat="Short"></DatePicker>
+            <DatePicker SelectedDateFormat="Short" SelectedDate="{Binding SelectedDate}"></DatePicker>
         </StackPanel>
-        <ListBox BorderBrush="Transparent">
+        <ListBox BorderBrush="Transparent" ItemsSource="{Binding ListVisit}" 
+                 SelectedItem="{Binding SelectedVisit}" 
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled">
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
                     <WrapPanel>
@@ -26,22 +33,27 @@
                             <RowDefinition></RowDefinition>
                             <RowDefinition></RowDefinition>
                             <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
                         </Grid.RowDefinitions>
                         <DockPanel Grid.Row="0">
-                            <Label DockPanel.Dock="Left" Content="Время"></Label>
-                            <TextBlock Text="{Binding Time}"></TextBlock>
+                            <TextBlock Style="{StaticResource head}" Margin="5" DockPanel.Dock="Left" Text="Время"></TextBlock>
+                            <TextBlock Margin="0,5,5,5" Text="{Binding Time}"></TextBlock>
                         </DockPanel>
                         <DockPanel Grid.Row="1">
-                            <Label DockPanel.Dock="Left" Content="Пациент"></Label>
-                            <TextBlock Text="{Binding Person.FioBirthday}"></TextBlock>
+                            <TextBlock Style="{StaticResource head}" Margin="5" DockPanel.Dock="Left" Text="Пациент"></TextBlock>
+                            <TextBlock Margin="0,5,5,5" Text="{Binding Person.Fio}"></TextBlock>
                         </DockPanel>
                         <DockPanel Grid.Row="2">
-                            <Label DockPanel.Dock="Left" Content="Врач"></Label>
-                            <TextBlock Text="{Binding Personal.Fio}"></TextBlock>
+                            <TextBlock Style="{StaticResource head}" Margin="5" DockPanel.Dock="Left" Text="Телефон"></TextBlock>
+                            <TextBlock Margin="0,5,5,5" Text="{Binding Person.Phone}"></TextBlock>
                         </DockPanel>
                         <DockPanel Grid.Row="3">
-                            <Label DockPanel.Dock="Left" Content="Продолжительность(мин)"></Label>
-                            <TextBlock Text="{Binding Duration}"></TextBlock>
+                            <TextBlock Style="{StaticResource head}" Margin="5" DockPanel.Dock="Left" Text="Врач"></TextBlock>
+                            <TextBlock Margin="0,5,5,5" Text="{Binding Personal.Fio}"></TextBlock>
+                        </DockPanel>
+                        <DockPanel Grid.Row="4">
+                            <TextBlock Style="{StaticResource head}" Margin="5" DockPanel.Dock="Left" Text="Продолжительность(мин)"></TextBlock>
+                            <TextBlock Margin="0,5,5,5" Text="{Binding Duration}"></TextBlock>
                         </DockPanel>
                     </Grid>
                 </DataTemplate>

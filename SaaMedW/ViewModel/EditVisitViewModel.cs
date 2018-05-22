@@ -17,8 +17,8 @@ namespace SaaMedW.ViewModel
 
         public ObservableCollection<Benefit> BenefitsList { get; set; } =
                 new ObservableCollection<Benefit>();
-        public ObservableCollection<VmPerson> PersonList { get; set; } =
-                new ObservableCollection<VmPerson>();
+        public ObservableCollection<EditPersonViewModel> PersonList { get; set; } =
+                new ObservableCollection<EditPersonViewModel>();
         private int m_SelectedPersonId;
         public int SelectedPersonId
         {
@@ -42,7 +42,7 @@ namespace SaaMedW.ViewModel
             foreach (var o in ctx.Person.OrderBy(s => s.LastName).ThenBy(s => s.FirstName)
                 .ThenBy(s => s.MiddleName))
             {
-                PersonList.Add(new VmPerson(o));
+                PersonList.Add(new EditPersonViewModel(o));
             }
         }
         public RelayCommand RefreshGrid

@@ -1,101 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Data;
 
 namespace SaaMedW.ViewModel
 {
-    public class VmPerson : ViewModelBase, IDataErrorInfo
+    public class VmPerson : ViewModelBase
     {
         private Person m_object;
-        public List<IdName> SexList { get; } =
-            new List<IdName> {
-                new IdName { Id = 1, Name = "Мужской" },
-                new IdName { Id = 2, Name = "Женский"} };
-        public List<IdName> MestnostList { get; } =
-            new List<IdName> {
-                new IdName { Id = 1, Name = "Городская" },
-                new IdName { Id = 2, Name = "Сельская"} };
-        public ObservableCollection<VmDocumentType> DocTypeList { get; set; } =
-            new ObservableCollection<VmDocumentType>();
-        private SaaMedEntities ctx = new SaaMedEntities();
 
         public VmPerson()
         {
             m_object = new Person();
-            FillDocType();
             m_object.CreateDate = DateTime.Now;
         }
         public VmPerson(Person par)
         {
             m_object = par;
-            FillDocType();
-        }
-        public VmPerson(VmPerson obj)
-        {
-            m_object = new Person();
-            Id = obj.Id;
-            CopyProperties(obj);
-        }
-        public VmPerson Copy(VmPerson obj)
-        {
-            CopyProperties(obj);
-            return this;
-        }
-        private void CopyProperties(VmPerson obj)
-        {
-            AddressCity = obj.AddressCity;
-            AddressFlat = obj.AddressFlat;
-            AddressHouse = obj.AddressHouse;
-            AddressPunkt = obj.AddressPunkt;
-            AddressRaion = obj.AddressRaion;
-            AddressStreet = obj.AddressStreet;
-            AddressSubject = obj.AddressSubject;
-            BirthDate = obj.BirthDate;
-            CreateDate = obj.CreateDate;
-            DocNumber = obj.DocNumber;
-            DocSeria = obj.DocSeria;
-            DocumentTypeId = obj.DocumentTypeId;
-            FirstName = obj.FirstName;
-            Inn = obj.Inn;
-            LastName = obj.LastName;
-            Mestnost = obj.Mestnost;
-            MiddleName = obj.MiddleName;
-            Phone = obj.Phone;
-            Sex = obj.Sex;
-            Snils = obj.Snils;
-        }
-        private void FillDocType()
-        {
-            foreach(DocumentType o in ctx.DocumentType)
-            {
-                DocTypeList.Add(new VmDocumentType(o));
-            }
-        }
-        public string this[string columnName]
-        {
-            get
-            {
-                var result = String.Empty;
-                switch (columnName)
-                {
-                    case "LastName":
-                        if (String.IsNullOrWhiteSpace(LastName))
-                            result = "Не введена фамилия.";
-                        break;
-                    case "FirstName":
-                        if (String.IsNullOrWhiteSpace(FirstName))
-                            result = "Не введено имя.";
-                        break;
-                    default:
-                        break;
-                }
-                return result;
-            }
         }
 
         public Person Obj
@@ -299,6 +222,5 @@ namespace SaaMedW.ViewModel
         {
             return (LastName + " " + FirstName + " " + MiddleName ?? "").TrimEnd();
         }
-        public string Error => "";
     }
 }

@@ -157,6 +157,8 @@
     <Compile Include="ViewModel\EditVisitViewModel.cs" />
     <Compile Include="ViewModel\PersonalVisitsViewModel.cs" />
     <Compile Include="ViewModel\VisitTimeInterval.cs" />
+    <Compile Include="ViewModel\VisitViewModel.cs" />
+    <Compile Include="ViewModel\VmPerson.cs" />
     <Compile Include="View\Dialogs\EditOneVisitView.xaml.cs">
       <DependentUpon>EditOneVisitView.xaml</DependentUpon>
     </Compile>
@@ -181,7 +183,7 @@
     <Compile Include="ViewModel\UsersViewModel.cs" />
     <Compile Include="ViewModel\Bases\ViewModelBase.cs" />
     <Compile Include="Vm\VmDocumentType.cs" />
-    <Compile Include="Vm\VmPerson.cs" />
+    <Compile Include="ViewModel\Dialogs\EditPersonViewModel.cs" />
     <Compile Include="Vm\VmSpecialty.cs" />
     <Compile Include="Vm\VmUsers.cs" />
     <Compile Include="Vm\VmGraphic.cs" />

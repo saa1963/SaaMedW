@@ -104,5 +104,9 @@ namespace SaaMedW.ViewModel
                 OnPropertyChanged("VisitBenefit");
             }
         }
+        public string Time
+        {
+            get => Dt.ToString("HH:mm");
+        }
     }
 }

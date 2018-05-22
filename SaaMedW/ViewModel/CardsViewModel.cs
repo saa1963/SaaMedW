@@ -13,16 +13,16 @@ namespace SaaMedW.ViewModel
     public class CardsViewModel : ViewModelBase
     {
         private SaaMedEntities ctx = new SaaMedEntities();
-        private readonly ObservableCollection<VmPerson> m_cards = new ObservableCollection<VmPerson>();
+        private readonly ObservableCollection<EditPersonViewModel> m_cards = new ObservableCollection<EditPersonViewModel>();
 
         public CardsViewModel()
         {
             foreach (var o in ctx.Person)
             {
-                m_cards.Add(new VmPerson(o));
+                m_cards.Add(new EditPersonViewModel(o));
             }
         }
-        public ObservableCollection<VmPerson> CardsList
+        public ObservableCollection<EditPersonViewModel> CardsList
         {
             get { return m_cards; }
         }
@@ -48,7 +48,7 @@ namespace SaaMedW.ViewModel
 
         private void AddPerson(object obj)
         {
-            var modelView = new VmPerson();
+            var modelView = new EditPersonViewModel();
             var f = new EditCards() { DataContext = modelView };
             if (f.ShowDialog() ?? false)
             {
@@ -70,8 +70,8 @@ namespace SaaMedW.ViewModel
         private void EditPerson(object obj)
         {
             if (CardsSel == null) return;
-            var person = CardsSel as VmPerson;
-            var modelView = new VmPerson(person.Obj);
+            var person = CardsSel as EditPersonViewModel;
+            var modelView = new EditPersonViewModel(person.Obj);
             var f = new EditCards() { DataContext = modelView };
             if (f.ShowDialog() ?? false)
             {
@@ -91,7 +91,7 @@ namespace SaaMedW.ViewModel
         private void DelPerson(object obj)
         {
             if (CardsSel == null) return;
-            var person = CardsSel as VmPerson;
+            var person = CardsSel as EditPersonViewModel;
             ctx.Person.Remove(person.Obj);
             ctx.SaveChanges();
             CardsList.Remove(person);
@@ -108,7 +108,7 @@ namespace SaaMedW.ViewModel
         private void PrintMedCard(object obj)
         {
             if (CardsSel == null) return;
-            var person = CardsSel as VmPerson;
+            var person = CardsSel as EditPersonViewModel;
             new MedCard().DoIt(person.Obj);
         }
     }
