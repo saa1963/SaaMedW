@@ -5,8 +5,29 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SaaMedW.View"
         mc:Ignorable="d"
-        Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+        SizeToContent="WidthAndHeight">
+    <DockPanel>
+        <Grid DockPanel.Dock="Top">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Text="{Binding DateNum}"></TextBlock>
+            <StackPanel Grid.Row="1" Orientation="Horizontal">
+                <Label Content="Плательщик"></Label>
+                <ComboBox MinWidth="200" ItemsSource="{Binding ListPerson}" 
+                          SelectedValuePath="Id" 
+                          SelectedValue="{Binding SelectedPerson}">
+                </ComboBox>
+            </StackPanel>
+            <StackPanel Grid.Row="2" Orientation="Horizontal">
+                <Label Content="Статус"></Label>
+                <ComboBox MinWidth="200" ItemsSource="{Binding ListStatus}" 
+                          SelectedValuePath="Id" 
+                          SelectedValue="{Binding SelectedStatus}">
+                </ComboBox>
+            </StackPanel>
+        </Grid>
+    </DockPanel>
 </Window>
