@@ -10,6 +10,13 @@
         <Style x:Key="head" TargetType="TextBlock">
             <Setter Property="FontWeight" Value="Bold"></Setter>
         </Style>
+        <Style x:Key="CompleteVisit" TargetType="Border">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Status}" Value="1">
+                    <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.GradientActiveCaptionBrushKey}}"></Setter>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
     </UserControl.Resources>
     <DockPanel>
         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
@@ -27,35 +34,64 @@
             </ListBox.ItemsPanel>
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Grid Margin="10">
-                        <Grid.RowDefinitions>
-                            <RowDefinition></RowDefinition>
-                            <RowDefinition></RowDefinition>
-                            <RowDefinition></RowDefinition>
-                            <RowDefinition></RowDefinition>
-                            <RowDefinition></RowDefinition>
-                        </Grid.RowDefinitions>
-                        <DockPanel Grid.Row="0">
-                            <TextBlock Style="{StaticResource head}" Margin="5" DockPanel.Dock="Left" Text="Время"></TextBlock>
-                            <TextBlock Margin="0,5,5,5" Text="{Binding Time}"></TextBlock>
-                        </DockPanel>
-                        <DockPanel Grid.Row="1">
-                            <TextBlock Style="{StaticResource head}" Margin="5" DockPanel.Dock="Left" Text="Пациент"></TextBlock>
-                            <TextBlock Margin="0,5,5,5" Text="{Binding Person.Fio}"></TextBlock>
-                        </DockPanel>
-                        <DockPanel Grid.Row="2">
-                            <TextBlock Style="{StaticResource head}" Margin="5" DockPanel.Dock="Left" Text="Телефон"></TextBlock>
-                            <TextBlock Margin="0,5,5,5" Text="{Binding Person.Phone}"></TextBlock>
-                        </DockPanel>
-                        <DockPanel Grid.Row="3">
-                            <TextBlock Style="{StaticResource head}" Margin="5" DockPanel.Dock="Left" Text="Врач"></TextBlock>
-                            <TextBlock Margin="0,5,5,5" Text="{Binding Personal.Fio}"></TextBlock>
-                        </DockPanel>
-                        <DockPanel Grid.Row="4">
-                            <TextBlock Style="{StaticResource head}" Margin="5" DockPanel.Dock="Left" Text="Продолжительность(мин)"></TextBlock>
-                            <TextBlock Margin="0,5,5,5" Text="{Binding Duration}"></TextBlock>
-                        </DockPanel>
-                    </Grid>
+                    <Border CornerRadius="20" Style="{StaticResource CompleteVisit}">
+                        <Grid Margin="10" Background="Transparent" Opacity="{Binding IsPreviously}"
+                          Tag="{Binding DataContext,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}">
+                            <Grid.InputBindings>
+                                <MouseBinding Gesture="LeftDoubleClick" 
+                                          Command="{Binding Path=DataContext.EditVisitCommand, 
+                                            RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}">
+                                </MouseBinding>
+                            </Grid.InputBindings>
+                            <Grid.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="Изменить" 
+                                          Command="{Binding PlacementTarget.Tag.EditVisitCommand,
+                                            RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=ContextMenu}}">
+
+                                    </MenuItem>
+                                    <MenuItem Header="Удалить" 
+                                          Command="{Binding PlacementTarget.Tag.DelVisitCommand,
+                                            RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=ContextMenu}}">
+
+                                    </MenuItem>
+                                    <MenuItem Header="Сформировать счет" 
+                                          Command="{Binding PlacementTarget.Tag.GenerateInvoiceCommand,
+                                            RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=ContextMenu}}">
+
+                                    </MenuItem>
+                                </ContextMenu>
+                            </Grid.ContextMenu>
+                            <Grid.RowDefinitions>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <DockPanel Grid.Row="0">
+                                <TextBlock Style="{StaticResource head}" Margin="5" DockPanel.Dock="Left" Text="Время">
+                                </TextBlock>
+                                <TextBlock Margin="0,5,5,5" Text="{Binding Time}"></TextBlock>
+                            </DockPanel>
+                            <DockPanel Grid.Row="1">
+                                <TextBlock Style="{StaticResource head}" Margin="5" DockPanel.Dock="Left" Text="Пациент"></TextBlock>
+                                <TextBlock Margin="0,5,5,5" Text="{Binding Person.Fio}"></TextBlock>
+                            </DockPanel>
+                            <DockPanel Grid.Row="2">
+                                <TextBlock Style="{StaticResource head}" Margin="5" DockPanel.Dock="Left" Text="Телефон"></TextBlock>
+                                <TextBlock Margin="0,5,5,5" Text="{Binding Person.Phone}"></TextBlock>
+                            </DockPanel>
+                            <DockPanel Grid.Row="3">
+                                <TextBlock Style="{StaticResource head}" Margin="5" DockPanel.Dock="Left" Text="Врач"></TextBlock>
+                                <TextBlock Margin="0,5,5,5" Text="{Binding Personal.Fio}"></TextBlock>
+                            </DockPanel>
+                            <DockPanel Grid.Row="4">
+                                <TextBlock Style="{StaticResource head}" Margin="5" DockPanel.Dock="Left" Text="Продолжительность(мин)"></TextBlock>
+                                <TextBlock Margin="0,5,5,5" Text="{Binding Duration}"></TextBlock>
+                            </DockPanel>
+                        </Grid>
+                    </Border>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>

@@ -162,6 +162,9 @@
     <Compile Include="View\Dialogs\EditOneVisitView.xaml.cs">
       <DependentUpon>EditOneVisitView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\EditInvoiceView.xaml.cs">
+      <DependentUpon>EditInvoiceView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\VisitView.xaml.cs">
       <DependentUpon>VisitView.xaml</DependentUpon>
     </Compile>
@@ -238,9 +241,6 @@
     <Compile Include="View\UsersView.xaml.cs">
       <DependentUpon>UsersView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\VisitsView.xaml.cs">
-      <DependentUpon>VisitsView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Vm\VmVisit.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -310,6 +310,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\EditInvoiceView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\GraphicControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -327,10 +331,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\UsersView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\VisitsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

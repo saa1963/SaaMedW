@@ -108,5 +108,9 @@ namespace SaaMedW.ViewModel
         {
             get => Dt.ToString("HH:mm");
         }
+        public double IsPreviously
+        {
+            get => Dt < DateTime.Now ? 0.25 : 100;
+        }
     }
 }

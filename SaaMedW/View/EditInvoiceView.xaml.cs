@@ -10,17 +10,16 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace SaaMedW.View
 {
     /// <summary>
-    /// Логика взаимодействия для VisitsView.xaml
+    /// Логика взаимодействия для EditInvoiceView.xaml
     /// </summary>
-    public partial class VisitsView : Window
+    public partial class EditInvoiceView : Window
     {
-        public VisitsView()
+        public EditInvoiceView()
         {
             InitializeComponent();
         }
