@@ -11,6 +11,7 @@ namespace SaaMedW.ViewModel
     {
         private Users m_users;
         public event PropertyChangedEventHandler PropertyChanged;
+        public List<IdName> ListRole = Global.Source.ListRole;
         public VmUsers()
         {
             m_users = new Users();
@@ -22,6 +23,15 @@ namespace SaaMedW.ViewModel
         public Users users
         {
             get => m_users;
+        }
+        public int Id
+        {
+            get => m_users.Id;
+            set
+            {
+                m_users.Id = value;
+                OnPropertyChanged("Id");
+            }
         }
         public string Fio
         {

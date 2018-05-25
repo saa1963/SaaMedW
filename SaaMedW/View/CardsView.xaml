@@ -33,16 +33,16 @@
         <DataGrid Name="g" Grid.Row="1" Margin="5" ItemsSource="{Binding CardsList}" 
                   SelectedItem="{Binding CardsSel}" IsSynchronizedWithCurrentItem="True">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="50"></DataGridTextColumn>
+                <DataGridTextColumn IsReadOnly="True" Header="Id" Binding="{Binding Id}" Width="50"></DataGridTextColumn>
                 <DataGridTextColumn Header="Фамилия" Binding="{Binding LastName}" Width="150"></DataGridTextColumn>
                 <DataGridTextColumn Header="Имя" Binding="{Binding FirstName}" Width="100"></DataGridTextColumn>
-                <DataGridTextColumn Header="Отчество" Binding="{Binding MiddleName}" Width="100"/>
+                <DataGridTextColumn Header="Отчество" Binding="{Binding MiddleName, UpdateSourceTrigger=PropertyChanged}" Width="100"/>
                 <DataGridTextColumn Header="Дата рожд" Binding="{Binding BirthDate, StringFormat={}{0:dd.MM.yyyy}}" Width="100"></DataGridTextColumn>
                 <DataGridTextColumn Header="Телефон" Binding="{Binding Phone}" Width="100"></DataGridTextColumn>
                 <DataGridTextColumn Header="Пол" Binding="{Binding Sex}" Width="100"></DataGridTextColumn>
                 <DataGridTextColumn Header="ИНН" Binding="{Binding Inn}" Width="100"></DataGridTextColumn>
                 <DataGridTextColumn Header="СНИЛС" Binding="{Binding Snils}" Width="100"></DataGridTextColumn>
-                <DataGridTextColumn Header="Тип док" Binding="{Binding DocumentTypeId}" Width="100"></DataGridTextColumn>
+                <DataGridTextColumn IsReadOnly="True" Header="Тип док" Binding="{Binding DocumentType.Name}" Width="100"></DataGridTextColumn>
                 <DataGridTextColumn Header="Серия док" Binding="{Binding DocSeria}" Width="100"></DataGridTextColumn>
                 <DataGridTextColumn Header="№ док" Binding="{Binding DocNumber}" Width="100"></DataGridTextColumn>
                 <DataGridTextColumn Header="Регион" Binding="{Binding AddressSubject}" Width="100"></DataGridTextColumn>
@@ -53,7 +53,7 @@
                 <DataGridTextColumn Header="Дом" Binding="{Binding AddressHouse}" Width="100"></DataGridTextColumn>
                 <DataGridTextColumn Header="Квартира" Binding="{Binding AddressFlat}" Width="100"></DataGridTextColumn>
                 <DataGridTextColumn Header="Местность" Binding="{Binding Mestnost}" Width="100"></DataGridTextColumn>
-                <DataGridTextColumn Header="Создано" Binding="{Binding CreateDate, StringFormat={}{0:dd.MM.yyyy HH:mm:ss}}" Width="100"></DataGridTextColumn>
+                <DataGridTextColumn IsReadOnly="True" Header="Создано" Binding="{Binding CreateDate, StringFormat={}{0:dd.MM.yyyy HH:mm:ss}}" Width="100"></DataGridTextColumn>
 
             </DataGrid.Columns>
         </DataGrid>

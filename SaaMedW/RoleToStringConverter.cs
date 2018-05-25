@@ -16,13 +16,16 @@ namespace SaaMedW
         {
             int v = (int)value;
             Debug.Assert(v == 0 || v == 1);
-            if (v == 0) return "Администратор";
-            else return "Пользователь";
+            if (v == 0) return Role.Администратор;
+            else return Role.Пользователь;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return DependencyProperty.UnsetValue;
+            Role r = (Role)value;
+            Debug.Assert(r == Role.Администратор || r == Role.Пользователь);
+            if (r == Role.Администратор) return 0;
+            else return 1;
         }
     }
 }

@@ -192,6 +192,15 @@ namespace SaaMedW.ViewModel
                 OnPropertyChanged("DocumentTypeId");
             }
         }
+        public DocumentType DocumentType
+        {
+            get => m_object.DocumentType;
+            set
+            {
+                m_object.DocumentType = value;
+                OnPropertyChanged("DocumentType");
+            }
+        }
         public string DocSeria
         {
             get => m_object.DocSeria;

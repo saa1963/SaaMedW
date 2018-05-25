@@ -22,8 +22,8 @@
         <DataGrid Name="g" Grid.Row="1" Margin="1" ItemsSource="{Binding SpecialtyList}" 
                   SelectedItem="{Binding SpecialtySel}" IsSynchronizedWithCurrentItem="True">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="50"></DataGridTextColumn>
-                <DataGridTextColumn Header="Фамилия" Binding="{Binding Name}" Width="*"></DataGridTextColumn>
+                <DataGridTextColumn IsReadOnly="True" Header="Id" Binding="{Binding Id}" Width="50"></DataGridTextColumn>
+                <DataGridTextColumn Header="Фамилия" Binding="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Width="*"></DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

@@ -13,24 +13,19 @@ namespace SaaMedW.ViewModel
     public class UsersViewModel : ViewModelBase
     {
         private SaaMedEntities ctx = new SaaMedEntities();
-        private readonly ObservableCollection<VmUsers> m_users = new ObservableCollection<VmUsers>();
 
         public UsersViewModel()
         {
             foreach (var o in  ctx.Users)
             {
-                m_users.Add(new VmUsers(o));
+                UsersList.Add(new VmUsers(o));
             }
         }
-        public ObservableCollection<VmUsers> UsersList
-        {
-            get { return m_users; }
-        }
-        public object UsersSel
-        {
-            get { return viewUsers.CurrentItem; }
-            set { viewUsers.MoveCurrentTo(value); }
-        }
+        public ObservableCollection<VmUsers> UsersList { get; set; }
+            = new ObservableCollection<VmUsers>();
+
+        public VmUsers UsersSel { get; set; }
+
         private ICollectionView viewUsers
         {
             get

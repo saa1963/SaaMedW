@@ -5,29 +5,42 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SaaMedW.View"
         mc:Ignorable="d"
-        SizeToContent="WidthAndHeight">
+        SizeToContent="WidthAndHeight" Padding="10">
+    <Window.Resources>
+        <Style x:Key="PriceEditStyle" TargetType="TextBox">
+            <Setter Property="TextAlignment" Value="Right"></Setter>
+        </Style>
+    </Window.Resources>
     <DockPanel>
+        <TextBlock Margin="0,10,0,10" DockPanel.Dock="Top" Text="{Binding DateNumSum}">111</TextBlock>
         <Grid DockPanel.Dock="Top">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
             </Grid.RowDefinitions>
-            <TextBlock Grid.Row="0" Text="{Binding DateNum}"></TextBlock>
-            <StackPanel Grid.Row="1" Orientation="Horizontal">
-                <Label Content="Плательщик"></Label>
-                <ComboBox MinWidth="200" ItemsSource="{Binding ListPerson}" 
-                          SelectedValuePath="Id" 
-                          SelectedValue="{Binding SelectedPerson}">
-                </ComboBox>
-            </StackPanel>
-            <StackPanel Grid.Row="2" Orientation="Horizontal">
-                <Label Content="Статус"></Label>
-                <ComboBox MinWidth="200" ItemsSource="{Binding ListStatus}" 
-                          SelectedValuePath="Id" 
-                          SelectedValue="{Binding SelectedStatus}">
-                </ComboBox>
-            </StackPanel>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Label Margin="0,0,10,10" Grid.Row="0" Grid.Column="0" Content="Плательщик"></Label>
+            <ComboBox Margin="0,0,0,10" Grid.Row="0" Grid.Column="1" MinWidth="200" ItemsSource="{Binding ListPerson}" 
+                    SelectedValuePath="Id" 
+                    SelectedValue="{Binding SelectedPerson}">
+            </ComboBox>
+            <Label Margin="0,0,10,10" Grid.Row="1" Grid.Column="0" Content="Статус"></Label>
+            <ComboBox Margin="0,0,0,10" Grid.Row="1" Grid.Column="1" MinWidth="200" ItemsSource="{Binding ListStatus}" 
+                        SelectedValuePath="Id" 
+                        SelectedValue="{Binding SelectedStatus}">
+            </ComboBox>
         </Grid>
+        <DataGrid>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Binding="{Binding Id}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Наименование услуги" Binding="{Binding BenefitName, UpdateSourceTrigger=PropertyChanged}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Кол-во" Binding="{Binding Kol, StringFormat={}{0:0}, UpdateSourceTrigger=PropertyChanged}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Цена" Binding="{Binding Price, StringFormat={}{0:0.00}}" EditingElementStyle="{StaticResource PriceEditStyle}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Сумма"></DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
     </DockPanel>
 </Window>

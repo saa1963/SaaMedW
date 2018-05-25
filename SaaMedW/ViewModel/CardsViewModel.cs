@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
+using System.Data.Entity;
 
 namespace SaaMedW.ViewModel
 {
@@ -17,7 +18,7 @@ namespace SaaMedW.ViewModel
 
         public CardsViewModel()
         {
-            foreach (var o in ctx.Person)
+            foreach (var o in ctx.Person.Include(s => s.DocumentType))
             {
                 m_cards.Add(new EditPersonViewModel(o));
             }

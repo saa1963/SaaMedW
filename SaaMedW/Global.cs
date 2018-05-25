@@ -160,5 +160,12 @@ namespace SaaMedW
             }
             return null;
         }
+
+        public List<IdName> ListRole { get; set; } =
+            new List<IdName>()
+            {
+                new IdName { Id = 0, Name="Администратор"},
+                new IdName { Id = 1, Name="Пользователь"}
+            };
     }
 }

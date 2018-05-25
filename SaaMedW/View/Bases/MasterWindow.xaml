@@ -7,6 +7,70 @@
         WindowState="Maximized" >
     <Window.Resources>
         <Style TargetType="DataGrid">
+            <!-- Make the border and grid lines a little less imposing -->
+            <Setter Property="CanUserAddRows" Value="False"></Setter>
+            <Setter Property="AutoGenerateColumns" Value="False"></Setter>
+            <Setter Property="BorderBrush" Value="#DDDDDD" />
+            <Setter Property="HorizontalGridLinesBrush" Value="#DDDDDD" />
+            <Setter Property="VerticalGridLinesBrush" Value="#DDDDDD" />
+
+            <Setter Property="RowStyle">
+                <Setter.Value>
+                    <Style TargetType="DataGridRow">
+                        <Style.Triggers>
+                            <!-- Highlight a grid row as the mouse passes over -->
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="LightCyan" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="CellStyle">
+                <Setter.Value>
+                    <Style TargetType="DataGridCell">
+                        <Style.Triggers>
+                            <!-- Highlight selected rows -->
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Background" Value="#ff66ccff" />
+                                <Setter Property="BorderBrush" Value="Transparent" />
+                                <Setter Property="Foreground" Value="Black" />
+                            </Trigger>
+                            <Trigger Property="IsFocused" Value="True">
+                                <Setter Property="Background" Value="#ff66ccff" />
+                                <Setter Property="BorderBrush" Value="Black" />
+                                <Setter Property="BorderThickness" Value="1"/>
+                                <Setter Property="Foreground" Value="Black" />
+                            </Trigger>
+                        </Style.Triggers>
+                        <!-- Add some padding around the contents of a cell -->
+                        <Setter Property="Padding" Value="4,3,4,3" />
+                        <Setter Property="BorderBrush" Value="Transparent"/>
+                        <Setter Property="BorderThickness" Value="1"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="DataGridCell">
+                                    <Border Padding="{TemplateBinding Padding}" 
+                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                            BorderThickness="{TemplateBinding BorderThickness}"
+                                            Background="{TemplateBinding Background}">
+                                        <ContentPresenter />
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Property="FocusVisualStyle">
+                            <Setter.Value>
+                                <Style TargetType="Control">
+                                    <Setter Property="BorderBrush" Value="Transparent" />
+                                </Style>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <!--<Style TargetType="DataGrid">
             <Setter Property="AutoGenerateColumns" Value="False"/>
             <Setter Property="Background" Value="#E5F1E4"/>
             <Setter Property="IsReadOnly" Value="True"/>
@@ -21,11 +85,11 @@
         </Style>
         <LinearGradientBrush x:Key="MouseOverListBrush" StartPoint="0,0" EndPoint="0,1">
             <LinearGradientBrush.GradientStops>
-                <!--оранжевый-->
+                --><!--оранжевый-->
                 <!--<GradientStop Offset="0.0" Color="#FAE9C4"/>
                 <GradientStop Offset="0.5" Color="#F9E5BA"/>
                 <GradientStop Offset="0.51" Color="#F7DA9F"/>
-                <GradientStop Offset="1.0" Color="#F4D9A3"/>-->
+                <GradientStop Offset="1.0" Color="#F4D9A3"/>--><!--
 
                 <GradientStop Offset="0.0" Color="#D9FFD6"/>
                 <GradientStop Offset="0.5" Color="#D9FFD6"/>
@@ -36,11 +100,11 @@
 
         <LinearGradientBrush x:Key="SelectedItemListBrush"  StartPoint="0,0" EndPoint="0,1">
             <LinearGradientBrush.GradientStops>
-                <!--оранжевый-->
+                --><!--оранжевый-->
                 <!--<GradientStop Offset="0.0" Color="#F3C667"/>
                 <GradientStop Offset="0.5" Color="#F0BA4C"/>
                 <GradientStop Offset="0.51" Color="#EAA008"/>
-                <GradientStop Offset="1.0" Color="#E39E11"/>-->
+                <GradientStop Offset="1.0" Color="#E39E11"/>--><!--
 
                 <GradientStop Offset="0.0" Color="#94C791"/>
                 <GradientStop Offset="0.5" Color="#94C791"/>
@@ -190,7 +254,7 @@
             </Setter>
         </Style>
 
-        <!--
+        --><!--
         <vc:InNetworkIconConverter x:Key="iconInNetworkConv"/>
 
 
@@ -207,7 +271,7 @@
                 </DataTrigger>
             </DataTemplate.Triggers>
         </DataTemplate>
-        -->
+        --><!--
         <Style TargetType="{x:Type DataGrid}" x:Key="DataGridStyle">
             <Setter Property="AutoGenerateColumns" Value="False"/>
             <Setter Property="Background" Value="#E5F1E4"/>
@@ -222,7 +286,7 @@
             <Setter Property="ClipboardCopyMode" Value="IncludeHeader"/>
             <Setter Property="VerticalGridLinesBrush" Value="#C6D7C5"/>
             <Setter Property="SelectionUnit" Value="FullRow"/>
-        </Style>
+        </Style>-->
 
     </Window.Resources>
     <Grid>
