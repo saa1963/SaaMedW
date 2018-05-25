@@ -25,7 +25,7 @@
             <Label Margin="0,0,10,10" Grid.Row="0" Grid.Column="0" Content="Плательщик"></Label>
             <ComboBox Margin="0,0,0,10" Grid.Row="0" Grid.Column="1" MinWidth="200" ItemsSource="{Binding ListPerson}" 
                     SelectedValuePath="Id" 
-                    SelectedValue="{Binding SelectedPerson}">
+                    SelectedValue="{Binding PersonId}">
             </ComboBox>
             <Label Margin="0,0,10,10" Grid.Row="1" Grid.Column="0" Content="Статус"></Label>
             <ComboBox Margin="0,0,0,10" Grid.Row="1" Grid.Column="1" MinWidth="200" ItemsSource="{Binding ListStatus}" 

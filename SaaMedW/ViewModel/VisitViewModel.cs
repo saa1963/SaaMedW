@@ -9,16 +9,25 @@ using SaaMedW.View;
 
 namespace SaaMedW.ViewModel
 {
-    public class VisitViewModel: ViewModelBase
+    public class VisitViewModel : ViewModelBase
     {
         private SaaMedEntities ctx = new SaaMedEntities();
+        private DateTime _selectedDate;
+
         private DateTime SelectedDateNext { get => SelectedDate.AddDays(1); }
-        public DateTime SelectedDate { get; set; }
+        public DateTime SelectedDate
+        {
+            get => _selectedDate; set
+            {
+                _selectedDate = value;
+                OnPropertyChanged("ListVisit");
+            }
+        }
 
         public VmVisit SelectedVisit { get; set; }
         public ObservableCollection<VmVisit> ListVisit { get; set; }
             = new ObservableCollection<VmVisit>();
-        public VisitViewModel():base()
+        public VisitViewModel() : base()
         {
             SelectedDate = DateTime.Today;
             RefreshData();
@@ -30,7 +39,7 @@ namespace SaaMedW.ViewModel
             var q = ctx.Visit.Include(s => s.Person).Include(s => s.Personal)
                 .Where(s => s.Dt >= SelectedDate && s.Dt < SelectedDateNext)
                 .OrderBy(s => s.Dt);
-            foreach(var o in q)
+            foreach (var o in q)
             {
                 ListVisit.Add(new VmVisit(o));
             }
@@ -89,7 +98,12 @@ namespace SaaMedW.ViewModel
 
         private void GenerateInvoice(object obj)
         {
-            throw new NotImplementedException();
+            var modelView = new EditInvoiceViewModel(SelectedVisit);
+            var f = new EditInvoiceView() { DataContext = modelView };
+            if (f.ShowDialog() ?? false)
+            {
+
+            }
         }
     }
 }

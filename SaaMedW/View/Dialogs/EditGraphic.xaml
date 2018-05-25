@@ -47,6 +47,9 @@
                     <ComboBoxItem>18</ComboBoxItem>
                     <ComboBoxItem>19</ComboBoxItem>
                     <ComboBoxItem>20</ComboBoxItem>
+                    <ComboBoxItem>21</ComboBoxItem>
+                    <ComboBoxItem>22</ComboBoxItem>
+                    <ComboBoxItem>23</ComboBoxItem>
                 </ComboBox>
                 <ComboBox Text="{Binding M1,  ValidatesOnDataErrors=True, 
                             UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:00}}" Width="50">
@@ -71,6 +74,9 @@
                     <ComboBoxItem>18</ComboBoxItem>
                     <ComboBoxItem>19</ComboBoxItem>
                     <ComboBoxItem>20</ComboBoxItem>
+                    <ComboBoxItem>21</ComboBoxItem>
+                    <ComboBoxItem>22</ComboBoxItem>
+                    <ComboBoxItem>23</ComboBoxItem>
                 </ComboBox>
                 <ComboBox Text="{Binding M2,  ValidatesOnDataErrors=True, 
                             UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:00}}" Width="50">
