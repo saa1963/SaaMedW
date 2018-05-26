@@ -4,14 +4,24 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SaaMedW.View"
+        xmlns:local0="clr-namespace:SaaMedW"
+        xmlns:core="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
-        SizeToContent="WidthAndHeight" Padding="10">
+        SizeToContent="WidthAndHeight">
     <Window.Resources>
         <Style x:Key="PriceEditStyle" TargetType="TextBox">
             <Setter Property="TextAlignment" Value="Right"></Setter>
         </Style>
+        <Style x:Key="EditStyle" TargetType="DataGridCell">
+            <Setter Property="HorizontalAlignment"  Value="Right"></Setter>
+        </Style>
+        <ObjectDataProvider x:Key="StatusEnum" MethodName="GetValues" ObjectType="{x:Type core:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type Type="local0:enStatusInvoice"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
     </Window.Resources>
-    <DockPanel>
+    <DockPanel Margin="20">
         <TextBlock Margin="0,10,0,10" DockPanel.Dock="Top" Text="{Binding DateNumSum}">111</TextBlock>
         <Grid DockPanel.Dock="Top">
             <Grid.RowDefinitions>
@@ -23,23 +33,24 @@
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Label Margin="0,0,10,10" Grid.Row="0" Grid.Column="0" Content="Плательщик"></Label>
-            <ComboBox Margin="0,0,0,10" Grid.Row="0" Grid.Column="1" MinWidth="200" ItemsSource="{Binding ListPerson}" 
-                    SelectedValuePath="Id" 
-                    SelectedValue="{Binding PersonId}">
+            <ComboBox Margin="0,0,0,10" Grid.Row="0" Grid.Column="1" MinWidth="200" 
+                      ItemsSource="{Binding ListPerson}" DisplayMemberPath="FioBirthday"
+                        SelectedValuePath="Id" 
+                        SelectedValue="{Binding PersonId}">
             </ComboBox>
             <Label Margin="0,0,10,10" Grid.Row="1" Grid.Column="0" Content="Статус"></Label>
-            <ComboBox Margin="0,0,0,10" Grid.Row="1" Grid.Column="1" MinWidth="200" ItemsSource="{Binding ListStatus}" 
-                        SelectedValuePath="Id" 
-                        SelectedValue="{Binding SelectedStatus}">
+            <ComboBox Margin="0,0,0,10" Grid.Row="1" Grid.Column="1" MinWidth="200" 
+                      ItemsSource="{Binding Source={StaticResource StatusEnum}}" 
+                        SelectedValue="{Binding Status}">
             </ComboBox>
         </Grid>
-        <DataGrid>
+        <DataGrid ItemsSource="{Binding ListInvoiceDetail}">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="ID" Binding="{Binding Id}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Наименование услуги" Binding="{Binding BenefitName, UpdateSourceTrigger=PropertyChanged}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Кол-во" Binding="{Binding Kol, StringFormat={}{0:0}, UpdateSourceTrigger=PropertyChanged}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Цена" Binding="{Binding Price, StringFormat={}{0:0.00}}" EditingElementStyle="{StaticResource PriceEditStyle}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Сумма"></DataGridTextColumn>
+                <DataGridTextColumn Width="50" IsReadOnly="True" Header="ID" Binding="{Binding Id}"></DataGridTextColumn>
+                <DataGridTextColumn MinWidth="200" Header="Наименование услуги" Binding="{Binding BenefitName, UpdateSourceTrigger=PropertyChanged}"></DataGridTextColumn>
+                <DataGridTextColumn Width="80" Header="Кол-во" Binding="{Binding Kol, StringFormat={}{0:0}, UpdateSourceTrigger=PropertyChanged}" CellStyle="{StaticResource EditStyle}"></DataGridTextColumn>
+                <DataGridTextColumn Width="80" Header="Цена" Binding="{Binding Price, StringFormat={}{0:0.00}}" CellStyle="{StaticResource EditStyle}" EditingElementStyle="{StaticResource PriceEditStyle}"></DataGridTextColumn>
+                <DataGridTextColumn Width="80" Header="Сумма" Binding="{Binding Sm, StringFormat={}{0:0.00}}" CellStyle="{StaticResource EditStyle}"></DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
     </DockPanel>

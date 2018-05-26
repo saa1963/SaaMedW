@@ -37,6 +37,7 @@ namespace SaaMedW.ViewModel
         {
             ListVisit.Clear();
             var q = ctx.Visit.Include(s => s.Person).Include(s => s.Personal)
+                .Include(s => s.VisitBenefit.Select(o => o.Benefit))
                 .Where(s => s.Dt >= SelectedDate && s.Dt < SelectedDateNext)
                 .OrderBy(s => s.Dt);
             foreach (var o in q)
@@ -98,7 +99,7 @@ namespace SaaMedW.ViewModel
 
         private void GenerateInvoice(object obj)
         {
-            var modelView = new EditInvoiceViewModel(SelectedVisit);
+            var modelView = new EditInvoiceViewModel(ctx, SelectedVisit);
             var f = new EditInvoiceView() { DataContext = modelView };
             if (f.ShowDialog() ?? false)
             {

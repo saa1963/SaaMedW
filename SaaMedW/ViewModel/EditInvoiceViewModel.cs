@@ -9,7 +9,7 @@ namespace SaaMedW.ViewModel
 {
     public class EditInvoiceViewModel : ViewModelBase
     {
-        private SaaMedEntities ctx = new SaaMedEntities();
+        private SaaMedEntities ctx;
         private VmVisit selectedVisit;
         private DateTime _dt;
         private int _num;
@@ -21,9 +21,11 @@ namespace SaaMedW.ViewModel
             = new ObservableCollection<VmInvoiceDetail>();
         private int _id;
 
-        public EditInvoiceViewModel(VmVisit selectedVisit)
+        public EditInvoiceViewModel(SaaMedEntities _ctx,  VmVisit selectedVisit)
         {
+            ctx = _ctx;
             this.selectedVisit = selectedVisit;
+
             Dt = DateTime.Now;
             Status = enStatusInvoice.Неоплачен;
             PersonId = selectedVisit.PersonId;
