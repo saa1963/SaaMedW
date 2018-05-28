@@ -5,27 +5,27 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="3f6a0f22eafd427f92b78f6e233db029" Name="Diagram1" DisplayType="true">
-        <EntityTypeShape EntityType="SaaMedModel.DocumentType" Width="1.5" PointX="0.75" PointY="2.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="SaaMedModel.Person" Width="2" PointX="3" PointY="1.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="SaaMedModel.Users" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SaaMedModel.DocumentType" Width="1.5" PointX="0.5" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SaaMedModel.Person" Width="2" PointX="0.5" PointY="3" IsExpanded="true" />
+        <EntityTypeShape EntityType="SaaMedModel.Users" Width="1.5" PointX="17.375" PointY="8.125" IsExpanded="true" />
         <AssociationConnector Association="SaaMedModel.FK_Person_DocumentType" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="SaaMedModel.Specialty" Width="1.5" PointX="5.375" PointY="3.75" />
-        <EntityTypeShape EntityType="SaaMedModel.Personal" Width="1.5" PointX="7.625" PointY="4.75" />
-        <EntityTypeShape EntityType="SaaMedModel.Graphic" Width="1.5" PointX="9.875" PointY="4" />
+        <EntityTypeShape EntityType="SaaMedModel.Specialty" Width="1.5" PointX="5.875" PointY="5.25" />
+        <EntityTypeShape EntityType="SaaMedModel.Personal" Width="1.5" PointX="8.125" PointY="6.25" />
+        <EntityTypeShape EntityType="SaaMedModel.Graphic" Width="1.5" PointX="10.375" PointY="5.5" />
         <AssociationConnector Association="SaaMedModel.FK_Graphic_Personal" />
-        <EntityTypeShape EntityType="SaaMedModel.Benefit" Width="1.5" PointX="7.625" PointY="7.5" />
+        <EntityTypeShape EntityType="SaaMedModel.Benefit" Width="1.5" PointX="8.125" PointY="9" />
         <AssociationConnector Association="SaaMedModel.FK_Benefit_ToTable" />
-        <EntityTypeShape EntityType="SaaMedModel.Invoice" Width="1.5" PointX="0.625" PointY="6.375" />
-        <EntityTypeShape EntityType="SaaMedModel.InvoiceDetail" Width="1.5" PointX="3.125" PointY="7.375" />
-        <EntityTypeShape EntityType="SaaMedModel.Visit" Width="1.5" PointX="9.875" PointY="0.75" />
-        <EntityTypeShape EntityType="SaaMedModel.VisitBenefit" Width="1.5" PointX="12.125" PointY="4.125" />
+        <EntityTypeShape EntityType="SaaMedModel.Invoice" Width="1.5" PointX="3.375" PointY="0.5" />
+        <EntityTypeShape EntityType="SaaMedModel.InvoiceDetail" Width="1.5" PointX="6.25" PointY="0.5" />
+        <EntityTypeShape EntityType="SaaMedModel.Visit" Width="1.5" PointX="10.375" PointY="2.25" />
+        <EntityTypeShape EntityType="SaaMedModel.VisitBenefit" Width="1.5" PointX="12.625" PointY="5.625" />
         <AssociationConnector Association="SaaMedModel.FK_Table_Benefit" />
         <AssociationConnector Association="SaaMedModel.FK_Invoice_Person" />
         <AssociationConnector Association="SaaMedModel.FK_Table_ToTable" />
         <AssociationConnector Association="SaaMedModel.FK_Visit_ToPerson" />
         <AssociationConnector Association="SaaMedModel.FK_Visit_ToPersonal" />
         <AssociationConnector Association="SaaMedModel.FK_Table_Visit" />
-        <EntityTypeShape EntityType="SaaMedModel.PersonalSpecialty" Width="1.5" PointX="14.125" PointY="1" />
+        <EntityTypeShape EntityType="SaaMedModel.PersonalSpecialty" Width="1.5" PointX="14.625" PointY="2.5" />
         <AssociationConnector Association="SaaMedModel.FK_Table_Personal" />
         <AssociationConnector Association="SaaMedModel.FK_Table_Specialty" />
         <AssociationConnector Association="SaaMedModel.FK_Invoice_Visit1" />

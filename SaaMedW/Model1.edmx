@@ -549,8 +549,8 @@
           <Property Name="Sm" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
           <NavigationProperty Name="Person" Relationship="SaaMedModel.FK_Invoice_Person" FromRole="Invoice" ToRole="Person" />
           <NavigationProperty Name="InvoiceDetail" Relationship="SaaMedModel.FK_Table_ToTable" FromRole="Invoice" ToRole="InvoiceDetail" />
-          <Property Name="VisitId" Type="Int32" />
-          <NavigationProperty Name="Visit1" Relationship="SaaMedModel.FK_Invoice_Visit1" FromRole="Invoice" ToRole="Visit" />
+          <Property Name="VisitId" Type="Int32" Nullable="true" />
+          <NavigationProperty Name="Visit" Relationship="SaaMedModel.FK_Invoice_Visit1" FromRole="Invoice" ToRole="Visit" />
         </EntityType>
         <EntityType Name="InvoiceDetail">
           <Key>
@@ -577,7 +577,7 @@
           <NavigationProperty Name="Personal" Relationship="SaaMedModel.FK_Visit_ToPersonal" FromRole="Visit" ToRole="Personal" />
           <NavigationProperty Name="VisitBenefit" Relationship="SaaMedModel.FK_Table_Visit" FromRole="Visit" ToRole="VisitBenefit" />
           <Property Name="Duration" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Invoice1" Relationship="SaaMedModel.FK_Invoice_Visit1" FromRole="Visit" ToRole="Invoice" />
+          <NavigationProperty Name="Invoice" Relationship="SaaMedModel.FK_Invoice_Visit1" FromRole="Visit" ToRole="Invoice" />
         </EntityType>
         <EntityType Name="VisitBenefit">
           <Key>

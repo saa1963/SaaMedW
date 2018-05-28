@@ -100,9 +100,10 @@ namespace SaaMedW.ViewModel
         private void GenerateInvoice(object obj)
         {
             bool isDoit;
-            if (SelectedVisit.Obj.Invoice1.Count > 0)
+            Invoice invoice = SelectedVisit.Obj.Invoice.Single(s => true);
+            if (invoice != null && invoice.Status != (int)enStatusInvoice.Неоплачен)
             {
-                
+                System.Windows.MessageBox.Show("Счет уже существует");
             }
             //if (System.Windows.MessageBox.Show("Счет уже сформирован. "))
             if (isDoit)

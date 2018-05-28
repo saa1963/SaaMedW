@@ -30,6 +30,6 @@ namespace SaaMedW
         public virtual Person Person { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<InvoiceDetail> InvoiceDetail { get; set; }
-        public virtual Visit Visit1 { get; set; }
+        public virtual Visit Visit { get; set; }
     }
 }

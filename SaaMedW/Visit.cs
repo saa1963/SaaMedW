@@ -18,7 +18,7 @@ namespace SaaMedW
         public Visit()
         {
             this.VisitBenefit = new HashSet<VisitBenefit>();
-            this.Invoice1 = new HashSet<Invoice>();
+            this.Invoice = new HashSet<Invoice>();
         }
     
         public int Id { get; set; }
@@ -33,6 +33,6 @@ namespace SaaMedW
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<VisitBenefit> VisitBenefit { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Invoice> Invoice1 { get; set; }
+        public virtual ICollection<Invoice> Invoice { get; set; }
     }
 }

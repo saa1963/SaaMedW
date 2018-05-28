@@ -120,6 +120,7 @@
     </Compile>
     <Compile Include="Months.cs" />
     <Compile Include="NotifyAttribute.cs" />
+    <Compile Include="Models\PersonPartial.cs" />
     <Compile Include="Person.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -129,7 +130,6 @@
     <Compile Include="PersonalSpecialty.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\PersonPartial.cs" />
     <Compile Include="RelayCommand.cs" />
     <Compile Include="IdName.cs" />
     <Compile Include="Enums\Roles.cs" />
@@ -172,15 +172,15 @@
     <Compile Include="View\VisitView.xaml.cs">
       <DependentUpon>VisitView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Vm\VmInvoiceDetail.cs" />
-    <Compile Include="Vm\VmInvoice.cs" />
-    <Compile Include="Vm\VmVisitBenefit.cs" />
     <Compile Include="Visit.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="VisitBenefit.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Vm\VmInvoiceDetail.cs" />
+    <Compile Include="Vm\VmInvoice.cs" />
+    <Compile Include="Vm\VmVisitBenefit.cs" />
     <Compile Include="Vm\VmBenefit.cs" />
     <Compile Include="Vm\VmPersonal.cs" />
     <Compile Include="ViewModel\GraphicViewModel.cs" />
