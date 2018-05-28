@@ -91,21 +91,28 @@ namespace SaaMedW
         /// <param name="o"></param>
         public static void ActivateView(object o)
         {
-            var ob = o as ExecTypes;
-            var window = (MasterWindow)Current.MainWindow;
-
-            // создаем экземпляр View
-            var f = (UserControl)Activator.CreateInstance(ob.View);
-            // создаем экземпляр ViewModel
-            var vm = Activator.CreateInstance(ob.ViewModel);
-            f.DataContext = vm;
-            PropertyInfo prop = vm.GetType().GetProperty("Form", BindingFlags.Public | BindingFlags.Instance);
-            if (null != prop && prop.CanWrite)
+            if (o is ExecTypes)
             {
-                prop.SetValue(vm, f, null);
+                var ob = o as ExecTypes;
+                var window = (MasterWindow)Current.MainWindow;
+
+                // создаем экземпляр View
+                var f = (UserControl)Activator.CreateInstance(ob.View);
+                // создаем экземпляр ViewModel
+                var vm = Activator.CreateInstance(ob.ViewModel);
+                f.DataContext = vm;
+                PropertyInfo prop = vm.GetType().GetProperty("Form", BindingFlags.Public | BindingFlags.Instance);
+                if (null != prop && prop.CanWrite)
+                {
+                    prop.SetValue(vm, f, null);
+                }
+                window.Wplace.Children.Clear();
+                window.Wplace.Children.Add(f);
             }
-            window.Wplace.Children.Clear();
-            window.Wplace.Children.Add(f);
+            else
+            {
+                MessageBox.Show("Функция не реализована.");
+            }
         }
     }
 }

@@ -37,7 +37,7 @@ namespace SaaMedW.ViewModel
         {
             ListVisit.Clear();
             var q = ctx.Visit.Include(s => s.Person).Include(s => s.Personal)
-                .Include(s => s.VisitBenefit.Select(o => o.Benefit))
+                .Include(s => s.VisitBenefit.Select(o => o.Benefit)).Include(s => s.Invoice1)
                 .Where(s => s.Dt >= SelectedDate && s.Dt < SelectedDateNext)
                 .OrderBy(s => s.Dt);
             foreach (var o in q)
@@ -99,11 +99,32 @@ namespace SaaMedW.ViewModel
 
         private void GenerateInvoice(object obj)
         {
-            var modelView = new EditInvoiceViewModel(ctx, SelectedVisit);
-            var f = new EditInvoiceView() { DataContext = modelView };
-            if (f.ShowDialog() ?? false)
+            bool isDoit;
+            if (SelectedVisit.Obj.Invoice1.Count > 0)
             {
-
+                
+            }
+            //if (System.Windows.MessageBox.Show("Счет уже сформирован. "))
+            if (isDoit)
+            {
+                var newInvoice = new Invoice()
+                {
+                    Dt = DateTime.Now,
+                    Person = SelectedVisit.Person,
+                    Status = (int)enStatusInvoice.Неоплачен,
+                    Visit1 = SelectedVisit.Obj,
+                    Sm = SelectedVisit.VisitBenefit.Sum(s => s.Kol * s.Benefit.Price),
+                };
+                foreach (var o in SelectedVisit.VisitBenefit)
+                {
+                    newInvoice.InvoiceDetail.Add(new InvoiceDetail()
+                    {
+                        BenefitName = o.Benefit.Name,
+                        Kol = o.Kol,
+                        Price = o.Benefit.Price,
+                        Sm = o.Kol * o.Benefit.Price
+                    });
+                }
             }
         }
     }

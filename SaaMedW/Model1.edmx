@@ -40,9 +40,9 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Dt" Type="date" Nullable="false" />
-          <Property Name="Num" Type="int" Nullable="false" />
           <Property Name="Status" Type="int" Nullable="false" />
           <Property Name="PersonId" Type="int" Nullable="false" />
+          <Property Name="VisitId" Type="int" />
           <Property Name="Sm" Type="money" Nullable="false" />
         </EntityType>
         <EntityType Name="InvoiceDetail">
@@ -173,6 +173,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Invoice_Visit">
+          <End Role="Visit" Type="Self.Visit" Multiplicity="0..1" />
+          <End Role="Invoice" Type="Self.Invoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Visit">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Invoice">
+              <PropertyRef Name="VisitId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Person_DocumentType">
           <End Role="DocumentType" Type="Self.DocumentType" Multiplicity="0..1" />
           <End Role="Person" Type="Self.Person" Multiplicity="*" />
@@ -292,6 +304,10 @@
           </AssociationSet>
           <AssociationSet Name="FK_Invoice_Person" Association="Self.FK_Invoice_Person">
             <End Role="Person" EntitySet="Person" />
+            <End Role="Invoice" EntitySet="Invoice" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Invoice_Visit" Association="Self.FK_Invoice_Visit">
+            <End Role="Visit" EntitySet="Visit" />
             <End Role="Invoice" EntitySet="Invoice" />
           </AssociationSet>
           <AssociationSet Name="FK_Person_DocumentType" Association="Self.FK_Person_DocumentType">
@@ -448,6 +464,10 @@
             <End Role="Specialty" EntitySet="Specialty" />
             <End Role="PersonalSpecialty" EntitySet="PersonalSpecialty" />
           </AssociationSet>
+          <AssociationSet Name="FK_Invoice_Visit1" Association="SaaMedModel.FK_Invoice_Visit1">
+            <End Role="Visit" EntitySet="Visit" />
+            <End Role="Invoice" EntitySet="Invoice" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Specialty">
           <Key>
@@ -524,12 +544,13 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Dt" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="Num" Type="Int32" Nullable="false" />
           <Property Name="Status" Type="Int32" Nullable="false" />
           <Property Name="PersonId" Type="Int32" Nullable="false" />
           <Property Name="Sm" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
           <NavigationProperty Name="Person" Relationship="SaaMedModel.FK_Invoice_Person" FromRole="Invoice" ToRole="Person" />
           <NavigationProperty Name="InvoiceDetail" Relationship="SaaMedModel.FK_Table_ToTable" FromRole="Invoice" ToRole="InvoiceDetail" />
+          <Property Name="VisitId" Type="Int32" />
+          <NavigationProperty Name="Visit1" Relationship="SaaMedModel.FK_Invoice_Visit1" FromRole="Invoice" ToRole="Visit" />
         </EntityType>
         <EntityType Name="InvoiceDetail">
           <Key>
@@ -556,6 +577,7 @@
           <NavigationProperty Name="Personal" Relationship="SaaMedModel.FK_Visit_ToPersonal" FromRole="Visit" ToRole="Personal" />
           <NavigationProperty Name="VisitBenefit" Relationship="SaaMedModel.FK_Table_Visit" FromRole="Visit" ToRole="VisitBenefit" />
           <Property Name="Duration" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Invoice1" Relationship="SaaMedModel.FK_Invoice_Visit1" FromRole="Visit" ToRole="Invoice" />
         </EntityType>
         <EntityType Name="VisitBenefit">
           <Key>
@@ -675,6 +697,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Invoice_Visit1">
+          <End Type="SaaMedModel.Visit" Role="Visit" Multiplicity="0..1" />
+          <End Type="SaaMedModel.Invoice" Role="Invoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Visit">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Invoice">
+              <PropertyRef Name="VisitId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -772,10 +806,10 @@
           <EntitySetMapping Name="Invoice">
             <EntityTypeMapping TypeName="SaaMedModel.Invoice">
               <MappingFragment StoreEntitySet="Invoice">
+                <ScalarProperty Name="VisitId" ColumnName="VisitId" />
                 <ScalarProperty Name="Sm" ColumnName="Sm" />
                 <ScalarProperty Name="PersonId" ColumnName="PersonId" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="Num" ColumnName="Num" />
                 <ScalarProperty Name="Dt" ColumnName="Dt" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>

@@ -22,13 +22,14 @@ namespace SaaMedW
     
         public int Id { get; set; }
         public System.DateTime Dt { get; set; }
-        public int Num { get; set; }
         public int Status { get; set; }
         public int PersonId { get; set; }
         public decimal Sm { get; set; }
+        public Nullable<int> VisitId { get; set; }
     
         public virtual Person Person { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<InvoiceDetail> InvoiceDetail { get; set; }
+        public virtual Visit Visit1 { get; set; }
     }
 }

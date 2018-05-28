@@ -28,6 +28,7 @@
         <EntityTypeShape EntityType="SaaMedModel.PersonalSpecialty" Width="1.5" PointX="14.125" PointY="1" />
         <AssociationConnector Association="SaaMedModel.FK_Table_Personal" />
         <AssociationConnector Association="SaaMedModel.FK_Table_Specialty" />
+        <AssociationConnector Association="SaaMedModel.FK_Invoice_Visit1" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

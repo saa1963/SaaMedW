@@ -118,7 +118,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Model1.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Models\InvoicePartial.cs" />
     <Compile Include="Months.cs" />
     <Compile Include="NotifyAttribute.cs" />
     <Compile Include="Person.cs">
