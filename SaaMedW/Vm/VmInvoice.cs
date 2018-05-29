@@ -41,15 +41,6 @@ namespace SaaMedW.ViewModel
                 OnPropertyChanged("Dt");
             }
         }
-        public int Num
-        {
-            get => m_object.Num;
-            set
-            {
-                m_object.Num = value;
-                OnPropertyChanged("Num");
-            }
-        }
         public int Status
         {
             get => m_object.Status;

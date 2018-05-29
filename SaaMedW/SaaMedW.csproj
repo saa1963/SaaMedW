@@ -134,6 +134,7 @@
     <Compile Include="IdName.cs" />
     <Compile Include="Enums\Roles.cs" />
     <Compile Include="RoleToStringConverter.cs" />
+    <Compile Include="ScrollingDataGrid.cs" />
     <Compile Include="Service\LocalStorage.cs" />
     <Compile Include="Service\LogonService.cs" />
     <Compile Include="Service\ServiceLocator.cs" />

@@ -30,7 +30,7 @@
             <MenuItem Header="Посещения" Command="{Binding Visits}">
             </MenuItem>
         </Menu>
-        <DataGrid Name="g" Grid.Row="1" Margin="5" ItemsSource="{Binding CardsList}" 
+        <local0:ScrollingDataGrid x:Name="g" Grid.Row="1" Margin="5" ItemsSource="{Binding CardsList}" 
                   SelectedItem="{Binding CardsSel}" IsSynchronizedWithCurrentItem="True">
             <DataGrid.Columns>
                 <DataGridTextColumn IsReadOnly="True" Header="Id" Binding="{Binding Id}" Width="50"></DataGridTextColumn>
@@ -56,6 +56,6 @@
                 <DataGridTextColumn IsReadOnly="True" Header="Создано" Binding="{Binding CreateDate, StringFormat={}{0:dd.MM.yyyy HH:mm:ss}}" Width="100"></DataGridTextColumn>
 
             </DataGrid.Columns>
-        </DataGrid>
+        </local0:ScrollingDataGrid>
     </Grid>
 </UserControl>

@@ -26,11 +26,7 @@ namespace SaaMedW.ViewModel
         {
             get { return m_lst; }
         }
-        public object BenefitSel
-        {
-            get { return view.CurrentItem; }
-            set { view.MoveCurrentTo(value); }
-        }
+        public object BenefitSel { get; set; }
         private ICollectionView view
         {
             get

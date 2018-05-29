@@ -36,7 +36,7 @@
             </Trigger>
         </Style.Triggers>
     </Style>
-    <Style TargetType="DataGrid">
+    <Style TargetType="local:ScrollingDataGrid">
         <!-- Make the border and grid lines a little less imposing -->
         <Setter Property="CanUserAddRows" Value="False"></Setter>
         <Setter Property="AutoGenerateColumns" Value="False"></Setter>

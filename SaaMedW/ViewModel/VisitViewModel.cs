@@ -37,7 +37,7 @@ namespace SaaMedW.ViewModel
         {
             ListVisit.Clear();
             var q = ctx.Visit.Include(s => s.Person).Include(s => s.Personal)
-                .Include(s => s.VisitBenefit.Select(o => o.Benefit)).Include(s => s.Invoice1)
+                .Include(s => s.VisitBenefit.Select(o => o.Benefit)).Include(s => s.Invoice)
                 .Where(s => s.Dt >= SelectedDate && s.Dt < SelectedDateNext)
                 .OrderBy(s => s.Dt);
             foreach (var o in q)
@@ -99,13 +99,31 @@ namespace SaaMedW.ViewModel
 
         private void GenerateInvoice(object obj)
         {
-            bool isDoit;
-            Invoice invoice = SelectedVisit.Obj.Invoice.Single(s => true);
-            if (invoice != null && invoice.Status != (int)enStatusInvoice.Неоплачен)
+            bool isDoit = true; ;
+            Invoice invoice = SelectedVisit.Obj.Invoice.SingleOrDefault(s => true);
+            if (invoice != null)
             {
-                System.Windows.MessageBox.Show("Счет уже существует");
+                if (invoice.Status != (int)enStatusInvoice.Неоплачен)
+                {
+                    System.Windows.MessageBox
+                        .Show("Счет уже существует и оплачивался. Переформировать нельзя.");
+                    isDoit = false;
+                }
+                else
+                {
+                    if (System.Windows.MessageBox
+                        .Show("Счет уже существует. Переформировать?", "", 
+                        System.Windows.MessageBoxButton.YesNo) == System.Windows.MessageBoxResult.Yes)
+                    {
+                        ctx.InvoiceDetail.RemoveRange(invoice.InvoiceDetail);
+                        ctx.Invoice.Remove(invoice);
+                    }
+                    else
+                    {
+                        isDoit = false;
+                    }
+                }
             }
-            //if (System.Windows.MessageBox.Show("Счет уже сформирован. "))
             if (isDoit)
             {
                 var newInvoice = new Invoice()
@@ -113,7 +131,7 @@ namespace SaaMedW.ViewModel
                     Dt = DateTime.Now,
                     Person = SelectedVisit.Person,
                     Status = (int)enStatusInvoice.Неоплачен,
-                    Visit1 = SelectedVisit.Obj,
+                    Visit = SelectedVisit.Obj,
                     Sm = SelectedVisit.VisitBenefit.Sum(s => s.Kol * s.Benefit.Price),
                 };
                 foreach (var o in SelectedVisit.VisitBenefit)
@@ -126,6 +144,10 @@ namespace SaaMedW.ViewModel
                         Sm = o.Kol * o.Benefit.Price
                     });
                 }
+                ctx.Invoice.Add(newInvoice);
+                ctx.SaveChanges();
+                System.Windows.MessageBox
+                        .Show($"Сформирован счет № {newInvoice.Id}");
             }
         }
     }

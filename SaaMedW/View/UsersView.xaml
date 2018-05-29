@@ -32,7 +32,7 @@
             <MenuItem Header="Сменить пароль" Command="{Binding ChangePassword}">
             </MenuItem>
         </Menu>
-        <DataGrid Grid.Row="1" Margin="5" ItemsSource="{Binding UsersList}" 
+        <local0:ScrollingDataGrid Grid.Row="1" Margin="5" ItemsSource="{Binding UsersList}" 
                   SelectedItem="{Binding UsersSel}" IsSynchronizedWithCurrentItem="True">
             <DataGrid.Columns>
                 <DataGridTextColumn IsReadOnly="True" Header="Id" Binding="{Binding Id}" Width="50"></DataGridTextColumn>
@@ -42,6 +42,6 @@
                                         SelectedValueBinding="{Binding Role, Converter={StaticResource myConverter}, UpdateSourceTrigger=PropertyChanged}" >
                 </DataGridComboBoxColumn>
             </DataGrid.Columns>
-        </DataGrid>
+        </local0:ScrollingDataGrid>
     </Grid>
 </UserControl>

@@ -44,7 +44,7 @@
                         SelectedValue="{Binding Status}">
             </ComboBox>
         </Grid>
-        <DataGrid ItemsSource="{Binding ListInvoiceDetail}">
+        <local0:ScrollingDataGrid ItemsSource="{Binding ListInvoiceDetail}">
             <DataGrid.Columns>
                 <DataGridTextColumn Width="50" IsReadOnly="True" Header="ID" Binding="{Binding Id}"></DataGridTextColumn>
                 <DataGridTextColumn MinWidth="200" Header="Наименование услуги" Binding="{Binding BenefitName, UpdateSourceTrigger=PropertyChanged}"></DataGridTextColumn>
@@ -52,6 +52,6 @@
                 <DataGridTextColumn Width="80" Header="Цена" Binding="{Binding Price, StringFormat={}{0:0.00}}" CellStyle="{StaticResource EditStyle}" EditingElementStyle="{StaticResource PriceEditStyle}"></DataGridTextColumn>
                 <DataGridTextColumn Width="80" Header="Сумма" Binding="{Binding Sm, StringFormat={}{0:0.00}}" CellStyle="{StaticResource EditStyle}"></DataGridTextColumn>
             </DataGrid.Columns>
-        </DataGrid>
+        </local0:ScrollingDataGrid>
     </DockPanel>
 </Window>

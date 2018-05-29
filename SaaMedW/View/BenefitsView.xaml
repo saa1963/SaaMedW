@@ -4,12 +4,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SaaMedW.View"
+             xmlns:local0="clr-namespace:SaaMedW"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
         <Menu Grid.Row="0" Name="MainMenu">
             <MenuItem Header="Добавить" Command="{Binding Add}">
@@ -19,8 +20,8 @@
             <MenuItem Header="Удалить" Command="{Binding Del}">
             </MenuItem>
         </Menu>
-        <DataGrid Name="g" Grid.Row="1" Margin="1" ItemsSource="{Binding BenefitsList}" 
-                  SelectedItem="{Binding BenefitSel}" IsSynchronizedWithCurrentItem="True">
+        <local0:ScrollingDataGrid x:Name="g" Grid.Row="1" Margin="1" ItemsSource="{Binding BenefitsList}"
+                SelectedItem="{Binding BenefitSel}" IsSynchronizedWithCurrentItem="True">
             <DataGrid.Columns>
                 <DataGridTextColumn IsReadOnly="True" Header="Id" Binding="{Binding Id}" Width="Auto"></DataGridTextColumn>
                 <DataGridTextColumn Header="Наименование" Binding="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Width="Auto"></DataGridTextColumn>
@@ -28,6 +29,6 @@
                 <DataGridTextColumn Header="Продолжительность" Binding="{Binding Path=Duration, StringFormat={}{0:0}, UpdateSourceTrigger=PropertyChanged}" Width="Auto"></DataGridTextColumn>
                 <DataGridTextColumn Header="Стоимость" Binding="{Binding Path=Price, StringFormat={}{0:0.00}, UpdateSourceTrigger=PropertyChanged}" Width="Auto"></DataGridTextColumn>
             </DataGrid.Columns>
-        </DataGrid>
+        </local0:ScrollingDataGrid>
     </Grid>
 </UserControl>

@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SaaMedW.View"
+             xmlns:local0="clr-namespace:SaaMedW"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
@@ -19,12 +20,12 @@
             <MenuItem Header="Удалить" Command="{Binding Del}">
             </MenuItem>
         </Menu>
-        <DataGrid Name="g" Grid.Row="1" Margin="1" ItemsSource="{Binding SpecialtyList}" 
+        <local0:ScrollingDataGrid x:Name="g" Grid.Row="1" Margin="1" ItemsSource="{Binding SpecialtyList}" 
                   SelectedItem="{Binding SpecialtySel}" IsSynchronizedWithCurrentItem="True">
             <DataGrid.Columns>
                 <DataGridTextColumn IsReadOnly="True" Header="Id" Binding="{Binding Id}" Width="50"></DataGridTextColumn>
                 <DataGridTextColumn Header="Фамилия" Binding="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Width="*"></DataGridTextColumn>
             </DataGrid.Columns>
-        </DataGrid>
+        </local0:ScrollingDataGrid>
     </Grid>
 </UserControl>
