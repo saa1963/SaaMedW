@@ -19,14 +19,19 @@ namespace SaaMedW
         {
             this.Benefit = new HashSet<Benefit>();
             this.PersonalSpecialty = new HashSet<PersonalSpecialty>();
+            this.ChildSpecialties = new HashSet<Specialty>();
         }
     
         public int Id { get; set; }
         public string Name { get; set; }
+        public Nullable<int> ParentId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Benefit> Benefit { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PersonalSpecialty> PersonalSpecialty { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Specialty> ChildSpecialties { get; set; }
+        public virtual Specialty ParentSpecialty { get; set; }
     }
 }

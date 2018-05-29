@@ -104,6 +104,7 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="ParentId" Type="int" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
@@ -194,6 +195,18 @@
             </Principal>
             <Dependent Role="Person">
               <PropertyRef Name="DocumentTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Specialty_ToSpecialty">
+          <End Role="Specialty" Type="Self.Specialty" Multiplicity="0..1" />
+          <End Role="Specialty1" Type="Self.Specialty" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Specialty">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Specialty1">
+              <PropertyRef Name="ParentId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -313,6 +326,10 @@
           <AssociationSet Name="FK_Person_DocumentType" Association="Self.FK_Person_DocumentType">
             <End Role="DocumentType" EntitySet="DocumentType" />
             <End Role="Person" EntitySet="Person" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Specialty_ToSpecialty" Association="Self.FK_Specialty_ToSpecialty">
+            <End Role="Specialty" EntitySet="Specialty" />
+            <End Role="Specialty1" EntitySet="Specialty" />
           </AssociationSet>
           <AssociationSet Name="FK_Table_Benefit" Association="Self.FK_Table_Benefit">
             <End Role="Benefit" EntitySet="Benefit" />
@@ -468,6 +485,10 @@
             <End Role="Visit" EntitySet="Visit" />
             <End Role="Invoice" EntitySet="Invoice" />
           </AssociationSet>
+          <AssociationSet Name="FK_Specialty_ToSpecialty" Association="SaaMedModel.FK_Specialty_ToSpecialty">
+            <End Role="Specialty" EntitySet="Specialty" />
+            <End Role="Specialty1" EntitySet="Specialty" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Specialty">
           <Key>
@@ -477,6 +498,9 @@
           <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Benefit" Relationship="SaaMedModel.FK_Benefit_ToTable" FromRole="Specialty" ToRole="Benefit" />
           <NavigationProperty Name="PersonalSpecialty" Relationship="SaaMedModel.FK_Table_Specialty" FromRole="Specialty" ToRole="PersonalSpecialty" />
+          <Property Name="ParentId" Type="Int32" />
+          <NavigationProperty Name="ChildSpecialties" Relationship="SaaMedModel.FK_Specialty_ToSpecialty" FromRole="Specialty" ToRole="Specialty1" />
+          <NavigationProperty Name="ParentSpecialty" Relationship="SaaMedModel.FK_Specialty_ToSpecialty" FromRole="Specialty1" ToRole="Specialty" />
         </EntityType>
         <EntityType Name="Personal">
           <Key>
@@ -709,6 +733,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Specialty_ToSpecialty">
+          <End Type="SaaMedModel.Specialty" Role="Specialty" Multiplicity="0..1" />
+          <End Type="SaaMedModel.Specialty" Role="Specialty1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Specialty">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Specialty1">
+              <PropertyRef Name="ParentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -765,6 +801,7 @@
           <EntitySetMapping Name="Specialty">
             <EntityTypeMapping TypeName="SaaMedModel.Specialty">
               <MappingFragment StoreEntitySet="Specialty">
+                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>

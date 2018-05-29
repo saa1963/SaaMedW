@@ -56,6 +56,25 @@ namespace SaaMedW.ViewModel
                 OnPropertyChanged("Name");
             }
         }
+        public int? ParentId
+        {
+            get => m_object.ParentId;
+            set
+            {
+                m_object.ParentId = value;
+                OnPropertyChanged("ParentId");
+            }
+        }
+        public ICollection<Specialty> ChildSpecialties
+        {
+            get => m_object.ChildSpecialties;
+            set
+            {
+                m_object.ChildSpecialties = value;
+                OnPropertyChanged("ChildSpecialties");
+            }
+        }
+        public virtual Specialty ParentSpecialty { get; set; }
         public string this[string columnName]
         {
             get

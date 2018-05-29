@@ -7,9 +7,9 @@
       <Diagram DiagramId="3f6a0f22eafd427f92b78f6e233db029" Name="Diagram1" DisplayType="true">
         <EntityTypeShape EntityType="SaaMedModel.DocumentType" Width="1.5" PointX="0.5" PointY="0.5" IsExpanded="true" />
         <EntityTypeShape EntityType="SaaMedModel.Person" Width="2" PointX="0.5" PointY="3" IsExpanded="true" />
-        <EntityTypeShape EntityType="SaaMedModel.Users" Width="1.5" PointX="17.375" PointY="8.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SaaMedModel.Users" Width="1.5" PointX="16.75" PointY="5.25" IsExpanded="true" />
         <AssociationConnector Association="SaaMedModel.FK_Person_DocumentType" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="SaaMedModel.Specialty" Width="1.5" PointX="5.875" PointY="5.25" />
+        <EntityTypeShape EntityType="SaaMedModel.Specialty" Width="1.5" PointX="5.625" PointY="5" />
         <EntityTypeShape EntityType="SaaMedModel.Personal" Width="1.5" PointX="8.125" PointY="6.25" />
         <EntityTypeShape EntityType="SaaMedModel.Graphic" Width="1.5" PointX="10.375" PointY="5.5" />
         <AssociationConnector Association="SaaMedModel.FK_Graphic_Personal" />
@@ -29,6 +29,7 @@
         <AssociationConnector Association="SaaMedModel.FK_Table_Personal" />
         <AssociationConnector Association="SaaMedModel.FK_Table_Specialty" />
         <AssociationConnector Association="SaaMedModel.FK_Invoice_Visit1" />
+        <AssociationConnector Association="SaaMedModel.FK_Specialty_ToSpecialty" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

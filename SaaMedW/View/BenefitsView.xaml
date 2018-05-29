@@ -7,12 +7,8 @@
              xmlns:local0="clr-namespace:SaaMedW"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition></RowDefinition>
-        </Grid.RowDefinitions>
-        <Menu Grid.Row="0" Name="MainMenu">
+    <DockPanel>
+        <Menu DockPanel.Dock="Top" Name="MainMenu">
             <MenuItem Header="Добавить" Command="{Binding Add}">
             </MenuItem>
             <MenuItem Header="Изменить" Command="{Binding Edit}">
@@ -20,15 +16,29 @@
             <MenuItem Header="Удалить" Command="{Binding Del}">
             </MenuItem>
         </Menu>
-        <local0:ScrollingDataGrid x:Name="g" Grid.Row="1" Margin="1" ItemsSource="{Binding BenefitsList}"
+        <DockPanel Margin="10">
+            <TreeView Margin="0,0,10,0" DockPanel.Dock="Left" MinWidth="200" ItemsSource="{Binding ListSpecialty}">
+                <TreeView.ItemTemplate>
+                    <HierarchicalDataTemplate ItemsSource="{Binding ChildSpecialties}">
+                        <TextBlock Text="{Binding Name}"></TextBlock>
+                        <HierarchicalDataTemplate.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Name}"></TextBlock>
+                            </DataTemplate>
+                        </HierarchicalDataTemplate.ItemTemplate>
+                    </HierarchicalDataTemplate>
+                </TreeView.ItemTemplate>    
+            </TreeView>
+            <local0:ScrollingDataGrid x:Name="g" ItemsSource="{Binding BenefitsList}"
                 SelectedItem="{Binding BenefitSel}" IsSynchronizedWithCurrentItem="True">
-            <DataGrid.Columns>
-                <DataGridTextColumn IsReadOnly="True" Header="Id" Binding="{Binding Id}" Width="Auto"></DataGridTextColumn>
-                <DataGridTextColumn Header="Наименование" Binding="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Width="Auto"></DataGridTextColumn>
-                <DataGridTextColumn IsReadOnly="True" Header="Специальность" Binding="{Binding Path=Specialty.Name}" Width="Auto"></DataGridTextColumn>
-                <DataGridTextColumn Header="Продолжительность" Binding="{Binding Path=Duration, StringFormat={}{0:0}, UpdateSourceTrigger=PropertyChanged}" Width="Auto"></DataGridTextColumn>
-                <DataGridTextColumn Header="Стоимость" Binding="{Binding Path=Price, StringFormat={}{0:0.00}, UpdateSourceTrigger=PropertyChanged}" Width="Auto"></DataGridTextColumn>
-            </DataGrid.Columns>
-        </local0:ScrollingDataGrid>
-    </Grid>
+                <DataGrid.Columns>
+                    <DataGridTextColumn IsReadOnly="True" Header="Id" Binding="{Binding Id}" Width="Auto"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Наименование" Binding="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Width="Auto"></DataGridTextColumn>
+                    <DataGridTextColumn IsReadOnly="True" Header="Специальность" Binding="{Binding Path=Specialty.Name}" Width="Auto"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Продолжительность" Binding="{Binding Path=Duration, StringFormat={}{0:0}, UpdateSourceTrigger=PropertyChanged}" Width="Auto"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Стоимость" Binding="{Binding Path=Price, StringFormat={}{0:0.00}, UpdateSourceTrigger=PropertyChanged}" Width="Auto"></DataGridTextColumn>
+                </DataGrid.Columns>
+            </local0:ScrollingDataGrid>
+        </DockPanel>
+    </DockPanel>
 </UserControl>

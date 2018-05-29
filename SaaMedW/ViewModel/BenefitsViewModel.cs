@@ -7,16 +7,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
+using System.Data.Entity;
 
 namespace SaaMedW.ViewModel
 {
     public class BenefitsViewModel : ViewModelBase
     {
+        private ObservableCollection<VmSpecialty> m_specialty 
+            = new ObservableCollection<VmSpecialty>();
         private ObservableCollection<VmBenefit> m_lst = new ObservableCollection<VmBenefit>();
         private SaaMedEntities ctx = new SaaMedEntities();
 
         public BenefitsViewModel()
         {
+            foreach(var o in ctx.Specialty
+                .Include(s => s.ChildSpecialties).Include(s => s.ParentSpecialty)
+                .Where(s => s.ParentId == null)
+                .OrderBy(s => s.Id))
+            {
+                m_specialty.Add(new VmSpecialty(o));
+            }
             foreach (var o in ctx.Benefit.Include("Specialty"))
             {
                 m_lst.Add(new VmBenefit(o));
@@ -26,6 +36,7 @@ namespace SaaMedW.ViewModel
         {
             get { return m_lst; }
         }
+        public ObservableCollection<VmSpecialty> ListSpecialty { get => m_specialty; }
         public object BenefitSel { get; set; }
         private ICollectionView view
         {
