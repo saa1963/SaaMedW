@@ -93,5 +93,26 @@ namespace SaaMedW.ViewModel
             }
         }
         public string Error => "";
+
+        public delegate void CargoDelegate(VmSpecialty o);
+        public CargoDelegate Cargo { get; set; }
+
+        private bool _isSelected;
+        public bool IsSelected
+        {
+            get { return _isSelected; }
+            set
+            {
+                if (_isSelected != value)
+                {
+                    _isSelected = value;
+                    OnPropertyChanged("IsSelected");
+                    if (_isSelected)
+                    {
+                        Cargo(this);
+                    }
+                }
+            }
+        }
     }
 }

@@ -5,8 +5,14 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SaaMedW.View"
              xmlns:local0="clr-namespace:SaaMedW"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <Style TargetType="{x:Type TreeViewItem}">
+            <Setter Property="IsSelected" Value="{Binding IsSelected}" />
+        </Style>
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
@@ -20,12 +26,19 @@
             <MenuItem Header="Удалить" Command="{Binding Del}">
             </MenuItem>
         </Menu>
-        <local0:ScrollingDataGrid x:Name="g" Grid.Row="1" Margin="1" ItemsSource="{Binding SpecialtyList}" 
-                  SelectedItem="{Binding SpecialtySel}" IsSynchronizedWithCurrentItem="True">
-            <DataGrid.Columns>
-                <DataGridTextColumn IsReadOnly="True" Header="Id" Binding="{Binding Id}" Width="50"></DataGridTextColumn>
-                <DataGridTextColumn Header="Фамилия" Binding="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Width="*"></DataGridTextColumn>
-            </DataGrid.Columns>
-        </local0:ScrollingDataGrid>
+        <TreeView Margin="0,0,10,0" Grid.Row="1" MinWidth="200" 
+                  BorderBrush="Transparent"
+                  ItemsSource="{Binding SpecialtyList}">
+            <TreeView.ItemTemplate>
+                <HierarchicalDataTemplate ItemsSource="{Binding ChildSpecialties}">
+                    <TextBlock Text="{Binding Name}"></TextBlock>
+                    <HierarchicalDataTemplate.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Name}"></TextBlock>
+                        </DataTemplate>
+                    </HierarchicalDataTemplate.ItemTemplate>
+                </HierarchicalDataTemplate>
+            </TreeView.ItemTemplate>
+        </TreeView>
     </Grid>
 </UserControl>

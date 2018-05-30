@@ -119,5 +119,6 @@ namespace SaaMedW.ViewModel
 #endif
 
         #endregion // IDisposable Members
+
     }
 }

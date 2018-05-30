@@ -17,7 +17,8 @@ namespace SaaMedW.Service
             ctx.Dispose();
             var hash = new System.Security.Cryptography.SHA1CryptoServiceProvider()
                     .ComputeHash(System.Text.Encoding.ASCII.GetBytes(password));
-            if ((logonUser.Password == null && password == "") || hash.SequenceEqual(logonUser.Password))
+            if ((logonUser.Password == null && password == "") 
+                || hash.SequenceEqual(logonUser.Password))
             {
                 Global.Source.rUser = logonUser;
                 return true;

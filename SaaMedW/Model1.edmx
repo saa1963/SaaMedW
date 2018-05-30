@@ -4,14 +4,14 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="Хранилище SaaMedModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="SaaMedModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Benefit">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
-          <Property Name="Price" Type="money" Nullable="false" />
+          <Property Name="Price" Type="decimal" Precision="19" Scale="4" Nullable="false" />
           <Property Name="SpecialtyId" Type="int" Nullable="false" />
           <Property Name="Duration" Type="int" Nullable="false" />
         </EntityType>
@@ -28,7 +28,7 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="PersonalId" Type="int" Nullable="false" />
-          <Property Name="Dt" Type="date" Nullable="false" />
+          <Property Name="Dt" Type="datetime" Nullable="false" />
           <Property Name="H1" Type="int" Nullable="false" />
           <Property Name="M1" Type="int" Nullable="false" />
           <Property Name="H2" Type="int" Nullable="false" />
@@ -39,11 +39,11 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Dt" Type="date" Nullable="false" />
+          <Property Name="Dt" Type="datetime" Nullable="false" />
           <Property Name="Status" Type="int" Nullable="false" />
           <Property Name="PersonId" Type="int" Nullable="false" />
+          <Property Name="Sm" Type="decimal" Precision="19" Scale="4" Nullable="false" />
           <Property Name="VisitId" Type="int" />
-          <Property Name="Sm" Type="money" Nullable="false" />
         </EntityType>
         <EntityType Name="InvoiceDetail">
           <Key>
@@ -52,8 +52,8 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="BenefitName" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="Kol" Type="int" Nullable="false" />
-          <Property Name="Price" Type="money" Nullable="false" />
-          <Property Name="Sm" Type="money" Nullable="false" />
+          <Property Name="Price" Type="decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="Sm" Type="decimal" Precision="19" Scale="4" Nullable="false" />
           <Property Name="InvoiceId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Person">
@@ -64,7 +64,7 @@
           <Property Name="LastName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="FirstName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="MiddleName" Type="nvarchar" MaxLength="50" />
-          <Property Name="BirthDate" Type="date" />
+          <Property Name="BirthDate" Type="datetime" />
           <Property Name="Phone" Type="nchar" MaxLength="10" />
           <Property Name="Sex" Type="int" />
           <Property Name="Inn" Type="nvarchar" MaxLength="12" />
@@ -174,7 +174,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Invoice_Visit">
+        <Association Name="FK_Invoice_Visit1">
           <End Role="Visit" Type="Self.Visit" Multiplicity="0..1" />
           <End Role="Invoice" Type="Self.Invoice" Multiplicity="*" />
           <ReferentialConstraint>
@@ -294,7 +294,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="Хранилище SaaMedModelContainer">
+        <EntityContainer Name="SaaMedModelStoreContainer">
           <EntitySet Name="Benefit" EntityType="Self.Benefit" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DocumentType" EntityType="Self.DocumentType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Graphic" EntityType="Self.Graphic" Schema="dbo" store:Type="Tables" />
@@ -319,7 +319,7 @@
             <End Role="Person" EntitySet="Person" />
             <End Role="Invoice" EntitySet="Invoice" />
           </AssociationSet>
-          <AssociationSet Name="FK_Invoice_Visit" Association="Self.FK_Invoice_Visit">
+          <AssociationSet Name="FK_Invoice_Visit1" Association="Self.FK_Invoice_Visit1">
             <End Role="Visit" EntitySet="Visit" />
             <End Role="Invoice" EntitySet="Invoice" />
           </AssociationSet>
@@ -380,7 +380,7 @@
           <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="MiddleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="BirthDate" Type="DateTime" Precision="0" />
+          <Property Name="BirthDate" Type="DateTime" Precision="3" />
           <Property Name="Phone" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
           <Property Name="Sex" Type="Int32" />
           <Property Name="Inn" Type="String" MaxLength="12" FixedLength="false" Unicode="true" />
@@ -519,7 +519,7 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="PersonalId" Type="Int32" Nullable="false" />
-          <Property Name="Dt" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Dt" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="H1" Type="Int32" Nullable="false" />
           <Property Name="M1" Type="Int32" Nullable="false" />
           <Property Name="H2" Type="Int32" Nullable="false" />
@@ -567,7 +567,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Dt" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Dt" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Status" Type="Int32" Nullable="false" />
           <Property Name="PersonId" Type="Int32" Nullable="false" />
           <Property Name="Sm" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
@@ -749,156 +749,155 @@
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
-      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="Хранилище SaaMedModelContainer" CdmEntityContainer="SaaMedEntities">
-          <EntitySetMapping Name="DocumentType">
-            <EntityTypeMapping TypeName="SaaMedModel.DocumentType">
-              <MappingFragment StoreEntitySet="DocumentType">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Person">
-            <EntityTypeMapping TypeName="SaaMedModel.Person">
-              <MappingFragment StoreEntitySet="Person">
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
-                <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
-                <ScalarProperty Name="Phone" ColumnName="Phone" />
-                <ScalarProperty Name="Sex" ColumnName="Sex" />
-                <ScalarProperty Name="Inn" ColumnName="Inn" />
-                <ScalarProperty Name="Snils" ColumnName="Snils" />
-                <ScalarProperty Name="DocumentTypeId" ColumnName="DocumentTypeId" />
-                <ScalarProperty Name="DocSeria" ColumnName="DocSeria" />
-                <ScalarProperty Name="DocNumber" ColumnName="DocNumber" />
-                <ScalarProperty Name="AddressSubject" ColumnName="AddressSubject" />
-                <ScalarProperty Name="AddressRaion" ColumnName="AddressRaion" />
-                <ScalarProperty Name="AddressCity" ColumnName="AddressCity" />
-                <ScalarProperty Name="AddressPunkt" ColumnName="AddressPunkt" />
-                <ScalarProperty Name="AddressStreet" ColumnName="AddressStreet" />
-                <ScalarProperty Name="AddressHouse" ColumnName="AddressHouse" />
-                <ScalarProperty Name="AddressFlat" ColumnName="AddressFlat" />
-                <ScalarProperty Name="Mestnost" ColumnName="Mestnost" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Users">
-            <EntityTypeMapping TypeName="SaaMedModel.Users">
-              <MappingFragment StoreEntitySet="Users">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Fio" ColumnName="Fio" />
-                <ScalarProperty Name="Login" ColumnName="Login" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="Role" ColumnName="Role" />
-                <ScalarProperty Name="Disabled" ColumnName="Disabled" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Specialty">
-            <EntityTypeMapping TypeName="SaaMedModel.Specialty">
-              <MappingFragment StoreEntitySet="Specialty">
-                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Personal">
-            <EntityTypeMapping TypeName="SaaMedModel.Personal">
-              <MappingFragment StoreEntitySet="Personal">
-                <ScalarProperty Name="Active" ColumnName="Active" />
-                <ScalarProperty Name="Fio" ColumnName="Fio" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Graphic">
-            <EntityTypeMapping TypeName="SaaMedModel.Graphic">
-              <MappingFragment StoreEntitySet="Graphic">
-                <ScalarProperty Name="M2" ColumnName="M2" />
-                <ScalarProperty Name="H2" ColumnName="H2" />
-                <ScalarProperty Name="M1" ColumnName="M1" />
-                <ScalarProperty Name="H1" ColumnName="H1" />
-                <ScalarProperty Name="Dt" ColumnName="Dt" />
-                <ScalarProperty Name="PersonalId" ColumnName="PersonalId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Benefit">
-            <EntityTypeMapping TypeName="SaaMedModel.Benefit">
-              <MappingFragment StoreEntitySet="Benefit">
-                <ScalarProperty Name="Duration" ColumnName="Duration" />
-                <ScalarProperty Name="SpecialtyId" ColumnName="SpecialtyId" />
-                <ScalarProperty Name="Price" ColumnName="Price" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Invoice">
-            <EntityTypeMapping TypeName="SaaMedModel.Invoice">
-              <MappingFragment StoreEntitySet="Invoice">
-                <ScalarProperty Name="VisitId" ColumnName="VisitId" />
-                <ScalarProperty Name="Sm" ColumnName="Sm" />
-                <ScalarProperty Name="PersonId" ColumnName="PersonId" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="Dt" ColumnName="Dt" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="InvoiceDetail">
-            <EntityTypeMapping TypeName="SaaMedModel.InvoiceDetail">
-              <MappingFragment StoreEntitySet="InvoiceDetail">
-                <ScalarProperty Name="InvoiceId" ColumnName="InvoiceId" />
-                <ScalarProperty Name="Sm" ColumnName="Sm" />
-                <ScalarProperty Name="Price" ColumnName="Price" />
-                <ScalarProperty Name="Kol" ColumnName="Kol" />
-                <ScalarProperty Name="BenefitName" ColumnName="BenefitName" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Visit">
-            <EntityTypeMapping TypeName="SaaMedModel.Visit">
-              <MappingFragment StoreEntitySet="Visit">
-                <ScalarProperty Name="Duration" ColumnName="Duration" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="Dt" ColumnName="Dt" />
-                <ScalarProperty Name="PersonalId" ColumnName="PersonalId" />
-                <ScalarProperty Name="PersonId" ColumnName="PersonId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="VisitBenefit">
-            <EntityTypeMapping TypeName="SaaMedModel.VisitBenefit">
-              <MappingFragment StoreEntitySet="VisitBenefit">
-                <ScalarProperty Name="Kol" ColumnName="Kol" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="BenefitId" ColumnName="BenefitId" />
-                <ScalarProperty Name="VisitId" ColumnName="VisitId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="PersonalSpecialty">
-            <EntityTypeMapping TypeName="SaaMedModel.PersonalSpecialty">
-              <MappingFragment StoreEntitySet="PersonalSpecialty">
-                <ScalarProperty Name="SpecialtyId" ColumnName="SpecialtyId" />
-                <ScalarProperty Name="PersonalId" ColumnName="PersonalId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-        </EntityContainerMapping>
-      </Mapping>
-    </edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="SaaMedModelStoreContainer" CdmEntityContainer="SaaMedEntities">
+    <EntitySetMapping Name="DocumentType">
+      <EntityTypeMapping TypeName="IsTypeOf(SaaMedModel.DocumentType)">
+        <MappingFragment StoreEntitySet="DocumentType">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Person">
+      <EntityTypeMapping TypeName="IsTypeOf(SaaMedModel.Person)">
+        <MappingFragment StoreEntitySet="Person">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+          <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
+          <ScalarProperty Name="Phone" ColumnName="Phone" />
+          <ScalarProperty Name="Sex" ColumnName="Sex" />
+          <ScalarProperty Name="Inn" ColumnName="Inn" />
+          <ScalarProperty Name="Snils" ColumnName="Snils" />
+          <ScalarProperty Name="DocumentTypeId" ColumnName="DocumentTypeId" />
+          <ScalarProperty Name="DocSeria" ColumnName="DocSeria" />
+          <ScalarProperty Name="DocNumber" ColumnName="DocNumber" />
+          <ScalarProperty Name="AddressSubject" ColumnName="AddressSubject" />
+          <ScalarProperty Name="AddressRaion" ColumnName="AddressRaion" />
+          <ScalarProperty Name="AddressCity" ColumnName="AddressCity" />
+          <ScalarProperty Name="AddressPunkt" ColumnName="AddressPunkt" />
+          <ScalarProperty Name="AddressStreet" ColumnName="AddressStreet" />
+          <ScalarProperty Name="AddressHouse" ColumnName="AddressHouse" />
+          <ScalarProperty Name="AddressFlat" ColumnName="AddressFlat" />
+          <ScalarProperty Name="Mestnost" ColumnName="Mestnost" />
+          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="IsTypeOf(SaaMedModel.Users)">
+        <MappingFragment StoreEntitySet="Users">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Fio" ColumnName="Fio" />
+          <ScalarProperty Name="Login" ColumnName="Login" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="Role" ColumnName="Role" />
+          <ScalarProperty Name="Disabled" ColumnName="Disabled" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Specialty">
+      <EntityTypeMapping TypeName="IsTypeOf(SaaMedModel.Specialty)">
+        <MappingFragment StoreEntitySet="Specialty">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Personal">
+      <EntityTypeMapping TypeName="IsTypeOf(SaaMedModel.Personal)">
+        <MappingFragment StoreEntitySet="Personal">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Fio" ColumnName="Fio" />
+          <ScalarProperty Name="Active" ColumnName="Active" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Graphic">
+      <EntityTypeMapping TypeName="IsTypeOf(SaaMedModel.Graphic)">
+        <MappingFragment StoreEntitySet="Graphic">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="PersonalId" ColumnName="PersonalId" />
+          <ScalarProperty Name="Dt" ColumnName="Dt" />
+          <ScalarProperty Name="H1" ColumnName="H1" />
+          <ScalarProperty Name="M1" ColumnName="M1" />
+          <ScalarProperty Name="H2" ColumnName="H2" />
+          <ScalarProperty Name="M2" ColumnName="M2" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Benefit">
+      <EntityTypeMapping TypeName="IsTypeOf(SaaMedModel.Benefit)">
+        <MappingFragment StoreEntitySet="Benefit">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="SpecialtyId" ColumnName="SpecialtyId" />
+          <ScalarProperty Name="Duration" ColumnName="Duration" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Invoice">
+      <EntityTypeMapping TypeName="IsTypeOf(SaaMedModel.Invoice)">
+        <MappingFragment StoreEntitySet="Invoice">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Dt" ColumnName="Dt" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="PersonId" ColumnName="PersonId" />
+          <ScalarProperty Name="Sm" ColumnName="Sm" />
+          <ScalarProperty Name="VisitId" ColumnName="VisitId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="InvoiceDetail">
+      <EntityTypeMapping TypeName="IsTypeOf(SaaMedModel.InvoiceDetail)">
+        <MappingFragment StoreEntitySet="InvoiceDetail">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="BenefitName" ColumnName="BenefitName" />
+          <ScalarProperty Name="Kol" ColumnName="Kol" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="Sm" ColumnName="Sm" />
+          <ScalarProperty Name="InvoiceId" ColumnName="InvoiceId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Visit">
+      <EntityTypeMapping TypeName="IsTypeOf(SaaMedModel.Visit)">
+        <MappingFragment StoreEntitySet="Visit">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="PersonId" ColumnName="PersonId" />
+          <ScalarProperty Name="PersonalId" ColumnName="PersonalId" />
+          <ScalarProperty Name="Dt" ColumnName="Dt" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="Duration" ColumnName="Duration" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="VisitBenefit">
+      <EntityTypeMapping TypeName="IsTypeOf(SaaMedModel.VisitBenefit)">
+        <MappingFragment StoreEntitySet="VisitBenefit">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="VisitId" ColumnName="VisitId" />
+          <ScalarProperty Name="BenefitId" ColumnName="BenefitId" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="Kol" ColumnName="Kol" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PersonalSpecialty">
+      <EntityTypeMapping TypeName="IsTypeOf(SaaMedModel.PersonalSpecialty)">
+        <MappingFragment StoreEntitySet="PersonalSpecialty">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="PersonalId" ColumnName="PersonalId" />
+          <ScalarProperty Name="SpecialtyId" ColumnName="SpecialtyId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
   </edmx:Runtime>
   <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
   <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
@@ -912,7 +911,7 @@
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
         <DesignerProperty Name="EnablePluralization" Value="false" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
-        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
       </DesignerInfoPropertySet>
     </Options>
