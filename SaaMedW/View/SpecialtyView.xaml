@@ -13,12 +13,8 @@
             <Setter Property="IsSelected" Value="{Binding IsSelected}" />
         </Style>
     </UserControl.Resources>
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="Auto"></RowDefinition>
-        </Grid.RowDefinitions>
-        <Menu Grid.Row="0" Name="MainMenu">
+    <DockPanel>
+        <Menu DockPanel.Dock="Top" Name="MainMenu">
             <MenuItem Header="Добавить направление 1-го уровня" Command="{Binding Add0}">
             </MenuItem>
             <MenuItem Header="Добавить" Command="{Binding Add}">
@@ -28,7 +24,7 @@
             <MenuItem Header="Удалить" Command="{Binding Del}">
             </MenuItem>
         </Menu>
-        <TreeView Margin="0,0,10,0" Grid.Row="1" MinWidth="200" 
+        <TreeView Margin="0,0,10,0" MinWidth="200" 
                   BorderBrush="Transparent"
                   ItemsSource="{Binding SpecialtyList}">
             <TreeView.ItemTemplate>
@@ -37,5 +33,5 @@
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>
         </TreeView>
-    </Grid>
+    </DockPanel>
 </UserControl>

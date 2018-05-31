@@ -20,7 +20,8 @@ namespace SaaMedW.ViewModel
         public SpecialtyViewModel()
         {
             lst = ctx.Specialty.ToList();
-            foreach(var sp in lst.Where(s => !s.ParentId.HasValue).Select(s => new VmSpecialty(s) { Cargo = SelectedItemMethod }))
+            foreach(var sp in lst.Where(s => !s.ParentId.HasValue)
+                .Select(s => new VmSpecialty(s) { Cargo = SelectedItemMethod }))
             {
                 BuildTree(sp);
                 m_specialty.Add(sp);
@@ -30,7 +31,8 @@ namespace SaaMedW.ViewModel
         private void BuildTree(VmSpecialty sp)
         {
             sp.ChildSpecialties.Clear();
-            foreach(var sp0 in lst.Where(s => s.ParentId == sp.Id).Select(s => new VmSpecialty(s) { Cargo = SelectedItemMethod }))
+            foreach(var sp0 in lst.Where(s => s.ParentId == sp.Id)
+                .Select(s => new VmSpecialty(s) { Cargo = SelectedItemMethod }))
             {
                 sp0.ParentSpecialty = sp;
                 sp.ChildSpecialties.Add(sp0);

@@ -17,26 +17,53 @@ namespace SaaMedW.ViewModel
             = new ObservableCollection<VmSpecialty>();
         private ObservableCollection<VmBenefit> m_lst = new ObservableCollection<VmBenefit>();
         private SaaMedEntities ctx = new SaaMedEntities();
-
+        private List<Specialty> lst;
         public BenefitsViewModel()
         {
-            foreach(var o in ctx.Specialty
-                .Include(s => s.ChildSpecialties).Include(s => s.ParentSpecialty)
-                .Where(s => s.ParentId == null)
-                .OrderBy(s => s.Id))
+            lst = ctx.Specialty.ToList();
+            foreach (var sp in lst.Where(s => !s.ParentId.HasValue)
+                .Select(s => new VmSpecialty(s) { Cargo = SelectedItemMethod }))
             {
-                m_specialty.Add(new VmSpecialty(o));
+                BuildTree(sp);
+                m_specialty.Add(sp);
             }
             foreach (var o in ctx.Benefit.Include("Specialty"))
             {
                 m_lst.Add(new VmBenefit(o));
             }
         }
+        private void BuildTree(VmSpecialty sp)
+        {
+            sp.ChildSpecialties.Clear();
+            foreach (var sp0 in lst.Where(s => s.ParentId == sp.Id)
+                .Select(s => new VmSpecialty(s) { Cargo = SelectedItemMethod }))
+            {
+                sp0.ParentSpecialty = sp;
+                sp.ChildSpecialties.Add(sp0);
+                BuildTree(sp0);
+            }
+        }
+        private void SelectedItemMethod(VmSpecialty o)
+        {
+            SpecialtySel = o;
+        }
+        private VmSpecialty _selectedItem = null;
+        public VmSpecialty SpecialtySel
+        {
+            get { return _selectedItem; }
+            private set
+            {
+                if (_selectedItem != value)
+                {
+                    _selectedItem = value;
+                }
+            }
+        }
         public ObservableCollection<VmBenefit> BenefitsList
         {
             get { return m_lst; }
         }
-        public ObservableCollection<VmSpecialty> ListSpecialty { get => m_specialty; }
+        public ObservableCollection<VmSpecialty> SpecialtyList { get => m_specialty; }
         public object BenefitSel { get; set; }
         private ICollectionView view
         {

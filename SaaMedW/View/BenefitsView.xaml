@@ -17,17 +17,14 @@
             </MenuItem>
         </Menu>
         <DockPanel Margin="10">
-            <TreeView Margin="0,0,10,0" DockPanel.Dock="Left" MinWidth="200" ItemsSource="{Binding ListSpecialty}">
+            <TreeView Margin="0,0,10,0" MinWidth="200" 
+                  BorderBrush="Transparent"
+                  ItemsSource="{Binding SpecialtyList}">
                 <TreeView.ItemTemplate>
                     <HierarchicalDataTemplate ItemsSource="{Binding ChildSpecialties}">
                         <TextBlock Text="{Binding Name}"></TextBlock>
-                        <HierarchicalDataTemplate.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Name}"></TextBlock>
-                            </DataTemplate>
-                        </HierarchicalDataTemplate.ItemTemplate>
                     </HierarchicalDataTemplate>
-                </TreeView.ItemTemplate>    
+                </TreeView.ItemTemplate>
             </TreeView>
             <local0:ScrollingDataGrid x:Name="g" ItemsSource="{Binding BenefitsList}"
                 SelectedItem="{Binding BenefitSel}" IsSynchronizedWithCurrentItem="True">
