@@ -16,19 +16,26 @@ namespace SaaMedW.ViewModel
         private SaaMedEntities ctx = new SaaMedEntities();
         private readonly ObservableCollection<VmSpecialty> m_specialty 
             = new ObservableCollection<VmSpecialty>();
+        private List<Specialty> lst;
         public SpecialtyViewModel()
         {
-            //foreach (var o in ctx.Specialty
-            //    .Include(s => s.ChildSpecialties).Include(s => s.ParentSpecialty)
-            //    .Where(s => s.ParentId == null)
-            //    .OrderBy(s => s.Id))
-            //{
-            //    m_specialty.Add(new VmSpecialty(o) { Cargo = SelectedItemMethod});
-            //}
-            //foreach (var o in ctx.Specialty)
-            //{
-            //    m_specialty.Add(new VmSpecialty(o));
-            //}
+            lst = ctx.Specialty.ToList();
+            foreach(var sp in lst.Where(s => !s.ParentId.HasValue).Select(s => new VmSpecialty(s) { Cargo = SelectedItemMethod }))
+            {
+                BuildTree(sp);
+                m_specialty.Add(sp);
+            }
+        }
+
+        private void BuildTree(VmSpecialty sp)
+        {
+            sp.ChildSpecialties.Clear();
+            foreach(var sp0 in lst.Where(s => s.ParentId == sp.Id).Select(s => new VmSpecialty(s) { Cargo = SelectedItemMethod }))
+            {
+                sp0.ParentSpecialty = sp;
+                sp.ChildSpecialties.Add(sp0);
+                BuildTree(sp0);
+            }
         }
 
         private void SelectedItemMethod(VmSpecialty o)
@@ -37,10 +44,6 @@ namespace SaaMedW.ViewModel
         }
 
         private VmSpecialty _selectedItem = null;
-        // This is public get-only here but you could implement a public setter which
-        // also selects the item.
-        // Also this should be moved to an instance property on a VM for the whole tree, 
-        // otherwise there will be conflicts for more than one tree.
         public VmSpecialty SpecialtySel
         {
             get { return _selectedItem; }
@@ -81,14 +84,15 @@ namespace SaaMedW.ViewModel
             var f = new EditSpecialty() { DataContext = modelView };
             if (f.ShowDialog() ?? false)
             {
-                modelView.ParentSpecialty = SpecialtySel.Obj;
+                modelView.Cargo = SelectedItemMethod;
+                modelView.ParentSpecialty = SpecialtySel;
                 modelView.ParentId = SpecialtySel.Id;
-                ctx.Specialty.Add(modelView.Obj);
+                SpecialtySel.ChildSpecialties.Add(modelView);
+                var sp = new Specialty() { Name = modelView.Name, ParentId = modelView.ParentId };
+                ctx.Specialty.Add(sp);
                 ctx.SaveChanges();
-                SpecialtyList.Add(modelView);
-                SpecialtySel = modelView;
-                //view.MoveCurrentTo(modelView);
-                OnPropertyChanged("SpecialtyList");
+                modelView.Id = sp.Id;
+                modelView.IsSelected = true;
             }
         }
 
@@ -96,19 +100,18 @@ namespace SaaMedW.ViewModel
         {
             get
             {
-                return new RelayCommand(EditObject);
+                return new RelayCommand(EditObject, s => SpecialtySel != null);
             }
         }
 
         private void EditObject(object obj)
         {
             if (SpecialtySel == null) return;
-            var specialty = SpecialtySel as VmSpecialty;
-            var specialtyCpy = new VmSpecialty(specialty);
-            var f = new EditSpecialty() { DataContext = specialtyCpy };
+            var f = new EditSpecialty() { DataContext = SpecialtySel };
             if (f.ShowDialog() ?? false)
             {
-                specialty.Copy(specialtyCpy);
+                var sp = ctx.Specialty.Find(SpecialtySel.Id);
+                sp.Name = SpecialtySel.Name;
                 ctx.SaveChanges();
             }
         }
@@ -117,7 +120,8 @@ namespace SaaMedW.ViewModel
         {
             get
             {
-                return new RelayCommand(DelObject);
+                return new RelayCommand(DelObject, 
+                    s => SpecialtySel != null && SpecialtySel.ChildSpecialties.Count == 0);
             }
         }
 
@@ -125,9 +129,16 @@ namespace SaaMedW.ViewModel
         {
             if (SpecialtySel == null) return;
             if (SpecialtySel.ChildSpecialties.Count > 0) return;
-            ctx.Specialty.Remove(SpecialtySel.Obj);
+            if (SpecialtySel.ParentSpecialty != null)
+            {
+                SpecialtySel.ParentSpecialty.ChildSpecialties.Remove(SpecialtySel);
+            }
+            else
+            {
+                SpecialtyList.Remove(SpecialtySel);
+            }
+            ctx.Specialty.Remove(ctx.Specialty.Find(SpecialtySel.Id));
             ctx.SaveChanges();
-            SpecialtyList.Remove(SpecialtySel);
         }
     }
 }

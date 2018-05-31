@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -9,72 +10,72 @@ namespace SaaMedW.ViewModel
 {
     public class VmSpecialty : ViewModelBase, IDataErrorInfo
     {
-        private Specialty m_object;
         public VmSpecialty()
         {
-            m_object = new Specialty();
         }
         public VmSpecialty(Specialty obj)
         {
-            m_object = obj;
+            Id = obj.Id;
+            Name = obj.Name;
+            ParentId = obj.ParentId;
+            //foreach(var o in obj.ChildSpecialties)
+            //{
+            //    ChildSpecialties.Add(new VmSpecialty(o));
+            //}
+            //if (obj.ParentSpecialty != null)
+            //    ParentSpecialty = new VmSpecialty(obj.ParentSpecialty);
         }
-        public VmSpecialty(VmSpecialty obj)
-        {
-            m_object = new Specialty();
-            m_object.Id = obj.Id;
-            m_object.Name = obj.Name;
-        }
-        public VmSpecialty Copy(VmSpecialty obj)
-        {
-            this.Name = obj.Name;
-            return this;
-        }
-        public Specialty Obj
-        {
-            get => m_object;
-            set
-            {
-                m_object = value;
-                OnPropertyChanged("Obj");
-            }
-        }
+        private int _Id;
         public int Id
         {
-            get => m_object.Id;
+            get => _Id;
             set
             {
-                m_object.Id = value;
+                _Id = value;
                 OnPropertyChanged("Id");
             }
         }
+        private string _Name;
         public string Name
         {
-            get => m_object.Name;
+            get => _Name;
             set
             {
-                m_object.Name = value;
+                _Name = value;
                 OnPropertyChanged("Name");
             }
         }
+        private int? _ParentId;
         public int? ParentId
         {
-            get => m_object.ParentId;
+            get => _ParentId;
             set
             {
-                m_object.ParentId = value;
+                _ParentId = value;
                 OnPropertyChanged("ParentId");
             }
         }
-        public ICollection<Specialty> ChildSpecialties
+        private ICollection<VmSpecialty> _ChildSpecialties = 
+            new ObservableCollection<VmSpecialty>();
+        public ICollection<VmSpecialty> ChildSpecialties
         {
-            get => m_object.ChildSpecialties;
+            get => _ChildSpecialties;
             set
             {
-                m_object.ChildSpecialties = value;
+                _ChildSpecialties = value;
                 OnPropertyChanged("ChildSpecialties");
             }
         }
-        public virtual Specialty ParentSpecialty { get; set; }
+        private VmSpecialty _ParentSpecialty;
+        public VmSpecialty ParentSpecialty
+        {
+            get => _ParentSpecialty;
+            set
+            {
+                _ParentSpecialty = value;
+                OnPropertyChanged("ParentSpecialty");
+            }
+        }
         public string this[string columnName]
         {
             get
