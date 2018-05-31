@@ -77,22 +77,41 @@ namespace SaaMedW.ViewModel
             }
         }
 
-        private void AddObject(object obj)
+        private void AddObject(object obj) => AddSpecialty(false);
+
+        public RelayCommand Add0
         {
-            if (SpecialtySel == null) return;
+            get
+            {
+                return new RelayCommand(Add0Object);
+            }
+        }
+
+        private void Add0Object(object obj) => AddSpecialty(true);
+
+        private void AddSpecialty(bool isRoot)
+        {
+            if (!isRoot && SpecialtySel == null) return;
             var modelView = new VmSpecialty();
             var f = new EditSpecialty() { DataContext = modelView };
             if (f.ShowDialog() ?? false)
             {
                 modelView.Cargo = SelectedItemMethod;
-                modelView.ParentSpecialty = SpecialtySel;
-                modelView.ParentId = SpecialtySel.Id;
-                SpecialtySel.ChildSpecialties.Add(modelView);
+                if (!isRoot)
+                {
+                    modelView.ParentSpecialty = SpecialtySel;
+                    modelView.ParentId = SpecialtySel.Id;
+                    SpecialtySel.ChildSpecialties.Add(modelView);
+                }
+                else
+                {
+                    SpecialtyList.Add(modelView);
+                }
                 var sp = new Specialty() { Name = modelView.Name, ParentId = modelView.ParentId };
                 ctx.Specialty.Add(sp);
                 ctx.SaveChanges();
                 modelView.Id = sp.Id;
-                modelView.IsSelected = true;
+                //modelView.IsSelected = true;
             }
         }
 
@@ -129,6 +148,21 @@ namespace SaaMedW.ViewModel
         {
             if (SpecialtySel == null) return;
             if (SpecialtySel.ChildSpecialties.Count > 0) return;
+            var sp = ctx.Specialty.Find(SpecialtySel.Id);
+            ctx.Entry(sp).Collection(s => s.PersonalSpecialty).Load();
+            ctx.Entry(sp).Collection(s => s.Benefit).Load();
+            if (sp.Benefit.Count > 0)
+            {
+                System.Windows.MessageBox.Show("По данному направлению есть услуги. Удаление невозможно.");
+                return;
+            }
+            if (sp.PersonalSpecialty.Count > 0)
+            {
+                System.Windows.MessageBox.Show("По данному направлению есть врачи. Удаление невозможно.");
+                return;
+            }
+            ctx.Specialty.Remove(sp);
+            ctx.SaveChanges();
             if (SpecialtySel.ParentSpecialty != null)
             {
                 SpecialtySel.ParentSpecialty.ChildSpecialties.Remove(SpecialtySel);
@@ -137,8 +171,6 @@ namespace SaaMedW.ViewModel
             {
                 SpecialtyList.Remove(SpecialtySel);
             }
-            ctx.Specialty.Remove(ctx.Specialty.Find(SpecialtySel.Id));
-            ctx.SaveChanges();
         }
     }
 }

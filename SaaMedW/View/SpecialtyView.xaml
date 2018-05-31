@@ -19,6 +19,8 @@
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
         <Menu Grid.Row="0" Name="MainMenu">
+            <MenuItem Header="Добавить направление 1-го уровня" Command="{Binding Add0}">
+            </MenuItem>
             <MenuItem Header="Добавить" Command="{Binding Add}">
             </MenuItem>
             <MenuItem Header="Изменить" Command="{Binding Edit}">

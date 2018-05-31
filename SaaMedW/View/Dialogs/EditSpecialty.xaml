@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:SaaMedW.View"
         mc:Ignorable="d"
         Title="EditSpecialty" SizeToContent="Height"  Width="400"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen" FocusManager.FocusedElement="{Binding ElementName=tbName}">
     <Window.Resources>
         <Style TargetType="{x:Type TextBox}">
             <Style.Triggers>
@@ -26,7 +26,7 @@
             </Grid.RowDefinitions>
             <StackPanel Grid.Row="0">
                 <Label>Наименование</Label>
-                <TextBox Text="{Binding Path=Name, ValidatesOnDataErrors=True, 
+                <TextBox Name="tbName" Text="{Binding Path=Name, ValidatesOnDataErrors=True, 
                         UpdateSourceTrigger=PropertyChanged}" MaxLength="100"></TextBox>
             </StackPanel>
             <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
