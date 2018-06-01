@@ -29,16 +29,10 @@ namespace SaaMedW.View
         private void DropHandler(object sender, DragEventArgs e)
         {
             var mv = DataContext as SpecialtyViewModel;
-            var ctx = (DataContext as SpecialtyViewModel).ctx;
             var source = e.Data.GetData(typeof(VmSpecialty)) as VmSpecialty;
             var target = (sender as TreeViewItem).DataContext as VmSpecialty;
-            if (source.ParentSpecialty != null)
-            {
-                source.ParentSpecialty.ChildSpecialties.Remove(source);
-            }
-            source.ParentId = target.Id;
-            source.ParentSpecialty = target;
-            target.ChildSpecialties.Add(new VmSpecialty(ctx.Specialty.Find(source.Id)) { Cargo = mv.SelectedItemMethod });
+            mv.MoveNode(source, target);
+            e.Handled = true;
         }
 
         private void MouseMoveHandler(object sender, MouseEventArgs e)
@@ -48,8 +42,16 @@ namespace SaaMedW.View
             {
                 var o = (sender as TreeViewItem).DataContext as VmSpecialty;
                 DataObject data = new DataObject(o);
-                DragDrop.DoDragDrop(sender as TreeViewItem, data, DragDropEffects.Copy);
+                DragDrop.DoDragDrop(sender as TreeViewItem, data, DragDropEffects.Move);
             }
+        }
+
+        private void DropUserControlHandler(object sender, DragEventArgs e)
+        {
+            var mv = DataContext as SpecialtyViewModel;
+            var source = e.Data.GetData(typeof(VmSpecialty)) as VmSpecialty;
+            mv.MoveNode(source, null);
+            e.Handled = true;
         }
     }
 }

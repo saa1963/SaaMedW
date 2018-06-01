@@ -13,7 +13,7 @@ namespace SaaMedW.ViewModel
 {
     public class SpecialtyViewModel : ViewModelBase
     {
-        public SaaMedEntities ctx { get; set; } = new SaaMedEntities();
+        private SaaMedEntities ctx = new SaaMedEntities();
         private readonly ObservableCollection<VmSpecialty> m_specialty 
             = new ObservableCollection<VmSpecialty>();
         private List<Specialty> lst;
@@ -30,7 +30,6 @@ namespace SaaMedW.ViewModel
 
         private void BuildTree(VmSpecialty sp)
         {
-            sp.ChildSpecialties.Clear();
             foreach(var sp0 in lst.Where(s => s.ParentId == sp.Id)
                 .Select(s => new VmSpecialty(s) { Cargo = SelectedItemMethod }))
             {
@@ -173,6 +172,39 @@ namespace SaaMedW.ViewModel
             {
                 SpecialtyList.Remove(SpecialtySel);
             }
+        }
+
+        public void MoveNode(VmSpecialty source, VmSpecialty target)
+        {
+            if (source.ParentSpecialty != null)
+            {
+                source.ParentSpecialty.ChildSpecialties.Remove(source);
+            }
+            else
+            {
+                SpecialtyList.Remove(source);
+            }
+            if (target != null)
+            {
+                target.ChildSpecialties.Add(source);
+                source.ParentId = target.Id;
+                source.ParentSpecialty = target;
+            }
+            else
+            {
+                SpecialtyList.Add(source);
+                source.ParentId = null;
+                source.ParentSpecialty = null;
+            }
+            var source0 = ctx.Specialty.Find(source.Id);
+            source0.ParentId = source.ParentId;
+            if (target != null)
+            {
+                var target0 = ctx.Specialty.Find(target.Id);
+                target0.ParentId = target.ParentId;
+            }
+            ctx.SaveChanges();
+
         }
     }
 }
