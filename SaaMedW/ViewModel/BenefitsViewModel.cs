@@ -27,10 +27,7 @@ namespace SaaMedW.ViewModel
                 BuildTree(sp);
                 m_specialty.Add(sp);
             }
-            foreach (var o in ctx.Benefit.Include("Specialty"))
-            {
-                m_lst.Add(new VmBenefit(o));
-            }
+            RefreshData();
         }
         private void BuildTree(VmSpecialty sp)
         {
@@ -43,9 +40,33 @@ namespace SaaMedW.ViewModel
                 BuildTree(sp0);
             }
         }
+        private void RefreshData()
+        {
+            m_lst.Clear();
+            if (SpecialtySel != null)
+            {
+                foreach (var o in ctx.Benefit.Include("Specialty")
+                    .Where(s => s.SpecialtyId == SpecialtySel.Id))
+                {
+                    var benefit = new VmBenefit(o);
+                    benefit.PropertyChanged += Benefit_PropertyChanged;
+                    m_lst.Add(benefit);
+                }
+            }
+        }
+
+        private void Benefit_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (new string[] {"Name", "Duration", "Price"}.Contains(e.PropertyName))
+            {
+                ctx.SaveChanges();
+            }
+        }
+
         private void SelectedItemMethod(VmSpecialty o)
         {
             SpecialtySel = o;
+            RefreshData();
         }
         private VmSpecialty _selectedItem = null;
         public VmSpecialty SpecialtySel

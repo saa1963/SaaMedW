@@ -13,7 +13,7 @@ namespace SaaMedW.ViewModel
 {
     public class SpecialtyViewModel : ViewModelBase
     {
-        private SaaMedEntities ctx = new SaaMedEntities();
+        public SaaMedEntities ctx { get; set; } = new SaaMedEntities();
         private readonly ObservableCollection<VmSpecialty> m_specialty 
             = new ObservableCollection<VmSpecialty>();
         private List<Specialty> lst;
@@ -40,7 +40,7 @@ namespace SaaMedW.ViewModel
             }
         }
 
-        private void SelectedItemMethod(VmSpecialty o)
+        public void SelectedItemMethod(VmSpecialty o)
         {
             SpecialtySel = o;
         }

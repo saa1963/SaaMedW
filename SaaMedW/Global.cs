@@ -26,7 +26,12 @@ namespace SaaMedW
         internal void SaveColumnsWidth(UserControl uc)
         {
             var fName = uc.Name;
-            DataGrid g = (DataGrid)FindInVisualTreeDown(uc, "DataGrid");
+            DataGrid g;
+            g = (DataGrid)FindInVisualTreeDown(uc, "DataGrid");
+            if (g == null)
+            {
+                g = (DataGrid)FindInVisualTreeDown(uc, "ScrollingDataGrid");
+            }
             foreach (DataGridColumn col in g.Columns)
             {
                 if (col.Width.IsAbsolute)
@@ -37,7 +42,12 @@ namespace SaaMedW
         internal void SetColumnsWidth(UserControl uc)
         {
             var fName = uc.Name;
-            DataGrid g = (DataGrid)FindInVisualTreeDown(uc, "DataGrid");
+            DataGrid g;
+            g = (DataGrid)FindInVisualTreeDown(uc, "DataGrid");
+            if (g == null)
+            {
+                g = (DataGrid)FindInVisualTreeDown(uc, "ScrollingDataGrid");
+            }
             foreach (DataGridColumn col in g.Columns)
             {
                 if (col.Width.IsAbsolute)

@@ -11,6 +11,7 @@ using SaaMedW.Service;
 using SaaMedW.ViewModel;
 using System.IO;
 using System.Reflection;
+using System.Windows.Media;
 
 namespace SaaMedW
 {
@@ -107,6 +108,18 @@ namespace SaaMedW
                     prop.SetValue(vm, f, null);
                 }
                 window.Wplace.Children.Clear();
+                if (f.Tag != null)
+                {
+                    var tb = new TextBlock();
+                    tb.Text = f.Tag.ToString();
+                    tb.Padding = new Thickness(10);
+                    tb.Background = Brushes.AliceBlue;
+                    tb.FontSize = 20;
+                    tb.HorizontalAlignment = HorizontalAlignment.Stretch;
+                    tb.VerticalAlignment = VerticalAlignment.Stretch;
+                    DockPanel.SetDock(tb, Dock.Top);
+                    window.Wplace.Children.Add(tb);
+                }
                 window.Wplace.Children.Add(f);
             }
             else

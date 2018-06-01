@@ -13,28 +13,6 @@ namespace SaaMedW.ViewModel
         {
             get { return new RelayCommand(App.ActivateView); }
         }
-
-        //public RelayCommand Users
-        //{
-        //    get { return new RelayCommand(new Action<object>(ShowEditUserForm)); }
-        //}
-
-        //private void ShowEditUserForm(object obj)
-        //{
-        //    var modelView = new EditUserViewModel();
-        //    var f = new frmEditUser() { DataContext = modelView };
-        //    var result = f.ShowDialog();
-        //    if (result.HasValue && result.Value)
-        //    {
-        //        var i = 1;
-        //    }
-        //}
-
-        //public object CmdReceive
-        //{
-        //    get { return new ExecTypes { View = typeof(ReceiveView), ViewModel = typeof(ReceiveViewModel) }; }
-        //}
-
         public object CmdUsers
         {
             get { return new ExecTypes { View = typeof(UsersView), ViewModel = typeof(UsersViewModel) }; }
