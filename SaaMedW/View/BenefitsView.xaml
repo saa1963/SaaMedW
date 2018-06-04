@@ -10,6 +10,11 @@
     <UserControl.Resources>
         <Style TargetType="{x:Type TreeViewItem}">
             <Setter Property="IsSelected" Value="{Binding IsSelected}" />
+            <Setter Property="AllowDrop" Value="True"></Setter>
+            <EventSetter Event="Drop" Handler="DropHandler"></EventSetter>
+        </Style>
+        <Style TargetType="{x:Type DataGridCell}">
+            <EventSetter Event="MouseMove" Handler="MouseMoveHandler"></EventSetter>
         </Style>
     </UserControl.Resources>
     <DockPanel>
@@ -32,7 +37,8 @@
                 </TreeView.ItemTemplate>
             </TreeView>
             <local0:ScrollingDataGrid x:Name="g" ItemsSource="{Binding BenefitsList}"
-                SelectedItem="{Binding BenefitSel}" IsSynchronizedWithCurrentItem="True">
+                SelectedItem="{Binding BenefitSel}" IsSynchronizedWithCurrentItem="True"
+                                      SelectionMode="Extended">
                 <DataGrid.Columns>
                     <DataGridTextColumn IsReadOnly="True" Header="Id" 
                                         Binding="{Binding Id}" Width="Auto"></DataGridTextColumn>

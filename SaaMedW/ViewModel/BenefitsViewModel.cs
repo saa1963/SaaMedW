@@ -85,7 +85,7 @@ namespace SaaMedW.ViewModel
             get { return m_lst; }
         }
         public ObservableCollection<VmSpecialty> SpecialtyList { get => m_specialty; }
-        public object BenefitSel { get; set; }
+        public VmBenefit BenefitSel { get; set; }
         private ICollectionView view
         {
             get
@@ -165,6 +165,16 @@ namespace SaaMedW.ViewModel
             ctx.Benefit.Remove(benefit.Obj);
             ctx.SaveChanges();
             BenefitsList.Remove(benefit);
+        }
+
+        public void Move2OtherSpecialty(List<VmBenefit> sourceBenefitsList, VmSpecialty targetSpecialty)
+        {
+            Specialty sp = ctx.Specialty.Find(targetSpecialty.Id);
+            foreach(var benefit in sourceBenefitsList)
+            {
+                System.Diagnostics.Debug.WriteLine(benefit.GetHashCode());
+                benefit.Specialty = sp;
+            }
         }
     }
 }
