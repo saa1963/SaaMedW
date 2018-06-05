@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SaaMedW.View"
         xmlns:local0="clr-namespace:SaaMedW"
-        mc:Ignorable="d" SizeToContent="WidthAndHeight" ResizeMode="NoResize" 
+        mc:Ignorable="d" SizeToContent="WidthAndHeight" ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <Style TargetType="{x:Type TextBox}">

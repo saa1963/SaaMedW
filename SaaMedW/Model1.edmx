@@ -10,8 +10,8 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
-          <Property Name="Price" Type="decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="Price" Type="money" Nullable="false" />
           <Property Name="SpecialtyId" Type="int" Nullable="false" />
           <Property Name="Duration" Type="int" Nullable="false" />
         </EntityType>
@@ -28,7 +28,7 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="PersonalId" Type="int" Nullable="false" />
-          <Property Name="Dt" Type="datetime" Nullable="false" />
+          <Property Name="Dt" Type="date" Nullable="false" />
           <Property Name="H1" Type="int" Nullable="false" />
           <Property Name="M1" Type="int" Nullable="false" />
           <Property Name="H2" Type="int" Nullable="false" />
@@ -39,11 +39,11 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Dt" Type="datetime" Nullable="false" />
+          <Property Name="Dt" Type="date" Nullable="false" />
           <Property Name="Status" Type="int" Nullable="false" />
           <Property Name="PersonId" Type="int" Nullable="false" />
-          <Property Name="Sm" Type="decimal" Precision="19" Scale="4" Nullable="false" />
           <Property Name="VisitId" Type="int" />
+          <Property Name="Sm" Type="money" Nullable="false" />
         </EntityType>
         <EntityType Name="InvoiceDetail">
           <Key>
@@ -52,8 +52,8 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="BenefitName" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="Kol" Type="int" Nullable="false" />
-          <Property Name="Price" Type="decimal" Precision="19" Scale="4" Nullable="false" />
-          <Property Name="Sm" Type="decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="Price" Type="money" Nullable="false" />
+          <Property Name="Sm" Type="money" Nullable="false" />
           <Property Name="InvoiceId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Person">
@@ -64,7 +64,7 @@
           <Property Name="LastName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="FirstName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="MiddleName" Type="nvarchar" MaxLength="50" />
-          <Property Name="BirthDate" Type="datetime" />
+          <Property Name="BirthDate" Type="date" />
           <Property Name="Phone" Type="nchar" MaxLength="10" />
           <Property Name="Sex" Type="int" />
           <Property Name="Inn" Type="nvarchar" MaxLength="12" />
@@ -174,7 +174,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Invoice_Visit1">
+        <Association Name="FK_Invoice_Visit">
           <End Role="Visit" Type="Self.Visit" Multiplicity="0..1" />
           <End Role="Invoice" Type="Self.Invoice" Multiplicity="*" />
           <ReferentialConstraint>
@@ -319,7 +319,7 @@
             <End Role="Person" EntitySet="Person" />
             <End Role="Invoice" EntitySet="Invoice" />
           </AssociationSet>
-          <AssociationSet Name="FK_Invoice_Visit1" Association="Self.FK_Invoice_Visit1">
+          <AssociationSet Name="FK_Invoice_Visit" Association="Self.FK_Invoice_Visit">
             <End Role="Visit" EntitySet="Visit" />
             <End Role="Invoice" EntitySet="Invoice" />
           </AssociationSet>
@@ -380,7 +380,7 @@
           <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="MiddleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="BirthDate" Type="DateTime" Precision="3" />
+          <Property Name="BirthDate" Type="DateTime" Precision="0" />
           <Property Name="Phone" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
           <Property Name="Sex" Type="Int32" />
           <Property Name="Inn" Type="String" MaxLength="12" FixedLength="false" Unicode="true" />
@@ -519,7 +519,7 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="PersonalId" Type="Int32" Nullable="false" />
-          <Property Name="Dt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Dt" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="H1" Type="Int32" Nullable="false" />
           <Property Name="M1" Type="Int32" Nullable="false" />
           <Property Name="H2" Type="Int32" Nullable="false" />
@@ -543,7 +543,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="Price" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
           <Property Name="SpecialtyId" Type="Int32" Nullable="false" />
           <Property Name="Duration" Type="Int32" Nullable="false" />
@@ -567,7 +567,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Dt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Dt" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="Status" Type="Int32" Nullable="false" />
           <Property Name="PersonId" Type="Int32" Nullable="false" />
           <Property Name="Sm" Type="Decimal" Nullable="false" Precision="19" Scale="4" />

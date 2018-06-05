@@ -97,17 +97,17 @@ namespace SaaMedW.ViewModel
         {
             get
             {
-                return new RelayCommand(AddBenefit);
+                return new RelayCommand(AddBenefit, s => SpecialtySel != null);
             }
         }
 
         private void AddBenefit(object obj)
         {
             var modelView = new EditBenefitViewModel();
-            modelView.SpecialtyId = -1;
             var f = new EditBenefit() { DataContext = modelView };
             if (f.ShowDialog() ?? false)
             {
+                modelView.Specialty = ctx.Specialty.Find(SpecialtySel.Id);
                 ctx.Benefit.Add(modelView.Obj);
                 ctx.SaveChanges();
                 ctx.Entry(modelView.Obj).Reference(s => s.Specialty).Load();
@@ -121,7 +121,7 @@ namespace SaaMedW.ViewModel
         {
             get
             {
-                return new RelayCommand(EditBenefit);
+                return new RelayCommand(EditBenefit, s => BenefitSel != null);
             }
         }
 
@@ -154,7 +154,7 @@ namespace SaaMedW.ViewModel
         {
             get
             {
-                return new RelayCommand(DelBenefit);
+                return new RelayCommand(DelBenefit, s => BenefitSel != null);
             }
         }
 
@@ -172,9 +172,10 @@ namespace SaaMedW.ViewModel
             Specialty sp = ctx.Specialty.Find(targetSpecialty.Id);
             foreach(var benefit in sourceBenefitsList)
             {
-                System.Diagnostics.Debug.WriteLine(benefit.GetHashCode());
                 benefit.Specialty = sp;
             }
+            ctx.SaveChanges();
+            RefreshData();
         }
     }
 }

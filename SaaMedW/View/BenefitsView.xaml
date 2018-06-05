@@ -43,9 +43,17 @@
                     <DataGridTextColumn IsReadOnly="True" Header="Id" 
                                         Binding="{Binding Id}" Width="Auto"></DataGridTextColumn>
                     <DataGridTextColumn Header="Наименование" Binding="{Binding Name}" 
-                                        Width="Auto"></DataGridTextColumn>
+                                        MaxWidth="800"
+                                        Width="Auto">
+                        <DataGridTextColumn.CellStyle>
+                            <Style TargetType="DataGridCell">
+                                <Setter Property="ToolTip" Value="{Binding Name}" />
+                            </Style>
+                        </DataGridTextColumn.CellStyle>
+                    </DataGridTextColumn>
                     <DataGridTextColumn Header="Продолжительность" 
-                                        Binding="{Binding Path=Duration, StringFormat={}{0:0}}" Width="Auto">
+                                        Binding="{Binding Path=Duration, 
+                                            StringFormat={}{0:0}}" Width="Auto">
                         <DataGridTextColumn.EditingElementStyle>
                             <Style TargetType="TextBox">
                                 <Setter Property="HorizontalAlignment" Value="Right"></Setter>

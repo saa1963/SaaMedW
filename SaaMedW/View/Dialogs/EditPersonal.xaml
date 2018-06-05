@@ -6,67 +6,77 @@
         xmlns:local="clr-namespace:SaaMedW.View"
         xmlns:saamedw="clr-namespace:SaaMedW"
         mc:Ignorable="d"
-        SizeToContent="Height" Width="400"
-        WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+        SizeToContent="Height"
+        WindowStartupLocation="CenterScreen">
     <Window.Resources>
-        
+        <Style TargetType="{x:Type TreeViewItem}">
+            <Setter Property="IsSelected" Value="{Binding IsSelected}" />
+        </Style>
     </Window.Resources>
-    <Grid>
-        <Grid>
-            <Grid Margin="15,15,15,15" HorizontalAlignment="Stretch">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"></RowDefinition>
-                    <RowDefinition Height="Auto"></RowDefinition>
-                    <RowDefinition Height="Auto"></RowDefinition>
-                    <RowDefinition Height="Auto"></RowDefinition>
-                </Grid.RowDefinitions>
-                <StackPanel Grid.Row="0">
-                    <Label>ФИО</Label>
-                    <saamedw:ClickSelectTextBox Text="{Binding Path=Fio, ValidatesOnDataErrors=True, 
-                        UpdateSourceTrigger=PropertyChanged}" MaxLength="50"></saamedw:ClickSelectTextBox>
-                </StackPanel>
-                <StackPanel Grid.Row="1">
-                    <Label>Специальность</Label>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition></ColumnDefinition>
-                            <ColumnDefinition Width="Auto"></ColumnDefinition>
-                            <ColumnDefinition Width="Auto"></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-                        <ComboBox Grid.Column="0" ItemsSource="{Binding SpecialtyCombo}" DisplayMemberPath="Name"
-                                  SelectedValue="{Binding SelectedCombo}" SelectedValuePath="Id">
-                        </ComboBox>
-                        <Button Grid.Column="1" Width="30" Command="{Binding AddSpecialtyCommand}">
-                            <Image Source="..\..\image\add_32.png"></Image>
-                        </Button>
-                        <Button Grid.Column="2" Width="30" Command="{Binding DelSpecialtyCommand}">
-                            <Image Source="..\..\image\delete_32.png"></Image>
-                        </Button>
-                    </Grid>
-                    <ListBox SelectedValuePath="Id" DisplayMemberPath="Name" IsSynchronizedWithCurrentItem="True"
-                             MinHeight="100">
-                        <ListBox.ItemsSource>
-                            <Binding Path="SpecialtyListBox" ValidatesOnDataErrors="True">
-                            </Binding>
-                        </ListBox.ItemsSource>
-                        <ListBox.SelectedValue>
-                            <Binding Path="SelectedListBox">
-                                <Binding.Converter>
-                                    <saamedw:SpecialtySelectedValueConverter></saamedw:SpecialtySelectedValueConverter>
-                                </Binding.Converter>
-                            </Binding>
-                        </ListBox.SelectedValue>
-                    </ListBox>
-                </StackPanel>
-                <StackPanel Grid.Row="2">
-                    <CheckBox Margin="0,10,0,10" IsChecked="{Binding Path=Active, ValidatesOnDataErrors=True, 
-                        UpdateSourceTrigger=PropertyChanged}">Активен</CheckBox>
-                </StackPanel>
-                <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center">
-                    <Button Width="60" Margin="10" IsDefault="True" Click="Button_Click">ОК</Button>
-                    <Button Width="60" Margin="10" IsCancel="True">Отмена</Button>
-                </StackPanel>
-            </Grid>
+    <Grid Margin="15,15,15,15" HorizontalAlignment="Stretch">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0">
+            <Label>ФИО</Label>
+            <saamedw:ClickSelectTextBox Text="{Binding Path=Fio, ValidatesOnDataErrors=True, 
+                    UpdateSourceTrigger=PropertyChanged}" MaxLength="50" 
+                                        HorizontalAlignment="Left" Width="300"></saamedw:ClickSelectTextBox>
+        </StackPanel>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <DockPanel Grid.Column="0">
+                <Label DockPanel.Dock="Top" Content="Направления"></Label>
+                <TreeView Margin="0,0,10,0" MinWidth="200" 
+                  BorderBrush="Transparent"
+                  ItemsSource="{Binding SpecialtyList}">
+                    <TreeView.ItemTemplate>
+                        <HierarchicalDataTemplate ItemsSource="{Binding ChildSpecialties}">
+                            <TextBlock Text="{Binding Name}"></TextBlock>
+                        </HierarchicalDataTemplate>
+                    </TreeView.ItemTemplate>
+                </TreeView>
+            </DockPanel>
+            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                <Button Margin="10" Command="{Binding AddSpecialtyCommand}">
+                    <Image Source="../../image/forward.png"></Image>
+                </Button>
+                <Button Margin="10" Command="{Binding DelSpecialtyCommand}">
+                    <Image Source="../../image/back.png"></Image>
+                </Button>
+            </StackPanel>
+            <DockPanel Grid.Column="2">
+                <Label DockPanel.Dock="Top" Content="Выбранные направления"></Label>
+                <ListBox SelectedValuePath="Id" DisplayMemberPath="Name" IsSynchronizedWithCurrentItem="True"
+                            MinHeight="100">
+                    <ListBox.ItemsSource>
+                        <Binding Path="SpecialtyListBox" ValidatesOnDataErrors="True">
+                        </Binding>
+                    </ListBox.ItemsSource>
+                    <ListBox.SelectedValue>
+                        <Binding Path="SelectedListBox">
+                            <Binding.Converter>
+                                <saamedw:SpecialtySelectedValueConverter></saamedw:SpecialtySelectedValueConverter>
+                            </Binding.Converter>
+                        </Binding>
+                    </ListBox.SelectedValue>
+                </ListBox>
+            </DockPanel>
         </Grid>
+        <StackPanel Grid.Row="2">
+            <CheckBox Margin="0,10,0,10" IsChecked="{Binding Path=Active, ValidatesOnDataErrors=True, 
+                    UpdateSourceTrigger=PropertyChanged}">Активен</CheckBox>
+        </StackPanel>
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Width="60" Margin="10" IsDefault="True" Click="Button_Click">ОК</Button>
+            <Button Width="60" Margin="10" IsCancel="True">Отмена</Button>
+        </StackPanel>
     </Grid>
 </Window>

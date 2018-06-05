@@ -7,7 +7,7 @@
         xmlns:saamedw="clr-namespace:SaaMedW"
         mc:Ignorable="d"
         SizeToContent="Height" Width="400" WindowStartupLocation="CenterScreen"
-        ResizeMode="NoResize">
+        ResizeMode="NoResize" FocusManager.FocusedElement="{Binding ElementName=tbName}">
     <Window.Resources>
         <Style TargetType="{x:Type TextBox}">
             <Style.Triggers>
@@ -25,34 +25,24 @@
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0">
             <Label>Наименование</Label>
-            <saamedw:ClickSelectTextBox Text="{Binding Path=Name, ValidatesOnDataErrors=True, 
-                        UpdateSourceTrigger=PropertyChanged}" MaxLength="100"></saamedw:ClickSelectTextBox>
+            <saamedw:ClickSelectTextBox x:Name="tbName"
+                Text="{Binding Path=Name, ValidatesOnDataErrors=True, 
+                        UpdateSourceTrigger=PropertyChanged}" MaxLength="200"></saamedw:ClickSelectTextBox>
         </StackPanel>
         <StackPanel Grid.Row="1">
-            <Label>Специальность</Label>
-            <!--<ComboBox ItemsSource="{Binding SpecialtyList}" DisplayMemberPath="Name" 
-                        SelectedItem="{Binding SpecialtyCurrent, UpdateSourceTrigger=PropertyChanged}"
-                        SelectedValue="{Binding SpecialtyId}" SelectedValuePath="Id"
-                        IsSynchronizedWithCurrentItem="True"/>-->
-            <ComboBox ItemsSource="{Binding SpecialtyList}" DisplayMemberPath="Name" 
-                        SelectedValue="{Binding SpecialtyId}" SelectedValuePath="Id"
-                        />
-        </StackPanel>
-        <StackPanel Grid.Row="2">
             <Label>Продолжительность</Label>
             <saamedw:ClickSelectTextBox Text="{Binding Path=Duration, ValidatesOnDataErrors=True, 
                         UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:0}}"></saamedw:ClickSelectTextBox>
         </StackPanel>
-        <StackPanel Grid.Row="3">
+        <StackPanel Grid.Row="2">
             <Label>Цена</Label>
             <saamedw:ClickSelectTextBox Text="{Binding Path=Price, ValidatesOnDataErrors=True, 
                         UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:0.00}}"></saamedw:ClickSelectTextBox>
         </StackPanel>
-        <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Center">
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center">
             <Button Width="60" Margin="10" IsDefault="True" Click="Button_Click">ОК</Button>
             <Button Width="60" Margin="10" IsCancel="True">Отмена</Button>
         </StackPanel>
