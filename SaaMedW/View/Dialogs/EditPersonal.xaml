@@ -4,27 +4,25 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SaaMedW.View"
-        xmlns:saamedw="clr-namespace:SaaMedW"
-        mc:Ignorable="d"
-        SizeToContent="Height"
-        WindowStartupLocation="CenterScreen">
+        xmlns:saamedw="clr-namespace:SaaMedW" Width="900" Height="700"
+        mc:Ignorable="d">
     <Window.Resources>
         <Style TargetType="{x:Type TreeViewItem}">
             <Setter Property="IsSelected" Value="{Binding IsSelected}" />
         </Style>
     </Window.Resources>
-    <Grid Margin="15,15,15,15" HorizontalAlignment="Stretch">
+    <Grid Margin="15,15,15,15">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0">
             <Label>ФИО</Label>
             <saamedw:ClickSelectTextBox Text="{Binding Path=Fio, ValidatesOnDataErrors=True, 
-                    UpdateSourceTrigger=PropertyChanged}" MaxLength="50" 
-                                        HorizontalAlignment="Left" Width="300"></saamedw:ClickSelectTextBox>
+                    UpdateSourceTrigger=PropertyChanged}" MaxLength="50" Width="300" 
+                                        HorizontalAlignment="Left"></saamedw:ClickSelectTextBox>
         </StackPanel>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
@@ -34,15 +32,16 @@
             </Grid.ColumnDefinitions>
             <DockPanel Grid.Column="0">
                 <Label DockPanel.Dock="Top" Content="Направления"></Label>
-                <TreeView Margin="0,0,10,0" MinWidth="200" 
-                  BorderBrush="Transparent"
-                  ItemsSource="{Binding SpecialtyList}">
-                    <TreeView.ItemTemplate>
-                        <HierarchicalDataTemplate ItemsSource="{Binding ChildSpecialties}">
-                            <TextBlock Text="{Binding Name}"></TextBlock>
-                        </HierarchicalDataTemplate>
-                    </TreeView.ItemTemplate>
-                </TreeView>
+                <Border>
+                    <TreeView
+                        ItemsSource="{Binding SpecialtyList}">
+                        <TreeView.ItemTemplate>
+                            <HierarchicalDataTemplate ItemsSource="{Binding ChildSpecialties}">
+                                <TextBlock Text="{Binding Name}"></TextBlock>
+                            </HierarchicalDataTemplate>
+                        </TreeView.ItemTemplate>
+                    </TreeView>
+                </Border>
             </DockPanel>
             <StackPanel Grid.Column="1" VerticalAlignment="Center">
                 <Button Margin="10" Command="{Binding AddSpecialtyCommand}">

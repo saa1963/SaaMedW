@@ -9,7 +9,7 @@
              mc:Ignorable="d" Tag="Пользователи"
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
-        <local0:RoleToStringConverter x:Key="myConverter" />
+        <local0:RoleToIntConverter x:Key="myConverter" />
         <ObjectDataProvider x:Key="rolesEnum" MethodName="GetValues" ObjectType="{x:Type core:Enum}">
             <ObjectDataProvider.MethodParameters>
                 <x:Type Type="local0:Role"/>

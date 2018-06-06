@@ -1,0 +1,42 @@
+﻿<UserControl x:Class="SaaMedW.View.InvoiceView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SaaMedW.View"
+             xmlns:local0="clr-namespace:SaaMedW"
+             mc:Ignorable="d" Tag="Счета"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <local0:InvoiceStatusToIntConverter x:Key="myConverter" />
+    </UserControl.Resources>
+    <Grid>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Menu Grid.Row="0" Name="MainMenu">
+                <MenuItem Header="Добавить" Command="{Binding Add}">
+                </MenuItem>
+                <MenuItem Header="Изменить" Command="{Binding Edit}">
+                </MenuItem>
+                <MenuItem Header="Удалить" Command="{Binding Del}">
+                </MenuItem>
+            </Menu>
+            <local0:ScrollingDataGrid x:Name="g" Grid.Row="1" Margin="1" ItemsSource="{Binding InvoiceList}" 
+                  SelectedItem="{Binding InvoiceSel}" IsSynchronizedWithCurrentItem="True">
+                <DataGrid.Columns>
+                    <DataGridTextColumn IsReadOnly="True" Header="Id" Binding="{Binding Id}" Width="Auto"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Дата" Binding="{Binding Dt, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:dd.MM.yyyy}}" Width="Auto">
+                    </DataGridTextColumn>
+                    <DataGridCheckBoxColumn Header="Статус" 
+                                            Binding="{Binding Status, 
+                                                UpdateSourceTrigger=PropertyChanged, 
+                                                Converter={StaticResource myConverter}}" 
+                                            Width="Auto"></DataGridCheckBoxColumn>
+                </DataGrid.Columns>
+            </local0:ScrollingDataGrid>
+        </Grid>
+    </Grid>
+</UserControl>

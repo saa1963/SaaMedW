@@ -105,11 +105,9 @@ namespace SaaMedW.ViewModel
         }
         private void AddSpecialty(object obj)
         {
-            var o = SpecialtyCombo.Single(s => s.Id == SelectedCombo);
-            if (!SpecialtyListBox.Contains(o))
+            if (!SpecialtyListBox.Contains(SpecialtySel, new VmSpecialtyEqualityComparer()))
             {
-                SpecialtyListBox.Add(o);
-                //PersonalSpecialty.Add(new SaaMedW.PersonalSpecialty() { Specialty = o.Obj, Personal = this.Obj });
+                SpecialtyListBox.Add(new VmSpecialty(SpecialtySel));
                 OnPropertyChanged("SpecialtyListBox");
             }
         }

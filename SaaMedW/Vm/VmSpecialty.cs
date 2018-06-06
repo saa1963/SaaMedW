@@ -18,12 +18,12 @@ namespace SaaMedW.ViewModel
             Id = obj.Id;
             Name = obj.Name;
             ParentId = obj.ParentId;
-            //foreach(var o in obj.ChildSpecialties)
-            //{
-            //    ChildSpecialties.Add(new VmSpecialty(o));
-            //}
-            //if (obj.ParentSpecialty != null)
-            //    ParentSpecialty = new VmSpecialty(obj.ParentSpecialty);
+        }
+        public VmSpecialty(VmSpecialty obj)
+        {
+            Id = obj.Id;
+            Name = obj.Name;
+            ParentId = obj.ParentId;
         }
         private int _Id;
         public int Id
@@ -114,6 +114,19 @@ namespace SaaMedW.ViewModel
                     }
                 }
             }
+        }
+    }
+
+    public class VmSpecialtyEqualityComparer : IEqualityComparer<VmSpecialty>
+    {
+        public bool Equals(VmSpecialty b1, VmSpecialty b2)
+        {
+            return b1.Id == b2.Id;
+        }
+
+        public int GetHashCode(VmSpecialty bx)
+        {
+            return bx.Id;
         }
     }
 }
