@@ -24,6 +24,7 @@ namespace SaaMedW.ViewModel
         public Person Obj
         {
             get => m_object;
+            set { m_object = value; OnPropertyChanged("Obj"); }
         }
         public int Id
         {

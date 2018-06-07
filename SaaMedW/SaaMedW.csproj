@@ -161,10 +161,15 @@
     <Compile Include="ViewModel\Dialogs\EditOneVisitViewModel.cs" />
     <Compile Include="ViewModel\EditInvoiceViewModel.cs" />
     <Compile Include="ViewModel\EditVisitViewModel.cs" />
+    <Compile Include="ViewModel\InvoiceViewModel.cs" />
     <Compile Include="ViewModel\PersonalVisitsViewModel.cs" />
+    <Compile Include="ViewModel\SelectSpecialtyViewModel.cs" />
     <Compile Include="ViewModel\VisitTimeInterval.cs" />
     <Compile Include="ViewModel\VisitViewModel.cs" />
-    <Compile Include="ViewModel\VmPerson.cs" />
+    <Compile Include="View\SelectSpecialtyView.xaml.cs">
+      <DependentUpon>SelectSpecialtyView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Vm\VmPerson.cs" />
     <Compile Include="View\Dialogs\EditOneVisitView.xaml.cs">
       <DependentUpon>EditOneVisitView.xaml</DependentUpon>
     </Compile>
@@ -339,6 +344,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\SelectSpecialtyView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\SpecialtyView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -397,6 +406,7 @@
     <Resource Include="image\add_32.png" />
     <Resource Include="image\back.png" />
     <Resource Include="image\forward.png" />
+    <Resource Include="image\edit_orange_32.png" />
     <Content Include="Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Model1.Context.cs</LastGenOutput>

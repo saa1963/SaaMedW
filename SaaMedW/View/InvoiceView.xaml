@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:core="clr-namespace:System;assembly=mscorlib"
              xmlns:local="clr-namespace:SaaMedW.View"
              xmlns:local0="clr-namespace:SaaMedW"
              mc:Ignorable="d" Tag="Счета"
@@ -10,33 +11,54 @@
     <UserControl.Resources>
         <local0:InvoiceStatusToIntConverter x:Key="myConverter" />
     </UserControl.Resources>
-    <Grid>
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-            </Grid.RowDefinitions>
-            <Menu Grid.Row="0" Name="MainMenu">
-                <MenuItem Header="Добавить" Command="{Binding Add}">
-                </MenuItem>
-                <MenuItem Header="Изменить" Command="{Binding Edit}">
-                </MenuItem>
-                <MenuItem Header="Удалить" Command="{Binding Del}">
-                </MenuItem>
-            </Menu>
-            <local0:ScrollingDataGrid x:Name="g" Grid.Row="1" Margin="1" ItemsSource="{Binding InvoiceList}" 
-                  SelectedItem="{Binding InvoiceSel}" IsSynchronizedWithCurrentItem="True">
-                <DataGrid.Columns>
-                    <DataGridTextColumn IsReadOnly="True" Header="Id" Binding="{Binding Id}" Width="Auto"></DataGridTextColumn>
-                    <DataGridTextColumn Header="Дата" Binding="{Binding Dt, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:dd.MM.yyyy}}" Width="Auto">
-                    </DataGridTextColumn>
-                    <DataGridCheckBoxColumn Header="Статус" 
-                                            Binding="{Binding Status, 
-                                                UpdateSourceTrigger=PropertyChanged, 
-                                                Converter={StaticResource myConverter}}" 
-                                            Width="Auto"></DataGridCheckBoxColumn>
-                </DataGrid.Columns>
-            </local0:ScrollingDataGrid>
-        </Grid>
-    </Grid>
+    <DockPanel>
+        <Menu DockPanel.Dock="Top" Name="MainMenu">
+            <MenuItem Header="Добавить" Command="{Binding AddCommand}">
+            </MenuItem>
+            <MenuItem Header="Изменить" Command="{Binding EditCommand}">
+            </MenuItem>
+            <MenuItem Header="Удалить" Command="{Binding DelCommand}">
+            </MenuItem>
+        </Menu>
+        <DockPanel DockPanel.Dock="Top" LastChildFill="False" Margin="10">
+            <Label DockPanel.Dock="Left" Content="Период с"></Label>
+            <DatePicker DockPanel.Dock="Left" SelectedDate="{Binding Dt1}" 
+                        SelectedDateFormat="Short"></DatePicker>
+            <Label DockPanel.Dock="Left" Content="по"></Label>
+            <DatePicker DockPanel.Dock="Left" SelectedDate="{Binding Dt2}" 
+                        SelectedDateFormat="Short"></DatePicker>
+            <Label DockPanel.Dock="Left" Content="Пациент"></Label>
+            <ComboBox DockPanel.Dock="Left" ItemsSource="{Binding PersonList}" 
+                        x:Name="tbPerson"
+                        SelectedValue="{Binding PersonSel}"
+                        SelectedValuePath="Id"
+                        DisplayMemberPath="Obj.FioBirthday"
+                        MinWidth="200"></ComboBox>
+            <Button DockPanel.Dock="Left" 
+                    Height="{Binding ElementName=tbPerson, Path=ActualHeight}"
+                    Command="{Binding ClearPersonSelCommand}">
+                <Image Source="..\image\delete_32.png"></Image>
+            </Button>
+            <Label DockPanel.Dock="Left" Content="Статус"></Label>
+            <ComboBox DockPanel.Dock="Left"
+                        ItemsSource="{Binding StatusList}"
+                        SelectedValue="{Binding StatusSel}"
+                        SelectedValuePath="Id"
+                        DisplayMemberPath="Name"
+                        Width="200"></ComboBox>
+        </DockPanel>
+        <local0:ScrollingDataGrid x:Name="g" ItemsSource="{Binding InvoiceList}" 
+                SelectedItem="{Binding InvoiceSel}" IsSynchronizedWithCurrentItem="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn IsReadOnly="True" Header="Id" Binding="{Binding Id}" Width="Auto"></DataGridTextColumn>
+                <DataGridTextColumn Header="Дата" Binding="{Binding Dt, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:dd.MM.yyyy}}" Width="Auto">
+                </DataGridTextColumn>
+                <DataGridCheckBoxColumn Header="Статус" 
+                                        Binding="{Binding Status, 
+                                            UpdateSourceTrigger=PropertyChanged, 
+                                            Converter={StaticResource myConverter}}" 
+                                        Width="Auto"></DataGridCheckBoxColumn>
+            </DataGrid.Columns>
+        </local0:ScrollingDataGrid>
+    </DockPanel>
 </UserControl>

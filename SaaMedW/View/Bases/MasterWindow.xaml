@@ -20,8 +20,9 @@
             <MenuItem Header="Новое посещение" Command="{Binding Cmd}" 
                           CommandParameter="{Binding CmdNewVisit}">
             </MenuItem>
-            <MenuItem Header="Бухгалтерия" Command="{Binding Cmd}" 
-                          CommandParameter="{Binding CmdBux}">
+            <MenuItem Header="Бухгалтерия">
+                <MenuItem Header="Счета" Command="{Binding Cmd}" 
+                          CommandParameter="{Binding CmdInvoice}"></MenuItem>
             </MenuItem>
             <MenuItem Header="Персонал">
                 <MenuItem Header="Сотрудники" Command="{Binding Cmd}" 

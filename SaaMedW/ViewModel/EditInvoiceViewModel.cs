@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SaaMedW.View;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -105,5 +106,19 @@ namespace SaaMedW.ViewModel
         public string DateNumSum => "Счет № " + (Id > 0 ? Id.ToString() : "б/н") +
                     " от " + Dt.ToString("dd.MM.yyyy") + " на сумму " + Sm.ToString("0.00");
         public List<Person> ListPerson { get; set; }
+        public RelayCommand AddBenefitCommand
+        {
+            get => new RelayCommand(AddBenefit);
+        }
+
+        private void AddBenefit(object obj)
+        {
+            var viewModel = new SelectSpecialtyViewModel();
+            var f = new SelectSpecialtyView() { DataContext = viewModel };
+            if (f.ShowDialog() ?? false)
+            {
+
+            }
+        }
     }
 }
