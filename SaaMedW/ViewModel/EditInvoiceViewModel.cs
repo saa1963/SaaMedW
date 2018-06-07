@@ -10,11 +10,10 @@ namespace SaaMedW.ViewModel
 {
     public class EditInvoiceViewModel : ViewModelBase
     {
-        private SaaMedEntities ctx;
-        private VmVisit selectedVisit;
-        private DateTime _dt;
+        private SaaMedEntities ctx = new SaaMedEntities();
+        private DateTime _dt = DateTime.Today;
         private int _num;
-        private enStatusInvoice _status;
+        private enStatusInvoice _status = enStatusInvoice.Неоплачен;
         private int _personId;
         private decimal _sm;
         private Person _person;
@@ -22,28 +21,28 @@ namespace SaaMedW.ViewModel
             = new ObservableCollection<VmInvoiceDetail>();
         private int _id;
 
-        public EditInvoiceViewModel(SaaMedEntities _ctx,  VmVisit selectedVisit)
+        public EditInvoiceViewModel()
         {
-            ctx = _ctx;
-            this.selectedVisit = selectedVisit;
-
-            Dt = DateTime.Now;
-            Status = enStatusInvoice.Неоплачен;
-            PersonId = selectedVisit.PersonId;
-            Sm = selectedVisit.VisitBenefit.Sum(s => s.Kol * s.Benefit.Price);
-            Person = selectedVisit.Person;
-            foreach (var o in selectedVisit.VisitBenefit)
+            ListPerson = ctx.Person.OrderBy(s => s.LastName).ThenBy(s => s.FirstName)
+                .ThenBy(s => s.MiddleName).ToList();
+        }
+        public EditInvoiceViewModel(VmInvoice invoice):this()
+        {
+            Dt = invoice.Dt;
+            Status = (enStatusInvoice)invoice.Status;
+            PersonId = invoice.PersonId;
+            Sm = invoice.Sm;
+            Person = invoice.Person;
+            foreach (var o in invoice.InvoiceDetail)
             {
                 ListInvoiceDetail.Add(new VmInvoiceDetail()
                 {
-                    BenefitName = o.Benefit.Name,
+                    BenefitName = o.BenefitName,
                     Kol = o.Kol,
-                    Price = o.Benefit.Price,
-                    Sm = o.Kol * o.Benefit.Price
+                    Price = o.Price,
+                    Sm = o.Sm
                 });
             }
-            ListPerson = ctx.Person.OrderBy(s => s.LastName).ThenBy(s => s.FirstName)
-                .ThenBy(s => s.MiddleName).ToList();
         }
 
         public int Id { get => _id; set => _id = value; }
@@ -117,7 +116,7 @@ namespace SaaMedW.ViewModel
             var f = new SelectSpecialtyView() { DataContext = viewModel };
             if (f.ShowDialog() ?? false)
             {
-
+                var i = 1;
             }
         }
     }

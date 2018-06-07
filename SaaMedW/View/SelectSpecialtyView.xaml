@@ -9,6 +9,7 @@
     <Window.Resources>
         <Style TargetType="{x:Type TreeViewItem}">
             <Setter Property="IsSelected" Value="{Binding IsSelected}" />
+            <EventSetter Event="MouseDoubleClick" Handler="MouseDoubleClickHandler"></EventSetter>
         </Style>
     </Window.Resources>
     <DockPanel>
