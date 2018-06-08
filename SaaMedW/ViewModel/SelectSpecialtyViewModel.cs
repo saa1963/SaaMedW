@@ -1,17 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Data;
 
 namespace SaaMedW.ViewModel
 {
     public class SelectSpecialtyViewModel : ViewModelBase
     {
-        private SaaMedEntities ctx = new SaaMedEntities();
-        private readonly ObservableCollection<VmSpecialty> m_specialty
+        private ObservableCollection<VmSpecialty> m_specialty
             = new ObservableCollection<VmSpecialty>();
+        private ObservableCollection<VmBenefit> m_lst = new ObservableCollection<VmBenefit>();
+        private SaaMedEntities ctx = new SaaMedEntities();
         private List<Specialty> lst;
         public SelectSpecialtyViewModel()
         {
@@ -22,10 +25,11 @@ namespace SaaMedW.ViewModel
                 BuildTree(sp);
                 m_specialty.Add(sp);
             }
+            RefreshData();
         }
-
         private void BuildTree(VmSpecialty sp)
         {
+            sp.ChildSpecialties.Clear();
             foreach (var sp0 in lst.Where(s => s.ParentId == sp.Id)
                 .Select(s => new VmSpecialty(s) { Cargo = SelectedItemMethod }))
             {
@@ -34,12 +38,25 @@ namespace SaaMedW.ViewModel
                 BuildTree(sp0);
             }
         }
-
-        public void SelectedItemMethod(VmSpecialty o)
+        private void RefreshData()
         {
-            SpecialtySel = o;
+            m_lst.Clear();
+            if (SpecialtySel != null)
+            {
+                foreach (var o in ctx.Benefit.Include("Specialty")
+                    .Where(s => s.SpecialtyId == SpecialtySel.Id))
+                {
+                    var benefit = new VmBenefit(o);
+                    m_lst.Add(benefit);
+                }
+            }
         }
 
+        private void SelectedItemMethod(VmSpecialty o)
+        {
+            SpecialtySel = o;
+            RefreshData();
+        }
         private VmSpecialty _selectedItem = null;
         public VmSpecialty SpecialtySel
         {
@@ -52,11 +69,18 @@ namespace SaaMedW.ViewModel
                 }
             }
         }
-
-        public ObservableCollection<VmSpecialty> SpecialtyList
+        public ObservableCollection<VmBenefit> BenefitsList
         {
-            get => m_specialty;
+            get { return m_lst; }
         }
-
+        public ObservableCollection<VmSpecialty> SpecialtyList { get => m_specialty; }
+        public VmBenefit BenefitSel { get; set; }
+        private ICollectionView view
+        {
+            get
+            {
+                return CollectionViewSource.GetDefaultView(BenefitsList);
+            }
+        }
     }
 }

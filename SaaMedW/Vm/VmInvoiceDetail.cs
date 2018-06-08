@@ -46,6 +46,7 @@ namespace SaaMedW.ViewModel
             set
             {
                 m_object.Kol = value;
+                Sm = value * Price;
                 OnPropertyChanged("Kol");
             }
         }
@@ -55,6 +56,7 @@ namespace SaaMedW.ViewModel
             set
             {
                 m_object.Price = value;
+                Sm = value * Kol;
                 OnPropertyChanged("Price");
             }
         }

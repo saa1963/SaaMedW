@@ -6,24 +6,26 @@
         xmlns:local="clr-namespace:SaaMedW.View"
         xmlns:local0="clr-namespace:SaaMedW"
         xmlns:core="clr-namespace:System;assembly=mscorlib"
-        mc:Ignorable="d"
-        SizeToContent="WidthAndHeight">
+        mc:Ignorable="d" Width="800" Height="400" WindowStartupLocation="CenterScreen">
     <Window.Resources>
-        <Style x:Key="PriceEditStyle" TargetType="TextBox">
-            <Setter Property="TextAlignment" Value="Right"></Setter>
-        </Style>
-        <Style x:Key="EditStyle" TargetType="DataGridCell">
-            <Setter Property="HorizontalAlignment"  Value="Right"></Setter>
+        <Style TargetType="{x:Type ComboBox}">
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="true">
+                    <Setter Property="ToolTip"
+                        Value="{Binding RelativeSource={x:Static RelativeSource.Self},
+                        Path=(Validation.Errors)[0].ErrorContent}"/>
+                </Trigger>
+            </Style.Triggers>
         </Style>
     </Window.Resources>
     <DockPanel Margin="20">
-        <TextBlock Margin="0,0,0,10" DockPanel.Dock="Top" Text="{Binding DateNumSum}"></TextBlock>
+        <TextBlock Margin="0,0,0,20" DockPanel.Dock="Top" Text="{Binding DateNumSum}" FontSize="20" Background="AliceBlue"></TextBlock>
         <DockPanel DockPanel.Dock="Top" LastChildFill="False">
             <Label DockPanel.Dock="Left" Margin="0,0,10,10" Content="Плательщик"></Label>
             <ComboBox DockPanel.Dock="Left" Margin="0,0,0,10" MinWidth="200" 
                 ItemsSource="{Binding ListPerson}" DisplayMemberPath="FioBirthday"
-                SelectedValuePath="Id" 
-                SelectedValue="{Binding PersonId}">
+                SelectedValuePath="Id"
+                SelectedValue="{Binding PersonId, ValidatesOnDataErrors=True}">
             </ComboBox>
             <Label DockPanel.Dock="Left" Margin="0,0,10,10" Content="Статус"></Label>
             <ComboBox DockPanel.Dock="Left" Margin="0,0,0,10" Width="150"
@@ -53,13 +55,61 @@
                 </Button.Style>
             </Button>
         </DockPanel>
-        <local0:ScrollingDataGrid ItemsSource="{Binding ListInvoiceDetail}">
+        <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" HorizontalAlignment="Center">
+            <Button x:Name="btnOk" IsDefault="True" Click="Ok_Click" Content="OK" Width="100" Margin="10"></Button>
+            <Button IsCancel="True" Content="Отмена" Width="100" Margin="10"></Button>
+        </StackPanel>
+        <local0:ScrollingDataGrid ItemsSource="{Binding ListInvoiceDetail, ValidatesOnDataErrors=True}">
             <DataGrid.Columns>
-                <DataGridTextColumn Width="50" IsReadOnly="True" Header="ID" Binding="{Binding Id}"></DataGridTextColumn>
-                <DataGridTextColumn MinWidth="200" Header="Наименование услуги" Binding="{Binding BenefitName, UpdateSourceTrigger=PropertyChanged}"></DataGridTextColumn>
-                <DataGridTextColumn Width="80" Header="Кол-во" Binding="{Binding Kol, StringFormat={}{0:0}, UpdateSourceTrigger=PropertyChanged}" CellStyle="{StaticResource EditStyle}"></DataGridTextColumn>
-                <DataGridTextColumn Width="80" Header="Цена" Binding="{Binding Price, StringFormat={}{0:0.00}}" CellStyle="{StaticResource EditStyle}" EditingElementStyle="{StaticResource PriceEditStyle}"></DataGridTextColumn>
-                <DataGridTextColumn Width="80" Header="Сумма" Binding="{Binding Sm, StringFormat={}{0:0.00}}" CellStyle="{StaticResource EditStyle}"></DataGridTextColumn>
+                <DataGridTextColumn Width="50" IsReadOnly="True" Header="ID" 
+                                    Binding="{Binding Id}"></DataGridTextColumn>
+                <DataGridTextColumn Width="400" Header="Наименование услуги" 
+                                    Binding="{Binding BenefitName, UpdateSourceTrigger=PropertyChanged}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="TextWrapping" Value="Wrap"></Setter>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Width="80" Header="Кол-во" 
+                                    Binding="{Binding Kol, StringFormat={}{0:0}, UpdateSourceTrigger=PropertyChanged}">
+                    <DataGridTextColumn.EditingElementStyle>
+                        <Style TargetType="TextBox">
+                            <Setter Property="HorizontalAlignment" Value="Right"></Setter>
+                        </Style>
+                    </DataGridTextColumn.EditingElementStyle>
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Right"></Setter>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Width="80" Header="Цена" 
+                                    Binding="{Binding Price, StringFormat={}{0:0.00}}">
+                    <DataGridTextColumn.EditingElementStyle>
+                        <Style TargetType="TextBox">
+                            <Setter Property="HorizontalAlignment" Value="Right"></Setter>
+                        </Style>
+                    </DataGridTextColumn.EditingElementStyle>
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Right"></Setter>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn IsReadOnly="True" Width="80" Header="Сумма" 
+                                    Binding="{Binding Sm, StringFormat={}{0:0.00}}">
+                    <DataGridTextColumn.EditingElementStyle>
+                        <Style TargetType="TextBox">
+                            <Setter Property="HorizontalAlignment" Value="Right"></Setter>
+                        </Style>
+                    </DataGridTextColumn.EditingElementStyle>
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Right"></Setter>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
             </DataGrid.Columns>
         </local0:ScrollingDataGrid>
     </DockPanel>

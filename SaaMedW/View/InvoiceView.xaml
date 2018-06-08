@@ -53,11 +53,28 @@
                 <DataGridTextColumn IsReadOnly="True" Header="Id" Binding="{Binding Id}" Width="Auto"></DataGridTextColumn>
                 <DataGridTextColumn Header="Дата" Binding="{Binding Dt, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:dd.MM.yyyy}}" Width="Auto">
                 </DataGridTextColumn>
-                <DataGridCheckBoxColumn Header="Статус" 
-                                        Binding="{Binding Status, 
+                <DataGridComboBoxColumn Header="Статус" 
+                                        ItemsSource="{Binding Source={StaticResource InvoiceStatusEnum}}"
+                                        SelectedValueBinding="{Binding Status, 
                                             UpdateSourceTrigger=PropertyChanged, 
-                                            Converter={StaticResource myConverter}}" 
-                                        Width="Auto"></DataGridCheckBoxColumn>
+                                            Converter={StaticResource myConverter}}"
+                                        Width="Auto"></DataGridComboBoxColumn>
+                <DataGridTextColumn Header="Пациент" 
+                                    Binding="{Binding Person.FioBirthday, 
+                                        UpdateSourceTrigger=PropertyChanged}" Width="Auto"></DataGridTextColumn>
+                <DataGridTextColumn IsReadOnly="True" Width="80" Header="Сумма" 
+                                    Binding="{Binding Sm, StringFormat={}{0:0.00}}">
+                    <DataGridTextColumn.EditingElementStyle>
+                        <Style TargetType="TextBox">
+                            <Setter Property="HorizontalAlignment" Value="Right"></Setter>
+                        </Style>
+                    </DataGridTextColumn.EditingElementStyle>
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Right"></Setter>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
             </DataGrid.Columns>
         </local0:ScrollingDataGrid>
     </DockPanel>

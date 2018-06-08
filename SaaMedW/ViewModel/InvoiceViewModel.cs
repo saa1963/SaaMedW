@@ -105,7 +105,18 @@ namespace SaaMedW.ViewModel
             var f = new EditInvoiceView() { DataContext = modelView };
             if (f.ShowDialog() ?? false)
             {
-
+                var invoice = new VmInvoice()
+                {
+                    Dt = modelView.Dt,
+                    Person = ctx.Person.Find(modelView.PersonId),
+                    Sm = modelView.Sm,
+                    Status = (int)modelView.Status
+                };
+                foreach (var o in modelView.ListInvoiceDetail)
+                {
+                    invoice.InvoiceDetail.Add(o.Obj);
+                }
+                InvoiceList.Add(invoice);
             }
         }
     }

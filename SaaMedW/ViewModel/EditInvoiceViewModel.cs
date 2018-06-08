@@ -2,13 +2,14 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace SaaMedW.ViewModel
 {
-    public class EditInvoiceViewModel : ViewModelBase
+    public class EditInvoiceViewModel : ViewModelBase, IDataErrorInfo
     {
         private SaaMedEntities ctx = new SaaMedEntities();
         private DateTime _dt = DateTime.Today;
@@ -42,6 +43,30 @@ namespace SaaMedW.ViewModel
                     Price = o.Price,
                     Sm = o.Sm
                 });
+            }
+        }
+
+        public string this[string columnName]
+        {
+            get
+            {
+                var result = String.Empty;
+                switch (columnName)
+                {
+                    case "PersonId":
+                        if (PersonId <= 0)
+                            result = "Не выбран пациент";
+                        break;
+                    case "ListInvoiceDetail":
+                        if (ListInvoiceDetail.Count == 0)
+                        {
+                            result = "Не введены услуги";
+                        }
+                        break;
+                    default:
+                        break;
+                }
+                return result;
             }
         }
 
@@ -110,13 +135,25 @@ namespace SaaMedW.ViewModel
             get => new RelayCommand(AddBenefit);
         }
 
+        public string Error => String.Empty;
+
         private void AddBenefit(object obj)
         {
             var viewModel = new SelectSpecialtyViewModel();
             var f = new SelectSpecialtyView() { DataContext = viewModel };
             if (f.ShowDialog() ?? false)
             {
-                var i = 1;
+                var o = new VmInvoiceDetail()
+                {
+                    BenefitName = viewModel.BenefitSel.Name,
+                    Kol = 1,
+                    Price = viewModel.BenefitSel.Price,
+                    Sm = viewModel.BenefitSel.Price
+                };
+                Sm += o.Sm;
+                ListInvoiceDetail.Add(o);
+                OnPropertyChanged("ListInvoiceDetail");
+                OnPropertyChanged("DateNumSum");
             }
         }
     }

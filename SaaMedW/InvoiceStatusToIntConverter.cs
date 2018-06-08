@@ -11,23 +11,22 @@ namespace SaaMedW
 {
     public class InvoiceStatusToIntConverter : IValueConverter
     {
+        Array ar = Enum.GetValues(typeof(enStatusInvoice));
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            enStatusInvoice v = (enStatusInvoice)value;
-            var ar = Enum.GetValues(typeof(enStatusInvoice));
-            //int v = (int)value;
-            //Debug.Assert(v == 0 || v == 1);
-            //if (v == 0) return Role.Администратор;
-            //else return Role.Пользователь;
-            return null;
+            int v = (int)value;
+            return ar.GetValue(v);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            Role r = (Role)value;
-            Debug.Assert(r == Role.Администратор || r == Role.Пользователь);
-            if (r == Role.Администратор) return 0;
-            else return 1;
+            enStatusInvoice v = (enStatusInvoice)value;
+            for (int i = 0; i < ar.Length; i++)
+            {
+                if ((enStatusInvoice)ar.GetValue(i) == v)
+                    return i;
+            }
+            return null;
         }
     }
 }
