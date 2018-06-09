@@ -135,7 +135,7 @@
     <Compile Include="PersonalSpecialty.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="PrintInvoice.cs" />
+    <Compile Include="Reports\PrintInvoice.cs" />
     <Compile Include="RelayCommand.cs" />
     <Compile Include="IdName.cs" />
     <Compile Include="Enums\Roles.cs" />
@@ -434,7 +434,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Behaviors\" />
-    <Folder Include="Reports\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

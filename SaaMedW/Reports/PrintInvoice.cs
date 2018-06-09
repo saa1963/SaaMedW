@@ -2,21 +2,71 @@
 using OfficeOpenXml.Style;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace SaaMedW
 {
+    public class Report
+    {
+        public Band Header { get; set; }
+        public Band Detail { get; set; }
+        public Band Footer { get; set; }
+        public List<Group> Groups { get; set; } = new List<Group>();
+    }
+    public class Group
+    {
+        public string expr { get; set; }
+        public Band Header { get; set; }
+        public Band Footer { get; set; }
+    }
     public class Band
     {
         public string Name { get; set; }
-        public List<object> Data { get; set; }
+        public List<Dictionary<string, object>> Data { get; set; } = new List<Dictionary<string, object>>();
+    }
+    public class ReportGenerator
+    {
+        private Report report;
+        public ReportGenerator(Report report)
+        {
+            this.report = report;
+        }
+        public void Generate(Stream templateExcel)
+        {
+            using (var pack = new ExcelPackage(templateExcel))
+            {
+                var wsh = pack.Workbook.Worksheets[0];
+                var headerBand = wsh.Names["Header"];
+                headerBand.SingleOrDefault(s => s.)
+            }
+        }
     }
     public class PrintInvoice
     {
         public static void DoIt(Invoice invoice)
         {
+            var bands = new List<Band>();
+
+            var headerBand = new Band();
+            headerBand.Name = "Header";
+            var d = new Dictionary<string, object>();
+            d.Add("OrganizationName", "Галиум");
+            d.Add("Num", invoice.Id);
+            d.Add("Dt", invoice.Dt);
+            headerBand.Data.Add(d);
+            bands.Add(headerBand);
+
+            var detailBand = new Band();
+            detailBand.Name = "Detail";
+            foreach(var detailInvoice in invoice.InvoiceDetail)
+            {
+
+            }
+            bands.Add(detailBand);
+
             //if (ofs.Length == 0) return;
             //using (var ctx = new OfsContext())
             //{
