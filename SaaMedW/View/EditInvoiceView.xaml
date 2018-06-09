@@ -59,7 +59,9 @@
             <Button x:Name="btnOk" IsDefault="True" Click="Ok_Click" Content="OK" Width="100" Margin="10"></Button>
             <Button IsCancel="True" Content="Отмена" Width="100" Margin="10"></Button>
         </StackPanel>
-        <local0:ScrollingDataGrid ItemsSource="{Binding ListInvoiceDetail, ValidatesOnDataErrors=True}">
+        <local0:ScrollingDataGrid 
+            ItemsSource="{Binding ListInvoiceDetail, ValidatesOnDataErrors=True}"
+            SelectedItem="{Binding InvoiceDetailSel}">
             <DataGrid.Columns>
                 <DataGridTextColumn Width="50" IsReadOnly="True" Header="ID" 
                                     Binding="{Binding Id}"></DataGridTextColumn>

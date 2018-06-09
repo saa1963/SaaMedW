@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,6 +30,7 @@ namespace SaaMedW.ViewModel
         }
         public EditInvoiceViewModel(VmInvoice invoice):this()
         {
+            Id = invoice.Id;
             Dt = invoice.Dt;
             Status = (enStatusInvoice)invoice.Status;
             PersonId = invoice.PersonId;
@@ -36,13 +38,17 @@ namespace SaaMedW.ViewModel
             Person = invoice.Person;
             foreach (var o in invoice.InvoiceDetail)
             {
-                ListInvoiceDetail.Add(new VmInvoiceDetail()
+                var invoiceDetail = new VmInvoiceDetail()
                 {
+                    Id = o.Id,
                     BenefitName = o.BenefitName,
                     Kol = o.Kol,
                     Price = o.Price,
-                    Sm = o.Sm
-                });
+                    Sm = o.Sm,
+                    Invoice = invoice.Obj
+                };
+                invoiceDetail.PropertyChanged += InvoiceDetail_PropertyChanged;
+                ListInvoiceDetail.Add(invoiceDetail);
             }
         }
 
@@ -77,6 +83,7 @@ namespace SaaMedW.ViewModel
             {
                 _dt = value;
                 OnPropertyChanged("Dt");
+                OnPropertyChanged("DateNumSum");
             }
         }
         public int Num
@@ -85,6 +92,7 @@ namespace SaaMedW.ViewModel
             {
                 _num = value;
                 OnPropertyChanged("Num");
+                OnPropertyChanged("DateNumSum");
             }
         }
         public enStatusInvoice Status
@@ -109,6 +117,7 @@ namespace SaaMedW.ViewModel
             {
                 _sm = value;
                 OnPropertyChanged("Sm");
+                OnPropertyChanged("DateNumSum");
             }
         }
         public Person Person
@@ -150,11 +159,37 @@ namespace SaaMedW.ViewModel
                     Price = viewModel.BenefitSel.Price,
                     Sm = viewModel.BenefitSel.Price
                 };
+                o.PropertyChanged += InvoiceDetail_PropertyChanged;
                 Sm += o.Sm;
                 ListInvoiceDetail.Add(o);
                 OnPropertyChanged("ListInvoiceDetail");
                 OnPropertyChanged("DateNumSum");
             }
         }
+
+        public RelayCommand DelBenefitCommand
+        {
+            get => new RelayCommand(DelBenefit, s => InvoiceDetailSel != null);
+        }
+
+        private void DelBenefit(object obj)
+        {
+            Debug.Assert(InvoiceDetailSel != null);
+            Sm -= InvoiceDetailSel.Sm;
+            ListInvoiceDetail.Remove(InvoiceDetailSel);
+            OnPropertyChanged("ListInvoiceDetail");
+            OnPropertyChanged("DateNumSum");
+        }
+
+        private void InvoiceDetail_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            var invoiceDetail = sender as VmInvoiceDetail;
+            if (e.PropertyName == "Price" || e.PropertyName == "Kol")
+            {
+                Sm = ListInvoiceDetail.Sum(s => s.Kol * s.Price);
+            }
+        }
+
+        public VmInvoiceDetail InvoiceDetailSel { get; set; }
     }
 }

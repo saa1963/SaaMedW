@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.Entity;
 using SaaMedW.View;
+using System.Diagnostics;
 
 namespace SaaMedW.ViewModel
 {
@@ -117,7 +118,61 @@ namespace SaaMedW.ViewModel
                     invoice.InvoiceDetail.Add(o.Obj);
                 }
                 InvoiceList.Add(invoice);
+                ctx.Invoice.Add(invoice.Obj);
+                ctx.SaveChanges();
             }
+        }
+
+        public RelayCommand EditCommand
+        {
+            get => new RelayCommand(EditInvoice, s => InvoiceSel != null);
+        }
+
+        private void EditInvoice(object obj)
+        {
+            Debug.Assert(InvoiceSel != null);
+            var invoice = InvoiceSel as VmInvoice;
+            var modelView = new EditInvoiceViewModel(invoice);
+            var f = new EditInvoiceView() { DataContext = modelView };
+            if (f.ShowDialog() ?? false)
+            {
+                InvoiceSel.Status = (int)modelView.Status;
+                InvoiceSel.Person = ctx.Person.Find(modelView.PersonId);
+                InvoiceSel.Sm = modelView.Sm;
+                ctx.InvoiceDetail.RemoveRange(InvoiceSel.InvoiceDetail);
+                InvoiceSel.InvoiceDetail.Clear();
+                foreach (var o in modelView.ListInvoiceDetail)
+                {
+                    InvoiceSel.InvoiceDetail.Add(o.Obj);
+                }
+                ctx.SaveChanges();
+            }
+        }
+
+        public RelayCommand DelCommand
+        {
+            get => new RelayCommand(DelInvoice, s => InvoiceSel != null);
+        }
+
+        private void DelInvoice(object obj)
+        {
+            Debug.Assert(InvoiceSel != null);
+            var invoice = InvoiceSel as VmInvoice;
+            ctx.InvoiceDetail.RemoveRange(InvoiceSel.InvoiceDetail);
+            ctx.Invoice.Remove(InvoiceSel.Obj);
+            ctx.SaveChanges();
+            InvoiceList.Remove(InvoiceSel);
+        }
+
+        public RelayCommand PrintCommand
+        {
+            get => new RelayCommand(PrnInvoice, s => InvoiceSel != null);
+        }
+
+        private void PrnInvoice(object obj)
+        {
+            Debug.Assert(InvoiceSel != null);
+            PrintInvoice.DoIt(InvoiceSel.Obj);
         }
     }
 }

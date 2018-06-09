@@ -50,7 +50,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="BenefitName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="BenefitName" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="Kol" Type="int" Nullable="false" />
           <Property Name="Price" Type="money" Nullable="false" />
           <Property Name="Sm" Type="money" Nullable="false" />
@@ -581,7 +581,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="BenefitName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="BenefitName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="Kol" Type="Int32" Nullable="false" />
           <Property Name="Price" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
           <Property Name="Sm" Type="Decimal" Nullable="false" Precision="19" Scale="4" />

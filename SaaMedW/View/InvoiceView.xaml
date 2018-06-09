@@ -12,14 +12,48 @@
         <local0:InvoiceStatusToIntConverter x:Key="myConverter" />
     </UserControl.Resources>
     <DockPanel>
-        <Menu DockPanel.Dock="Top" Name="MainMenu">
-            <MenuItem Header="Добавить" Command="{Binding AddCommand}">
-            </MenuItem>
-            <MenuItem Header="Изменить" Command="{Binding EditCommand}">
-            </MenuItem>
-            <MenuItem Header="Удалить" Command="{Binding DelCommand}">
-            </MenuItem>
-        </Menu>
+        <DockPanel DockPanel.Dock="Top" LastChildFill="False">
+            <Button DockPanel.Dock="Left" 
+                Height="32" Width="32"
+                Command="{Binding AddCommand}">
+                <Image Source="..\image\add_32.png"></Image>
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="ToolTip" Value="Добавить счет"></Setter>
+                    </Style>
+                </Button.Style>
+            </Button>
+            <Button DockPanel.Dock="Left" 
+                Height="32" Width="32"
+                Command="{Binding EditCommand}">
+                <Image Source="..\image\edit_orange_32.png"></Image>
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="ToolTip" Value="Изменить счет"></Setter>
+                    </Style>
+                </Button.Style>
+            </Button>
+            <Button DockPanel.Dock="Left" 
+                Height="32" Width="32"
+                Command="{Binding DelCommand}">
+                <Image Source="..\image\delete_32.png"></Image>
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="ToolTip" Value="Удалить счет"></Setter>
+                    </Style>
+                </Button.Style>
+            </Button>
+            <Button DockPanel.Dock="Left" 
+                Height="32" Width="32"
+                Command="{Binding PrintCommand}">
+                <Image Source="..\image\icons8-печать-32.png"></Image>
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="ToolTip" Value="Печатать счет"></Setter>
+                    </Style>
+                </Button.Style>
+            </Button>
+        </DockPanel>
         <DockPanel DockPanel.Dock="Top" LastChildFill="False" Margin="10">
             <Label DockPanel.Dock="Left" Content="Период с"></Label>
             <DatePicker DockPanel.Dock="Left" SelectedDate="{Binding Dt1}" 
