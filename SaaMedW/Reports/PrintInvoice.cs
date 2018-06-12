@@ -1,11 +1,12 @@
-﻿using OfficeOpenXml;
-using OfficeOpenXml.Style;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Microsoft.Office.Interop.Excel;
 
 namespace SaaMedW
 {
@@ -24,7 +25,7 @@ namespace SaaMedW
     }
     public class Band
     {
-        public string Name { get; set; }
+        //public string Name { get; set; }
         public List<Dictionary<string, object>> Data { get; set; } = new List<Dictionary<string, object>>();
     }
     public class ReportGenerator
@@ -34,38 +35,51 @@ namespace SaaMedW
         {
             this.report = report;
         }
-        public void Generate(Stream templateExcel)
+        public void Generate(string newFile, string templateName)
         {
-            using (var pack = new ExcelPackage(templateExcel))
+
+            var app = new Microsoft.Office.Interop.Excel.Application();
+            var wbTemplate = app.Workbooks.Open(templateName);
+            var wshTemplate = (Worksheet)wbTemplate.Worksheets[1];
+            Dictionary<string, object> dict = report.Header.Data[0];
+            foreach (Range cell in wshTemplate.Range["Header"])
             {
-                var wsh = pack.Workbook.Worksheets[0];
-                var headerBand = wsh.Names["Header"];
-                headerBand.SingleOrDefault(s => s.)
+
+                if (dict.ContainsKey(cell?.Value ?? ""))
+                {
+                    cell.Value = dict[cell.Value];
+                }
             }
+            wbTemplate.Close();
         }
     }
     public class PrintInvoice
     {
         public static void DoIt(Invoice invoice)
         {
-            var bands = new List<Band>();
+            var report = new Report();
 
             var headerBand = new Band();
-            headerBand.Name = "Header";
             var d = new Dictionary<string, object>();
             d.Add("OrganizationName", "Галиум");
             d.Add("Num", invoice.Id);
             d.Add("Dt", invoice.Dt);
             headerBand.Data.Add(d);
-            bands.Add(headerBand);
 
-            var detailBand = new Band();
-            detailBand.Name = "Detail";
-            foreach(var detailInvoice in invoice.InvoiceDetail)
-            {
+            report.Header = headerBand;
+            var rg = new ReportGenerator(report);
 
-            }
-            bands.Add(detailBand);
+            var templateName =
+                Path.Combine(Path.GetDirectoryName(
+                    System.Reflection.Assembly.GetExecutingAssembly().Location), "templates", "invoice.xlsx");
+            var tmpName = Global.Source.GetTempFilename(".xlsx");
+            //File.Copy(templateName, tmpName);
+            rg.Generate(tmpName, templateName);
+
+            Process prc = new Process();
+            prc.StartInfo.Arguments = "\"" + tmpName + "\"";
+            prc.StartInfo.FileName = "excel.exe";
+            prc.Start();
 
             //if (ofs.Length == 0) return;
             //using (var ctx = new OfsContext())
