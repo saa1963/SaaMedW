@@ -7,6 +7,8 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.Office.Interop.Excel;
+using OfficeOpenXml;
+using OfficeOpenXml.Packaging;
 
 namespace SaaMedW
 {
@@ -37,20 +39,47 @@ namespace SaaMedW
         }
         public void Generate(string newFile, string templateName)
         {
-
-            var app = new Microsoft.Office.Interop.Excel.Application();
-            var wbTemplate = app.Workbooks.Open(templateName);
-            var wshTemplate = (Worksheet)wbTemplate.Worksheets[1];
-            Dictionary<string, object> dict = report.Header.Data[0];
-            foreach (Range cell in wshTemplate.Range["Header"])
+            using (var newFilePackage = new ExcelPackage(new FileInfo(newFile), new FileInfo(templateName)))
             {
-
-                if (dict.ContainsKey(cell?.Value ?? ""))
-                {
-                    cell.Value = dict[cell.Value];
-                }
+                newFilePackage.Save();
             }
-            wbTemplate.Close();
+            //using (var newfilePackage = new ExcelPackage(new FileInfo(newFile)))
+            //{
+            //    int rowNewFile = 1;
+            //    var wbNewFile = newfilePackage.Workbook;
+            //    var wshNewFile = wbNewFile.Worksheets.Add("Лист 1");
+            //    using (var templatePackage = new ExcelPackage(new FileInfo(templateName)))
+            //    {
+            //        var wbTemplate = templatePackage.Workbook;
+            //        var wshTemplate = wbTemplate.Worksheets[1];
+                    
+            //        var headerRange = templatePackage.Workbook.Names["Header"];
+            //        headerRange.Copy(wshNewFile.Cells[rowNewFile, 1]);
+            //        foreach(var cell in )
+            //    }
+            //    newfilePackage.Save();
+            //}
+            //var app = new Microsoft.Office.Interop.Excel.Application();
+            //Workbook wbNewFile = app.Workbooks.Add();
+            //Worksheet wshNewFile = wbNewFile.Worksheets[1];
+            //Workbook wbTemplate = app.Workbooks.Open(Filename: templateName);
+            //Worksheet wshTemplate = (Worksheet)wbTemplate.Worksheets[1];
+
+            //int rowNewFile = 1;
+            //wshTemplate.Range["Header"].Copy(Destination: wshNewFile.Range[rowNewFile, 1]);
+
+            ////Dictionary<string, object> dict = report.Header.Data[0];
+            ////foreach (Range cell in wshTemplate.Range["Header"])
+            ////{
+
+            ////    if (dict.ContainsKey(cell?.Value ?? ""))
+            ////    {
+            ////        cell.Value = dict[cell.Value];
+            ////    }
+            ////}
+            //wbTemplate.Close();
+            //wbNewFile.SaveAs(Filename: newFile);
+            //wbNewFile.Close();
         }
     }
     public class PrintInvoice
