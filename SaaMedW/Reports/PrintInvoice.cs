@@ -39,47 +39,179 @@ namespace SaaMedW
         }
         public void Generate(string newFile, string templateName)
         {
-            using (var newFilePackage = new ExcelPackage(new FileInfo(newFile), new FileInfo(templateName)))
+            using (var pack = new ExcelPackage(new FileInfo(newFile), new FileInfo(templateName)))
             {
-                newFilePackage.Save();
+                var wshSource = pack.Workbook.Worksheets[1];
+                var wshDest = pack.Workbook.Worksheets.Add("Report");
+
+                //ширина колонок
+                for (int col = wshSource.Dimension.Start.Column; col <= wshSource.Dimension.End.Column; col++)
+                {
+                    wshDest.Column(col).Width = wshSource.Column(col).Width;
+                }
+
+                // Header
+                var rowDest = 1;
+                ExcelRangeBase destRange = wshDest.Cells[rowDest, 1];
+                var band = pack.Workbook.Names["Header"];
+                Dictionary<string, object> dict = report.Header.Data[0];
+                BandCopy(wshSource, wshDest, band, destRange, dict);
+                rowDest += band.Rows;
+                destRange = wshDest.Cells[rowDest, 1];
+
+                // Detail
+                band = pack.Workbook.Names["Detail"];
+                foreach (var d in report.Detail.Data)
+                {
+                    BandCopy(wshSource, wshDest, band, destRange, d);
+                    rowDest += band.Rows;
+                    destRange = wshDest.Cells[rowDest, 1];
+                }
+
+                // Footer
+                band = pack.Workbook.Names["Footer"];
+                dict = report.Footer.Data[0];
+                BandCopy(wshSource, wshDest, band, destRange, dict);
+
+                pack.Workbook.Worksheets.Delete(wshSource);
+                pack.Save();
             }
-            //using (var newfilePackage = new ExcelPackage(new FileInfo(newFile)))
-            //{
-            //    int rowNewFile = 1;
-            //    var wbNewFile = newfilePackage.Workbook;
-            //    var wshNewFile = wbNewFile.Worksheets.Add("Лист 1");
-            //    using (var templatePackage = new ExcelPackage(new FileInfo(templateName)))
-            //    {
-            //        var wbTemplate = templatePackage.Workbook;
-            //        var wshTemplate = wbTemplate.Worksheets[1];
-                    
-            //        var headerRange = templatePackage.Workbook.Names["Header"];
-            //        headerRange.Copy(wshNewFile.Cells[rowNewFile, 1]);
-            //        foreach(var cell in )
-            //    }
-            //    newfilePackage.Save();
-            //}
-            //var app = new Microsoft.Office.Interop.Excel.Application();
-            //Workbook wbNewFile = app.Workbooks.Add();
-            //Worksheet wshNewFile = wbNewFile.Worksheets[1];
-            //Workbook wbTemplate = app.Workbooks.Open(Filename: templateName);
-            //Worksheet wshTemplate = (Worksheet)wbTemplate.Worksheets[1];
+        }
 
-            //int rowNewFile = 1;
-            //wshTemplate.Range["Header"].Copy(Destination: wshNewFile.Range[rowNewFile, 1]);
+        private void BandCopy(ExcelWorksheet wshSource, ExcelWorksheet wshDest, ExcelNamedRange band, ExcelRangeBase destRange, Dictionary<string, object> dict)
+        {
+            band.Copy(destRange);
+            destRange = destRange.Offset(0, 0, band.Rows, band.Columns);
 
-            ////Dictionary<string, object> dict = report.Header.Data[0];
-            ////foreach (Range cell in wshTemplate.Range["Header"])
-            ////{
+            for (int row = destRange.Start.Row; row <= destRange.End.Row; row++)
+            {
+                for (int col = destRange.Start.Column; col <= destRange.End.Column; col++)
+                {
+                    var cell = wshDest.Cells[row, col];
+                    if (dict.ContainsKey(cell.Text))
+                    {
+                        cell.Value = dict[cell.Text];
+                    }
+                }
+            }
 
-            ////    if (dict.ContainsKey(cell?.Value ?? ""))
-            ////    {
-            ////        cell.Value = dict[cell.Value];
-            ////    }
-            ////}
-            //wbTemplate.Close();
-            //wbNewFile.SaveAs(Filename: newFile);
-            //wbNewFile.Close();
+            for (int destRow = destRange.Start.Row; destRow <= destRange.End.Row; destRow++)
+            {
+                for (int destCol = destRange.Start.Column; destCol <= destRange.End.Column; destCol++)
+                {
+                    RowColHeightForContent(wshDest.Cells[destRow, destCol]);
+                }
+            }
+        }
+
+        private void RowColHeightForContent(ExcelRange rc)
+        {
+            double OldR_Height, OldC_Widht;
+            double MergedR_Height, MergedC_Widht;
+            ExcelRange CurrCell;
+            int ih;
+            int iw;
+            double NewR_Height, NewC_Widht;
+            double ActiveCellHeight;
+
+            var a = rc.Worksheet.MergedCells;
+            if (rc.Merge)
+            {
+                ExcelRange MergeArea = null;
+                if (GetMergeArea(rc, MergeArea)) // если ячейка объединена и левая верхняя в объединении
+                {
+                    // запоминаем кол-во столбцов
+                    iw = MergeArea.Columns;
+                    // запоминаем кол-во строк.
+                    ih = MergeArea.Rows;
+                    // Определяем высоту и ширину объединения ячеек
+                    MergedR_Height = 0;
+                    for (int row = MergeArea.Start.Row; row <= MergeArea.End.Row; row++)
+                    {
+                        MergedR_Height += rc.Worksheet.Row(row).Height;
+                    }
+                    MergedC_Widht = 0;
+                    for (int col = MergeArea.Start.Column; col <= MergeArea.End.Column; col++)
+                    {
+                        MergedC_Widht += rc.Worksheet.Column(col).Width;
+                    }
+                    // запоминаем высоту и ширину первой ячейки из объединенных
+                    OldR_Height = rc.Worksheet.Row(rc.Start.Row).Height;
+                    OldC_Widht = rc.Worksheet.Column(rc.Start.Column).Width;
+                    // отменяем объединение ячеек
+                    MergeArea.Merge = false;
+                    // назначаем новую высоту и ширину для первой ячейки
+                    rc.Worksheet.Row(rc.Start.Row).Height = MergedR_Height;
+                    rc.Worksheet.Column(rc.Start.Column).Width = MergedC_Widht;
+                    // раскомментировать, если необходимо принудительно выставлять перенос текста
+                    MergeArea.Style.WrapText = true;
+                    MergeArea.au
+                }
+            }
+            //If rc.MergeCells Then
+            //    With rc.MergeArea 'если ячейка объединена
+            //        'запоминаем кол-во столбцов
+            //        iw = .Columns(.Columns.Count).Column - rc.Column + 1
+            //        'запоминаем кол-во строк.
+            //        ih = .Rows(.Rows.Count).Row - rc.Row + 1
+            //        'Определяем высоту и ширину объединения ячеек
+            //        MergedR_Height = 0
+            //        For Each CurrCell In .Rows
+            //            MergedR_Height = CurrCell.RowHeight + MergedR_Height
+            //        Next
+            //        MergedC_Widht = 0
+            //        For Each CurrCell In .Columns
+            //            MergedC_Widht = CurrCell.ColumnWidth + MergedC_Widht
+            //        Next
+            //        'запоминаем высоту и ширину первой ячейки из объединенных
+            //        OldR_Height = .Cells(1, 1).RowHeight
+            //        OldC_Widht = .Cells(1, 1).ColumnWidth
+            //        'отменяем объединение ячеек
+            //        .MergeCells = False
+            //        'назначаем новую высоту и ширину для первой ячейки
+            //        .Cells(1).RowHeight = MergedR_Height
+            //        .Cells(1, 1).EntireColumn.ColumnWidth = MergedC_Widht
+            //        'если необходимо изменить высоту строк
+            //        If bRowHeight Then
+            //            '.WrapText = True 'раскомментировать, если необходимо принудительно выставлять перенос текста
+            //            .EntireRow.AutoFit
+            //            NewR_Height = .Cells(1).RowHeight    'запоминаем высоту строки
+            //            .MergeCells = True
+            //            If OldR_Height< (NewR_Height / ih) Then
+            //               .RowHeight = NewR_Height / ih
+            //            Else
+            //                .RowHeight = OldR_Height
+            //            End If
+            //            'возвращаем ширину столбца первой ячейки
+            //            .Cells(1, 1).EntireColumn.ColumnWidth = OldC_Widht
+            //        Else 'если необходимо изменить ширину столбца
+            //            .EntireColumn.AutoFit
+            //            NewC_Widht = .Cells(1).EntireColumn.ColumnWidth    'запоминаем ширину столбца
+            //            .MergeCells = True
+            //            If OldC_Widht< (NewC_Widht / iw) Then
+            //               .ColumnWidth = NewC_Widht / iw
+            //            Else
+            //                .ColumnWidth = OldC_Widht
+            //            End If
+            //            'возвращаем высоту строки первой ячейки
+            //            .Cells(1, 1).RowHeight = OldR_Height
+            //        End If
+            //    End With
+            //End If
+        }
+
+        private bool GetMergeArea(ExcelRange rc, ExcelRange mergeArea)
+        {
+            foreach (string r in rc.Worksheet.MergedCells)
+            {
+                var rg = rc.Worksheet.Cells[r];
+                if (rg.Start.Row == rc.Start.Row && rg.Start.Column == rc.Start.Column)
+                {
+                    mergeArea = rg;
+                    return true;
+                }
+            }
+            return false;
         }
     }
     public class PrintInvoice
@@ -90,12 +222,34 @@ namespace SaaMedW
 
             var headerBand = new Band();
             var d = new Dictionary<string, object>();
-            d.Add("OrganizationName", "Галиум");
-            d.Add("Num", invoice.Id);
-            d.Add("Dt", invoice.Dt);
+            d.Add("${OrganizationName}", "Галиум");
+            d.Add("${Num}", invoice.Id);
+            d.Add("${Dt}", invoice.Dt);
             headerBand.Data.Add(d);
-
             report.Header = headerBand;
+
+            var detailBand = new Band();
+            int nn = 1; decimal sm = 0;
+            foreach (var detail in invoice.InvoiceDetail)
+            {
+                d = new Dictionary<string, object>();
+                d.Add("${Nn}", nn);
+                d.Add("${BenefitName}", detail.BenefitName);
+                d.Add("${Kol}", detail.Kol);
+                d.Add("${Price}", detail.Price);
+                d.Add("${Sm}", detail.Sm);
+                detailBand.Data.Add(d);
+                sm += detail.Sm;
+                nn++;
+            }
+            report.Detail = detailBand;
+
+            var footerBand = new Band();
+            d = new Dictionary<string, object>();
+            d.Add("${Itogo}", sm);
+            footerBand.Data.Add(d);
+            report.Footer = footerBand;
+
             var rg = new ReportGenerator(report);
 
             var templateName =
