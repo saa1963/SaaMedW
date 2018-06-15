@@ -403,6 +403,9 @@
     <None Include="templates\Invoice.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="templates\Invoice1.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="templates\Медкарта.docx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

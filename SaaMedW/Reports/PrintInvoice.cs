@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -9,9 +10,15 @@ using System.Threading.Tasks;
 using Microsoft.Office.Interop.Excel;
 using OfficeOpenXml;
 using OfficeOpenXml.Packaging;
+using OfficeOpenXml.Style;
 
 namespace SaaMedW
 {
+    public class MergedRange
+    {
+        public ExcelRange Range { get; set; }
+        public double OldWidth;
+    }
     public class Report
     {
         public Band Header { get; set; }
@@ -80,6 +87,7 @@ namespace SaaMedW
 
         private void BandCopy(ExcelWorksheet wshSource, ExcelWorksheet wshDest, ExcelNamedRange band, ExcelRangeBase destRange, Dictionary<string, object> dict)
         {
+            List<MergedRange> ListOfMerges = null;
             band.Copy(destRange);
             destRange = destRange.Offset(0, 0, band.Rows, band.Columns);
 
@@ -90,128 +98,73 @@ namespace SaaMedW
                     var cell = wshDest.Cells[row, col];
                     if (dict.ContainsKey(cell.Text))
                     {
+                        bool isMerged = false;
+                        if (cell.Merge)
+                        {
+                            // здесь надо убрать все объединения в строке
+                            isMerged = true;
+                            ListOfMerges = RemoveMerges(wshDest, row);
+                        }
                         cell.Value = dict[cell.Text];
+                        if (isMerged)
+                        {
+                            // восстановить объединения в строке
+                            RestoreMerges(wshDest, ListOfMerges);
+                        }
                     }
+                    //MergeArea = null;
+                    //if (GetMergeArea(cell, out MergeArea)) // если ячейка объединена и левая верхняя в объединении
+                    //{
+                    //    //mx0 = MeasureTextHeight(cell.Text, cell.Style.Font, Convert.ToInt32(widthMergeArea));
+                    //    mx0 = MeasureTextHeight();
+                    //    if (mx0 > mx) mx = mx0;
+                    //}
                 }
-            }
-
-            for (int destRow = destRange.Start.Row; destRow <= destRange.End.Row; destRow++)
-            {
-                for (int destCol = destRange.Start.Column; destCol <= destRange.End.Column; destCol++)
-                {
-                    RowColHeightForContent(wshDest.Cells[destRow, destCol]);
-                }
+                //if (mx != -1)
+                //    wshDest.Row(row).Height = mx;
             }
         }
 
-        private void RowColHeightForContent(ExcelRange rc)
+        private void RestoreMerges(ExcelWorksheet wshDest, List<MergedRange> listOfMerges)
         {
-            double OldR_Height, OldC_Widht;
-            double MergedR_Height, MergedC_Widht;
-            ExcelRange CurrCell;
-            int ih;
-            int iw;
-            double NewR_Height, NewC_Widht;
-            double ActiveCellHeight;
-
-            var a = rc.Worksheet.MergedCells;
-            if (rc.Merge)
+            foreach (var r in listOfMerges)
             {
-                ExcelRange MergeArea = null;
-                if (GetMergeArea(rc, MergeArea)) // если ячейка объединена и левая верхняя в объединении
-                {
-                    // запоминаем кол-во столбцов
-                    iw = MergeArea.Columns;
-                    // запоминаем кол-во строк.
-                    ih = MergeArea.Rows;
-                    // Определяем высоту и ширину объединения ячеек
-                    MergedR_Height = 0;
-                    for (int row = MergeArea.Start.Row; row <= MergeArea.End.Row; row++)
-                    {
-                        MergedR_Height += rc.Worksheet.Row(row).Height;
-                    }
-                    MergedC_Widht = 0;
-                    for (int col = MergeArea.Start.Column; col <= MergeArea.End.Column; col++)
-                    {
-                        MergedC_Widht += rc.Worksheet.Column(col).Width;
-                    }
-                    // запоминаем высоту и ширину первой ячейки из объединенных
-                    OldR_Height = rc.Worksheet.Row(rc.Start.Row).Height;
-                    OldC_Widht = rc.Worksheet.Column(rc.Start.Column).Width;
-                    // отменяем объединение ячеек
-                    MergeArea.Merge = false;
-                    // назначаем новую высоту и ширину для первой ячейки
-                    rc.Worksheet.Row(rc.Start.Row).Height = MergedR_Height;
-                    rc.Worksheet.Column(rc.Start.Column).Width = MergedC_Widht;
-                    // раскомментировать, если необходимо принудительно выставлять перенос текста
-                    MergeArea.Style.WrapText = true;
-                    MergeArea.au
-                }
+                wshDest.Column(r.Range.Start.Column).Width = r.OldWidth;
+                r.Range.Merge = true;
             }
-            //If rc.MergeCells Then
-            //    With rc.MergeArea 'если ячейка объединена
-            //        'запоминаем кол-во столбцов
-            //        iw = .Columns(.Columns.Count).Column - rc.Column + 1
-            //        'запоминаем кол-во строк.
-            //        ih = .Rows(.Rows.Count).Row - rc.Row + 1
-            //        'Определяем высоту и ширину объединения ячеек
-            //        MergedR_Height = 0
-            //        For Each CurrCell In .Rows
-            //            MergedR_Height = CurrCell.RowHeight + MergedR_Height
-            //        Next
-            //        MergedC_Widht = 0
-            //        For Each CurrCell In .Columns
-            //            MergedC_Widht = CurrCell.ColumnWidth + MergedC_Widht
-            //        Next
-            //        'запоминаем высоту и ширину первой ячейки из объединенных
-            //        OldR_Height = .Cells(1, 1).RowHeight
-            //        OldC_Widht = .Cells(1, 1).ColumnWidth
-            //        'отменяем объединение ячеек
-            //        .MergeCells = False
-            //        'назначаем новую высоту и ширину для первой ячейки
-            //        .Cells(1).RowHeight = MergedR_Height
-            //        .Cells(1, 1).EntireColumn.ColumnWidth = MergedC_Widht
-            //        'если необходимо изменить высоту строк
-            //        If bRowHeight Then
-            //            '.WrapText = True 'раскомментировать, если необходимо принудительно выставлять перенос текста
-            //            .EntireRow.AutoFit
-            //            NewR_Height = .Cells(1).RowHeight    'запоминаем высоту строки
-            //            .MergeCells = True
-            //            If OldR_Height< (NewR_Height / ih) Then
-            //               .RowHeight = NewR_Height / ih
-            //            Else
-            //                .RowHeight = OldR_Height
-            //            End If
-            //            'возвращаем ширину столбца первой ячейки
-            //            .Cells(1, 1).EntireColumn.ColumnWidth = OldC_Widht
-            //        Else 'если необходимо изменить ширину столбца
-            //            .EntireColumn.AutoFit
-            //            NewC_Widht = .Cells(1).EntireColumn.ColumnWidth    'запоминаем ширину столбца
-            //            .MergeCells = True
-            //            If OldC_Widht< (NewC_Widht / iw) Then
-            //               .ColumnWidth = NewC_Widht / iw
-            //            Else
-            //                .ColumnWidth = OldC_Widht
-            //            End If
-            //            'возвращаем высоту строки первой ячейки
-            //            .Cells(1, 1).RowHeight = OldR_Height
-            //        End If
-            //    End With
-            //End If
         }
 
-        private bool GetMergeArea(ExcelRange rc, ExcelRange mergeArea)
+        private List<MergedRange> RemoveMerges(ExcelWorksheet wshDest, int row)
         {
-            foreach (string r in rc.Worksheet.MergedCells)
+            var rt = GetMergeAreas(wshDest, wshDest.Row(row));
+            foreach (var r in rt)
             {
-                var rg = rc.Worksheet.Cells[r];
-                if (rg.Start.Row == rc.Start.Row && rg.Start.Column == rc.Start.Column)
+                r.Range.Merge = false;
+                double smWidth = 0;
+                for (int col = r.Range.Start.Column; col <= r.Range.End.Column; col++)
                 {
-                    mergeArea = rg;
-                    return true;
+                    smWidth += wshDest.Column(col).Width;
+                }
+                wshDest.Column(r.Range.Start.Column).Width = smWidth;
+            }
+            return rt;
+        }
+
+        private List<MergedRange> GetMergeAreas(ExcelWorksheet wsh, ExcelRow rc)
+        {
+            var rt = new List<MergedRange>();
+            foreach (string r in wsh.MergedCells)
+            {
+                if (r != null)
+                {
+                    var rg = wsh.Cells[r];
+                    if (rg.Start.Row == rc.Row && rg.End.Row == rc.Row)
+                    {
+                        rt.Add(new MergedRange() { Range = rg, OldWidth = wsh.Column(rg.Start.Column).Width });
+                    }
                 }
             }
-            return false;
+            return rt;
         }
     }
     public class PrintInvoice
@@ -223,8 +176,7 @@ namespace SaaMedW
             var headerBand = new Band();
             var d = new Dictionary<string, object>();
             d.Add("${OrganizationName}", "Галиум");
-            d.Add("${Num}", invoice.Id);
-            d.Add("${Dt}", invoice.Dt);
+            d.Add("${NumDt}", "Счет № " + invoice.Id.ToString() + " от " + invoice.Dt.ToString("dd.MM.yyyy"));
             headerBand.Data.Add(d);
             report.Header = headerBand;
 
@@ -263,209 +215,6 @@ namespace SaaMedW
             prc.StartInfo.Arguments = "\"" + tmpName + "\"";
             prc.StartInfo.FileName = "excel.exe";
             prc.Start();
-
-            //if (ofs.Length == 0) return;
-            //using (var ctx = new OfsContext())
-            //{
-            //    using (var package = new ExcelPackage())
-            //    {
-            //        var wsh = package.Workbook.Worksheets.Add("Лист1");
-
-            //        wsh.Column(1).Width = 32.75;
-            //        wsh.DefaultColWidth = 12;
-            //        wsh.Column(1).Style.WrapText = true;
-            //        wsh.Row(7).Style.WrapText = true;
-            //        wsh.Row(7).Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-            //        wsh.Row(8).Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-
-            //        wsh.Cells[1, 1].Value = "Оценка финансового состояния";
-            //        wsh.Cells[1, 1].Style.Font.Bold = true;
-            //        wsh.Cells[1, 1].Style.Font.Size = 14;
-            //        wsh.Cells[3, 1].Value = "Организация";
-            //        wsh.Cells[3, 2].Value = ctx.Clients.Find(ofs[0].Inn).Name;
-            //        wsh.Cells[3, 2].Style.Font.Bold = true;
-            //        wsh.Cells[4, 1].Value = "ИНН";
-            //        wsh.Cells[4, 2].Value = ofs[0].Inn;
-            //        wsh.Cells[4, 2].Style.Font.Bold = true;
-            //        wsh.Cells[5, 1].Value = "Единица измерения (абсолютные показатели)";
-            //        wsh.Cells[5, 2].Value = "тыс.руб.";
-            //        wsh.Cells[5, 2].Style.Font.Bold = true;
-
-            //        wsh.Cells[7, 1].Value = "Наименование показателей";
-            //        wsh.Cells[8, 1].Value = "1";
-            //        wsh.Cells[9, 1].Value = "Коэффициент финансовой независимости";
-            //        wsh.Cells[10, 1].Value = "Коэффициент обеспеченности собственными оборотными средствами";
-            //        wsh.Cells[11, 1].Value = "Коэффициент соотношения оборотных и внеоборотных активов";
-            //        wsh.Cells[12, 1].Value = "Общий коэффициент ликвидности";
-            //        wsh.Cells[13, 1].Value = "Коэффициент покрытия";
-            //        wsh.Cells[14, 1].Value = "Коэффициент оборачиваемости активов";
-            //        wsh.Cells[15, 1].Value = "Рентабельность продаж";
-            //        wsh.Cells[16, 1].Value = "Рентабельность собственного капитала (чистых активов)";
-            //        wsh.Cells[17, 1].Value = "Обобщающий результат";
-
-            //        wsh.Cells[19, 1].Value = "Динамика отдельных показателей";
-            //        wsh.Cells[19, 1].Style.Font.Bold = true;
-
-            //        var blines = ctx.Blines.OrderBy(s => s.CodeSort).ToList();
-
-            //        int row = 20;
-            //        foreach (var bline in blines)
-            //        {
-            //            wsh.Cells[row, 1].Value = $"{bline.Name} ({bline.Code})";
-            //            row++;
-            //        }
-
-            //        int j = 2;
-            //        for (int i = 0; i < ofs.Length; i++)
-            //        {
-            //            wsh.Cells[7, j].Value = DateFromQuater(ofs[i].Year, ofs[i].Quater);
-            //            wsh.Cells[7, j].Style.Numberformat.Format = "dd.MM.yyyy";
-            //            wsh.Cells[7, j].Style.Font.Bold = true;
-            //            wsh.Cells[8, j].Value = j.ToString();
-            //            wsh.Cells[9, j].Value = ofs[i].Kfn;
-            //            wsh.Cells[10, j].Value = ofs[i].Kosos;
-            //            wsh.Cells[11, j].Value = ofs[i].Ksova;
-            //            wsh.Cells[12, j].Value = ofs[i].Okl;
-            //            wsh.Cells[13, j].Value = ofs[i].Kp;
-            //            wsh.Cells[14, j].Value = ofs[i].Koa;
-            //            wsh.Cells[15, j].Value = ofs[i].Rp;
-            //            wsh.Cells[16, j].Value = ofs[i].Rsk;
-            //            wsh.Cells[17, j].Value = ofs[i].getRop();
-
-            //            row = 20;
-            //            foreach (var bline in blines)
-            //            {
-            //                wsh.Cells[row, j].Value = ofs[i].Balance.FirstOrDefault(s => s.Code == bline.Code).Sm;
-            //                row++;
-            //            }
-            //            j++;
-            //            if (j == 3) continue;
-            //            if (j == 4)
-            //                wsh.Cells[7, j].Value = $"Изменения (гр.{j - 1} - гр.{j - 2})";
-            //            else
-            //                wsh.Cells[7, j].Value = $"Изменения (гр.{j - 1} - гр.{j - 4})";
-            //            wsh.Cells[8, j].Value = j.ToString();
-            //            wsh.Cells[9, j].Value = ofs[i].Kfn - ofs[i - 1].Kfn;
-            //            wsh.Cells[10, j].Value = ofs[i].Kosos - ofs[i - 1].Kosos;
-            //            wsh.Cells[11, j].Value = ofs[i].Ksova - ofs[i - 1].Ksova;
-            //            wsh.Cells[12, j].Value = ofs[i].Okl - ofs[i - 1].Okl;
-            //            wsh.Cells[13, j].Value = ofs[i].Kp - ofs[i - 1].Kp;
-            //            wsh.Cells[14, j].Value = ofs[i].Koa - ofs[i - 1].Koa;
-            //            wsh.Cells[15, j].Value = ofs[i].Rp - ofs[i - 1].Rp;
-            //            wsh.Cells[16, j].Value = ofs[i].Rsk - ofs[i - 1].Rsk;
-            //            wsh.Cells[17, j].Value = ofs[i].getRop() - ofs[i - 1].getRop();
-
-            //            row = 20;
-            //            foreach (var bline in blines)
-            //            {
-            //                wsh.Cells[row, j].Value = ofs[i].Balance.FirstOrDefault(s => s.Code == bline.Code).Sm -
-            //                                            ofs[i - 1].Balance.FirstOrDefault(s => s.Code == bline.Code).Sm;
-            //                row++;
-            //            }
-            //            j++;
-            //            if (j == 5)
-            //                wsh.Cells[7, j].Value = $"Изменения (гр.{j - 2} - гр.{j - 3}) %";
-            //            else
-            //                wsh.Cells[7, j].Value = $"Изменения (гр.{j - 2} - гр.{j - 5}) %";
-            //            wsh.Cells[8, j].Value = j.ToString();
-            //            try
-            //            {
-            //                wsh.Cells[9, j].Value = getPercent(ofs[i].Kfn, ofs[i - 1].Kfn);
-            //            }
-            //            catch (DivideByZeroException) { }
-            //            try
-            //            {
-            //                wsh.Cells[10, j].Value = getPercent(ofs[i].Kosos, ofs[i - 1].Kosos);
-            //            }
-            //            catch (DivideByZeroException) { }
-            //            try
-            //            {
-            //                wsh.Cells[11, j].Value = getPercent(ofs[i].Ksova, ofs[i - 1].Ksova);
-            //            }
-            //            catch (DivideByZeroException) { }
-            //            try
-            //            {
-            //                wsh.Cells[12, j].Value = getPercent(ofs[i].Okl, ofs[i - 1].Okl);
-            //            }
-            //            catch (DivideByZeroException) { }
-            //            try
-            //            {
-            //                wsh.Cells[13, j].Value = getPercent(ofs[i].Kp, ofs[i - 1].Kp);
-            //            }
-            //            catch (DivideByZeroException) { }
-            //            try
-            //            {
-            //                wsh.Cells[14, j].Value = getPercent(ofs[i].Koa, ofs[i - 1].Koa);
-            //            }
-            //            catch (DivideByZeroException) { }
-            //            try
-            //            {
-            //                wsh.Cells[15, j].Value = getPercent(ofs[i].Rp, ofs[i - 1].Rp);
-            //            }
-            //            catch (DivideByZeroException) { }
-            //            try
-            //            {
-            //                wsh.Cells[16, j].Value = getPercent(ofs[i].Rsk.Value, ofs[i - 1].Rsk.Value);
-            //            }
-            //            catch (DivideByZeroException) { }
-            //            try
-            //            {
-            //                wsh.Cells[17, j].Value = getPercent(ofs[i].getRop(), ofs[i - 1].getRop());
-            //            }
-            //            catch (DivideByZeroException) { }
-
-            //            row = 20;
-            //            foreach (var bline in blines)
-            //            {
-            //                try
-            //                {
-            //                    wsh.Cells[row, j].Value = getPercent(ofs[i].Balance.FirstOrDefault(s => s.Code == bline.Code).Sm,
-            //                        ofs[i - 1].Balance.FirstOrDefault(s => s.Code == bline.Code).Sm);
-            //                }
-            //                catch (DivideByZeroException) { }
-            //                row++;
-            //            }
-
-            //            for (var row1 = 9; row1 <= row; row1++)
-            //            {
-            //                for (var col1 = j - 1; col1 <= j; col1++)
-            //                {
-            //                    try
-            //                    {
-            //                        if (Convert.ToDecimal(wsh.Cells[row1, col1].Value) > 0)
-            //                        {
-            //                            wsh.Cells[row1, col1].Style.Font.Color.SetColor(System.Drawing.Color.Blue);
-            //                        }
-            //                        else if (Convert.ToDecimal(wsh.Cells[row1, col1].Value) < 0)
-            //                        {
-            //                            wsh.Cells[row1, col1].Style.Font.Color.SetColor(System.Drawing.Color.Red);
-            //                        }
-            //                    }
-            //                    catch { }
-            //                }
-            //            }
-
-            //            j++;
-            //        }
-            //        //wsh.Cells[9, 2, wsh.Dimension.End.Row, wsh.Dimension.End.Column].Style.Font.Bold = true;
-            //        wsh.Cells[7, 1, 17, wsh.Dimension.End.Column].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
-            //        wsh.Cells[7, 1, 17, wsh.Dimension.End.Column].Style.Border.Top.Style = ExcelBorderStyle.Thin;
-            //        wsh.Cells[7, 1, 17, wsh.Dimension.End.Column].Style.Border.Left.Style = ExcelBorderStyle.Thin;
-            //        wsh.Cells[7, 1, 17, wsh.Dimension.End.Column].Style.Border.Right.Style = ExcelBorderStyle.Thin;
-            //        wsh.Cells[20, 1, row - 1, wsh.Dimension.End.Column].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
-            //        wsh.Cells[20, 1, row - 1, wsh.Dimension.End.Column].Style.Border.Top.Style = ExcelBorderStyle.Thin;
-            //        wsh.Cells[20, 1, row - 1, wsh.Dimension.End.Column].Style.Border.Left.Style = ExcelBorderStyle.Thin;
-            //        wsh.Cells[20, 1, row - 1, wsh.Dimension.End.Column].Style.Border.Right.Style = ExcelBorderStyle.Thin;
-
-            //        package.File = new FileInfo(Path.Combine(Path.GetTempPath(), "__ofs__" + Guid.NewGuid().ToString() + ".xlsx"));
-            //        package.Save();
-
-            //        Process prc = new Process();
-            //        prc.StartInfo.Arguments = "\"" + package.File + "\"";
-            //        prc.StartInfo.FileName = "excel.exe";
-            //        prc.Start();
-            //    }
-            //}
         }
     }
 }
