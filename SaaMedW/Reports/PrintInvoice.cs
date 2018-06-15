@@ -7,7 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Microsoft.Office.Interop.Excel;
 using OfficeOpenXml;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Style;
@@ -87,6 +86,7 @@ namespace SaaMedW
 
         private void BandCopy(ExcelWorksheet wshSource, ExcelWorksheet wshDest, ExcelNamedRange band, ExcelRangeBase destRange, Dictionary<string, object> dict)
         {
+            log4net.ILog log = log4net.LogManager.GetLogger("BandCopy");
             List<MergedRange> ListOfMerges = null;
             band.Copy(destRange);
             destRange = destRange.Offset(0, 0, band.Rows, band.Columns);
@@ -105,6 +105,7 @@ namespace SaaMedW
                             isMerged = true;
                             ListOfMerges = RemoveMerges(wshDest, row);
                         }
+                        log.Info(cell.Text + " " + wshDest.Row(cell.Start.Row).CustomHeight.ToString());
                         cell.Value = dict[cell.Text];
                         if (isMerged)
                         {
