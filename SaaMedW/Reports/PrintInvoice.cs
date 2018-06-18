@@ -11,6 +11,8 @@ using Microsoft.Office.Interop.Excel;
 using OfficeOpenXml;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Style;
+using SaaMedW.View;
+using SaaMedW.ViewModel;
 
 namespace SaaMedW
 {
@@ -57,35 +59,51 @@ namespace SaaMedW
                     wshDest.Column(col).Width = wshSource.Column(col).Width;
                 }
 
-                // Header
                 var rowDest = 1;
                 ExcelRangeBase destRange = wshDest.Cells[rowDest, 1];
-                var band = pack.Workbook.Names["Header"];
-                Dictionary<string, object> dict = report.Header.Data[0];
-                BandCopy(wshSource, wshDest, band, destRange, dict);
-                rowDest += band.Rows;
-                destRange = wshDest.Cells[rowDest, 1];
 
-                // Detail
-                band = pack.Workbook.Names["Detail"];
-                foreach (var d in report.Detail.Data)
+                ExcelNamedRange band;
+                Dictionary<string, object> dict;
+                // Header
+                try
                 {
-                    BandCopy(wshSource, wshDest, band, destRange, d);
+                    band = pack.Workbook.Names["Header"];
+                    dict = report.Header.Data[0];
+                    BandCopy(wshSource, wshDest, band, destRange, dict);
                     rowDest += band.Rows;
                     destRange = wshDest.Cells[rowDest, 1];
                 }
+                catch (KeyNotFoundException) { }
+
+                // Detail
+                try
+                {
+                    band = pack.Workbook.Names["Detail"];
+                    foreach (var d in report.Detail.Data)
+                    {
+                        BandCopy(wshSource, wshDest, band, destRange, d);
+                        rowDest += band.Rows;
+                        destRange = wshDest.Cells[rowDest, 1];
+                    }
+                }
+                catch (KeyNotFoundException) { }
 
                 // Footer
-                band = pack.Workbook.Names["Footer"];
-                dict = report.Footer.Data[0];
-                BandCopy(wshSource, wshDest, band, destRange, dict);
+                try
+                {
+                    band = pack.Workbook.Names["Footer"];
+                    dict = report.Footer.Data[0];
+                    BandCopy(wshSource, wshDest, band, destRange, dict);
+                }
+                catch (KeyNotFoundException) { }
 
                 pack.Workbook.Worksheets.Delete(wshSource);
                 pack.Save();
             }
         }
 
-        private void BandCopy(ExcelWorksheet wshSource, ExcelWorksheet wshDest, ExcelNamedRange band, ExcelRangeBase destRange, Dictionary<string, object> dict)
+        private void BandCopy(ExcelWorksheet wshSource, ExcelWorksheet wshDest, ExcelNamedRange band, 
+            ExcelRangeBase destRange, Dictionary<string, object> dict, bool exp = false)
         {
             List<MergedRange> ListOfMerges = null;
             band.Copy(destRange);
@@ -109,7 +127,8 @@ namespace SaaMedW
                         if (isMerged)
                         {
                             // восстановить объединения в строке
-                            RestoreMerges(wshDest, ListOfMerges);
+                            if (!exp)
+                                RestoreMerges(wshDest, ListOfMerges);
                         }
                     }
                     //MergeArea = null;
@@ -129,8 +148,8 @@ namespace SaaMedW
         {
             foreach (var r in listOfMerges)
             {
-                wshDest.Column(r.Range.Start.Column).Width = r.OldWidth;
                 r.Range.Merge = true;
+                wshDest.Column(r.Range.Start.Column).Width = r.OldWidth;
             }
         }
 
@@ -171,50 +190,56 @@ namespace SaaMedW
     {
         public static void DoIt(Invoice invoice)
         {
-            var report = new Report();
-
-            var headerBand = new Band();
-            var d = new Dictionary<string, object>();
-            d.Add("${OrganizationName}", "Галиум");
-            d.Add("${NumDt}", "Счет № " + invoice.Id.ToString() + " от " + invoice.Dt.ToString("dd.MM.yyyy"));
-            headerBand.Data.Add(d);
-            report.Header = headerBand;
-
-            var detailBand = new Band();
-            int nn = 1; decimal sm = 0;
-            foreach (var detail in invoice.InvoiceDetail)
-            {
-                d = new Dictionary<string, object>();
-                d.Add("${Nn}", nn);
-                d.Add("${BenefitName}", detail.BenefitName);
-                d.Add("${Kol}", detail.Kol);
-                d.Add("${Price}", detail.Price);
-                d.Add("${Sm}", detail.Sm);
-                detailBand.Data.Add(d);
-                sm += detail.Sm;
-                nn++;
-            }
-            report.Detail = detailBand;
-
-            var footerBand = new Band();
-            d = new Dictionary<string, object>();
-            d.Add("${Itogo}", sm);
-            footerBand.Data.Add(d);
-            report.Footer = footerBand;
-
-            var rg = new ReportGenerator(report);
-
-            var templateName =
-                Path.Combine(Path.GetDirectoryName(
-                    System.Reflection.Assembly.GetExecutingAssembly().Location), "templates", "invoice.xlsx");
-            var tmpName = Global.Source.GetTempFilename(".xlsx");
-            //File.Copy(templateName, tmpName);
-            rg.Generate(tmpName, templateName);
-
-            Process prc = new Process();
-            prc.StartInfo.Arguments = "\"" + tmpName + "\"";
-            prc.StartInfo.FileName = "excel.exe";
-            prc.Start();
+            var viewModel = new Report_InvoiceViewModel(invoice);
+            var f = new ReportView() { DataContext = viewModel };
+            f.ShowDialog();
         }
+        //public static void DoIt(Invoice invoice)
+        //{
+        //    var report = new Report();
+
+        //    var headerBand = new Band();
+        //    var d = new Dictionary<string, object>();
+        //    d.Add("${OrganizationName}", "Галиум");
+        //    d.Add("${NumDt}", "Счет № " + invoice.Id.ToString() + " от " + invoice.Dt.ToString("dd.MM.yyyy"));
+        //    headerBand.Data.Add(d);
+        //    report.Header = headerBand;
+
+        //    var detailBand = new Band();
+        //    int nn = 1; decimal sm = 0;
+        //    foreach (var detail in invoice.InvoiceDetail)
+        //    {
+        //        d = new Dictionary<string, object>();
+        //        d.Add("${Nn}", nn);
+        //        d.Add("${BenefitName}", detail.BenefitName);
+        //        d.Add("${Kol}", detail.Kol);
+        //        d.Add("${Price}", detail.Price);
+        //        d.Add("${Sm}", detail.Sm);
+        //        detailBand.Data.Add(d);
+        //        sm += detail.Sm;
+        //        nn++;
+        //    }
+        //    report.Detail = detailBand;
+
+        //    var footerBand = new Band();
+        //    d = new Dictionary<string, object>();
+        //    d.Add("${Itogo}", sm);
+        //    footerBand.Data.Add(d);
+        //    report.Footer = footerBand;
+
+        //    var rg = new ReportGenerator(report);
+
+        //    var templateName =
+        //        Path.Combine(Path.GetDirectoryName(
+        //            System.Reflection.Assembly.GetExecutingAssembly().Location), "templates", "invoice.xlsx");
+        //    var tmpName = Global.Source.GetTempFilename(".xlsx");
+        //    //File.Copy(templateName, tmpName);
+        //    rg.Generate(tmpName, templateName);
+
+        //    Process prc = new Process();
+        //    prc.StartInfo.Arguments = "\"" + tmpName + "\"";
+        //    prc.StartInfo.FileName = "excel.exe";
+        //    prc.Start();
+        //}
     }
 }
