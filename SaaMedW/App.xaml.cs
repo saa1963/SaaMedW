@@ -29,9 +29,9 @@ namespace SaaMedW
             {
                 Directory.CreateDirectory(logpath);
             }
-            log4net.GlobalContext.Properties["LogFileName"] = logpath + "\\log.txt";
+            //log4net.GlobalContext.Properties["LogFileName"] = logpath + "\\log.txt";
             log4net.Config.XmlConfigurator.Configure();
-            log4net.ILog log = log4net.LogManager.GetLogger("MAINLOGGER");
+            log4net.ILog log = log4net.LogManager.GetLogger(typeof(App));
 
             using (var ctx = new SaaMedEntities())
             {
