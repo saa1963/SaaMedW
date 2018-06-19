@@ -20,14 +20,18 @@ namespace SaaMedW.ViewModel
             WindowsFormsHost windowsFormsHost = new WindowsFormsHost();
             reportViewer = new ReportViewer();
             reportViewer.ProcessingMode = ProcessingMode.Local;
+            var templateName = Path.Combine(Path.GetDirectoryName(
+                 System.Reflection.Assembly.GetExecutingAssembly().Location), "templates", "Invoice.rdl");
+            reportViewer.LocalReport.ReportPath = templateName;
+            reportViewer.LocalReport.DataSources.Add(new ReportDataSource("Invoice1", invoice.InvoiceDetail));
+
+            // установка параметров
             var parameters = new List<ReportParameter>();
             parameters.Add(new ReportParameter("Id", invoice.Id.ToString()));
             parameters.Add(new ReportParameter("Firma", "Галиум"));
             parameters.Add(new ReportParameter("NumDt", "Счет № " + invoice.Id.ToString() + " от " + invoice.Dt.ToString("dd.MM.yyyy")));
-            var templateName = Path.Combine(Path.GetDirectoryName(
-                 System.Reflection.Assembly.GetExecutingAssembly().Location), "templates", "Invoice.rdl");
-            reportViewer.LocalReport.ReportPath = templateName;
             reportViewer.LocalReport.SetParameters(parameters);
+            
             reportViewer.RefreshReport();
             windowsFormsHost.Child = reportViewer;
             this.Viewer = windowsFormsHost;

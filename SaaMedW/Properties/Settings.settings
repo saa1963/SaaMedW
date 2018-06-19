@@ -5,5 +5,8 @@
     <Setting Name="login" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="KoeffExcelMergeHeight" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">88</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -30,7 +30,17 @@ namespace SaaMedW.ViewModel
                 new IdName { Id = 0, Name = "Неоплаченные" },
                 new IdName { Id = 1, Name = "Частично оплаченные" },
                 new IdName { Id = 2, Name = "Оплаченные" } };
-        public int StatusSel { get; set; } = -1;
+        private int m_StatusSel = -1;
+        public int StatusSel
+        {
+            get => m_StatusSel;
+            set
+            {
+                m_StatusSel = value;
+                OnPropertyChanged("StatusSel");
+                RefreshData();
+            }
+        }
         #endregion
         #region Dt1 - Dt2
         private DateTime m_Dt1 = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
@@ -48,7 +58,12 @@ namespace SaaMedW.ViewModel
         public DateTime Dt2
         {
             get => m_Dt2;
-            set { m_Dt2 = value; OnPropertyChanged("Dt2"); }
+            set
+            {
+                m_Dt2 = value;
+                OnPropertyChanged("Dt2");
+                RefreshData();
+            }
         }
         #endregion
         #region PersonList
@@ -62,7 +77,12 @@ namespace SaaMedW.ViewModel
         public int PersonSel
         {
             get => m_PersonSel;
-            set { m_PersonSel = value; OnPropertyChanged("PersonSel"); }
+            set
+            {
+                m_PersonSel = value;
+                OnPropertyChanged("PersonSel");
+                RefreshData();
+            }
         } 
         #endregion
         public InvoiceViewModel()
@@ -75,6 +95,7 @@ namespace SaaMedW.ViewModel
 
         private void RefreshData()
         {
+            InvoiceList.Clear();
             foreach(var o in ctx.Invoice
                 .Include(s => s.InvoiceDetail)
                 .Include(s => s.Person)
@@ -173,6 +194,16 @@ namespace SaaMedW.ViewModel
         {
             Debug.Assert(InvoiceSel != null);
             PrintInvoice.DoIt(InvoiceSel.Obj);
+        }
+
+        public RelayCommand PayCommand
+        {
+            get => new RelayCommand(PayInvoice, s => InvoiceSel != null);
+        }
+
+        private void PayInvoice(object obj)
+        {
+            throw new NotImplementedException();
         }
     }
 }

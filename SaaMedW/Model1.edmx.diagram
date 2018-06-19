@@ -30,6 +30,8 @@
         <AssociationConnector Association="SaaMedModel.FK_Table_Specialty" />
         <AssociationConnector Association="SaaMedModel.FK_Invoice_Visit1" />
         <AssociationConnector Association="SaaMedModel.FK_Specialty_ToSpecialty" />
+        <EntityTypeShape EntityType="SaaMedModel.Pays" Width="1.5" PointX="3.25" PointY="4.875" />
+        <AssociationConnector Association="SaaMedModel.FK_Pays_ToPerson" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

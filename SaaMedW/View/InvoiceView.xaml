@@ -53,6 +53,16 @@
                     </Style>
                 </Button.Style>
             </Button>
+            <Button DockPanel.Dock="Left" 
+                Height="32" Width="32"
+                Command="{Binding PayCommand}">
+                <Image Source="..\image\icons8-ruble-32.png"></Image>
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="ToolTip" Value="Оплатить счет"></Setter>
+                    </Style>
+                </Button.Style>
+            </Button>
         </DockPanel>
         <DockPanel DockPanel.Dock="Top" LastChildFill="False" Margin="10">
             <Label DockPanel.Dock="Left" Content="Период с"></Label>

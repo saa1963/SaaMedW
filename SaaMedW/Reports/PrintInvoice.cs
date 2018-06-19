@@ -11,8 +11,8 @@ using Microsoft.Office.Interop.Excel;
 using OfficeOpenXml;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Style;
-using SaaMedW.View;
-using SaaMedW.ViewModel;
+using SaaMedW.Properties;
+
 
 namespace SaaMedW
 {
@@ -103,143 +103,114 @@ namespace SaaMedW
         }
 
         private void BandCopy(ExcelWorksheet wshSource, ExcelWorksheet wshDest, ExcelNamedRange band, 
-            ExcelRangeBase destRange, Dictionary<string, object> dict, bool exp = false)
+            ExcelRangeBase destRange, Dictionary<string, object> dict)
         {
-            List<MergedRange> ListOfMerges = null;
+            double mx0, mx;
             band.Copy(destRange);
             destRange = destRange.Offset(0, 0, band.Rows, band.Columns);
 
             for (int row = destRange.Start.Row; row <= destRange.End.Row; row++)
             {
+                mx = -1;
                 for (int col = destRange.Start.Column; col <= destRange.End.Column; col++)
                 {
                     var cell = wshDest.Cells[row, col];
                     if (dict.ContainsKey(cell.Text))
                     {
-                        bool isMerged = false;
+                        cell.Value = dict[cell.Text];
                         if (cell.Merge)
                         {
-                            // здесь надо убрать все объединения в строке
-                            isMerged = true;
-                            ListOfMerges = RemoveMerges(wshDest, row);
-                        }
-                        cell.Value = dict[cell.Text];
-                        if (isMerged)
-                        {
-                            // восстановить объединения в строке
-                            if (!exp)
-                                RestoreMerges(wshDest, ListOfMerges);
+                            mx0 = MeasureTextHeight(cell.Text, cell.Style.Font, Convert.ToInt32(GetMergeWidth(wshDest, cell)));
+                            if (mx0 > mx) mx = mx0;
                         }
                     }
-                    //MergeArea = null;
-                    //if (GetMergeArea(cell, out MergeArea)) // если ячейка объединена и левая верхняя в объединении
-                    //{
-                    //    //mx0 = MeasureTextHeight(cell.Text, cell.Style.Font, Convert.ToInt32(widthMergeArea));
-                    //    mx0 = MeasureTextHeight();
-                    //    if (mx0 > mx) mx = mx0;
-                    //}
                 }
-                //if (mx != -1)
-                //    wshDest.Row(row).Height = mx;
+                if (mx != -1)
+                    wshDest.Row(row).Height = mx;
             }
         }
 
-        private void RestoreMerges(ExcelWorksheet wshDest, List<MergedRange> listOfMerges)
+        public double MeasureTextHeight(string text, ExcelFont font, int width)
         {
-            foreach (var r in listOfMerges)
-            {
-                r.Range.Merge = true;
-                wshDest.Column(r.Range.Start.Column).Width = r.OldWidth;
-            }
+            if (string.IsNullOrEmpty(text)) return 0.0;
+            var bitmap = new Bitmap(1, 1);
+            var graphics = Graphics.FromImage(bitmap);
+
+            var pixelWidth = Convert.ToInt32(width * 7.5);  //7.5 pixels per excel column width
+            var drawingFont = new System.Drawing.Font(font.Name, font.Size);
+            var size = graphics.MeasureString(text, drawingFont, pixelWidth);
+
+            //72 DPI and 96 points per inch.  Excel height in points with max of 409 per Excel requirements.
+            return Math.Min(Convert.ToDouble(size.Height) * 72 / Settings.Default.KoeffExcelMergeHeight, 409);
         }
 
-        private List<MergedRange> RemoveMerges(ExcelWorksheet wshDest, int row)
+        private double GetMergeWidth(ExcelWorksheet wsh, ExcelRange rc)
         {
-            var rt = GetMergeAreas(wshDest, wshDest.Row(row));
-            foreach (var r in rt)
+            foreach (var r in wsh.MergedCells)
             {
-                r.Range.Merge = false;
-                double smWidth = 0;
-                for (int col = r.Range.Start.Column; col <= r.Range.End.Column; col++)
+                var rg = wsh.Cells[r];
+                if (rg.Start.Row == rc.Start.Row && rg.Start.Column == rc.Start.Column)
                 {
-                    smWidth += wshDest.Column(col).Width;
-                }
-                wshDest.Column(r.Range.Start.Column).Width = smWidth;
-            }
-            return rt;
-        }
-
-        private List<MergedRange> GetMergeAreas(ExcelWorksheet wsh, ExcelRow rc)
-        {
-            var rt = new List<MergedRange>();
-            foreach (string r in wsh.MergedCells)
-            {
-                if (r != null)
-                {
-                    var rg = wsh.Cells[r];
-                    if (rg.Start.Row == rc.Row && rg.End.Row == rc.Row)
+                    double smWidth = 0;
+                    for (int col = rg.Start.Column; col <= rg.End.Column; col++)
                     {
-                        rt.Add(new MergedRange() { Range = rg, OldWidth = wsh.Column(rg.Start.Column).Width });
+                        smWidth += wsh.Column(col).Width;
                     }
+                    return smWidth;
                 }
             }
-            return rt;
+            return 0;
         }
     }
+
     public class PrintInvoice
     {
         public static void DoIt(Invoice invoice)
         {
-            var viewModel = new Report_InvoiceViewModel(invoice);
-            var f = new ReportView() { DataContext = viewModel };
-            f.ShowDialog();
+            var report = new Report();
+
+            var headerBand = new Band();
+            var d = new Dictionary<string, object>();
+            d.Add("${OrganizationName}", "Галиум");
+            d.Add("${NumDt}", "Счет № " + invoice.Id.ToString() + " от " + invoice.Dt.ToString("dd.MM.yyyy"));
+            headerBand.Data.Add(d);
+            report.Header = headerBand;
+
+            var detailBand = new Band();
+            int nn = 1; decimal sm = 0;
+            foreach (var detail in invoice.InvoiceDetail)
+            {
+                d = new Dictionary<string, object>();
+                d.Add("${Nn}", nn);
+                d.Add("${BenefitName}", detail.BenefitName);
+                d.Add("${Kol}", detail.Kol);
+                d.Add("${Price}", detail.Price);
+                d.Add("${Sm}", detail.Sm);
+                detailBand.Data.Add(d);
+                sm += detail.Sm;
+                nn++;
+            }
+            report.Detail = detailBand;
+
+            var footerBand = new Band();
+            d = new Dictionary<string, object>();
+            d.Add("${Itogo}", sm);
+            footerBand.Data.Add(d);
+            report.Footer = footerBand;
+
+            var rg = new ReportGenerator(report);
+
+            var templateName =
+                Path.Combine(Path.GetDirectoryName(
+                    System.Reflection.Assembly.GetExecutingAssembly().Location), "templates", "invoice.xlsx");
+            var tmpName = Global.Source.GetTempFilename(".xlsx");
+            //File.Copy(templateName, tmpName);
+            rg.Generate(tmpName, templateName);
+
+            Process prc = new Process();
+            prc.StartInfo.Arguments = "\"" + tmpName + "\"";
+            prc.StartInfo.FileName = "excel.exe";
+            prc.Start();
         }
-        //public static void DoIt(Invoice invoice)
-        //{
-        //    var report = new Report();
-
-        //    var headerBand = new Band();
-        //    var d = new Dictionary<string, object>();
-        //    d.Add("${OrganizationName}", "Галиум");
-        //    d.Add("${NumDt}", "Счет № " + invoice.Id.ToString() + " от " + invoice.Dt.ToString("dd.MM.yyyy"));
-        //    headerBand.Data.Add(d);
-        //    report.Header = headerBand;
-
-        //    var detailBand = new Band();
-        //    int nn = 1; decimal sm = 0;
-        //    foreach (var detail in invoice.InvoiceDetail)
-        //    {
-        //        d = new Dictionary<string, object>();
-        //        d.Add("${Nn}", nn);
-        //        d.Add("${BenefitName}", detail.BenefitName);
-        //        d.Add("${Kol}", detail.Kol);
-        //        d.Add("${Price}", detail.Price);
-        //        d.Add("${Sm}", detail.Sm);
-        //        detailBand.Data.Add(d);
-        //        sm += detail.Sm;
-        //        nn++;
-        //    }
-        //    report.Detail = detailBand;
-
-        //    var footerBand = new Band();
-        //    d = new Dictionary<string, object>();
-        //    d.Add("${Itogo}", sm);
-        //    footerBand.Data.Add(d);
-        //    report.Footer = footerBand;
-
-        //    var rg = new ReportGenerator(report);
-
-        //    var templateName =
-        //        Path.Combine(Path.GetDirectoryName(
-        //            System.Reflection.Assembly.GetExecutingAssembly().Location), "templates", "invoice.xlsx");
-        //    var tmpName = Global.Source.GetTempFilename(".xlsx");
-        //    //File.Copy(templateName, tmpName);
-        //    rg.Generate(tmpName, templateName);
-
-        //    Process prc = new Process();
-        //    prc.StartInfo.Arguments = "\"" + tmpName + "\"";
-        //    prc.StartInfo.FileName = "excel.exe";
-        //    prc.Start();
-        //}
     }
 }

@@ -56,6 +56,15 @@
           <Property Name="Sm" Type="money" Nullable="false" />
           <Property Name="InvoiceId" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="Pays">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Dt" Type="date" Nullable="false" />
+          <Property Name="PersonId" Type="int" Nullable="false" />
+          <Property Name="Sm" Type="money" Nullable="false" />
+        </EntityType>
         <EntityType Name="Person">
           <Key>
             <PropertyRef Name="Id" />
@@ -186,6 +195,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Pays_ToPerson">
+          <End Role="Person" Type="Self.Person" Multiplicity="1" />
+          <End Role="Pays" Type="Self.Pays" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Pays">
+              <PropertyRef Name="PersonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Person_DocumentType">
           <End Role="DocumentType" Type="Self.DocumentType" Multiplicity="0..1" />
           <End Role="Person" Type="Self.Person" Multiplicity="*" />
@@ -300,6 +321,7 @@
           <EntitySet Name="Graphic" EntityType="Self.Graphic" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Invoice" EntityType="Self.Invoice" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="InvoiceDetail" EntityType="Self.InvoiceDetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Pays" EntityType="Self.Pays" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Person" EntityType="Self.Person" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Personal" EntityType="Self.Personal" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PersonalSpecialty" EntityType="Self.PersonalSpecialty" Schema="dbo" store:Type="Tables" />
@@ -322,6 +344,10 @@
           <AssociationSet Name="FK_Invoice_Visit" Association="Self.FK_Invoice_Visit">
             <End Role="Visit" EntitySet="Visit" />
             <End Role="Invoice" EntitySet="Invoice" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Pays_ToPerson" Association="Self.FK_Pays_ToPerson">
+            <End Role="Person" EntitySet="Person" />
+            <End Role="Pays" EntitySet="Pays" />
           </AssociationSet>
           <AssociationSet Name="FK_Person_DocumentType" Association="Self.FK_Person_DocumentType">
             <End Role="DocumentType" EntitySet="DocumentType" />
@@ -400,6 +426,7 @@
           <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="Invoice" Relationship="SaaMedModel.FK_Invoice_Person" FromRole="Person" ToRole="Invoice" />
           <NavigationProperty Name="Visit" Relationship="SaaMedModel.FK_Visit_ToPerson" FromRole="Person" ToRole="Visit" />
+          <NavigationProperty Name="Pays" Relationship="SaaMedModel.FK_Pays_ToPerson" FromRole="Person" ToRole="Pays" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
@@ -488,6 +515,11 @@
           <AssociationSet Name="FK_Specialty_ToSpecialty" Association="SaaMedModel.FK_Specialty_ToSpecialty">
             <End Role="Specialty" EntitySet="Specialty" />
             <End Role="Specialty1" EntitySet="Specialty" />
+          </AssociationSet>
+          <EntitySet Name="Pays" EntityType="SaaMedModel.Pays" />
+          <AssociationSet Name="FK_Pays_ToPerson" Association="SaaMedModel.FK_Pays_ToPerson">
+            <End Role="Person" EntitySet="Person" />
+            <End Role="Pays" EntitySet="Pays" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Specialty">
@@ -745,6 +777,28 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Pays">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Dt" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="PersonId" Type="Int32" Nullable="false" />
+          <Property Name="Sm" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <NavigationProperty Name="Person" Relationship="SaaMedModel.FK_Pays_ToPerson" FromRole="Pays" ToRole="Person" />
+        </EntityType>
+        <Association Name="FK_Pays_ToPerson">
+          <End Type="SaaMedModel.Person" Role="Person" Multiplicity="1" />
+          <End Type="SaaMedModel.Pays" Role="Pays" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Pays">
+              <PropertyRef Name="PersonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -896,6 +950,16 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+          <EntitySetMapping Name="Pays">
+            <EntityTypeMapping TypeName="SaaMedModel.Pays">
+              <MappingFragment StoreEntitySet="Pays">
+                <ScalarProperty Name="Sm" ColumnName="Sm" />
+                <ScalarProperty Name="PersonId" ColumnName="PersonId" />
+                <ScalarProperty Name="Dt" ColumnName="Dt" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>
