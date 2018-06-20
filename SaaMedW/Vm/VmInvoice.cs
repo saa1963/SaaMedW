@@ -68,6 +68,15 @@ namespace SaaMedW.ViewModel
                 OnPropertyChanged("Sm");
             }
         }
+        public decimal Payed
+        {
+            get => m_object.Payed;
+            set
+            {
+                m_object.Payed = value;
+                OnPropertyChanged("Payed");
+            }
+        }
         public Person Person
         {
             get => m_object.Person;

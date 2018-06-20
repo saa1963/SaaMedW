@@ -198,12 +198,30 @@ namespace SaaMedW.ViewModel
 
         public RelayCommand PayCommand
         {
-            get => new RelayCommand(PayInvoice, s => InvoiceSel != null);
+            get => new RelayCommand(PayInvoice, s => InvoiceSel != null && InvoiceSel.Status != 2);
         }
 
         private void PayInvoice(object obj)
         {
-            throw new NotImplementedException();
+            var viewModel = new PayInvoiceViewModel() { КОплате = InvoiceSel.Sm };
+            var f = new PayInvoiceView() { DataContext = viewModel };
+            if (f.ShowDialog() ?? false)
+            {
+                try
+                {
+                    var pay = Math.Min(viewModel.Sm, viewModel.КОплате);
+                    InvoiceSel.Payed += pay;
+                    if (InvoiceSel.Payed == InvoiceSel.Sm)
+                        InvoiceSel.Status = 2;
+                    else
+                        InvoiceSel.Status = 1;
+                    ctx.Pays.Add(new Pays() { Dt = DateTime.Today, Sm = pay, Person = InvoiceSel.Person });
+                }
+                finally
+                {
+                    ctx.SaveChanges();
+                }
+            }
         }
     }
 }

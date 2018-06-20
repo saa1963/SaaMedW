@@ -189,11 +189,15 @@
     <Compile Include="ViewModel\EditInvoiceViewModel.cs" />
     <Compile Include="ViewModel\EditVisitViewModel.cs" />
     <Compile Include="ViewModel\InvoiceViewModel.cs" />
+    <Compile Include="ViewModel\PayInvoiceViewModel.cs" />
     <Compile Include="ViewModel\PersonalVisitsViewModel.cs" />
     <Compile Include="ViewModel\Report_InvoiceViewModel.cs" />
     <Compile Include="ViewModel\SelectSpecialtyViewModel.cs" />
     <Compile Include="ViewModel\VisitTimeInterval.cs" />
     <Compile Include="ViewModel\VisitViewModel.cs" />
+    <Compile Include="View\PayInvoiceView.xaml.cs">
+      <DependentUpon>PayInvoiceView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\ReportView.xaml.cs">
       <DependentUpon>ReportView.xaml</DependentUpon>
     </Compile>
@@ -368,6 +372,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\InvoiceView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\PayInvoiceView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
