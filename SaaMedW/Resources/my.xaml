@@ -106,4 +106,9 @@
             <x:Type Type="local:enStatusInvoice"/>
         </ObjectDataProvider.MethodParameters>
     </ObjectDataProvider>
+    <ObjectDataProvider x:Key="PaymentTypeEnum" MethodName="GetValues" ObjectType="{x:Type core:Enum}">
+        <ObjectDataProvider.MethodParameters>
+            <x:Type Type="local:enumPaymentType"/>
+        </ObjectDataProvider.MethodParameters>
+    </ObjectDataProvider>
 </ResourceDictionary>

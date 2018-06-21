@@ -12,6 +12,7 @@ namespace SaaMedW.ViewModel
 {
     public class InvoiceViewModel : ViewModelBase
     {
+        log4net.ILog log;
         private SaaMedEntities ctx = new SaaMedEntities();
         #region InvoiceList
         private ObservableCollection<VmInvoice> m_lst
@@ -87,6 +88,7 @@ namespace SaaMedW.ViewModel
         #endregion
         public InvoiceViewModel()
         {
+            log = log4net.LogManager.GetLogger(this.GetType());
             PersonList = ctx.Person.OrderBy(s => s.LastName).ThenBy(s => s.FirstName)
                 .ThenBy(s => s.MiddleName)
                 .Select(s => new VmPerson() {Obj = s}).ToList();
@@ -132,7 +134,7 @@ namespace SaaMedW.ViewModel
                     Dt = modelView.Dt,
                     Person = ctx.Person.Find(modelView.PersonId),
                     Sm = modelView.Sm,
-                    Status = (int)modelView.Status
+                    Status = 0
                 };
                 foreach (var o in modelView.ListInvoiceDetail)
                 {
@@ -157,7 +159,6 @@ namespace SaaMedW.ViewModel
             var f = new EditInvoiceView() { DataContext = modelView };
             if (f.ShowDialog() ?? false)
             {
-                InvoiceSel.Status = (int)modelView.Status;
                 InvoiceSel.Person = ctx.Person.Find(modelView.PersonId);
                 InvoiceSel.Sm = modelView.Sm;
                 ctx.InvoiceDetail.RemoveRange(InvoiceSel.InvoiceDetail);
@@ -203,25 +204,50 @@ namespace SaaMedW.ViewModel
 
         private void PayInvoice(object obj)
         {
-            var viewModel = new PayInvoiceViewModel() { КОплате = InvoiceSel.Sm };
+            var viewModel = new PayInvoiceViewModel() { КОплате = InvoiceSel.Sm - InvoiceSel.Payed };
             var f = new PayInvoiceView() { DataContext = viewModel };
             if (f.ShowDialog() ?? false)
             {
-                try
+                var pay = Math.Min(viewModel.Sm, viewModel.КОплате);
+                var oPay = new Pays()
                 {
-                    var pay = Math.Min(viewModel.Sm, viewModel.КОплате);
-                    InvoiceSel.Payed += pay;
-                    if (InvoiceSel.Payed == InvoiceSel.Sm)
-                        InvoiceSel.Status = 2;
-                    else
-                        InvoiceSel.Status = 1;
-                    ctx.Pays.Add(new Pays() { Dt = DateTime.Today, Sm = pay, Person = InvoiceSel.Person });
-                }
-                finally
+                    Dt = DateTime.Today,
+                    Sm = pay,
+                    Person = InvoiceSel.Person,
+                    PaymentType = viewModel.PaymentType
+                };
+                InvoiceSel.Payed += pay;
+                if (InvoiceSel.Payed == InvoiceSel.Sm)
+                    InvoiceSel.Status = 2;
+                else
+                    InvoiceSel.Status = 1;
+                ctx.Pays.Add(oPay);
+                try
                 {
                     ctx.SaveChanges();
                 }
+                catch(Exception e)
+                {
+                    ctx.Pays.Remove(oPay);
+                    InvoiceSel.Payed -= pay;
+                    if (InvoiceSel.Payed == 0)
+                        InvoiceSel.Status = 0;
+                    else
+                        InvoiceSel.Status = 1;
+                    System.Windows.MessageBox.Show(e.Message);
+                    log.Error("Ошибка сохранения платежа", e);
+                }
             }
+        }
+
+        public RelayCommand BackMoneyCommand
+        {
+            get => new RelayCommand(BackMoney, s => InvoiceSel != null && InvoiceSel.Status != 0);
+        }
+
+        private void BackMoney(object obj)
+        {
+            throw new NotImplementedException();
         }
     }
 }

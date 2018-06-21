@@ -27,11 +27,11 @@
                 SelectedValuePath="Id"
                 SelectedValue="{Binding PersonId, ValidatesOnDataErrors=True}">
             </ComboBox>
-            <Label DockPanel.Dock="Left" Margin="0,0,10,10" Content="Статус"></Label>
+            <!--<Label DockPanel.Dock="Left" Margin="0,0,10,10" Content="Статус"></Label>
             <ComboBox DockPanel.Dock="Left" Margin="0,0,0,10" Width="150"
                 ItemsSource="{Binding Source={StaticResource InvoiceStatusEnum}}" 
                 SelectedValue="{Binding Status}">
-            </ComboBox>
+            </ComboBox>-->
         </DockPanel>
         <DockPanel DockPanel.Dock="Top" LastChildFill="False">
             <Button DockPanel.Dock="Left" 

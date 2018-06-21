@@ -15,7 +15,7 @@ namespace SaaMedW.ViewModel
         private SaaMedEntities ctx = new SaaMedEntities();
         private DateTime _dt = DateTime.Today;
         private int _num;
-        private enStatusInvoice _status = enStatusInvoice.Неоплачен;
+        //private enStatusInvoice _status = enStatusInvoice.Неоплачен;
         private int _personId;
         private decimal _sm;
         private Person _person;
@@ -32,7 +32,7 @@ namespace SaaMedW.ViewModel
         {
             Id = invoice.Id;
             Dt = invoice.Dt;
-            Status = (enStatusInvoice)invoice.Status;
+            //Status = (enStatusInvoice)invoice.Status;
             PersonId = invoice.PersonId;
             Sm = invoice.Sm;
             Person = invoice.Person;
@@ -95,14 +95,14 @@ namespace SaaMedW.ViewModel
                 OnPropertyChanged("DateNumSum");
             }
         }
-        public enStatusInvoice Status
-        {
-            get => _status; set
-            {
-                _status = value;
-                OnPropertyChanged("Status");
-            }
-        }
+        //public enStatusInvoice Status
+        //{
+        //    get => _status; set
+        //    {
+        //        _status = value;
+        //        OnPropertyChanged("Status");
+        //    }
+        //}
         public int PersonId
         {
             get => _personId; set

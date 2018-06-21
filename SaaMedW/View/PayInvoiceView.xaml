@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:SaaMedW.View"
         xmlns:local0="clr-namespace:SaaMedW"
         mc:Ignorable="d" FontSize="20"
-        Title="" SizeToContent="Height" Width="250"
+        Title="" SizeToContent="Height" Width="350"
         FocusManager.FocusedElement="{Binding ElementName=tbSm}">
     <Grid>
         <Grid.RowDefinitions>
@@ -14,13 +14,21 @@
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
         <DockPanel Grid.Row="0">
+            <TextBlock Margin="10" DockPanel.Dock="Left" Text="Вид оплаты"></TextBlock>
+            <ComboBox DockPanel.Dock="Left" Margin="0,0,0,10" Width="150"
+                ItemsSource="{Binding Source={StaticResource PaymentTypeEnum}}" 
+                SelectedValue="{Binding PaymentType}">
+            </ComboBox>
+        </DockPanel>
+        <DockPanel Grid.Row="1">
             <TextBlock Margin="10" DockPanel.Dock="Left" Text="К оплате"></TextBlock>
             <TextBlock HorizontalAlignment="Right" Margin="10" 
                        DockPanel.Dock="Left" Text="{Binding КОплате, StringFormat={}{0:0.00}}"></TextBlock>
         </DockPanel>
-        <DockPanel Grid.Row="1">
+        <DockPanel Grid.Row="2">
             <TextBlock Margin="10" DockPanel.Dock="Left" Text="Принято"></TextBlock>
             <local0:ClickSelectTextBox Text="{Binding Sm, UpdateSourceTrigger=PropertyChanged, 
                         ValidatesOnDataErrors=True, StringFormat={}{0:0.00}}" 
@@ -28,7 +36,7 @@
                      HorizontalContentAlignment="Right" 
                      HorizontalAlignment="Stretch"  Margin="10" DockPanel.Dock="Left"></local0:ClickSelectTextBox>
         </DockPanel>
-        <DockPanel Grid.Row="2">
+        <DockPanel Grid.Row="3">
             <TextBlock Margin="10" DockPanel.Dock="Left" Text="Сдача"></TextBlock>
             <TextBlock HorizontalAlignment="Right" Margin="10" DockPanel.Dock="Left" 
                        Text="{Binding Сдача, StringFormat={}{0:0.00}}"></TextBlock>

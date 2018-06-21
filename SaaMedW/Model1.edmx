@@ -61,10 +61,11 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Dt" Type="date" Nullable="false" />
           <Property Name="PersonId" Type="int" Nullable="false" />
           <Property Name="Sm" Type="money" Nullable="false" />
+          <Property Name="PaymentType" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Person">
           <Key>
@@ -788,6 +789,7 @@
           <Property Name="PersonId" Type="Int32" Nullable="false" />
           <Property Name="Sm" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
           <NavigationProperty Name="Person" Relationship="SaaMedModel.FK_Pays_ToPerson" FromRole="Pays" ToRole="Person" />
+          <Property Name="PaymentType" Type="SaaMedModel.enumPaymentType" Nullable="false" />
         </EntityType>
         <Association Name="FK_Pays_ToPerson">
           <End Type="SaaMedModel.Person" Role="Person" Multiplicity="1" />
@@ -801,6 +803,12 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EnumType Name="enPaymentType" />
+        <EnumType Name="enumPaymentType">
+          <Member Name="Наличные" Value="0" />
+          <Member Name="Карта" Value="1" />
+          <Member Name="Безналичные" Value="2" />
+        </EnumType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -956,6 +964,7 @@
           <EntitySetMapping Name="Pays">
             <EntityTypeMapping TypeName="SaaMedModel.Pays">
               <MappingFragment StoreEntitySet="Pays">
+                <ScalarProperty Name="PaymentType" ColumnName="PaymentType" />
                 <ScalarProperty Name="Sm" ColumnName="Sm" />
                 <ScalarProperty Name="PersonId" ColumnName="PersonId" />
                 <ScalarProperty Name="Dt" ColumnName="Dt" />

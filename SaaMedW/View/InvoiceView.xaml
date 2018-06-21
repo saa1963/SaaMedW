@@ -63,6 +63,16 @@
                     </Style>
                 </Button.Style>
             </Button>
+            <Button DockPanel.Dock="Left" 
+                Height="32" Width="32"
+                Command="{Binding BackMoneyCommand}">
+                <Image Source="..\image\icons8-request-money-32.png"></Image>
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="ToolTip" Value="Возврат денежных средств"></Setter>
+                    </Style>
+                </Button.Style>
+            </Button>
         </DockPanel>
         <DockPanel DockPanel.Dock="Top" LastChildFill="False" Margin="10">
             <Label DockPanel.Dock="Left" Content="Период с"></Label>

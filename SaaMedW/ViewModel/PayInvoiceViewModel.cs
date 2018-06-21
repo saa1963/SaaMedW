@@ -9,7 +9,16 @@ namespace SaaMedW.ViewModel
 {
     public class PayInvoiceViewModel: ViewModelBase, IDataErrorInfo
     {
-        private decimal m_Sm;
+        private enumPaymentType m_PaymentType;
+        public enumPaymentType PaymentType
+        {
+            get => m_PaymentType;
+            set
+            {
+                m_PaymentType = value;
+                OnPropertyChanged("PaymentType");
+            }
+        }
         private decimal m_КОплате;
         public decimal КОплате
         {
@@ -20,6 +29,7 @@ namespace SaaMedW.ViewModel
                 OnPropertyChanged("КОплате");
             }
         }
+        private decimal m_Sm;
         public decimal Sm
         {
             get => m_Sm;

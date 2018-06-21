@@ -10,16 +10,11 @@
 namespace SaaMedW
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class Pays
+    public enum enumPaymentType : int
     {
-        public int Id { get; set; }
-        public System.DateTime Dt { get; set; }
-        public int PersonId { get; set; }
-        public decimal Sm { get; set; }
-        public enumPaymentType PaymentType { get; set; }
-    
-        public virtual Person Person { get; set; }
+        Наличные = 0,
+        Карта = 1,
+        Безналичные = 2
     }
 }
