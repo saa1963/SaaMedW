@@ -209,34 +209,8 @@ namespace SaaMedW.ViewModel
             if (f.ShowDialog() ?? false)
             {
                 var pay = Math.Min(viewModel.Sm, viewModel.КОплате);
-                var oPay = new Pays()
-                {
-                    Dt = DateTime.Today,
-                    Sm = pay,
-                    Person = InvoiceSel.Person,
-                    PaymentType = viewModel.PaymentType
-                };
-                InvoiceSel.Payed += pay;
-                if (InvoiceSel.Payed == InvoiceSel.Sm)
-                    InvoiceSel.Status = 2;
-                else
-                    InvoiceSel.Status = 1;
-                ctx.Pays.Add(oPay);
-                try
-                {
-                    ctx.SaveChanges();
-                }
-                catch(Exception e)
-                {
-                    ctx.Pays.Remove(oPay);
-                    InvoiceSel.Payed -= pay;
-                    if (InvoiceSel.Payed == 0)
-                        InvoiceSel.Status = 0;
-                    else
-                        InvoiceSel.Status = 1;
-                    System.Windows.MessageBox.Show(e.Message);
-                    log.Error("Ошибка сохранения платежа", e);
-                }
+                IAccounts accounts = (IAccounts)Service.ServiceLocator.Instance.GetService(typeof(IAccounts));
+                accounts.PayOneInvoice(pay, InvoiceSel.Obj, viewModel.PaymentType);
             }
         }
 

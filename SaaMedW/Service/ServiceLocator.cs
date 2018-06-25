@@ -10,14 +10,14 @@ namespace SaaMedW.Service
     {
         static ServiceLocator instance = null;
         static readonly object padlock = new object();
-        private Dictionary<Type, Type> m_lst;
+        private Dictionary<Type, object> m_lst;
 
         ServiceLocator()
         {
-            m_lst = new Dictionary<Type, Type>();
-            m_lst.Add(typeof(ILocalStorage), typeof(SaaMedW.Service.LocalStorage));
-            m_lst.Add(typeof(ILogonService), typeof(SaaMedW.Service.LogonService));
-            //m_lst.Add(typeof(IDataLayer), typeof(TKPBSec.Service.ADODataService));
+            m_lst = new Dictionary<Type, object>();
+            m_lst.Add(typeof(ILocalStorage), Activator.CreateInstance(typeof(SaaMedW.Service.LocalStorage)));
+            m_lst.Add(typeof(ILogonService), Activator.CreateInstance(typeof(SaaMedW.Service.LogonService)));
+            m_lst.Add(typeof(IAccounts), Activator.CreateInstance(typeof(SaaMedW.Service.AccountsService)));
             //m_lst.Add(typeof(ISendFile), typeof(TKPBSec.Service.SendFileService));
         }
 
@@ -40,7 +40,7 @@ namespace SaaMedW.Service
         {
             try
             {
-                return Activator.CreateInstance(m_lst[iface]);
+                return m_lst[iface];
             }
             catch (Exception)
             {
