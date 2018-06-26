@@ -13,40 +13,77 @@ namespace SaaMedW.Service
         {
             log4net.LogManager.GetLogger(this.GetType());
         }
+
+        public bool BackMoneyOneInvoice(Invoice p_invoice, out string message)
+        {
+            bool rt;
+            message = String.Empty;
+            using (SaaMedEntities ctx = new SaaMedEntities())
+            {
+                Invoice invoice = ctx.Invoice.Find(p_invoice.Id);
+                var oPay = new Pays()
+                {
+                    Dt = DateTime.Today,
+                    Sm = invoice.Payed,
+                    Person = invoice.Person,
+                    PaymentType = enumPaymentType.Возврат
+                };
+                ctx.Pays.Add(oPay);
+                // откатываем оплату счета
+                invoice.Payed = 0;
+                invoice.Status = enumStatusInvoice.Неоплачен;
+                try
+                {
+                    ctx.SaveChanges();
+                }
+                catch (Exception e)
+                {
+                    invoice.Payed = p_invoice.Payed;
+                    invoice.Status = p_invoice.Status;
+                    ctx.Pays.Remove(oPay);
+                    message = "Ошибка записи возврата платежа";
+                    return false;
+                }
+                return true;
+            }
+        }
+
         public bool PayOneInvoice(decimal pay, Invoice p_invoice, enumPaymentType paymentType)
         {
             bool rt = false;
-            SaaMedEntities ctx = new SaaMedEntities();
-            Invoice invoice = ctx.Invoice.Find(p_invoice.Id);
-            var oPay = new Pays()
+            using (SaaMedEntities ctx = new SaaMedEntities())
             {
-                Dt = DateTime.Today,
-                Sm = pay,
-                Person = invoice.Person,
-                PaymentType = paymentType
-            };
-            invoice.Payed += pay;
-            if (invoice.Payed == invoice.Sm)
-                invoice.Status = 2;
-            else
-                invoice.Status = 1;
-            ctx.Pays.Add(oPay);
-            try
-            {
-                ctx.SaveChanges();
-                rt = true;
-            }
-            catch (Exception e)
-            {
-                ctx.Pays.Remove(oPay);
-                invoice.Payed -= pay;
-                if (invoice.Payed == 0)
-                    invoice.Status = 0;
+                Invoice invoice = ctx.Invoice.Find(p_invoice.Id);
+                var oPay = new Pays()
+                {
+                    Dt = DateTime.Today,
+                    Sm = pay,
+                    Person = invoice.Person,
+                    PaymentType = paymentType
+                };
+                ctx.Pays.Add(oPay);
+                invoice.Payed += pay;
+                if (invoice.Payed == invoice.Sm)
+                    invoice.Status = enumStatusInvoice.Оплачен;
                 else
-                    invoice.Status = 1;
-                log.Error("Ошибка сохранения платежа", e);
+                    invoice.Status = enumStatusInvoice.Оплачен_частично;
+                try
+                {
+                    ctx.SaveChanges();
+                    rt = true;
+                }
+                catch (Exception e)
+                {
+                    ctx.Pays.Remove(oPay);
+                    invoice.Payed -= pay;
+                    if (invoice.Payed == 0)
+                        invoice.Status = enumStatusInvoice.Неоплачен;
+                    else
+                        invoice.Status = enumStatusInvoice.Оплачен_частично;
+                    log.Error("Ошибка сохранения платежа", e);
+                }
+                return rt;
             }
-            return rt;
         }
     }
 }

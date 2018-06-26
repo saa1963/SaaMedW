@@ -103,7 +103,7 @@
     </Style>
     <ObjectDataProvider x:Key="InvoiceStatusEnum" MethodName="GetValues" ObjectType="{x:Type core:Enum}">
         <ObjectDataProvider.MethodParameters>
-            <x:Type Type="local:enStatusInvoice"/>
+            <x:Type Type="local:enumStatusInvoice"/>
         </ObjectDataProvider.MethodParameters>
     </ObjectDataProvider>
     <ObjectDataProvider x:Key="PaymentTypeEnum" MethodName="GetValues" ObjectType="{x:Type core:Enum}">

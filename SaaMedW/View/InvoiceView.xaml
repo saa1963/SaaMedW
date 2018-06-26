@@ -8,9 +8,6 @@
              xmlns:local0="clr-namespace:SaaMedW"
              mc:Ignorable="d" Tag="Счета"
              d:DesignHeight="450" d:DesignWidth="800">
-    <UserControl.Resources>
-        <local0:InvoiceStatusToIntConverter x:Key="myConverter" />
-    </UserControl.Resources>
     <DockPanel>
         <DockPanel DockPanel.Dock="Top" LastChildFill="False">
             <Button DockPanel.Dock="Left" 
@@ -109,9 +106,7 @@
                 </DataGridTextColumn>
                 <DataGridComboBoxColumn Header="Статус" 
                                         ItemsSource="{Binding Source={StaticResource InvoiceStatusEnum}}"
-                                        SelectedValueBinding="{Binding Status, 
-                                            UpdateSourceTrigger=PropertyChanged, 
-                                            Converter={StaticResource myConverter}}"
+                                        SelectedValueBinding="{Binding Status}"
                                         Width="Auto"></DataGridComboBoxColumn>
                 <DataGridTextColumn Header="Пациент" 
                                     Binding="{Binding Person.FioBirthday, 

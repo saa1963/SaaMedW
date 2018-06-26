@@ -103,7 +103,7 @@ namespace SaaMedW.ViewModel
             Invoice invoice = SelectedVisit.Obj.Invoice.SingleOrDefault(s => true);
             if (invoice != null)
             {
-                if (invoice.Status != (int)enStatusInvoice.Неоплачен)
+                if (invoice.Status != enumStatusInvoice.Неоплачен)
                 {
                     System.Windows.MessageBox
                         .Show("Счет уже существует и оплачивался. Переформировать нельзя.");
@@ -130,7 +130,7 @@ namespace SaaMedW.ViewModel
                 {
                     Dt = DateTime.Now,
                     Person = SelectedVisit.Person,
-                    Status = (int)enStatusInvoice.Неоплачен,
+                    Status = enumStatusInvoice.Неоплачен,
                     Visit = SelectedVisit.Obj,
                     Sm = SelectedVisit.VisitBenefit.Sum(s => s.Kol * s.Benefit.Price),
                 };

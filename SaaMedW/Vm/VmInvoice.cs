@@ -41,7 +41,7 @@ namespace SaaMedW.ViewModel
                 OnPropertyChanged("Dt");
             }
         }
-        public int Status
+        public enumStatusInvoice Status
         {
             get => m_object.Status;
             set

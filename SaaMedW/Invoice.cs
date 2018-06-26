@@ -22,7 +22,7 @@ namespace SaaMedW
     
         public int Id { get; set; }
         public System.DateTime Dt { get; set; }
-        public int Status { get; set; }
+        public enumStatusInvoice Status { get; set; }
         public int PersonId { get; set; }
         public decimal Sm { get; set; }
         public Nullable<int> VisitId { get; set; }

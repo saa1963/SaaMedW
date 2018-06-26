@@ -11,7 +11,10 @@ namespace SaaMedW
 {
     using System;
     
-    public enum enPaymentType : int
+    public enum enumStatusInvoice : int
     {
+        Неоплачен = 0,
+        Оплачен_частично = 1,
+        Оплачен = 2
     }
 }

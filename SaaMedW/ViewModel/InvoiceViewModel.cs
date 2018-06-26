@@ -7,12 +7,14 @@ using System.Threading.Tasks;
 using System.Data.Entity;
 using SaaMedW.View;
 using System.Diagnostics;
+using System.Windows;
 
 namespace SaaMedW.ViewModel
 {
     public class InvoiceViewModel : ViewModelBase
     {
         log4net.ILog log;
+        IAccounts accounts = (IAccounts)Service.ServiceLocator.Instance.GetService(typeof(IAccounts));
         private SaaMedEntities ctx = new SaaMedEntities();
         #region InvoiceList
         private ObservableCollection<VmInvoice> m_lst
@@ -31,8 +33,8 @@ namespace SaaMedW.ViewModel
                 new IdName { Id = 0, Name = "Неоплаченные" },
                 new IdName { Id = 1, Name = "Частично оплаченные" },
                 new IdName { Id = 2, Name = "Оплаченные" } };
-        private int m_StatusSel = -1;
-        public int StatusSel
+        private enumStatusInvoice? m_StatusSel = null;
+        public enumStatusInvoice? StatusSel
         {
             get => m_StatusSel;
             set
@@ -103,7 +105,7 @@ namespace SaaMedW.ViewModel
                 .Include(s => s.Person)
                 .Where(s => s.Dt >= Dt1 && s.Dt <= Dt2 
                     && (PersonSel != 0 ? s.PersonId == PersonSel : true)
-                    && (StatusSel != -1 ? s.Status == StatusSel : true)))
+                    && (StatusSel != null ? s.Status == StatusSel : true)))
             {
                 InvoiceList.Add(new VmInvoice(o));
             }
@@ -199,7 +201,8 @@ namespace SaaMedW.ViewModel
 
         public RelayCommand PayCommand
         {
-            get => new RelayCommand(PayInvoice, s => InvoiceSel != null && InvoiceSel.Status != 2);
+            get => new RelayCommand(PayInvoice, s => InvoiceSel != null 
+                && InvoiceSel.Status != enumStatusInvoice.Оплачен);
         }
 
         private void PayInvoice(object obj)
@@ -209,8 +212,9 @@ namespace SaaMedW.ViewModel
             if (f.ShowDialog() ?? false)
             {
                 var pay = Math.Min(viewModel.Sm, viewModel.КОплате);
-                IAccounts accounts = (IAccounts)Service.ServiceLocator.Instance.GetService(typeof(IAccounts));
                 accounts.PayOneInvoice(pay, InvoiceSel.Obj, viewModel.PaymentType);
+                ctx.Entry(InvoiceSel.Obj).Reload();
+                InvoiceSel.OnPropertyChanged("Status");
             }
         }
 
@@ -221,7 +225,15 @@ namespace SaaMedW.ViewModel
 
         private void BackMoney(object obj)
         {
-            throw new NotImplementedException();
+            if (!accounts.BackMoneyOneInvoice(InvoiceSel.Obj, out string message))
+            {
+                MessageBox.Show(message);
+            }
+            else
+            {
+                ctx.Entry(InvoiceSel.Obj).Reload();
+                InvoiceSel.OnPropertyChanged("Status");
+            }
         }
     }
 }

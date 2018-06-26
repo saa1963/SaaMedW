@@ -602,7 +602,7 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Dt" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="Status" Type="SaaMedModel.enumStatusInvoice" Nullable="false" />
           <Property Name="PersonId" Type="Int32" Nullable="false" />
           <Property Name="Sm" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
           <NavigationProperty Name="Person" Relationship="SaaMedModel.FK_Invoice_Person" FromRole="Invoice" ToRole="Person" />
@@ -803,11 +803,16 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EnumType Name="enPaymentType" />
         <EnumType Name="enumPaymentType">
           <Member Name="Наличные" Value="0" />
           <Member Name="Карта" Value="1" />
           <Member Name="Безналичные" Value="2" />
+          <Member Name="Возврат" Value="3" />
+        </EnumType>
+        <EnumType Name="enumStatusInvoice">
+          <Member Name="Неоплачен" Value="0" />
+          <Member Name="Оплачен_частично" Value="1" />
+          <Member Name="Оплачен" Value="2" />
         </EnumType>
       </Schema>
     </edmx:ConceptualModels>

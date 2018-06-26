@@ -15,6 +15,6 @@ namespace SaaMedW
         /// <param name="invoice">Оплачиваемый счет</param>
         /// <param name="paymentType">Вид оплаты</param>
         bool PayOneInvoice(decimal Sm, Invoice invoice, enumPaymentType paymentType);
-        bool BackMoneyOneInvoice(decimal Sm, Invoice invoice);
+        bool BackMoneyOneInvoice(Invoice invoice, out string message);
     }
 }
