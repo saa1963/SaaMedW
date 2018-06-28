@@ -1,22 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Data;
 using System.Data.Entity;
-using System.Windows.Input;
+using System;
+using SaaMedW.View;
 
 namespace SaaMedW.ViewModel
 {
     public class EditVisitViewModel : ViewModelBase
     {
         public SaaMedEntities ctx = new SaaMedEntities();
-
-        public ObservableCollection<Benefit> BenefitsList { get; set; } =
-                new ObservableCollection<Benefit>();
+        private VmBenefit m_BenefitSel = null;
+        public VmBenefit BenefitSel
+        {
+            get => m_BenefitSel;
+            set
+            {
+                m_BenefitSel = value;
+                OnPropertyChanged("BenefitSel");
+            }
+        }
         public ObservableCollection<EditPersonViewModel> PersonList { get; set; } =
                 new ObservableCollection<EditPersonViewModel>();
         private int m_SelectedPersonId;
@@ -32,13 +34,8 @@ namespace SaaMedW.ViewModel
         public bool IsSelectedPerson { get => SelectedPersonId > 0; }
         public ObservableCollection<PersonalVisitsViewModel> PersonalVisits { get; set; }
             = new ObservableCollection<PersonalVisitsViewModel>();
-        public int SelectedBenefitId { get; set; }
         public EditVisitViewModel()
         {
-            foreach(var o in ctx.Benefit.OrderBy(s => s.Name))
-            {
-                BenefitsList.Add(o);
-            }
             foreach (var o in ctx.Person.OrderBy(s => s.LastName).ThenBy(s => s.FirstName)
                 .ThenBy(s => s.MiddleName))
             {
@@ -51,21 +48,35 @@ namespace SaaMedW.ViewModel
         }
         private void RefreshGridProc(object obj)
         {
-            PersonalVisits.Clear();
-            Benefit curBenefit = BenefitsList.Single(s0 => s0.Id == SelectedBenefitId);
-            int specialtyCurrent = curBenefit.SpecialtyId;
-            foreach (var o in ctx.PersonalSpecialty.Include(s => s.Personal)
-                .Where(s => s.SpecialtyId == specialtyCurrent)
-                .Select(s => new PersonalVisitsViewModel()
-                    { PersonalId = s.PersonalId, PersonalFio = s.Personal.Fio }))
+            //PersonalVisits.Clear();
+            //Benefit curBenefit = BenefitsList.Single(s0 => s0.Id == SelectedBenefitId);
+            //int specialtyCurrent = curBenefit.SpecialtyId;
+            //foreach (var o in ctx.PersonalSpecialty.Include(s => s.Personal)
+            //    .Where(s => s.SpecialtyId == specialtyCurrent)
+            //    .Select(s => new PersonalVisitsViewModel()
+            //        { PersonalId = s.PersonalId, PersonalFio = s.Personal.Fio }))
+            //{
+            //    o.Parent = this;
+            //    o.Benefit = curBenefit;
+            //    o.Fill();
+            //    if (o.DateIntervals.Count > 0)
+            //        PersonalVisits.Add(o);
+            //}
+            //OnPropertyChanged("PersonalVisits");
+        }
+        public RelayCommand SelectBenefitCommand
+        {
+            get { return new RelayCommand(SelectBenefit); }
+        }
+
+        private void SelectBenefit(object obj)
+        {
+            var modelView = new SelectBenefitViewModel();
+            var f = new SelectBenefitView() { DataContext = modelView};
+            if (f.ShowDialog() ?? false)
             {
-                o.Parent = this;
-                o.Benefit = curBenefit;
-                o.Fill();
-                if (o.DateIntervals.Count > 0)
-                    PersonalVisits.Add(o);
+
             }
-            OnPropertyChanged("PersonalVisits");
         }
     }
 }

@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 namespace SaaMedW.View
 {
     /// <summary>
-    /// Логика взаимодействия для ReportView.xaml
+    /// Логика взаимодействия для SelectBenefitView.xaml
     /// </summary>
-    public partial class ReportView : Window
+    public partial class SelectBenefitView : Window
     {
-        public ReportView()
+        public SelectBenefitView()
         {
             InitializeComponent();
         }

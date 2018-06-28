@@ -33,8 +33,8 @@ namespace SaaMedW.ViewModel
                 new IdName { Id = 0, Name = "Неоплаченные" },
                 new IdName { Id = 1, Name = "Частично оплаченные" },
                 new IdName { Id = 2, Name = "Оплаченные" } };
-        private enumStatusInvoice? m_StatusSel = null;
-        public enumStatusInvoice? StatusSel
+        private int m_StatusSel = -1;
+        public int StatusSel
         {
             get => m_StatusSel;
             set
@@ -105,7 +105,7 @@ namespace SaaMedW.ViewModel
                 .Include(s => s.Person)
                 .Where(s => s.Dt >= Dt1 && s.Dt <= Dt2 
                     && (PersonSel != 0 ? s.PersonId == PersonSel : true)
-                    && (StatusSel != null ? s.Status == StatusSel : true)))
+                    && (StatusSel != -1 ? (int)s.Status == StatusSel : true)))
             {
                 InvoiceList.Add(new VmInvoice(o));
             }
@@ -233,6 +233,7 @@ namespace SaaMedW.ViewModel
             {
                 ctx.Entry(InvoiceSel.Obj).Reload();
                 InvoiceSel.OnPropertyChanged("Status");
+                MessageBox.Show("Возврат произведен.");
             }
         }
     }

@@ -56,8 +56,11 @@ namespace SaaMedW.View
             if (e.LeftButton == MouseButtonState.Pressed)
             {
                 o = DataContext as ListGraphicViewModel;
-                DataObject data = new DataObject(o.Current);
-                DragDrop.DoDragDrop(sender as TextBlock, data, DragDropEffects.Copy);
+                if (o.Current != null)
+                {
+                    DataObject data = new DataObject(o.Current);
+                    DragDrop.DoDragDrop(sender as TextBlock, data, DragDropEffects.Copy);
+                }
             }
         }
     }

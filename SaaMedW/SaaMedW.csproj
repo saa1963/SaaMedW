@@ -198,14 +198,15 @@
     <Compile Include="ViewModel\PayInvoiceViewModel.cs" />
     <Compile Include="ViewModel\PersonalVisitsViewModel.cs" />
     <Compile Include="ViewModel\Report_InvoiceViewModel.cs" />
+    <Compile Include="ViewModel\SelectBenefitViewModel.cs" />
     <Compile Include="ViewModel\SelectSpecialtyViewModel.cs" />
     <Compile Include="ViewModel\VisitTimeInterval.cs" />
     <Compile Include="ViewModel\VisitViewModel.cs" />
     <Compile Include="View\PayInvoiceView.xaml.cs">
       <DependentUpon>PayInvoiceView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\ReportView.xaml.cs">
-      <DependentUpon>ReportView.xaml</DependentUpon>
+    <Compile Include="View\SelectBenefitView.xaml.cs">
+      <DependentUpon>SelectBenefitView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\SelectSpecialtyView.xaml.cs">
       <DependentUpon>SelectSpecialtyView.xaml</DependentUpon>
@@ -389,7 +390,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\ReportView.xaml">
+    <Page Include="View\SelectBenefitView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -462,6 +463,7 @@
     <Resource Include="image\icons8-печать-32.png" />
     <Resource Include="image\icons8-ruble-32.png" />
     <Resource Include="image\icons8-request-money-32.png" />
+    <Resource Include="image\folder-open_32.png" />
     <Content Include="Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Model1.Context.cs</LastGenOutput>

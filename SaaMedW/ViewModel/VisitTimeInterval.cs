@@ -42,7 +42,7 @@ namespace SaaMedW.ViewModel
                 PersonalId = this.PersonalId,
                 Status = 0
             };
-            var benefit = root.ctx.Benefit.Find(root.SelectedBenefitId);
+            var benefit = root.ctx.Benefit.Find(root.BenefitSel.Id);
             visit.VisitBenefit.Add(new VisitBenefit() { Benefit = benefit, Kol = 1, Status = 0 });
             root.ctx.Visit.Add(visit);
             root.ctx.SaveChanges();

@@ -42,9 +42,16 @@
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition></RowDefinition>
             </Grid.RowDefinitions>
-            <WrapPanel Grid.Row="0">
-                <Label>Услуги</Label>
-                <ComboBox MinWidth="300" ItemsSource="{Binding BenefitsList}" 
+            <DockPanel Grid.Row="0">
+                <Label DockPanel.Dock="Left">Услуги</Label>
+                <Label x:Name="tbBenefit" BorderThickness="1" BorderBrush="Black" 
+                       Content="{Binding BenefitSel.Name}" DockPanel.Dock="Left" Width="200"></Label>
+                <Button DockPanel.Dock="Left" 
+                    Height="{Binding ElementName=tbBenefit, Path=ActualHeight}"
+                    Command="{Binding SelectBenefitCommand}">
+                    <Image Source="..\..\image\folder-open_32.png"></Image>
+                </Button>
+                <!--<ComboBox MinWidth="300" ItemsSource="{Binding BenefitsList}" 
                         DisplayMemberPath="Name" 
                         SelectedValue="{Binding SelectedBenefitId}"
                         SelectedValuePath="Id"
@@ -54,7 +61,7 @@
                             <i:InvokeCommandAction Command="{Binding RefreshGrid}"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
-                </ComboBox>
+                </ComboBox>-->
                 <Label>Пациент</Label>
                 <ComboBox x:Name="PersonCombo" MinWidth="300" ItemsSource="{Binding PersonList}" 
                         DisplayMemberPath="FullName" 
@@ -62,7 +69,7 @@
                         SelectedValuePath="Id"
                         >
                 </ComboBox>
-            </WrapPanel>
+            </DockPanel>
             <ItemsControl Grid.Row="1" Margin="5" ItemsSource="{Binding PersonalVisits}" BorderBrush="Transparent">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
