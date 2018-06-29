@@ -76,5 +76,24 @@ namespace SaaMedW.ViewModel
                 OnPropertyChanged("Specialty");
             }
         }
+        public delegate void CargoDelegate(VmBenefit o);
+        public CargoDelegate Cargo { get; set; }
+        private bool m_IsSelectedBenefit;
+        public bool IsSelectedBenefit
+        {
+            get => m_IsSelectedBenefit;
+            set
+            {
+                if (m_IsSelectedBenefit != value)
+                {
+                    m_IsSelectedBenefit = value;
+                    OnPropertyChanged("IsSelectedBenefit");
+                    if (m_IsSelectedBenefit)
+                    {
+                        Cargo(this);
+                    }
+                }
+            }
+        }
     }
 }

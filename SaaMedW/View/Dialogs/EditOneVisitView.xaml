@@ -102,6 +102,15 @@
         </Grid>
         <DockPanel Grid.Column="1">
             <Label DockPanel.Dock="Top" Content="Все услуги"></Label>
+            <TreeView Margin="0,0,10,0" MinWidth="200" DockPanel.Dock="Top" 
+                BorderBrush="Transparent"
+                ItemsSource="{Binding SpecialtyList}">
+                <TreeView.ItemTemplate>
+                    <HierarchicalDataTemplate ItemsSource="{Binding ChildSpecialties}">
+                        <TextBlock Text="{Binding Name}"></TextBlock>
+                    </HierarchicalDataTemplate>
+                </TreeView.ItemTemplate>
+            </TreeView>
             <ListBox DockPanel.Dock="Top" MinWidth="100" ItemsSource="{Binding ListBenefit}"
                  DisplayMemberPath="Name" IsSynchronizedWithCurrentItem="True"
                  SelectedItem="{Binding SelectedBenefit1}"></ListBox>

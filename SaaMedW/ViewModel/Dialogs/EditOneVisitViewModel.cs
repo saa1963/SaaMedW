@@ -9,6 +9,9 @@ namespace SaaMedW.ViewModel
 {
     public class EditOneVisitViewModel: ViewModelBase
     {
+        private ObservableCollection<VmSpecialty> m_specialty
+            = new ObservableCollection<VmSpecialty>();
+        private List<Specialty> lst;
         private SaaMedEntities ctx = new SaaMedEntities();
         private int m_PersonId;
         private int m_PersonalId;
@@ -16,11 +19,19 @@ namespace SaaMedW.ViewModel
         private int m_Duration;
         private int m_Status;
 
+        public ObservableCollection<VmSpecialty> SpecialtyList { get => m_specialty; }
         public List<Person> ListPerson { get; private set; }
         public List<Personal> ListPersonal { get; private set; }
         public List<IdName> ListStatus { get; private set; } = new List<IdName>();
         public EditOneVisitViewModel()
         {
+            lst = ctx.Specialty.ToList();
+            foreach (var sp in lst.Where(s => !s.ParentId.HasValue)
+                .Select(s => new VmSpecialty(s) { Cargo = SelectedItemMethod }))
+            {
+                BuildTree(sp);
+                m_specialty.Add(sp);
+            }
             ListPerson = ctx.Person.OrderBy(s => s.LastName).ThenBy(s => s.FirstName)
                 .ThenBy(s => s.MiddleName).ToList();
             ListPersonal = ctx.Personal.Where(s => s.Active).OrderBy(s => s.Fio).ToList();
@@ -45,6 +56,22 @@ namespace SaaMedW.ViewModel
                 ListBenefit.Remove(ListBenefit.Single(s => s.Id == o.BenefitId));
             }
             
+        }
+        private void BuildTree(VmSpecialty sp)
+        {
+            sp.ChildSpecialties.Clear();
+            foreach (var sp0 in lst.Where(s => s.ParentId == sp.Id)
+                .Select(s => new VmSpecialty(s) { Cargo = SelectedItemMethod }))
+            {
+                sp0.ParentSpecialty = sp;
+                sp.ChildSpecialties.Add(sp0);
+                BuildTree(sp0);
+            }
+        }
+        private void SelectedItemMethod(VmSpecialty o)
+        {
+            SpecialtySel = o;
+            RefreshDataBenefits();
         }
         public ObservableCollection<VisitBenefit> VisitBenefit { get; set; } 
             = new ObservableCollection<VisitBenefit>();

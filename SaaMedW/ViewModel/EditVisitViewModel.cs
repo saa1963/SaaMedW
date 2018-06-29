@@ -48,21 +48,22 @@ namespace SaaMedW.ViewModel
         }
         private void RefreshGridProc(object obj)
         {
-            //PersonalVisits.Clear();
-            //Benefit curBenefit = BenefitsList.Single(s0 => s0.Id == SelectedBenefitId);
-            //int specialtyCurrent = curBenefit.SpecialtyId;
-            //foreach (var o in ctx.PersonalSpecialty.Include(s => s.Personal)
-            //    .Where(s => s.SpecialtyId == specialtyCurrent)
-            //    .Select(s => new PersonalVisitsViewModel()
-            //        { PersonalId = s.PersonalId, PersonalFio = s.Personal.Fio }))
-            //{
-            //    o.Parent = this;
-            //    o.Benefit = curBenefit;
-            //    o.Fill();
-            //    if (o.DateIntervals.Count > 0)
-            //        PersonalVisits.Add(o);
-            //}
-            //OnPropertyChanged("PersonalVisits");
+            if (BenefitSel == null) return;
+            PersonalVisits.Clear();
+            Benefit curBenefit = BenefitSel.Obj;
+            int specialtyCurrent = curBenefit.SpecialtyId;
+            foreach (var o in ctx.PersonalSpecialty.Include(s => s.Personal)
+                .Where(s => s.SpecialtyId == specialtyCurrent)
+                .Select(s => new PersonalVisitsViewModel()
+                { PersonalId = s.PersonalId, PersonalFio = s.Personal.Fio }))
+            {
+                o.Parent = this;
+                o.Benefit = curBenefit;
+                o.Fill();
+                if (o.DateIntervals.Count > 0)
+                    PersonalVisits.Add(o);
+            }
+            OnPropertyChanged("PersonalVisits");
         }
         public RelayCommand SelectBenefitCommand
         {
@@ -75,7 +76,8 @@ namespace SaaMedW.ViewModel
             var f = new SelectBenefitView() { DataContext = modelView};
             if (f.ShowDialog() ?? false)
             {
-
+                BenefitSel = modelView.BenefitSel;
+                RefreshGridProc(null);
             }
         }
     }

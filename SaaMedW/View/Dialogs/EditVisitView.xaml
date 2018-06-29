@@ -42,31 +42,23 @@
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition></RowDefinition>
             </Grid.RowDefinitions>
-            <DockPanel Grid.Row="0">
+            <DockPanel Grid.Row="0" LastChildFill="False">
                 <Label DockPanel.Dock="Left">Услуги</Label>
                 <Label x:Name="tbBenefit" BorderThickness="1" BorderBrush="Black" 
-                       Content="{Binding BenefitSel.Name}" DockPanel.Dock="Left" Width="200"></Label>
+                       Content="{Binding BenefitSel.Name}" DockPanel.Dock="Left" 
+                       ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Content}" 
+                       Width="300"></Label>
                 <Button DockPanel.Dock="Left" 
                     Height="{Binding ElementName=tbBenefit, Path=ActualHeight}"
                     Command="{Binding SelectBenefitCommand}">
                     <Image Source="..\..\image\folder-open_32.png"></Image>
                 </Button>
-                <!--<ComboBox MinWidth="300" ItemsSource="{Binding BenefitsList}" 
-                        DisplayMemberPath="Name" 
-                        SelectedValue="{Binding SelectedBenefitId}"
-                        SelectedValuePath="Id"
-                        >
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="SelectionChanged">
-                            <i:InvokeCommandAction Command="{Binding RefreshGrid}"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </ComboBox>-->
-                <Label>Пациент</Label>
+                <Label DockPanel.Dock="Left">Пациент</Label>
                 <ComboBox x:Name="PersonCombo" MinWidth="300" ItemsSource="{Binding PersonList}" 
                         DisplayMemberPath="FullName" 
                         SelectedValue="{Binding SelectedPersonId}"
                         SelectedValuePath="Id"
+                        DockPanel.Dock="Left"
                         >
                 </ComboBox>
             </DockPanel>

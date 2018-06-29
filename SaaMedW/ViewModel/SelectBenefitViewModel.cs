@@ -45,10 +45,15 @@ namespace SaaMedW.ViewModel
                 foreach (var o in ctx.Benefit.Include("Specialty")
                     .Where(s => s.SpecialtyId == SpecialtySel.Id))
                 {
-                    var benefit = new VmBenefit(o);
+                    var benefit = new VmBenefit(o) { Cargo = SelectedBenefitMethod};
                     m_lst.Add(benefit);
                 }
             }
+        }
+
+        private void SelectedBenefitMethod(VmBenefit o)
+        {
+            BenefitSel = o;
         }
 
         private void SelectedItemMethod(VmSpecialty o)

@@ -23,5 +23,10 @@ namespace SaaMedW.View
         {
             InitializeComponent();
         }
+
+        private void Mouse_DoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            DialogResult = true;
+        }
     }
 }
