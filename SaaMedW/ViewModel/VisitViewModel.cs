@@ -20,7 +20,8 @@ namespace SaaMedW.ViewModel
             get => _selectedDate; set
             {
                 _selectedDate = value;
-                OnPropertyChanged("ListVisit");
+                //OnPropertyChanged("ListVisit");
+                RefreshData();
             }
         }
 

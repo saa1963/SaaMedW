@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SaaMedW.View"
         xmlns:local0="clr-namespace:SaaMedW"
-        mc:Ignorable="d" SizeToContent="WidthAndHeight" ResizeMode="NoResize"
+        mc:Ignorable="d" Height="700" Width="1000"
         WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <Style TargetType="{x:Type TextBox}">
@@ -16,6 +16,9 @@
                         Path=(Validation.Errors)[0].ErrorContent}"/>
                 </Trigger>
             </Style.Triggers>
+        </Style>
+        <Style TargetType="{x:Type TreeViewItem}">
+            <Setter Property="IsSelected" Value="{Binding IsSelected}" />
         </Style>
     </Window.Resources>
     <Grid Margin="15,15,15,15">
@@ -102,18 +105,21 @@
         </Grid>
         <DockPanel Grid.Column="1">
             <Label DockPanel.Dock="Top" Content="Все услуги"></Label>
-            <TreeView Margin="0,0,10,0" MinWidth="200" DockPanel.Dock="Top" 
+            <TreeView Margin="0,0,10,0" Width="300" DockPanel.Dock="Top" 
                 BorderBrush="Transparent"
                 ItemsSource="{Binding SpecialtyList}">
                 <TreeView.ItemTemplate>
                     <HierarchicalDataTemplate ItemsSource="{Binding ChildSpecialties}">
-                        <TextBlock Text="{Binding Name}"></TextBlock>
+                        <Border Margin="2">
+                            <TextBlock Width="200" TextWrapping="Wrap">
+                                <Run Text="- "></Run>
+                                <Run Text="{Binding Name}"></Run>
+                            </TextBlock>
+                            <!--<TextBlock Text="{Binding Name}" Width="200" TextWrapping="Wrap"></TextBlock>-->
+                        </Border>
                     </HierarchicalDataTemplate>
                 </TreeView.ItemTemplate>
             </TreeView>
-            <ListBox DockPanel.Dock="Top" MinWidth="100" ItemsSource="{Binding ListBenefit}"
-                 DisplayMemberPath="Name" IsSynchronizedWithCurrentItem="True"
-                 SelectedItem="{Binding SelectedBenefit1}"></ListBox>
         </DockPanel>
         <StackPanel Grid.Column="2" VerticalAlignment="Center">
             <Button Margin="10" Command="{Binding AddBenefitCommand}">

@@ -115,6 +115,7 @@ namespace SaaMedW.ViewModel
                 }
             }
         }
+        public bool ReallyThisBenefit { get; set; } = false;
     }
 
     public class VmSpecialtyEqualityComparer : IEqualityComparer<VmSpecialty>

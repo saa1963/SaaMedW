@@ -35,10 +35,6 @@ namespace SaaMedW.ViewModel
             ListPerson = ctx.Person.OrderBy(s => s.LastName).ThenBy(s => s.FirstName)
                 .ThenBy(s => s.MiddleName).ToList();
             ListPersonal = ctx.Personal.Where(s => s.Active).OrderBy(s => s.Fio).ToList();
-            foreach (var o in ctx.Benefit.OrderBy(s => s.SpecialtyId))
-            {
-                ListBenefit.Add(o);
-            }
             ListStatus.Add(new IdName() { Id = 0, Name = "Предварительный" });
             ListStatus.Add(new IdName() { Id = 1, Name = "Завершен" });
         }
@@ -53,7 +49,7 @@ namespace SaaMedW.ViewModel
             {
                 VisitBenefit.Add(new VisitBenefit()
                     { BenefitId = o.BenefitId, Benefit = ctx.Benefit.Find(o.BenefitId), Kol = o.Kol });
-                ListBenefit.Remove(ListBenefit.Single(s => s.Id == o.BenefitId));
+                //ListBenefit.Remove(ListBenefit.Single(s => s.Id == o.BenefitId));
             }
             
         }
@@ -67,16 +63,36 @@ namespace SaaMedW.ViewModel
                 sp.ChildSpecialties.Add(sp0);
                 BuildTree(sp0);
             }
+            if (sp.ChildSpecialties.Count == 0)
+            {
+                foreach (var benefit in ctx.Benefit.Where(s => s.SpecialtyId == sp.Id))
+                {
+                    var o = new VmSpecialty()
+                    {
+                        Id = benefit.Id,
+                        Name = benefit.Name,
+                        ParentSpecialty = sp,
+                        ParentId = sp.Id,
+                        Cargo = SelectedItemMethod,
+                        ReallyThisBenefit = true
+                    };
+                    sp.ChildSpecialties.Add(o);
+                }
+            }
         }
         private void SelectedItemMethod(VmSpecialty o)
         {
-            SpecialtySel = o;
-            RefreshDataBenefits();
+            if (o.ReallyThisBenefit)
+            {
+                SelectedBenefit1 = ctx.Benefit.Find(o.Id);
+            }
+            else
+            {
+                SelectedBenefit1 = null;
+            }
         }
         public ObservableCollection<VisitBenefit> VisitBenefit { get; set; } 
             = new ObservableCollection<VisitBenefit>();
-        public ObservableCollection<Benefit> ListBenefit { get; set; }
-            = new ObservableCollection<Benefit>();
         public Benefit SelectedBenefit1 { get; set; }
         public VisitBenefit SelectedBenefit2 { get; set; }
         public int PersonId
@@ -132,14 +148,14 @@ namespace SaaMedW.ViewModel
         }
         public RelayCommand AddBenefitCommand
         {
-            get => new RelayCommand(AddBenefit, s => SelectedBenefit1 != null);
+            get => new RelayCommand(AddBenefit, s => SelectedBenefit1 != null 
+                && VisitBenefit.SingleOrDefault(s0 => s0.BenefitId == SelectedBenefit1.Id) == null);
         }
 
         private void AddBenefit(object obj)
         {
             VisitBenefit.Add(new VisitBenefit()
                 { BenefitId = SelectedBenefit1.Id, Benefit = SelectedBenefit1, Kol = 1  });
-            ListBenefit.Remove(SelectedBenefit1);
         }
         public RelayCommand RemoveBenefitCommand
         {
@@ -148,7 +164,6 @@ namespace SaaMedW.ViewModel
 
         private void RemoveBenefit(object obj)
         {
-            ListBenefit.Add(SelectedBenefit2.Benefit);
             VisitBenefit.Remove(SelectedBenefit2);
         }
     }
