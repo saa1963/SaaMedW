@@ -150,7 +150,8 @@ namespace SaaMedW.ViewModel
 
         public RelayCommand EditCommand
         {
-            get => new RelayCommand(EditInvoice, s => InvoiceSel != null);
+            get => new RelayCommand(EditInvoice, s => InvoiceSel != null 
+                && InvoiceSel.Status == enumStatusInvoice.Неоплачен);
         }
 
         private void EditInvoice(object obj)
@@ -175,7 +176,8 @@ namespace SaaMedW.ViewModel
 
         public RelayCommand DelCommand
         {
-            get => new RelayCommand(DelInvoice, s => InvoiceSel != null);
+            get => new RelayCommand(DelInvoice, s => InvoiceSel != null 
+                && InvoiceSel.Status == enumStatusInvoice.Неоплачен);
         }
 
         private void DelInvoice(object obj)

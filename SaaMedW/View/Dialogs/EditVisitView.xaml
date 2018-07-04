@@ -35,6 +35,9 @@
                 </Label>
             </Border>
         </DataTemplate>
+        <Style TargetType="TreeViewItem">
+            <Setter Property="IsSelected" Value="{Binding IsSelected}"></Setter>
+        </Style>
     </UserControl.Resources>
     <Border Padding="10">
         <Grid>
@@ -43,16 +46,38 @@
                 <RowDefinition></RowDefinition>
             </Grid.RowDefinitions>
             <DockPanel Grid.Row="0" LastChildFill="False">
-                <Label DockPanel.Dock="Left">Услуги</Label>
-                <Label x:Name="tbBenefit" BorderThickness="1" BorderBrush="Black" 
-                       Content="{Binding BenefitSel.Name}" DockPanel.Dock="Left" 
-                       ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Content}" 
-                       Width="300"></Label>
-                <Button DockPanel.Dock="Left" 
-                    Height="{Binding ElementName=tbBenefit, Path=ActualHeight}"
-                    Command="{Binding SelectBenefitCommand}">
-                    <Image Source="..\..\image\folder-open_32.png"></Image>
-                </Button>
+                <StackPanel DockPanel.Dock="Left">
+                    <DockPanel>
+                        <Label DockPanel.Dock="Left">Услуги</Label>
+                        <Label x:Name="tbBenefit" BorderThickness="1" BorderBrush="Black" 
+                            Content="{Binding BenefitSel.Name}" DockPanel.Dock="Left" 
+                            ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Content}" 
+                            Width="300"></Label>
+                        <Button DockPanel.Dock="Left" 
+                            Height="{Binding ElementName=tbBenefit, Path=ActualHeight}"
+                            Click="BenefitButton_Click">
+                            <Image Source="..\..\image\folder-open_32.png"></Image>
+                        </Button>
+                    </DockPanel>
+                    <Popup x:Name="tbPopup" IsOpen="{Binding IsOpen}">
+                        <Border>
+                            <TreeView Margin="0,0,10,0" Width="300" DockPanel.Dock="Top" 
+                                BorderBrush="Transparent"
+                                ItemsSource="{Binding SpecialtyList}">
+                                <TreeView.ItemTemplate>
+                                    <HierarchicalDataTemplate ItemsSource="{Binding ChildSpecialties}">
+                                        <Border Margin="2">
+                                            <TextBlock Width="200" TextWrapping="Wrap">
+                                                <Run Text="- "></Run>
+                                                <Run Text="{Binding Name}"></Run>
+                                            </TextBlock>
+                                        </Border>
+                                    </HierarchicalDataTemplate>
+                                </TreeView.ItemTemplate>
+                            </TreeView>
+                        </Border>
+                    </Popup>
+                </StackPanel>
                 <Label DockPanel.Dock="Left">Пациент</Label>
                 <ComboBox x:Name="PersonCombo" MinWidth="300" ItemsSource="{Binding PersonList}" 
                         DisplayMemberPath="FullName" 

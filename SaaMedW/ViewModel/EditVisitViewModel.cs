@@ -3,14 +3,70 @@ using System.Linq;
 using System.Data.Entity;
 using System;
 using SaaMedW.View;
+using System.Collections.Generic;
 
 namespace SaaMedW.ViewModel
 {
     public class EditVisitViewModel : ViewModelBase
     {
+        private bool m_IsOpen;
+        public bool IsOpen
+        {
+            get => m_IsOpen;
+            set
+            {
+                m_IsOpen = value;
+                OnPropertyChanged("IsOpen");
+            }
+        }
+        private ObservableCollection<VmSpecialty> m_specialty
+            = new ObservableCollection<VmSpecialty>();
+        private List<Specialty> lst;
+        public ObservableCollection<VmSpecialty> SpecialtyList { get => m_specialty; }
+        private void BuildTree(VmSpecialty sp)
+        {
+            sp.ChildSpecialties.Clear();
+            foreach (var sp0 in lst.Where(s => s.ParentId == sp.Id)
+                .Select(s => new VmSpecialty(s) { Cargo = SelectedItemMethod }))
+            {
+                sp0.ParentSpecialty = sp;
+                sp.ChildSpecialties.Add(sp0);
+                BuildTree(sp0);
+            }
+            if (sp.ChildSpecialties.Count == 0)
+            {
+                foreach (var benefit in ctx.Benefit.Where(s => s.SpecialtyId == sp.Id))
+                {
+                    var o = new VmSpecialty()
+                    {
+                        Id = benefit.Id,
+                        Name = benefit.Name,
+                        ParentSpecialty = sp,
+                        ParentId = sp.Id,
+                        Cargo = SelectedItemMethod,
+                        ReallyThisBenefit = true
+                    };
+                    sp.ChildSpecialties.Add(o);
+                }
+            }
+        }
+
+        private void SelectedItemMethod(VmSpecialty o)
+        {
+            if (o.ReallyThisBenefit)
+            {
+                BenefitSel = ctx.Benefit.Find(o.Id);
+                IsOpen = false;
+            }
+            else
+            {
+                BenefitSel = null;
+            }
+        }
+
         public SaaMedEntities ctx = new SaaMedEntities();
-        private VmBenefit m_BenefitSel = null;
-        public VmBenefit BenefitSel
+        private Benefit m_BenefitSel = null;
+        public Benefit BenefitSel
         {
             get => m_BenefitSel;
             set
@@ -36,6 +92,14 @@ namespace SaaMedW.ViewModel
             = new ObservableCollection<PersonalVisitsViewModel>();
         public EditVisitViewModel()
         {
+            lst = ctx.Specialty.ToList();
+            foreach (var sp in lst.Where(s => !s.ParentId.HasValue)
+                .Select(s => new VmSpecialty(s) { Cargo = SelectedItemMethod }))
+            {
+                BuildTree(sp);
+                m_specialty.Add(sp);
+            }
+
             foreach (var o in ctx.Person.OrderBy(s => s.LastName).ThenBy(s => s.FirstName)
                 .ThenBy(s => s.MiddleName))
             {
@@ -50,7 +114,7 @@ namespace SaaMedW.ViewModel
         {
             if (BenefitSel == null) return;
             PersonalVisits.Clear();
-            Benefit curBenefit = BenefitSel.Obj;
+            Benefit curBenefit = BenefitSel;
             int specialtyCurrent = curBenefit.SpecialtyId;
             foreach (var o in ctx.PersonalSpecialty.Include(s => s.Personal)
                 .Where(s => s.SpecialtyId == specialtyCurrent)
@@ -65,20 +129,20 @@ namespace SaaMedW.ViewModel
             }
             OnPropertyChanged("PersonalVisits");
         }
-        public RelayCommand SelectBenefitCommand
-        {
-            get { return new RelayCommand(SelectBenefit); }
-        }
+        //public RelayCommand SelectBenefitCommand
+        //{
+        //    get { return new RelayCommand(SelectBenefit); }
+        //}
 
-        private void SelectBenefit(object obj)
-        {
-            var modelView = new SelectBenefitViewModel();
-            var f = new SelectBenefitView() { DataContext = modelView};
-            if (f.ShowDialog() ?? false)
-            {
-                BenefitSel = modelView.BenefitSel;
-                RefreshGridProc(null);
-            }
-        }
+        //private void SelectBenefit(object obj)
+        //{
+        //    var modelView = new SelectBenefitViewModel();
+        //    var f = new SelectBenefitView() { DataContext = modelView};
+        //    if (f.ShowDialog() ?? false)
+        //    {
+        //        BenefitSel = modelView.BenefitSel;
+        //        RefreshGridProc(null);
+        //    }
+        //}
     }
 }

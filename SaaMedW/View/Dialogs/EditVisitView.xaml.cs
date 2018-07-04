@@ -31,5 +31,12 @@ namespace SaaMedW.View
             scv.ScrollToVerticalOffset(scv.VerticalOffset - e.Delta);
             e.Handled = true;
         }
+
+        private void BenefitButton_Click(object sender, RoutedEventArgs e)
+        {
+            tbPopup.IsOpen = !tbPopup.IsOpen;
+        }
+
+
     }
 }

@@ -27,7 +27,7 @@
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="Auto"></ColumnDefinition>
             <ColumnDefinition Width="Auto"></ColumnDefinition>
-            <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid Grid.Column="0" Margin="0, 0, 15, 0">
             <Grid.RowDefinitions>
@@ -115,7 +115,6 @@
                                 <Run Text="- "></Run>
                                 <Run Text="{Binding Name}"></Run>
                             </TextBlock>
-                            <!--<TextBlock Text="{Binding Name}" Width="200" TextWrapping="Wrap"></TextBlock>-->
                         </Border>
                     </HierarchicalDataTemplate>
                 </TreeView.ItemTemplate>
@@ -131,7 +130,7 @@
         </StackPanel>
         <DockPanel Grid.Column="3">
             <Label DockPanel.Dock="Top" Content="Выбранные услуги (Кол. + Наименование)"></Label>
-            <ListBox DockPanel.Dock="Top" MinWidth="100" ItemsSource="{Binding VisitBenefit}"
+            <ListBox DockPanel.Dock="Top" ItemsSource="{Binding VisitBenefit}"
                  IsSynchronizedWithCurrentItem="True"
                  SelectedItem="{Binding SelectedBenefit2}">
                 <ListBox.ItemTemplate>
@@ -140,7 +139,9 @@
                             <TextBox Margin="5" DockPanel.Dock="Left" Text="{Binding Kol, 
                             UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:0}}"
                                     Width="40" HorizontalContentAlignment="Right"></TextBox>
-                            <TextBlock Margin="5" DockPanel.Dock="Left" Text="{Binding Benefit.Name}"></TextBlock>
+                            <TextBlock Margin="5" DockPanel.Dock="Left" 
+                                       Width="310" TextWrapping="Wrap"
+                                       Text="{Binding Benefit.Name}"></TextBlock>
                         </DockPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
