@@ -447,6 +447,7 @@
     <None Include="templates\Медкарта.docx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="templates\Согласие.docx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

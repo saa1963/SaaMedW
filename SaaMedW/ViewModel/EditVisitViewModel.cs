@@ -62,6 +62,7 @@ namespace SaaMedW.ViewModel
             {
                 BenefitSel = null;
             }
+            RefreshGridProc(null);
         }
 
         public SaaMedEntities ctx = new SaaMedEntities();
@@ -112,12 +113,13 @@ namespace SaaMedW.ViewModel
         }
         private void RefreshGridProc(object obj)
         {
-            if (BenefitSel == null) return;
             PersonalVisits.Clear();
+            if (BenefitSel == null) return;
             Benefit curBenefit = BenefitSel;
             int specialtyCurrent = curBenefit.SpecialtyId;
             foreach (var o in ctx.PersonalSpecialty.Include(s => s.Personal)
-                .Where(s => s.SpecialtyId == specialtyCurrent)
+                //.Where(s => s.SpecialtyId == specialtyCurrent)
+                .Where(ПроверкаНаСпециальность)
                 .Select(s => new PersonalVisitsViewModel()
                 { PersonalId = s.PersonalId, PersonalFio = s.Personal.Fio }))
             {
@@ -129,20 +131,17 @@ namespace SaaMedW.ViewModel
             }
             OnPropertyChanged("PersonalVisits");
         }
-        //public RelayCommand SelectBenefitCommand
-        //{
-        //    get { return new RelayCommand(SelectBenefit); }
-        //}
 
-        //private void SelectBenefit(object obj)
-        //{
-        //    var modelView = new SelectBenefitViewModel();
-        //    var f = new SelectBenefitView() { DataContext = modelView};
-        //    if (f.ShowDialog() ?? false)
-        //    {
-        //        BenefitSel = modelView.BenefitSel;
-        //        RefreshGridProc(null);
-        //    }
-        //}
+        private bool ПроверкаНаСпециальность(PersonalSpecialty arg)
+        {
+            // это специальность к которой подвязана выбранная услуга
+            Specialty specialty = ctx.Specialty.Find(BenefitSel.SpecialtyId);
+            while (arg.SpecialtyId != specialty.Id && specialty.ParentId != null)
+            {
+                specialty = ctx.Specialty.Find(specialty.ParentId);
+            }
+            if (arg.SpecialtyId == specialty.Id) return true;
+            else return false;
+        }
     }
 }
