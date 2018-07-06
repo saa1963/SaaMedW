@@ -112,5 +112,20 @@ namespace SaaMedW.ViewModel
             var person = CardsSel as EditPersonViewModel;
             new MedCard().DoIt(person.Obj);
         }
+
+        public RelayCommand Vmesh
+        {
+            get
+            {
+                return new RelayCommand(PrintVmesh);
+            }
+        }
+
+        private void PrintVmesh(object obj)
+        {
+            if (CardsSel == null) return;
+            var person = CardsSel as EditPersonViewModel;
+            new Vmesh().DoIt(person.Obj);
+        }
     }
 }

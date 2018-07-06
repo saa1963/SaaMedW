@@ -26,6 +26,8 @@
             <MenuItem Header="Печать">
                 <MenuItem Header="Медкарта" Command="{Binding MedCard}">
                 </MenuItem>
+                <MenuItem Header="Согласие на вмешательство" Command="{Binding Vmesh}">
+                </MenuItem>
             </MenuItem>
             <MenuItem Header="Посещения" Command="{Binding Visits}">
             </MenuItem>

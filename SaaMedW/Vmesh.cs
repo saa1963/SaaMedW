@@ -1,0 +1,41 @@
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Xceed.Words.NET;
+
+namespace SaaMedW
+{
+    public class Vmesh
+    {
+        public void DoIt(Person person)
+        {
+            var templateName =
+                Path.Combine(Path.GetDirectoryName(
+                    System.Reflection.Assembly.GetExecutingAssembly().Location), "templates", "Согласие.docx");
+            var tmpName = Global.Source.GetTempFilename(".docx");
+            File.Copy(templateName, tmpName);
+            using (var fs = new FileStream(tmpName, FileMode.Open, FileAccess.ReadWrite))
+            {
+                using (var doc = DocX.Load(fs))
+                {
+                    doc.InsertAtBookmark(person.Fio, "fio");
+                    if (person.BirthDate.HasValue)
+                    {
+                        var birthDate = person.BirthDate.Value;
+                        doc.InsertAtBookmark(
+                            birthDate.Day.ToString() + " " +
+                            Global.Source.GetNameOfMonth(birthDate.Month) + " " +
+                            birthDate.Year.ToString(), "birth");
+                    }
+                    doc.InsertAtBookmark(person.FullAddress, "address");
+                    doc.InsertAtBookmark(Options.GetString(enumParameterType.Наименование_организации, 0), "firma");
+                    doc.Save();
+                }
+            }
+            System.Diagnostics.Process.Start(tmpName);
+        }
+    }
+}

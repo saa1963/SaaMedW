@@ -57,6 +57,16 @@
           <Property Name="Sm" Type="money" Nullable="false" />
           <Property Name="InvoiceId" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="Options">
+          <Key>
+            <PropertyRef Name="ParameterType" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="ParameterType" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="ParameterValue" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="DataType" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
         <EntityType Name="Pays">
           <Key>
             <PropertyRef Name="Id" />
@@ -323,6 +333,7 @@
           <EntitySet Name="Graphic" EntityType="Self.Graphic" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Invoice" EntityType="Self.Invoice" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="InvoiceDetail" EntityType="Self.InvoiceDetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Options" EntityType="Self.Options" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Pays" EntityType="Self.Pays" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Person" EntityType="Self.Person" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Personal" EntityType="Self.Personal" Schema="dbo" store:Type="Tables" />
@@ -523,6 +534,7 @@
             <End Role="Person" EntitySet="Person" />
             <End Role="Pays" EntitySet="Pays" />
           </AssociationSet>
+          <EntitySet Name="Options" EntityType="SaaMedModel.Options" />
         </EntityContainer>
         <EntityType Name="Specialty">
           <Key>
@@ -814,6 +826,19 @@
           <Member Name="Оплачен_частично" Value="1" />
           <Member Name="Оплачен" Value="2" />
         </EnumType>
+        <EntityType Name="Options">
+          <Key>
+            <PropertyRef Name="ParameterType" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="ParameterType" Type="SaaMedModel.enumParameterType" Nullable="false" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="ParameterValue" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DataType" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EnumType Name="enumParameterType">
+          <Member Name="Наименование_организации" Value="0" />
+        </EnumType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -974,6 +999,16 @@
                 <ScalarProperty Name="PersonId" ColumnName="PersonId" />
                 <ScalarProperty Name="Dt" ColumnName="Dt" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Options">
+            <EntityTypeMapping TypeName="SaaMedModel.Options">
+              <MappingFragment StoreEntitySet="Options">
+                <ScalarProperty Name="DataType" ColumnName="DataType" />
+                <ScalarProperty Name="ParameterValue" ColumnName="ParameterValue" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ParameterType" ColumnName="ParameterType" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
