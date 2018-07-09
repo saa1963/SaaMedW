@@ -103,6 +103,14 @@
           <Property Name="Mestnost" Type="int" />
           <Property Name="CreateDate" Type="datetime" Nullable="false" />
         </EntityType>
+        <EntityType Name="Person2">
+          <Key>
+            <PropertyRef Name="PersonId" />
+            <PropertyRef Name="Person2Id" />
+          </Key>
+          <Property Name="PersonId" Type="int" Nullable="false" />
+          <Property Name="Person2Id" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="Personal">
           <Key>
             <PropertyRef Name="Id" />
@@ -231,6 +239,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Person_ToPerson1">
+          <End Role="Person" Type="Self.Person" Multiplicity="1" />
+          <End Role="Person2" Type="Self.Person2" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Person2">
+              <PropertyRef Name="PersonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Person_ToPerson2">
+          <End Role="Person" Type="Self.Person" Multiplicity="1" />
+          <End Role="Person2" Type="Self.Person2" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Person2">
+              <PropertyRef Name="Person2Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Specialty_ToSpecialty">
           <End Role="Specialty" Type="Self.Specialty" Multiplicity="0..1" />
           <End Role="Specialty1" Type="Self.Specialty" Multiplicity="*" />
@@ -336,6 +368,7 @@
           <EntitySet Name="Options" EntityType="Self.Options" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Pays" EntityType="Self.Pays" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Person" EntityType="Self.Person" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Person2" EntityType="Self.Person2" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Personal" EntityType="Self.Personal" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PersonalSpecialty" EntityType="Self.PersonalSpecialty" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Specialty" EntityType="Self.Specialty" Schema="dbo" store:Type="Tables" />
@@ -365,6 +398,14 @@
           <AssociationSet Name="FK_Person_DocumentType" Association="Self.FK_Person_DocumentType">
             <End Role="DocumentType" EntitySet="DocumentType" />
             <End Role="Person" EntitySet="Person" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Person_ToPerson1" Association="Self.FK_Person_ToPerson1">
+            <End Role="Person" EntitySet="Person" />
+            <End Role="Person2" EntitySet="Person2" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Person_ToPerson2" Association="Self.FK_Person_ToPerson2">
+            <End Role="Person" EntitySet="Person" />
+            <End Role="Person2" EntitySet="Person2" />
           </AssociationSet>
           <AssociationSet Name="FK_Specialty_ToSpecialty" Association="Self.FK_Specialty_ToSpecialty">
             <End Role="Specialty" EntitySet="Specialty" />
@@ -440,6 +481,8 @@
           <NavigationProperty Name="Invoice" Relationship="SaaMedModel.FK_Invoice_Person" FromRole="Person" ToRole="Invoice" />
           <NavigationProperty Name="Visit" Relationship="SaaMedModel.FK_Visit_ToPerson" FromRole="Person" ToRole="Visit" />
           <NavigationProperty Name="Pays" Relationship="SaaMedModel.FK_Pays_ToPerson" FromRole="Person" ToRole="Pays" />
+          <NavigationProperty Name="Person1" Relationship="SaaMedModel.Person2" FromRole="Person" ToRole="Person1" />
+          <NavigationProperty Name="Person2" Relationship="SaaMedModel.Person2" FromRole="Person1" ToRole="Person" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
@@ -535,6 +578,10 @@
             <End Role="Pays" EntitySet="Pays" />
           </AssociationSet>
           <EntitySet Name="Options" EntityType="SaaMedModel.Options" />
+          <AssociationSet Name="Person2" Association="SaaMedModel.Person2">
+            <End Role="Person" EntitySet="Person" />
+            <End Role="Person1" EntitySet="Person" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Specialty">
           <Key>
@@ -839,6 +886,10 @@
         <EnumType Name="enumParameterType">
           <Member Name="Наименование_организации" Value="0" />
         </EnumType>
+        <Association Name="Person2">
+          <End Type="SaaMedModel.Person" Role="Person" Multiplicity="*" />
+          <End Type="SaaMedModel.Person" Role="Person1" Multiplicity="*" />
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1012,6 +1063,14 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <AssociationSetMapping Name="Person2" TypeName="SaaMedModel.Person2" StoreEntitySet="Person2">
+            <EndProperty Name="Person1">
+              <ScalarProperty Name="Id" ColumnName="Person2Id" />
+            </EndProperty>
+            <EndProperty Name="Person">
+              <ScalarProperty Name="Id" ColumnName="PersonId" />
+            </EndProperty>
+          </AssociationSetMapping>
   </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>

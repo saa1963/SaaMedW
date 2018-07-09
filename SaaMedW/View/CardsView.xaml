@@ -31,6 +31,8 @@
             </MenuItem>
             <MenuItem Header="Посещения" Command="{Binding Visits}">
             </MenuItem>
+            <MenuItem Header="Лица для информирования" Command="{Binding PersonsInfoCommand}">
+            </MenuItem>
         </Menu>
         <local0:ScrollingDataGrid x:Name="g" Grid.Row="1" Margin="5" ItemsSource="{Binding CardsList}" 
                   SelectedItem="{Binding CardsSel}" IsSynchronizedWithCurrentItem="True">
