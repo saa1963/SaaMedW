@@ -140,7 +140,13 @@ namespace SaaMedW.ViewModel
         {
             if (CardsSel == null) return;
             var person = CardsSel as EditPersonViewModel;
-            new Vmesh().DoIt(person.Obj);
+            var viewModel = new PersonInfoViewModel(person.Obj);
+            var f = new PersonInfoView() { DataContext = viewModel };
+            if (f.ShowDialog() ?? false)
+            {
+
+            }
+
         }
     }
 }

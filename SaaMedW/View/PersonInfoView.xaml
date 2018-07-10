@@ -1,0 +1,65 @@
+﻿<Window x:Class="SaaMedW.View.PersonInfoView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SaaMedW.View"
+        xmlns:saamedw="clr-namespace:SaaMedW"
+        mc:Ignorable="d"
+        Title="Лица для информирования" Height="450" Width="800">
+    <Grid Margin="15,15,15,15">
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <DockPanel Grid.Column="0">
+                <Label DockPanel.Dock="Top" Content="Все клиенты"></Label>
+                <ListBox ItemsSource="{Binding PersonList}" SelectedItem="{Binding PersonSel}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock MinWidth="250" Text="{Binding Fio}"></TextBlock>
+                                <TextBlock Text="{Binding BirthDate,StringFormat={}{0:dd.MM.yyyy}}"></TextBlock>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </DockPanel>
+            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                <Button Margin="10" Command="{Binding AddInfoCommand}">
+                    <Image Source="../image/forward.png"></Image>
+                </Button>
+                <Button Margin="10" Command="{Binding DelInfoCommand}">
+                    <Image Source="../image/back.png"></Image>
+                </Button>
+            </StackPanel>
+            <DockPanel Grid.Column="2">
+                <Label DockPanel.Dock="Top" Content="Лица для информирования"></Label>
+                <ListBox SelectedValuePath="Id" DisplayMemberPath="Name"
+                            MinHeight="100">
+                    <ListBox.ItemsSource>
+                        <Binding Path="SelectedList" ValidatesOnDataErrors="True">
+                        </Binding>
+                    </ListBox.ItemsSource>
+                    <ListBox.SelectedValue>
+                        <Binding Path="SelectedValue">
+                            <Binding.Converter>
+                                <saamedw:SpecialtySelectedValueConverter></saamedw:SpecialtySelectedValueConverter>
+                            </Binding.Converter>
+                        </Binding>
+                    </ListBox.SelectedValue>
+                </ListBox>
+            </DockPanel>
+        </Grid>
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Width="60" Margin="10" IsDefault="True" Click="Button_Click">ОК</Button>
+            <Button Width="60" Margin="10" IsCancel="True">Отмена</Button>
+        </StackPanel>
+    </Grid>
+</Window>

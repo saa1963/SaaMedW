@@ -204,6 +204,7 @@
     <Compile Include="ViewModel\InvoiceViewModel.cs" />
     <Compile Include="ViewModel\PayInvoiceViewModel.cs" />
     <Compile Include="ViewModel\PersonalVisitsViewModel.cs" />
+    <Compile Include="ViewModel\PersonInfoViewModel.cs" />
     <Compile Include="ViewModel\Report_InvoiceViewModel.cs" />
     <Compile Include="ViewModel\SelectBenefitViewModel.cs" />
     <Compile Include="ViewModel\SelectSpecialtyViewModel.cs" />
@@ -211,6 +212,9 @@
     <Compile Include="ViewModel\VisitViewModel.cs" />
     <Compile Include="View\PayInvoiceView.xaml.cs">
       <DependentUpon>PayInvoiceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\PersonInfoView.xaml.cs">
+      <DependentUpon>PersonInfoView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\SelectBenefitView.xaml.cs">
       <DependentUpon>SelectBenefitView.xaml</DependentUpon>
@@ -395,6 +399,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\PersonalView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\PersonInfoView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
