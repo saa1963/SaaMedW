@@ -41,19 +41,8 @@
             </StackPanel>
             <DockPanel Grid.Column="2">
                 <Label DockPanel.Dock="Top" Content="Лица для информирования"></Label>
-                <ListBox SelectedValuePath="Id" DisplayMemberPath="Name"
-                            MinHeight="100">
-                    <ListBox.ItemsSource>
-                        <Binding Path="SelectedList" ValidatesOnDataErrors="True">
-                        </Binding>
-                    </ListBox.ItemsSource>
-                    <ListBox.SelectedValue>
-                        <Binding Path="SelectedValue">
-                            <Binding.Converter>
-                                <saamedw:SpecialtySelectedValueConverter></saamedw:SpecialtySelectedValueConverter>
-                            </Binding.Converter>
-                        </Binding>
-                    </ListBox.SelectedValue>
+                <ListBox DisplayMemberPath="Name" ItemsSource="{Binding SelectedList}"
+                            SelectedItem="{Binding InfoSel}" MinHeight="100">
                 </ListBox>
             </DockPanel>
         </Grid>

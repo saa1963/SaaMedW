@@ -144,9 +144,13 @@ namespace SaaMedW.ViewModel
             var f = new PersonInfoView() { DataContext = viewModel };
             if (f.ShowDialog() ?? false)
             {
-
+                person.Obj.Person_Person2.Clear();
+                foreach (var o in viewModel.SelectedList)
+                {
+                    person.Obj.Person_Person2.Add(ctx.Person.Find(o.Id));
+                }
+                ctx.SaveChanges();
             }
-
         }
     }
 }

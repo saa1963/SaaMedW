@@ -481,9 +481,9 @@
           <NavigationProperty Name="Invoice" Relationship="SaaMedModel.FK_Invoice_Person" FromRole="Person" ToRole="Invoice" />
           <NavigationProperty Name="Visit" Relationship="SaaMedModel.FK_Visit_ToPerson" FromRole="Person" ToRole="Visit" />
           <NavigationProperty Name="Pays" Relationship="SaaMedModel.FK_Pays_ToPerson" FromRole="Person" ToRole="Pays" />
-          <NavigationProperty Name="Person1" Relationship="SaaMedModel.Person2" FromRole="Person" ToRole="Person1" />
-          <NavigationProperty Name="Person2" Relationship="SaaMedModel.Person2" FromRole="Person1" ToRole="Person" />
-        </EntityType>
+          <NavigationProperty Name="Person_Person2" Relationship="SaaMedModel.Person2" FromRole="Person" ToRole="Person1" />
+          <NavigationProperty Name="Person2_Person" Relationship="SaaMedModel.Person2" FromRole="Person1" ToRole="Person" />
+          </EntityType>
         <EntityType Name="Users">
           <Key>
             <PropertyRef Name="Id" />
