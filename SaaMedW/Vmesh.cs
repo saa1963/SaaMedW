@@ -32,6 +32,18 @@ namespace SaaMedW
                     }
                     doc.InsertAtBookmark(person.FullAddress, "address");
                     doc.InsertAtBookmark(Options.GetString(enumParameterType.Наименование_организации, 0), "firma");
+                    var info = "";
+                    foreach(var o in person.Person_Person2)
+                    {
+                        info += $"{o.Fio} {o.Phone}, ";
+                    }
+                    info = info.Trim();
+                    if (info[info.Length - 1] == ',')
+                        info = info.Substring(0, info.Length - 1);
+                    info = info.Replace("  ", " ");
+                    doc.InsertAtBookmark(info,  "info");
+                    doc.InsertAtBookmark(person.Fio, "fio1");
+                    doc.InsertAtBookmark(DateTime.Now.ToString("dd.MM.yyyy") + " г.", "dt");
                     doc.Save();
                 }
             }

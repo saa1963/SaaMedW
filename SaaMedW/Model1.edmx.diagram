@@ -6,7 +6,7 @@
     <edmx:Diagrams>
       <Diagram DiagramId="3f6a0f22eafd427f92b78f6e233db029" Name="Diagram1" DisplayType="true">
         <EntityTypeShape EntityType="SaaMedModel.DocumentType" Width="1.5" PointX="0.5" PointY="0.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="SaaMedModel.Person" Width="2" PointX="0.5" PointY="3" IsExpanded="true" />
+        <EntityTypeShape EntityType="SaaMedModel.Person" Width="2" PointX="0.625" PointY="3.5" IsExpanded="true" />
         <EntityTypeShape EntityType="SaaMedModel.Users" Width="1.5" PointX="16.75" PointY="5.25" IsExpanded="true" />
         <AssociationConnector Association="SaaMedModel.FK_Person_DocumentType" ManuallyRouted="false" />
         <EntityTypeShape EntityType="SaaMedModel.Specialty" Width="1.5" PointX="5.625" PointY="5" />
@@ -34,6 +34,7 @@
         <AssociationConnector Association="SaaMedModel.FK_Pays_ToPerson" />
         <EntityTypeShape EntityType="SaaMedModel.Options" Width="1.5" PointX="3.375" PointY="8.75" />
         <AssociationConnector Association="SaaMedModel.Person2" />
+        <AssociationConnector Association="SaaMedModel.FK_Person_Representative" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

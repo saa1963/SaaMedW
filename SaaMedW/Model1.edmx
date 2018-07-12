@@ -102,6 +102,7 @@
           <Property Name="AddressFlat" Type="nvarchar" MaxLength="50" />
           <Property Name="Mestnost" Type="int" />
           <Property Name="CreateDate" Type="datetime" Nullable="false" />
+          <Property Name="RepresentativeId" Type="int" />
         </EntityType>
         <EntityType Name="Person2">
           <Key>
@@ -236,6 +237,18 @@
             </Principal>
             <Dependent Role="Person">
               <PropertyRef Name="DocumentTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Person_Representative">
+          <End Role="Person" Type="Self.Person" Multiplicity="0..1" />
+          <End Role="Person1" Type="Self.Person" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Person1">
+              <PropertyRef Name="RepresentativeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -399,6 +412,10 @@
             <End Role="DocumentType" EntitySet="DocumentType" />
             <End Role="Person" EntitySet="Person" />
           </AssociationSet>
+          <AssociationSet Name="FK_Person_Representative" Association="Self.FK_Person_Representative">
+            <End Role="Person" EntitySet="Person" />
+            <End Role="Person1" EntitySet="Person" />
+          </AssociationSet>
           <AssociationSet Name="FK_Person_ToPerson1" Association="Self.FK_Person_ToPerson1">
             <End Role="Person" EntitySet="Person" />
             <End Role="Person2" EntitySet="Person2" />
@@ -483,6 +500,8 @@
           <NavigationProperty Name="Pays" Relationship="SaaMedModel.FK_Pays_ToPerson" FromRole="Person" ToRole="Pays" />
           <NavigationProperty Name="Person_Person2" Relationship="SaaMedModel.Person2" FromRole="Person" ToRole="Person1" />
           <NavigationProperty Name="Person2_Person" Relationship="SaaMedModel.Person2" FromRole="Person1" ToRole="Person" />
+          <Property Name="RepresentativeId" Type="Int32" />
+          <NavigationProperty Name="Representative" Relationship="SaaMedModel.FK_Person_Representative" FromRole="Person1" ToRole="Person" />
           </EntityType>
         <EntityType Name="Users">
           <Key>
@@ -579,6 +598,10 @@
           </AssociationSet>
           <EntitySet Name="Options" EntityType="SaaMedModel.Options" />
           <AssociationSet Name="Person2" Association="SaaMedModel.Person2">
+            <End Role="Person" EntitySet="Person" />
+            <End Role="Person1" EntitySet="Person" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Person_Representative" Association="SaaMedModel.FK_Person_Representative">
             <End Role="Person" EntitySet="Person" />
             <End Role="Person1" EntitySet="Person" />
           </AssociationSet>
@@ -890,6 +913,18 @@
           <End Type="SaaMedModel.Person" Role="Person" Multiplicity="*" />
           <End Type="SaaMedModel.Person" Role="Person1" Multiplicity="*" />
         </Association>
+        <Association Name="FK_Person_Representative">
+          <End Type="SaaMedModel.Person" Role="Person" Multiplicity="0..1" />
+          <End Type="SaaMedModel.Person" Role="Person1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Person1">
+              <PropertyRef Name="RepresentativeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -907,7 +942,8 @@
     <EntitySetMapping Name="Person">
       <EntityTypeMapping TypeName="IsTypeOf(SaaMedModel.Person)">
         <MappingFragment StoreEntitySet="Person">
-          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="RepresentativeId" ColumnName="RepresentativeId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="LastName" ColumnName="LastName" />
           <ScalarProperty Name="FirstName" ColumnName="FirstName" />
           <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
