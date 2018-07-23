@@ -33,13 +33,16 @@
             <MenuItem Header="Статистика" Command="{Binding Cmd}" 
                           CommandParameter="{Binding CmdStat}">
             </MenuItem>
-            <MenuItem Header="Настройки">
+            <MenuItem Header="Справочники">
                 <MenuItem Header="Пользователи" Command="{Binding Cmd}" 
                           CommandParameter="{Binding CmdUsers}"></MenuItem>
                 <MenuItem Header="Направления" Command="{Binding Cmd}" 
                           CommandParameter="{Binding CmdSpec}"></MenuItem>
                 <MenuItem Header="Услуги" Command="{Binding Cmd}" 
                           CommandParameter="{Binding CmdBenefits}"></MenuItem>
+            </MenuItem>
+            <MenuItem Header="Настройки" Command="{Binding Cmd}" 
+                        CommandParameter="{Binding OptionsCommand}">
             </MenuItem>
         </Menu>
         <DockPanel Name="Wplace" Grid.Row="1">
