@@ -126,6 +126,7 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\OptionPartial.cs" />
+    <Compile Include="OptionItemTemplateSelector.cs" />
     <Compile Include="Options.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -205,7 +206,6 @@
     <Compile Include="ViewModel\PayInvoiceViewModel.cs" />
     <Compile Include="ViewModel\PersonalVisitsViewModel.cs" />
     <Compile Include="ViewModel\PersonInfoViewModel.cs" />
-    <Compile Include="ViewModel\Report_InvoiceViewModel.cs" />
     <Compile Include="ViewModel\SelectBenefitViewModel.cs" />
     <Compile Include="ViewModel\SelectSpecialtyViewModel.cs" />
     <Compile Include="ViewModel\VisitTimeInterval.cs" />

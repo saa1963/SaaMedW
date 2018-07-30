@@ -12,6 +12,26 @@
             <RowDefinition></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Text="Общие настройки"></TextBlock>
+        <ListBox>
+            <ListBox.ItemTemplateSelector>
+                <DataTemplateSelector></DataTemplateSelector>
+            </ListBox.ItemTemplateSelector>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <DockPanel LastChildFill="False">
+                        <TextBlock DockPanel.Dock="Left" Text="{Binding Name}"></TextBlock>
+                        <TextBox DockPanel.Dock="Left" Text="{Binding Value}"></TextBox>
+                    </DockPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <TextBlock Grid.Row="2" Text="Настройки пользователя"></TextBlock>
+        <DockPanel Grid.Row="4" HorizontalAlignment="Center">
+            <Button Content="Сохранить" Width="80" Margin="10"></Button>
+            <Button Content="Отмена" Width="80" Margin="10"></Button>
+        </DockPanel>
     </Grid>
 </UserControl>
