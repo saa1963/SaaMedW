@@ -203,6 +203,7 @@
     <Compile Include="ViewModel\EditInvoiceViewModel.cs" />
     <Compile Include="ViewModel\EditVisitViewModel.cs" />
     <Compile Include="ViewModel\InvoiceViewModel.cs" />
+    <Compile Include="ViewModel\OptionsViewModel.cs" />
     <Compile Include="ViewModel\PayInvoiceViewModel.cs" />
     <Compile Include="ViewModel\PersonalVisitsViewModel.cs" />
     <Compile Include="ViewModel\PersonInfoViewModel.cs" />
