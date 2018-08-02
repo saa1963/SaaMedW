@@ -36,7 +36,24 @@ namespace SaaMedW.ViewModel
         {
             if (Global.Source.rUser.Role == 0)
             {
-                ctx.Options.Where(s => s.UserId == 0)
+                foreach (var o in ctx.Options.Where(s => s.UserId == 0))
+                {
+                    var nv = new NameValue()
+                    {
+                        Name = Enum.GetName(typeof(enumParameterType), o.ParameterType),
+                        Value = o.GetObject()
+                    };
+                    m_CommonParameterList.Add(nv);
+                }
+            }
+            foreach (var o in ctx.Options.Where(s => s.UserId == Global.Source.rUser.Id))
+            {
+                var nv = new NameValue()
+                {
+                    Name = Enum.GetName(typeof(enumParameterType), o.ParameterType),
+                    Value = o.GetObject()
+                };
+                m_UserParameterList.Add(nv);
             }
         }
     }

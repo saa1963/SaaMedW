@@ -9,16 +9,22 @@
     <UserControl.Resources>
         <local:OptionItemTemplateSelector x:Key="myDataTemplateSelector"/>
         <DataTemplate x:Key="IntDataTemplate">
-            <local:ClickSelectTextBox Text="{Binding ParameterValue, StringFormat={}{0:0}}" HorizontalContentAlignment="Right"></local:ClickSelectTextBox>
+            <local:ClickSelectTextBox  Text="{Binding Value, StringFormat={}{0:0}}" HorizontalContentAlignment="Right"></local:ClickSelectTextBox>
         </DataTemplate>
         <DataTemplate x:Key="DecimalDataTemplate">
-            <local:ClickSelectTextBox Text="{Binding ParameterValue, StringFormat={}{0:0.00}}" HorizontalContentAlignment="Right"></local:ClickSelectTextBox>
+            <local:ClickSelectTextBox Text="{Binding Value, StringFormat={}{0:0.00}}" HorizontalContentAlignment="Right"></local:ClickSelectTextBox>
         </DataTemplate>
         <DataTemplate x:Key="TextDataTemplate">
-            <local:ClickSelectTextBox Text="{Binding ParameterValue}"></local:ClickSelectTextBox>
+            <local:ClickSelectTextBox Margin="10,0,0,0" Text="{Binding Value}"></local:ClickSelectTextBox>
         </DataTemplate>
         <DataTemplate x:Key="DateTimeDataTemplate">
-            <DatePicker></DatePicker>
+            <DatePicker SelectedDate="{Binding Value, StringFormat={}{0:dd.MM.yyyy}}"></DatePicker>
+        </DataTemplate>
+        <DataTemplate x:Key="PathDataTemplate">
+            <DockPanel>
+                <local:ClickSelectTextBox Margin="10,0,0,0" Text="{Binding Value}"></local:ClickSelectTextBox>
+                <Button></Button>
+            </DockPanel>
         </DataTemplate>
     </UserControl.Resources>
     <Grid>
@@ -30,7 +36,7 @@
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
         <TextBlock Grid.Row="0" Text="Общие настройки"></TextBlock>
-        <ListBox Grid.Row="1">
+        <ListBox Grid.Row="1" ItemsSource="{Binding CommonParameterList}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <DockPanel LastChildFill="False">
@@ -42,7 +48,7 @@
             </ListBox.ItemTemplate>
         </ListBox>
         <TextBlock Grid.Row="2" Text="Настройки пользователя"></TextBlock>
-        <ListBox Grid.Row="3">
+        <ListBox Grid.Row="3" ItemsSource="{Binding UserParameterList}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <DockPanel LastChildFill="False">
