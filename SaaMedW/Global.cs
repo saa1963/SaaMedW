@@ -3,12 +3,14 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Management;
 
 namespace SaaMedW
 {
@@ -177,5 +179,18 @@ namespace SaaMedW
                 new IdName { Id = 0, Name="Администратор"},
                 new IdName { Id = 1, Name="Пользователь"}
             };
+
+        public string GetMotherboardId()
+        {
+            string mbInfo = String.Empty;
+
+            //Get motherboard's serial number 
+            ManagementObjectSearcher mbs = new ManagementObjectSearcher("Select * From Win32_BaseBoard");
+            foreach (ManagementObject mo in mbs.Get())
+            {
+                mbInfo += mo["SerialNumber"].ToString();
+            }
+            return mbInfo;
+        }
     }
 }
