@@ -31,7 +31,8 @@ namespace SaaMedW
                             birthDate.Year.ToString(), "birth");
                     }
                     doc.InsertAtBookmark(person.FullAddress, "address");
-                    doc.InsertAtBookmark(Options.GetString(enumParameterType.Наименование_организации, 0), "firma");
+                    doc.InsertAtBookmark(
+                        Options.GetParameter<string>(enumParameterType.Наименование_организации), "firma");
                     var info = "";
                     foreach(var o in person.Person_Person2)
                     {

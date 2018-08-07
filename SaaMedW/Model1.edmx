@@ -61,11 +61,14 @@
           <Key>
             <PropertyRef Name="ParameterType" />
             <PropertyRef Name="UserId" />
+            <PropertyRef Name="CompId" />
           </Key>
           <Property Name="ParameterType" Type="int" Nullable="false" />
           <Property Name="UserId" Type="int" Nullable="false" />
           <Property Name="ParameterValue" Type="nvarchar(max)" Nullable="false" />
           <Property Name="DataType" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="CompId" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Profile" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Pays">
           <Key>
@@ -900,11 +903,14 @@
           <Key>
             <PropertyRef Name="ParameterType" />
             <PropertyRef Name="UserId" />
+            <PropertyRef Name="CompId" />
           </Key>
           <Property Name="ParameterType" Type="SaaMedModel.enumParameterType" Nullable="false" />
           <Property Name="UserId" Type="Int32" Nullable="false" />
           <Property Name="ParameterValue" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="DataType" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CompId" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Profile" Type="SaaMedModel.enumProfile" Nullable="false" />
         </EntityType>
         <EnumType Name="enumParameterType">
           <Member Name="Наименование_организации" Value="0" />
@@ -925,6 +931,12 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EnumType Name="enumProfile">
+          <Member Name="Общий" Value="0" />
+          <Member Name="ЛокальныйВсеПользователи" Value="1" />
+          <Member Name="ЛокальныйПользователя" Value="2" />
+          <Member Name="ПеремещаемыйПользователя" Value="3" />
+        </EnumType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1092,6 +1104,8 @@
           <EntitySetMapping Name="Options">
             <EntityTypeMapping TypeName="SaaMedModel.Options">
               <MappingFragment StoreEntitySet="Options">
+                <ScalarProperty Name="Profile" ColumnName="Profile" />
+                <ScalarProperty Name="CompId" ColumnName="CompId" />
                 <ScalarProperty Name="DataType" ColumnName="DataType" />
                 <ScalarProperty Name="ParameterValue" ColumnName="ParameterValue" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />

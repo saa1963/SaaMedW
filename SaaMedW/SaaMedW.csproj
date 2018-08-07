@@ -118,6 +118,9 @@
     <Compile Include="enumPaymentType.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="enumProfile.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="enumStatusInvoice.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

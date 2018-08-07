@@ -10,15 +10,12 @@
 namespace SaaMedW
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class Options
+    public enum enumProfile : int
     {
-        public enumParameterType ParameterType { get; set; }
-        public int UserId { get; set; }
-        public string ParameterValue { get; set; }
-        public string DataType { get; set; }
-        public string CompId { get; set; }
-        public enumProfile Profile { get; set; }
+        Общий = 0,
+        ЛокальныйВсеПользователи = 1,
+        ЛокальныйПользователя = 2,
+        ПеремещаемыйПользователя = 3
     }
 }

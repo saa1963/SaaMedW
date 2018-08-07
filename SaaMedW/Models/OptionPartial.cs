@@ -8,54 +8,134 @@ using System.Threading.Tasks;
 
 namespace SaaMedW
 {
+    public class OptionType
+    {
+        public Type type { get; set; }
+        public enumProfile profile { get; set; }
+    }
     public partial class Options
     {
-        public static string GetString(enumParameterType type, int userId)
+        public static Dictionary<enumParameterType, OptionType> ВсеВидыПараметров { get; set; } =
+            new Dictionary<enumParameterType, OptionType>()
+            {
+                { enumParameterType.Наименование_организации,
+                    new OptionType()
+                    {
+                        type = typeof(string), profile = enumProfile.Общий
+                    }
+                }
+            };
+        public static T GetParameter<T>(enumParameterType type)
         {
+            string compId = "0";
+            int userId = 0;
+            switch (ВсеВидыПараметров[type].profile)
+            {
+                case enumProfile.Общий:
+                    compId = "0";
+                    userId = 0;
+                    break;
+                case enumProfile.ЛокальныйПользователя:
+                    compId = Global.Source.GetMotherboardId();
+                    userId = Global.Source.rUser.Id;
+                    break;
+                case enumProfile.ЛокальныйВсеПользователи:
+                    compId = Global.Source.GetMotherboardId();
+                    userId = 0;
+                    break;
+                case enumProfile.ПеремещаемыйПользователя:
+                    compId = "0";
+                    userId = Global.Source.rUser.Id;
+                    break;
+                default:
+                    Debug.Assert(false);
+                    break;
+            }
             using (var ctx = new SaaMedEntities())
             {
-                var opt = ctx.Options.Find(new object[] { type, userId });
-                Debug.Assert(opt != null);
-                Debug.Assert(opt.DataType == "System.String");
-                return opt.ParameterValue;
+
+                var opt = ctx.Options.Find(new object[] { type, compId, userId });
+                return opt.GetObject<T>();
             }
         }
         public object GetObject()
         {
-            switch(DataType)
-            {
-                case "System.String":
-                    return ParameterValue;
-                case "System.IO.Path":
-                    return ParameterValue;
-                case "System.Int32":
-                    if (Int32.TryParse(ParameterValue, out int resultInt))
-                        return resultInt;
-                    else
-                    {
-                        Debug.Assert(false, "Недопустимое значение параметра.");
-                        return null;
-                    }
-                case "System.Decimal":
-                    if (Decimal.TryParse(ParameterValue, out decimal resultDecimal))
-                        return resultDecimal;
-                    else
-                    {
-                        Debug.Assert(false, "Недопустимое значение параметра.");
-                        return null;
-                    }
-                case "System.DateTime":
-                    var f = new CultureInfo("ru-RU").DateTimeFormat;
-                    if (DateTime.TryParse(ParameterValue, f, DateTimeStyles.None, out DateTime resultDateTime))
-                        return resultDateTime;
-                    else
-                    {
-                        Debug.Assert(false, "Недопустимое значение параметра.");
-                        return null;
-                    }
-                default:
-                    Debug.Assert(false, "Недопустимый тип параметра.");
+            Type type = ВсеВидыПараметров[this.ParameterType].type;
+            if (type == typeof(string))
+                return ParameterValue;
+            else if (type == typeof(System.IO.Path))
+                return ParameterValue;
+            else if (type == typeof(int))
+                if (Int32.TryParse(ParameterValue, out int resultInt))
+                    return resultInt;
+                else
+                {
+                    Debug.Assert(false, "Недопустимое значение параметра.");
                     return null;
+                }
+            else if (type == typeof(decimal))
+                if (Decimal.TryParse(ParameterValue, out decimal resultDecimal))
+                    return resultDecimal;
+                else
+                {
+                    Debug.Assert(false, "Недопустимое значение параметра.");
+                    return null;
+                }
+            else if (type == typeof(DateTime))
+            {
+                var f = new CultureInfo("ru-RU").DateTimeFormat;
+                if (DateTime.TryParse(ParameterValue, f, DateTimeStyles.None, out DateTime resultDateTime))
+                    return resultDateTime;
+                else
+                {
+                    Debug.Assert(false, "Недопустимое значение параметра.");
+                    return null;
+                }
+            }
+            else
+            {
+                Debug.Assert(false, "Недопустимый тип параметра.");
+                return null;
+            }
+        }
+        public T GetObject<T>()
+        {
+            Type type = ВсеВидыПараметров[this.ParameterType].type;
+            if (type == typeof(string))
+                return (T)Convert.ChangeType(ParameterValue, typeof(T));
+            else if (type == typeof(System.IO.Path))
+                return (T)Convert.ChangeType(ParameterValue, typeof(T));
+            else if (type == typeof(int))
+                if (Int32.TryParse(ParameterValue, out int resultInt))
+                    return (T)Convert.ChangeType(resultInt, typeof(T));
+                else
+                {
+                    Debug.Assert(false, "Недопустимое значение параметра.");
+                    return default(T);
+                }
+            else if (type == typeof(decimal))
+                if (Decimal.TryParse(ParameterValue, out decimal resultDecimal))
+                    return (T)Convert.ChangeType(resultDecimal, typeof(T));
+                else
+                {
+                    Debug.Assert(false, "Недопустимое значение параметра.");
+                    return default(T);
+                }
+            else if (type == typeof(DateTime))
+            {
+                var f = new CultureInfo("ru-RU").DateTimeFormat;
+                if (DateTime.TryParse(ParameterValue, f, DateTimeStyles.None, out DateTime resultDateTime))
+                    return (T)Convert.ChangeType(resultDateTime, typeof(T));
+                else
+                {
+                    Debug.Assert(false, "Недопустимое значение параметра.");
+                    return default(T);
+                }
+            }
+            else
+            {
+                Debug.Assert(false, "Недопустимый тип параметра.");
+                return default(T);
             }
         }
         public void SetObject(object Value)
