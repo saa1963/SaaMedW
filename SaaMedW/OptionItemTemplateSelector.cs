@@ -16,19 +16,20 @@ namespace SaaMedW
         public DataTemplate IntDataTemplate { get; set; }
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
-            var nv = item as NameValue;
+            var nv = item as Options;
             FrameworkElement element = container as FrameworkElement;
             if (element != null && item != null)
             {
-                if (nv.Value is int)
+                var tp = Options.ВсеВидыПараметров[nv.ParameterType].type;
+                if (tp.Equals(typeof(int)))
                     return element.FindResource("IntDataTemplate") as DataTemplate;
-                else if (nv.Value is decimal)
+                else if (tp.Equals(typeof(decimal)))
                     return element.FindResource("DecimalDataTemplate") as DataTemplate;
-                else if (nv.Value is string)
+                else if (tp.Equals(typeof(string)))
                     return element.FindResource("TextDataTemplate") as DataTemplate;
-                else if (nv.Value is DateTime)
+                else if (tp.Equals(typeof(DateTime)))
                     return element.FindResource("DateTimeDataTemplate") as DataTemplate;
-                else if (nv.Value is System.IO.Path)
+                else if (tp.Equals(typeof(System.IO.Path)))
                     return element.FindResource("PathDataTemplate") as DataTemplate;
                 else
                     return null;

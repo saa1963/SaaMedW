@@ -10,15 +10,15 @@ namespace SaaMedW.ViewModel
     public class OptionsViewModel: ViewModelBase
     {
         private SaaMedEntities ctx = new SaaMedEntities();
-        private ObservableCollection<NameValue> m_CommonParameterList
-            = new ObservableCollection<NameValue>();
-        private ObservableCollection<NameValue> m_UserParameterList
-            = new ObservableCollection<NameValue>();
-        private ObservableCollection<NameValue> m_ComputerParameterList
-            = new ObservableCollection<NameValue>();
-        private ObservableCollection<NameValue> m_UserComputerParameterList
-            = new ObservableCollection<NameValue>();
-        public ObservableCollection<NameValue> CommonParameterList
+        private ObservableCollection<Options> m_CommonParameterList
+            = new ObservableCollection<Options>();
+        private ObservableCollection<Options> m_UserParameterList
+            = new ObservableCollection<Options>();
+        private ObservableCollection<Options> m_ComputerParameterList
+            = new ObservableCollection<Options>();
+        private ObservableCollection<Options> m_UserComputerParameterList
+            = new ObservableCollection<Options>();
+        public ObservableCollection<Options> CommonParameterList
         {
             get => m_CommonParameterList;
             set
@@ -27,7 +27,7 @@ namespace SaaMedW.ViewModel
                 OnPropertyChanged("CommonParameterList");
             }
         }
-        public ObservableCollection<NameValue> UserParameterList
+        public ObservableCollection<Options> UserParameterList
         {
             get => m_UserParameterList;
             set
@@ -36,7 +36,7 @@ namespace SaaMedW.ViewModel
                 OnPropertyChanged("UserParameterList");
             }
         }
-        public ObservableCollection<NameValue> ComputerParameterList
+        public ObservableCollection<Options> ComputerParameterList
         {
             get => m_ComputerParameterList;
             set
@@ -45,7 +45,7 @@ namespace SaaMedW.ViewModel
                 OnPropertyChanged("ComputerParameterList");
             }
         }
-        public ObservableCollection<NameValue> UserComputerParameterList
+        public ObservableCollection<Options> UserComputerParameterList
         {
             get => m_UserComputerParameterList;
             set
@@ -56,49 +56,60 @@ namespace SaaMedW.ViewModel
         }
         public OptionsViewModel()
         {
+            var compId = Global.Source.GetMotherboardId();
             // Общие настройки
             if (Global.Source.rUser.Role == 0)
             {
-                foreach (var o in ctx.Options.Where(s => s.UserId == 0 && s.CompId == "0"))
+                foreach (var o in Options.ВсеВидыПараметров.Where(s => s.Value.profile == enumProfile.Общий))
                 {
-                    var nv = new NameValue()
+                    var nv = new Options()
                     {
-                        Name = Enum.GetName(typeof(enumParameterType), o.ParameterType),
-                        Value = o.GetObject()
+                        ParameterType = o.Key,
+                        Profile = enumProfile.Общий,
+                        CompId = "0",
+                        UserId = 0
                     };
+                    nv.SetObject(Options.GetParameter<object>(o.Key));
                     m_CommonParameterList.Add(nv);
                 }
             }
             // Перемещаемые настройки пользователя
-            foreach (var o in ctx.Options.Where(s => s.UserId == Global.Source.rUser.Id && s.CompId == "0"))
+            foreach (var o in Options.ВсеВидыПараметров.Where(s => s.Value.profile == enumProfile.ПеремещаемыйПользователя))
             {
-                var nv = new NameValue()
+                var nv = new Options()
                 {
-                    Name = Enum.GetName(typeof(enumParameterType), o.ParameterType),
-                    Value = o.GetObject()
+                    ParameterType = o.Key,
+                    Profile = enumProfile.ПеремещаемыйПользователя,
+                    CompId = "0",
+                    UserId = Global.Source.rUser.Id
                 };
+                nv.SetObject(Options.GetParameter<object>(o.Key));
                 m_UserParameterList.Add(nv);
             }
             // Локальные настройки для всех пользователей
-            foreach (var o in ctx.Options.Where(s => s.UserId == 0 
-                && s.CompId == Global.Source.GetMotherboardId()))
+            foreach (var o in Options.ВсеВидыПараметров.Where(s => s.Value.profile == enumProfile.ЛокальныйВсеПользователи))
             {
-                var nv = new NameValue()
+                var nv = new Options()
                 {
-                    Name = Enum.GetName(typeof(enumParameterType), o.ParameterType),
-                    Value = o.GetObject()
+                    ParameterType = o.Key,
+                    Profile = enumProfile.ЛокальныйВсеПользователи,
+                    CompId = compId,
+                    UserId = 0
                 };
+                nv.SetObject(Options.GetParameter<object>(o.Key));
                 m_ComputerParameterList.Add(nv);
             }
             // Локальные настройки пользователя
-            foreach (var o in ctx.Options.Where(s => s.UserId == Global.Source.rUser.Id 
-                && s.CompId == Global.Source.GetMotherboardId()))
+            foreach (var o in Options.ВсеВидыПараметров.Where(s => s.Value.profile == enumProfile.ЛокальныйПользователя))
             {
-                var nv = new NameValue()
+                var nv = new Options()
                 {
-                    Name = Enum.GetName(typeof(enumParameterType), o.ParameterType),
-                    Value = o.GetObject()
+                    ParameterType = o.Key,
+                    Profile = enumProfile.ЛокальныйПользователя,
+                    CompId = compId,
+                    UserId = Global.Source.rUser.Id
                 };
+                nv.SetObject(Options.GetParameter<object>(o.Key));
                 m_UserComputerParameterList.Add(nv);
             }
         }

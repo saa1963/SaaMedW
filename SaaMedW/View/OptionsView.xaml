@@ -9,16 +9,17 @@
     <UserControl.Resources>
         <local:OptionItemTemplateSelector x:Key="myDataTemplateSelector"/>
         <DataTemplate x:Key="IntDataTemplate">
-            <local:ClickSelectTextBox  Text="{Binding Value, StringFormat={}{0:0}}" HorizontalContentAlignment="Right"></local:ClickSelectTextBox>
+            <local:ClickSelectTextBox Margin="10,0,0,0" Text="{Binding ParameterValue, StringFormat={}{0:0}}" HorizontalContentAlignment="Right"></local:ClickSelectTextBox>
         </DataTemplate>
         <DataTemplate x:Key="DecimalDataTemplate">
-            <local:ClickSelectTextBox Text="{Binding Value, StringFormat={}{0:0.00}}" HorizontalContentAlignment="Right"></local:ClickSelectTextBox>
+            <local:ClickSelectTextBox Margin="10,0,0,0" Text="{Binding ParameterValue, StringFormat={}{0:0.00}}" HorizontalContentAlignment="Right"></local:ClickSelectTextBox>
         </DataTemplate>
         <DataTemplate x:Key="TextDataTemplate">
-            <local:ClickSelectTextBox Margin="10,0,0,0" Text="{Binding Value}"></local:ClickSelectTextBox>
+             <local:ClickSelectTextBox Margin="10,0,0,0" 
+                                       Text="{Binding ParameterValue}" TextWrapping="Wrap"></local:ClickSelectTextBox>
         </DataTemplate>
         <DataTemplate x:Key="DateTimeDataTemplate">
-            <DatePicker SelectedDate="{Binding Value, StringFormat={}{0:dd.MM.yyyy}}"></DatePicker>
+            <DatePicker Margin="10,0,0,0"  SelectedDate="{Binding ParameterValue, StringFormat={}{0:dd.MM.yyyy}}"></DatePicker>
         </DataTemplate>
         <DataTemplate x:Key="PathDataTemplate">
             <DockPanel>
@@ -26,40 +27,80 @@
                 <Button></Button>
             </DockPanel>
         </DataTemplate>
+        <Style x:Key="subtitle" TargetType="TextBlock">
+            <Setter Property="Background" Value="Cornsilk"></Setter>
+        </Style>
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" Text="Общие настройки"></TextBlock>
+        <TextBlock Grid.Row="0" Text="Общие настройки" Style="{StaticResource subtitle}"></TextBlock>
         <ListBox Grid.Row="1" ItemsSource="{Binding CommonParameterList}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <DockPanel LastChildFill="False">
-                        <TextBlock DockPanel.Dock="Left" Text="{Binding Name}"></TextBlock>
-                        <ContentPresenter x:Name="presenter" DockPanel.Dock="Left"
+                    <Border BorderThickness="0,0,0,1" Padding="5" Background="AliceBlue">
+                        <DockPanel LastChildFill="False">
+                            <TextBlock DockPanel.Dock="Left" Text="{Binding Name}" Width="300"></TextBlock>
+                            <ContentPresenter x:Name="presenter" DockPanel.Dock="Left" Width="400"
                           ContentTemplateSelector="{StaticResource myDataTemplateSelector}" />
-                    </DockPanel>
+                        </DockPanel>
+                    </Border>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <TextBlock Grid.Row="2" Text="Настройки пользователя"></TextBlock>
+        <TextBlock Grid.Row="2" Text="Перемещаемые настройки текущего пользователя" 
+                   Style="{StaticResource subtitle}"></TextBlock>
         <ListBox Grid.Row="3" ItemsSource="{Binding UserParameterList}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <DockPanel LastChildFill="False">
-                        <TextBlock DockPanel.Dock="Left" Text="{Binding Name}"></TextBlock>
-                        <ContentPresenter x:Name="presenter" DockPanel.Dock="Left"
+                    <Border BorderThickness="0,0,0,1" Padding="5" Background="AliceBlue">
+                        <DockPanel LastChildFill="False">
+                            <TextBlock DockPanel.Dock="Left" Text="{Binding Name}" Width="300"></TextBlock>
+                            <ContentPresenter x:Name="presenter" DockPanel.Dock="Left" Width="400"
                           ContentTemplateSelector="{StaticResource myDataTemplateSelector}" />
-                    </DockPanel>
+                        </DockPanel>
+                    </Border>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <DockPanel Grid.Row="4" HorizontalAlignment="Center">
+        <TextBlock Grid.Row="4" Text="Локальные настройки для всех пользователей" Style="{StaticResource subtitle}"></TextBlock>
+        <ListBox Grid.Row="5" ItemsSource="{Binding ComputerParameterList}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Border BorderThickness="0,0,0,1" Padding="5" Background="AliceBlue">
+                        <DockPanel LastChildFill="False">
+                            <TextBlock DockPanel.Dock="Left" Text="{Binding Name}" Width="300"></TextBlock>
+                            <ContentPresenter x:Name="presenter" DockPanel.Dock="Left" Width="400"
+                          ContentTemplateSelector="{StaticResource myDataTemplateSelector}" />
+                        </DockPanel>
+                    </Border>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <TextBlock Grid.Row="6" Text="Локальные настройки текущего пользователя" Style="{StaticResource subtitle}"></TextBlock>
+        <ListBox Grid.Row="7" ItemsSource="{Binding UserComputerParameterList}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Border BorderThickness="0,0,0,1" Padding="5" Background="AliceBlue">
+                        <DockPanel LastChildFill="False">
+                            <TextBlock DockPanel.Dock="Left" Text="{Binding Name}" Width="300"></TextBlock>
+                            <ContentPresenter x:Name="presenter" DockPanel.Dock="Left" Width="400"
+                          ContentTemplateSelector="{StaticResource myDataTemplateSelector}" />
+                        </DockPanel>
+                    </Border>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <DockPanel Grid.Row="8" HorizontalAlignment="Center" VerticalAlignment="Bottom">
             <Button Content="Сохранить" Width="80" Margin="10"></Button>
             <Button Content="Отмена" Width="80" Margin="10"></Button>
         </DockPanel>

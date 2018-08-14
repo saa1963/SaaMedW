@@ -12,6 +12,7 @@ namespace SaaMedW
     {
         public Type type { get; set; }
         public enumProfile profile { get; set; }
+        public object defaultValue { get; set; }
     }
     public partial class Options
     {
@@ -21,10 +22,18 @@ namespace SaaMedW
                 { enumParameterType.Наименование_организации,
                     new OptionType()
                     {
-                        type = typeof(string), profile = enumProfile.Общий
+                        type = typeof(string), profile = enumProfile.Общий, defaultValue = ""
                     }
+                },
+                {enumParameterType.Коэффициент_для_Excel,
+                    new OptionType()
+                    { type = typeof(int), profile = enumProfile.ЛокальныйВсеПользователи, defaultValue = 88 }
                 }
             };
+        public string Name
+        {
+            get => Enum.GetName(typeof(enumParameterType), ParameterType).Replace('_', ' ');
+        }
         public static T GetParameter<T>(enumParameterType type)
         {
             string compId = "0";
@@ -54,8 +63,11 @@ namespace SaaMedW
             using (var ctx = new SaaMedEntities())
             {
 
-                var opt = ctx.Options.Find(new object[] { type, compId, userId });
-                return opt.GetObject<T>();
+                var opt = ctx.Options.Find(new object[] { type, userId, compId });
+                if (opt != null)
+                    return opt.GetObject<T>();
+                else
+                    return (T)Convert.ChangeType(ВсеВидыПараметров[type].defaultValue, typeof(T));
             }
         }
         public object GetObject()
@@ -140,17 +152,23 @@ namespace SaaMedW
         }
         public void SetObject(object Value)
         {
+            object dv = ВсеВидыПараметров[this.ParameterType].defaultValue;
+
+            if (Value == null)
+                dv = ВсеВидыПараметров[this.ParameterType].defaultValue;
+            else
+                dv = Value;
             if (Value is string)
-                ParameterValue = Value.ToString();
+                ParameterValue = dv.ToString();
             else if (Value is System.IO.Path)
-                ParameterValue = Value.ToString();
+                ParameterValue = dv.ToString();
             else if (Value is int)
-                ParameterValue = ((int)Value).ToString();
+                ParameterValue = ((int)dv).ToString();
             else if (Value is decimal)
-                ParameterValue = ((decimal)Value).ToString();
+                ParameterValue = ((decimal)dv).ToString();
             else if (Value is DateTime)
             {
-                ParameterValue = ((DateTime)Value).ToString(new CultureInfo("ru-RU").DateTimeFormat);
+                ParameterValue = ((DateTime)dv).ToString(new CultureInfo("ru-RU").DateTimeFormat);
             }
             else
                 Debug.Assert(false, "Недопустимый тип параметра.");

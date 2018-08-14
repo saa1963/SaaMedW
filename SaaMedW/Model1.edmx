@@ -914,6 +914,7 @@
         </EntityType>
         <EnumType Name="enumParameterType">
           <Member Name="Наименование_организации" Value="0" />
+          <Member Name="Коэффициент_для_Excel" Value="1" />
         </EnumType>
         <Association Name="Person2">
           <End Type="SaaMedModel.Person" Role="Person" Multiplicity="*" />
