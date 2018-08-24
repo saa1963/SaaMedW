@@ -34,6 +34,12 @@ namespace SaaMedW
         {
             get => Enum.GetName(typeof(enumParameterType), ParameterType).Replace('_', ' ');
         }
+        /// <summary>
+        /// Возвращает из БД указанный параметр или значение по умолчанию
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="type">Тип параметра</param>
+        /// <returns></returns>
         public static T GetParameter<T>(enumParameterType type)
         {
             string compId = "0";
@@ -70,6 +76,11 @@ namespace SaaMedW
                     return (T)Convert.ChangeType(ВсеВидыПараметров[type].defaultValue, typeof(T));
             }
         }
+
+        /// <summary>
+        /// Возвращает значение параметра
+        /// </summary>
+        /// <returns></returns>
         public object GetObject()
         {
             Type type = ВсеВидыПараметров[this.ParameterType].type;
@@ -171,7 +182,9 @@ namespace SaaMedW
                 ParameterValue = ((DateTime)dv).ToString(new CultureInfo("ru-RU").DateTimeFormat);
             }
             else
+            {
                 Debug.Assert(false, "Недопустимый тип параметра.");
+            }
         }
     }
 }

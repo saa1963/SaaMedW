@@ -4,12 +4,13 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace SaaMedW.ViewModel
 {
     public class OptionsViewModel: ViewModelBase
     {
-        private SaaMedEntities ctx = new SaaMedEntities();
+        private readonly SaaMedEntities ctx = new SaaMedEntities();
         private ObservableCollection<Options> m_CommonParameterList
             = new ObservableCollection<Options>();
         private ObservableCollection<Options> m_UserParameterList
@@ -52,6 +53,16 @@ namespace SaaMedW.ViewModel
             {
                 m_UserComputerParameterList = value;
                 OnPropertyChanged("UserComputerParameterList");
+            }
+        }
+        private bool m_IsChanged = false;
+        public bool IsChanged
+        {
+            get => m_IsChanged;
+            set
+            {
+                m_IsChanged = value;
+                OnPropertyChanged("IsChanged");
             }
         }
         public OptionsViewModel()
@@ -112,6 +123,34 @@ namespace SaaMedW.ViewModel
                 nv.SetObject(Options.GetParameter<object>(o.Key));
                 m_UserComputerParameterList.Add(nv);
             }
+        }
+        public RelayCommand SaveCommand
+        {
+            get => new RelayCommand(SaveParameters);
+        }
+
+        private void SaveParameters(object obj)
+        {
+            var mas = new ObservableCollection<Options>[]
+                { CommonParameterList, ComputerParameterList, UserParameterList, UserComputerParameterList };
+            foreach (var m in mas)
+            {
+                foreach (var o in m)
+                {
+                    var opt = ctx.Options.Find(new object[] { o.ParameterType, o.UserId, o.CompId });
+                    if (opt != null)
+                    {
+                        opt.ParameterValue = o.ParameterValue;
+                    }
+                    else
+                    {
+                        ctx.Options.Add(o);
+                    }
+                }
+            }
+            ctx.SaveChanges();
+            MessageBox.Show("Параметры сохранены");
+            IsChanged = false;
         }
     }
 }

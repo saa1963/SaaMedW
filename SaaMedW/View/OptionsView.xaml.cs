@@ -24,5 +24,21 @@ namespace SaaMedW.View
         {
             InitializeComponent();
         }
+
+        private void ParameterChanged(object sender, TextChangedEventArgs e)
+        {
+            SetIsChanged(sender);
+        }
+
+        private void DateTimeParameterChanged(object sender, SelectionChangedEventArgs e)
+        {
+            SetIsChanged(sender);
+        }
+
+        private void SetIsChanged(object sender)
+        {
+            var viewModel = DataContext as ViewModel.OptionsViewModel;
+            viewModel.IsChanged = true;
+        }
     }
 }

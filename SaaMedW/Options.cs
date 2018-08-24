@@ -17,7 +17,6 @@ namespace SaaMedW
         public enumParameterType ParameterType { get; set; }
         public int UserId { get; set; }
         public string ParameterValue { get; set; }
-        public string DataType { get; set; }
         public string CompId { get; set; }
         public enumProfile Profile { get; set; }
     }

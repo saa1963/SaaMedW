@@ -66,7 +66,6 @@
           <Property Name="ParameterType" Type="int" Nullable="false" />
           <Property Name="UserId" Type="int" Nullable="false" />
           <Property Name="ParameterValue" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="DataType" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="CompId" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Profile" Type="int" Nullable="false" />
         </EntityType>
@@ -908,7 +907,6 @@
           <Property Name="ParameterType" Type="SaaMedModel.enumParameterType" Nullable="false" />
           <Property Name="UserId" Type="Int32" Nullable="false" />
           <Property Name="ParameterValue" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="DataType" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="CompId" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Profile" Type="SaaMedModel.enumProfile" Nullable="false" />
         </EntityType>
@@ -1107,7 +1105,6 @@
               <MappingFragment StoreEntitySet="Options">
                 <ScalarProperty Name="Profile" ColumnName="Profile" />
                 <ScalarProperty Name="CompId" ColumnName="CompId" />
-                <ScalarProperty Name="DataType" ColumnName="DataType" />
                 <ScalarProperty Name="ParameterValue" ColumnName="ParameterValue" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="ParameterType" ColumnName="ParameterType" />

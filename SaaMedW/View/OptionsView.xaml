@@ -9,21 +9,34 @@
     <UserControl.Resources>
         <local:OptionItemTemplateSelector x:Key="myDataTemplateSelector"/>
         <DataTemplate x:Key="IntDataTemplate">
-            <local:ClickSelectTextBox Margin="10,0,0,0" Text="{Binding ParameterValue, StringFormat={}{0:0}}" HorizontalContentAlignment="Right"></local:ClickSelectTextBox>
+            <local:ClickSelectTextBox Margin="10,0,0,0" 
+                                      Text="{Binding ParameterValue, StringFormat={}{0:0}}" 
+                                      TextChanged="ParameterChanged"
+                                      HorizontalContentAlignment="Right"></local:ClickSelectTextBox>
         </DataTemplate>
         <DataTemplate x:Key="DecimalDataTemplate">
-            <local:ClickSelectTextBox Margin="10,0,0,0" Text="{Binding ParameterValue, StringFormat={}{0:0.00}}" HorizontalContentAlignment="Right"></local:ClickSelectTextBox>
+            <local:ClickSelectTextBox Margin="10,0,0,0" 
+                                      Text="{Binding ParameterValue, StringFormat={}{0:0.00}}" 
+                                      TextChanged="ParameterChanged"
+                                      HorizontalContentAlignment="Right"></local:ClickSelectTextBox>
         </DataTemplate>
         <DataTemplate x:Key="TextDataTemplate">
              <local:ClickSelectTextBox Margin="10,0,0,0" 
-                                       Text="{Binding ParameterValue}" TextWrapping="Wrap"></local:ClickSelectTextBox>
+                                       Text="{Binding ParameterValue}" 
+                                       TextChanged="ParameterChanged"
+                                       TextWrapping="Wrap"></local:ClickSelectTextBox>
         </DataTemplate>
         <DataTemplate x:Key="DateTimeDataTemplate">
-            <DatePicker Margin="10,0,0,0"  SelectedDate="{Binding ParameterValue, StringFormat={}{0:dd.MM.yyyy}}"></DatePicker>
+            <DatePicker Margin="10,0,0,0"  
+                        SelectedDate="{Binding ParameterValue, StringFormat={}{0:dd.MM.yyyy}}"
+                        SelectedDateChanged="DateTimeParameterChanged"
+                        ></DatePicker>
         </DataTemplate>
         <DataTemplate x:Key="PathDataTemplate">
             <DockPanel>
-                <local:ClickSelectTextBox Margin="10,0,0,0" Text="{Binding Value}"></local:ClickSelectTextBox>
+                <local:ClickSelectTextBox Margin="10,0,0,0" 
+                                          Text="{Binding Value}"
+                                          TextChanged="ParameterChanged"></local:ClickSelectTextBox>
                 <Button></Button>
             </DockPanel>
         </DataTemplate>
@@ -101,8 +114,12 @@
             </ListBox.ItemTemplate>
         </ListBox>
         <DockPanel Grid.Row="8" HorizontalAlignment="Center" VerticalAlignment="Bottom">
-            <Button Content="Сохранить" Width="80" Margin="10"></Button>
-            <Button Content="Отмена" Width="80" Margin="10"></Button>
+            <Button 
+                Content="Сохранить" 
+                Width="80" 
+                Margin="10" 
+                IsEnabled="{Binding IsChanged}"
+                Command="{Binding SaveCommand}"></Button>
         </DockPanel>
     </Grid>
 </UserControl>
