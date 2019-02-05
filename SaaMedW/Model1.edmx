@@ -915,6 +915,9 @@
           <Member Name="Коэффициент_для_Excel" Value="1" />
         </EnumType>
         <Association Name="Person2">
+          <Documentation>
+            <LongDescription>Лица для информирования</LongDescription>
+          </Documentation>
           <End Type="SaaMedModel.Person" Role="Person" Multiplicity="*" />
           <End Type="SaaMedModel.Person" Role="Person1" Multiplicity="*" />
         </Association>

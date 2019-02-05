@@ -24,12 +24,6 @@ namespace SaaMedW
         {
             base.OnStartup(e);
 
-            var logpath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "saamedw", "logs");
-            if (!Directory.Exists(logpath))
-            {
-                Directory.CreateDirectory(logpath);
-            }
-            //log4net.GlobalContext.Properties["LogFileName"] = logpath + "\\log.txt";
             log4net.Config.XmlConfigurator.Configure();
             log4net.ILog log = log4net.LogManager.GetLogger(typeof(App));
 
@@ -76,12 +70,14 @@ namespace SaaMedW
                 window.DataContext = modelview;
                 Current.MainWindow = window;
                 window.Show();
-                //ActivateView(new ExecTypes() { View = typeof(ReceiveView), ViewModel = typeof(ReceiveViewModel) });
 
                 log.Info("Старт приложения");
             }
             else
             {
+                var mess = $"Пользователь {loginViewModel.Login} не прошел регистрацию.";
+                log.Error(mess);
+                MessageBox.Show(mess);
                 Current.Shutdown();
             }
         }
