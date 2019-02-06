@@ -95,7 +95,7 @@ namespace SaaMedW.ViewModel
 
         public RelayCommand GenerateInvoiceCommand
         {
-            get => new RelayCommand(GenerateInvoice, o => SelectedVisit != null && SelectedVisit.Status == 1);
+            get => new RelayCommand(GenerateInvoice, o => SelectedVisit != null && SelectedVisit.Status == enVisitStatus.Завершен);
         }
 
         private void GenerateInvoice(object obj)

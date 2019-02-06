@@ -124,6 +124,9 @@
     <Compile Include="enumStatusInvoice.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="enVisitStatus.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="ExecTypes.cs" />
     <Compile Include="Global.cs" />
     <Compile Include="Graphic.cs">
@@ -484,6 +487,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Новое посещение.xml" />
     <Resource Include="image\modules_view_grid_header_background.png" />
     <Resource Include="image\delete_32.png" />
     <Resource Include="image\Icon1.ico" />

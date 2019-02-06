@@ -25,7 +25,7 @@ namespace SaaMedW
         public int PersonId { get; set; }
         public int PersonalId { get; set; }
         public System.DateTime Dt { get; set; }
-        public int Status { get; set; }
+        public enVisitStatus Status { get; set; }
         public int Duration { get; set; }
     
         public virtual Person Person { get; set; }

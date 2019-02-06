@@ -56,9 +56,10 @@ namespace SaaMedW.ViewModel
             {
                 m_object.Dt = value;
                 OnPropertyChanged("Dt");
+                OnPropertyChanged("Time");
             }
         }
-        public int Status
+        public enVisitStatus Status
         {
             get => m_object.Status;
             set

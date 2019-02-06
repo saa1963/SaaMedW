@@ -17,7 +17,7 @@ namespace SaaMedW.ViewModel
         private int m_PersonalId;
         private DateTime m_Dt;
         private int m_Duration;
-        private int m_Status;
+        private enVisitStatus m_Status;
 
         public ObservableCollection<VmSpecialty> SpecialtyList { get => m_specialty; }
         public List<Person> ListPerson { get; private set; }
@@ -137,7 +137,7 @@ namespace SaaMedW.ViewModel
             get => m_Duration;
             set { m_Duration = value; OnPropertyChanged("Duration"); }
         }
-        public int Status
+        public enVisitStatus Status
         {
             get => m_Status;
             set

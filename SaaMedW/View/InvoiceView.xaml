@@ -98,7 +98,7 @@
                         DisplayMemberPath="Name"
                         Width="200"></ComboBox>
         </DockPanel>
-        <local0:ScrollingDataGrid x:Name="g" ItemsSource="{Binding InvoiceList}" 
+        <local0:ScrollingDataGrid x:Name="g" ItemsSource="{Binding InvoiceList}" IsReadOnly="True" 
                 SelectedItem="{Binding InvoiceSel}" IsSynchronizedWithCurrentItem="True">
             <DataGrid.Columns>
                 <DataGridTextColumn IsReadOnly="True" Header="Id" Binding="{Binding Id}" Width="Auto"></DataGridTextColumn>
