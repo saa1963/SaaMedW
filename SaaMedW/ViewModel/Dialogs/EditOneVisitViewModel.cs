@@ -40,11 +40,11 @@ namespace SaaMedW.ViewModel
         }
         public EditOneVisitViewModel(Visit visit):this()
         {
-            PersonId = visit.PersonId;
-            PersonalId = visit.PersonalId;
-            Dt = visit.Dt;
-            Duration = visit.Duration;
-            Status = visit.Status;
+            m_PersonId = visit.PersonId;
+            m_PersonalId = visit.PersonalId;
+            m_Dt = visit.Dt;
+            m_Duration = visit.Duration;
+            m_Status = visit.Status;
             foreach(var o in visit.VisitBenefit)
             {
                 VisitBenefit.Add(new VisitBenefit()
@@ -110,7 +110,7 @@ namespace SaaMedW.ViewModel
             get => m_Dt.Date;
             set
             {
-                m_Dt = value.AddHours(m_Dt.Hour).AddMinutes(m_Dt.Minute);
+                m_Dt = value.Date.AddHours(m_Dt.Hour).AddMinutes(m_Dt.Minute);
                 OnPropertyChanged("Dt");
             }
         }
@@ -119,7 +119,7 @@ namespace SaaMedW.ViewModel
             get => m_Dt.Hour;
             set
             {
-                m_Dt = m_Dt.AddHours(value).AddMinutes(m_Dt.Minute);
+                m_Dt = m_Dt.Date.AddHours(value).AddMinutes(m_Dt.Minute);
                 OnPropertyChanged("H1");
             }
         }
@@ -128,7 +128,7 @@ namespace SaaMedW.ViewModel
             get => m_Dt.Minute;
             set
             {
-                m_Dt = m_Dt.AddHours(m_Dt.Hour).AddMinutes(value);
+                m_Dt = m_Dt.Date.AddHours(m_Dt.Hour).AddMinutes(value);
                 OnPropertyChanged("M1");
             }
         }

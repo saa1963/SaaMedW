@@ -18,7 +18,7 @@ namespace SaaMedW
         {
             VisitTimeInterval ti = (VisitTimeInterval)item;
 
-            if (ti.typeTimeInterval == TypeTimeInterval.Graphic)
+            if (ti.TypeTimeInterv == TypeTimeInterval.Graphic)
                 return GraphicDataTemplate;
             else
                 return VisitDataTemplate;

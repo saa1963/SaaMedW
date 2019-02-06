@@ -13,15 +13,15 @@ namespace SaaMedW.ViewModel
     public class EditInvoiceViewModel : ViewModelBase, IDataErrorInfo
     {
         private SaaMedEntities ctx = new SaaMedEntities();
-        private DateTime _dt = DateTime.Today;
+        private DateTime m_Dt = DateTime.Today;
         private int _num;
         //private enStatusInvoice _status = enStatusInvoice.Неоплачен;
-        private int _personId;
-        private decimal _sm;
-        private Person _person;
+        private int m_PersonId;
+        private decimal m_Sm;
+        private Person m_Person;
         private ObservableCollection<VmInvoiceDetail> _listInvoiceDetail
             = new ObservableCollection<VmInvoiceDetail>();
-        private int _id;
+        private int m_Id;
 
         public EditInvoiceViewModel()
         {
@@ -30,12 +30,12 @@ namespace SaaMedW.ViewModel
         }
         public EditInvoiceViewModel(VmInvoice invoice):this()
         {
-            Id = invoice.Id;
-            Dt = invoice.Dt;
+            m_Id = invoice.Id;
+            m_Dt = invoice.Dt;
             //Status = (enStatusInvoice)invoice.Status;
-            PersonId = invoice.PersonId;
-            Sm = invoice.Sm;
-            Person = invoice.Person;
+            m_PersonId = invoice.PersonId;
+            m_Sm = invoice.Sm;
+            m_Person = invoice.Person;
             foreach (var o in invoice.InvoiceDetail)
             {
                 var invoiceDetail = new VmInvoiceDetail()
@@ -76,12 +76,12 @@ namespace SaaMedW.ViewModel
             }
         }
 
-        public int Id { get => _id; set => _id = value; }
+        public int Id { get => m_Id; set => m_Id = value; }
         public DateTime Dt
         {
-            get => _dt; set
+            get => m_Dt; set
             {
-                _dt = value;
+                m_Dt = value;
                 OnPropertyChanged("Dt");
                 OnPropertyChanged("DateNumSum");
             }
@@ -105,26 +105,26 @@ namespace SaaMedW.ViewModel
         //}
         public int PersonId
         {
-            get => _personId; set
+            get => m_PersonId; set
             {
-                _personId = value;
+                m_PersonId = value;
                 OnPropertyChanged("PersonId");
             }
         }
         public decimal Sm
         {
-            get => _sm; set
+            get => m_Sm; set
             {
-                _sm = value;
+                m_Sm = value;
                 OnPropertyChanged("Sm");
                 OnPropertyChanged("DateNumSum");
             }
         }
         public Person Person
         {
-            get => _person; set
+            get => m_Person; set
             {
-                _person = value;
+                m_Person = value;
                 OnPropertyChanged("Person");
             }
         }

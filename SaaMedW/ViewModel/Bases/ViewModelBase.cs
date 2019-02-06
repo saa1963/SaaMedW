@@ -96,7 +96,9 @@ namespace SaaMedW.ViewModel
         /// </summary>
         public void Dispose()
         {
-            this.OnDispose();
+            Dispose(true);
+            GC.SuppressFinalize(this);
+            
         }
 
         /// <summary>
@@ -107,14 +109,23 @@ namespace SaaMedW.ViewModel
         {
         }
 
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposing)
+            {
+                string msg = string.Format("{0} ({1}) ({2}) Finalized", this.GetType().Name, this.DisplayName, this.GetHashCode());
+                System.Diagnostics.Debug.WriteLine(msg);
+            }
+            this.OnDispose();
+        }
+
 #if DEBUG
         /// <summary>
         /// Useful for ensuring that ViewModel objects are properly garbage collected.
         /// </summary>
         ~ViewModelBase()
         {
-            string msg = string.Format("{0} ({1}) ({2}) Finalized", this.GetType().Name, this.DisplayName, this.GetHashCode());
-            System.Diagnostics.Debug.WriteLine(msg);
+            Dispose(false);
         }
 #endif
 

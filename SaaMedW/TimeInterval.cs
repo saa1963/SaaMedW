@@ -41,8 +41,8 @@ namespace SaaMedW
         public TimeInterval() { }
         public TimeInterval(TimeInterval ti)
         {
-            Begin = ti.Begin;
-            Interval = ti.Interval;
+            m_begin = ti.Begin;
+            m_interval = ti.Interval;
         }
         public TimeInterval(DateTime bg, int h1, int m1, int h2, int m2): 
             this(bg, h1, m1, (h2 * 60 + m2) - (h1 * 60 + m1))
@@ -50,8 +50,8 @@ namespace SaaMedW
         }
         public TimeInterval(DateTime bg, int h1, int m1, int m2)
         {
-            Begin = bg.Date.AddMinutes(h1 * 60 + m1);
-            Interval = new TimeSpan(0, m2, 0);
+            m_begin = bg.Date.AddMinutes(h1 * 60 + m1);
+            m_interval = new TimeSpan(0, m2, 0);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

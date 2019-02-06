@@ -52,7 +52,7 @@ namespace SaaMedW.ViewModel
                 var ob = new TimeInterval()
                 { Begin = o.Dt, Interval = new TimeSpan(0, o.Duration, 0) };
                     t_intervals.Add(new VisitTimeInterval(ob)
-                    { PersonalId = this.PersonalId, Dt = this.Dt, typeTimeInterval = TypeTimeInterval.Visit, Parent = this, VisitId = o.Id });
+                    { PersonalId = this.PersonalId, Dt = this.Dt, TypeTimeInterv = TypeTimeInterval.Visit, Parent = this, VisitId = o.Id });
             }
             foreach (var o in intervalsFromGraphic)
             {
@@ -61,7 +61,7 @@ namespace SaaMedW.ViewModel
                 foreach(var obs0 in obs)
                 {
                     var vti = new VisitTimeInterval(obs0)
-                    { Dt = this.Dt, PersonalId = this.PersonalId, typeTimeInterval = TypeTimeInterval.Graphic, Parent = this };
+                    { Dt = this.Dt, PersonalId = this.PersonalId, TypeTimeInterv = TypeTimeInterval.Graphic, Parent = this };
                     if (t_intervals.All(s => !s.IsIntersected(vti)))
                         t_intervals.Add(vti);
                 }

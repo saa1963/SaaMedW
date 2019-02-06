@@ -17,8 +17,8 @@ namespace SaaMedW.ViewModel
         public DateIntervalsViewModel Parent { get; set; }
         public int PersonalId { get; set; }
         public DateTime Dt{ get; set; }
-        public TypeTimeInterval typeTimeInterval { get; set; }
-        public bool IsVisit { get => typeTimeInterval == TypeTimeInterval.Visit; }
+        public TypeTimeInterval TypeTimeInterv { get; set; }
+        public bool IsVisit { get => TypeTimeInterv == TypeTimeInterval.Visit; }
         public int VisitId { get; set; }
 
         public VisitTimeInterval():base() { }
@@ -47,7 +47,7 @@ namespace SaaMedW.ViewModel
             root.ctx.Visit.Add(visit);
             root.ctx.SaveChanges();
             this.VisitId = visit.Id;
-            this.typeTimeInterval = TypeTimeInterval.Visit;
+            this.TypeTimeInterv = TypeTimeInterval.Visit;
             OnPropertyChanged("typeTimeInterval");
             OnPropertyChanged("IsVisit");
         }
@@ -87,14 +87,14 @@ namespace SaaMedW.ViewModel
         }
         private void DelVisitProc(object obj)
         {
-            var root = this.Parent.Parent.Parent;
-            var visit = root.ctx.Visit.Find(VisitId);
+            EditVisitViewModel root = this.Parent.Parent.Parent;
+            Visit visit = root.ctx.Visit.Find(VisitId);
             root.ctx.VisitBenefit.RemoveRange(visit.VisitBenefit);
             visit.VisitBenefit.Clear();
             root.ctx.Visit.Remove(visit);
             root.ctx.SaveChanges();
             this.VisitId = 0;
-            this.typeTimeInterval = TypeTimeInterval.Graphic;
+            this.TypeTimeInterv = TypeTimeInterval.Graphic;
             OnPropertyChanged("typeTimeInterval");
         }
     }

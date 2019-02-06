@@ -37,8 +37,10 @@ namespace SaaMedW.ViewModel
         }
         public EditPersonViewModel(EditPersonViewModel obj)
         {
-            m_object = new Person();
-            Id = obj.Id;
+            m_object = new Person
+            {
+                Id = obj.Id
+            };
             CopyProperties(obj);
         }
         public EditPersonViewModel Copy(EditPersonViewModel obj)
@@ -48,26 +50,26 @@ namespace SaaMedW.ViewModel
         }
         private void CopyProperties(EditPersonViewModel obj)
         {
-            AddressCity = obj.AddressCity;
-            AddressFlat = obj.AddressFlat;
-            AddressHouse = obj.AddressHouse;
-            AddressPunkt = obj.AddressPunkt;
-            AddressRaion = obj.AddressRaion;
-            AddressStreet = obj.AddressStreet;
-            AddressSubject = obj.AddressSubject;
-            BirthDate = obj.BirthDate;
-            CreateDate = obj.CreateDate;
-            DocNumber = obj.DocNumber;
-            DocSeria = obj.DocSeria;
-            DocumentTypeId = obj.DocumentTypeId;
-            FirstName = obj.FirstName;
-            Inn = obj.Inn;
-            LastName = obj.LastName;
-            Mestnost = obj.Mestnost;
-            MiddleName = obj.MiddleName;
-            Phone = obj.Phone;
-            Sex = obj.Sex;
-            Snils = obj.Snils;
+            m_object.AddressCity = obj.AddressCity;
+            m_object.AddressFlat = obj.AddressFlat;
+            m_object.AddressHouse = obj.AddressHouse;
+            m_object.AddressPunkt = obj.AddressPunkt;
+            m_object.AddressRaion = obj.AddressRaion;
+            m_object.AddressStreet = obj.AddressStreet;
+            m_object.AddressSubject = obj.AddressSubject;
+            m_object.BirthDate = obj.BirthDate;
+            m_object.CreateDate = obj.CreateDate;
+            m_object.DocNumber = obj.DocNumber;
+            m_object.DocSeria = obj.DocSeria;
+            m_object.DocumentTypeId = obj.DocumentTypeId;
+            m_object.FirstName = obj.FirstName;
+            m_object.Inn = obj.Inn;
+            m_object.LastName = obj.LastName;
+            m_object.Mestnost = obj.Mestnost;
+            m_object.MiddleName = obj.MiddleName;
+            m_object.Phone = obj.Phone;
+            m_object.Sex = obj.Sex;
+            m_object.Snils = obj.Snils;
         }
         private void FillDocType()
         {

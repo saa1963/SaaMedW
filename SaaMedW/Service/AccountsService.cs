@@ -11,12 +11,11 @@ namespace SaaMedW.Service
         log4net.ILog log;
         public AccountsService()
         {
-            log4net.LogManager.GetLogger(this.GetType());
+            log = log4net.LogManager.GetLogger(this.GetType());
         }
 
         public bool BackMoneyOneInvoice(Invoice p_invoice, out string message)
         {
-            bool rt;
             message = String.Empty;
             using (SaaMedEntities ctx = new SaaMedEntities())
             {
@@ -36,7 +35,7 @@ namespace SaaMedW.Service
                 {
                     ctx.SaveChanges();
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     invoice.Payed = p_invoice.Payed;
                     invoice.Status = p_invoice.Status;

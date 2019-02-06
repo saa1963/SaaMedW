@@ -15,43 +15,43 @@ namespace SaaMedW.ViewModel
         }
         public VmSpecialty(Specialty obj)
         {
-            Id = obj.Id;
-            Name = obj.Name;
-            ParentId = obj.ParentId;
+            m_Id = obj.Id;
+            m_Name = obj.Name;
+            m_ParentId = obj.ParentId;
         }
         public VmSpecialty(VmSpecialty obj)
         {
-            Id = obj.Id;
-            Name = obj.Name;
-            ParentId = obj.ParentId;
+            m_Id = obj.Id;
+            m_Name = obj.Name;
+            m_ParentId = obj.ParentId;
         }
-        private int _Id;
+        private int m_Id;
         public int Id
         {
-            get => _Id;
+            get => m_Id;
             set
             {
-                _Id = value;
+                m_Id = value;
                 OnPropertyChanged("Id");
             }
         }
-        private string _Name;
+        private string m_Name;
         public string Name
         {
-            get => _Name;
+            get => m_Name;
             set
             {
-                _Name = value;
+                m_Name = value;
                 OnPropertyChanged("Name");
             }
         }
-        private int? _ParentId;
+        private int? m_ParentId;
         public int? ParentId
         {
-            get => _ParentId;
+            get => m_ParentId;
             set
             {
-                _ParentId = value;
+                m_ParentId = value;
                 OnPropertyChanged("ParentId");
             }
         }

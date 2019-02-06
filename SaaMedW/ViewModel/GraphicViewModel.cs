@@ -16,10 +16,10 @@ namespace SaaMedW.ViewModel
         private DateTime m_dt1;
         private DateTime m_dt2;
         private const int CELLS_COUNT = 42;
-        private ListGraphicViewModel[] m_mas = new ListGraphicViewModel[CELLS_COUNT];
+        private readonly ListGraphicViewModel[] m_mas = new ListGraphicViewModel[CELLS_COUNT];
         private Months[] m_months = new Months[12];
-        private List<Personal> m_personal = new List<Personal>();
-        private DateTime m_dt;
+        private readonly List<Personal> m_personal = new List<Personal>();
+        private readonly DateTime m_dt;
 
         public GraphicViewModel():this(DateTime.Today) { }
         public GraphicViewModel(DateTime dt)
@@ -43,8 +43,8 @@ namespace SaaMedW.ViewModel
             {
                 dt1 = dt1.AddDays(-1);
             }
-            Dt1 = dt1;
-            Dt2 = Dt1.AddDays(CELLS_COUNT - 1);
+            m_dt1 = dt1;
+            m_dt2 = Dt1.AddDays(CELLS_COUNT - 1);
             DateTime d = Dt1;
             int i = 0;
             while (d <= Dt2)
@@ -74,13 +74,15 @@ namespace SaaMedW.ViewModel
                 ctx.Database.ExecuteSqlCommand("DELETE FROM graphic WHERE dt = @p0", dt.AddDays(7));
                 foreach(var o in ctx.Graphic.Where(s => s.Dt == dt))
                 {
-                    var o1 = new Graphic();
-                    o1.Dt = o.Dt.AddDays(7);
-                    o1.H1 = o.H1;
-                    o1.H2 = o.H2;
-                    o1.M1 = o.M1;
-                    o1.M2 = o.M2;
-                    o1.PersonalId = o.PersonalId;
+                    var o1 = new Graphic
+                    {
+                        Dt = o.Dt.AddDays(7),
+                        H1 = o.H1,
+                        H2 = o.H2,
+                        M1 = o.M1,
+                        M2 = o.M2,
+                        PersonalId = o.PersonalId
+                    };
                     ctx.Graphic.Add(o1);
                 }
             }
@@ -93,10 +95,10 @@ namespace SaaMedW.ViewModel
         }
         public Months MonthsCurrent
         {
-            get => view_months.CurrentItem as Months;
-            set => view_months.MoveCurrentTo(value);
+            get => View_months.CurrentItem as Months;
+            set => View_months.MoveCurrentTo(value);
         }
-        private ICollectionView view_months
+        private ICollectionView View_months
         {
             get
             {
@@ -109,10 +111,10 @@ namespace SaaMedW.ViewModel
         }
         public Personal PersonalCurrent
         {
-            get => view_personal.CurrentItem as Personal;
-            set => view_personal.MoveCurrentTo(value);
+            get => View_personal.CurrentItem as Personal;
+            set => View_personal.MoveCurrentTo(value);
         }
-        private ICollectionView view_personal
+        private ICollectionView View_personal
         {
             get
             {

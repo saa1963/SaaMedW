@@ -17,7 +17,7 @@ namespace SaaMedW.ViewModel
         public LoginViewModel()
         {
             storage = (ILocalStorage)ServiceLocator.Instance.GetService(typeof(ILocalStorage));
-            Login = storage.GetLoginName(Environment.UserName);
+            m_login = storage.GetLoginName(Environment.UserName);
         }
 
         public string Login
@@ -48,7 +48,7 @@ namespace SaaMedW.ViewModel
             }
         }
 
-        public RelayCommand cmdAccept { get; set; }
+        //public RelayCommand CmdAccept { get; set; }
 
         public string this[string columnName]
         {

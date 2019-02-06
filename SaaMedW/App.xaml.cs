@@ -32,11 +32,13 @@ namespace SaaMedW
                 var serviceUser = ctx.Users.Where(s => s.Login == "Service").FirstOrDefault();
                 if (serviceUser == null)
                 {
-                    serviceUser = new Users();
-                    serviceUser.Disabled = false;
-                    serviceUser.Fio = "Service";
-                    serviceUser.Login = "Service";
-                    serviceUser.Role = 0;
+                    serviceUser = new Users
+                    {
+                        Disabled = false,
+                        Fio = "Service",
+                        Login = "Service",
+                        Role = 0
+                    };
                     ctx.Users.Add(serviceUser);
                     ctx.SaveChanges();
                 }
@@ -66,8 +68,10 @@ namespace SaaMedW
                 storage.SetLoginName(Environment.UserName, loginViewModel.Login);
                 this.ShutdownMode = ShutdownMode.OnMainWindowClose;
                 var modelview = new MasterWindowViewModel();
-                var window = new MasterWindow();
-                window.DataContext = modelview;
+                var window = new MasterWindow
+                {
+                    DataContext = modelview
+                };
                 Current.MainWindow = window;
                 window.Show();
 
@@ -106,13 +110,15 @@ namespace SaaMedW
                 window.Wplace.Children.Clear();
                 if (f.Tag != null)
                 {
-                    var tb = new TextBlock();
-                    tb.Text = f.Tag.ToString();
-                    tb.Padding = new Thickness(10);
-                    tb.Background = Brushes.AliceBlue;
-                    tb.FontSize = 20;
-                    tb.HorizontalAlignment = HorizontalAlignment.Stretch;
-                    tb.VerticalAlignment = VerticalAlignment.Stretch;
+                    var tb = new TextBlock
+                    {
+                        Text = f.Tag.ToString(),
+                        Padding = new Thickness(10),
+                        Background = Brushes.AliceBlue,
+                        FontSize = 20,
+                        HorizontalAlignment = HorizontalAlignment.Stretch,
+                        VerticalAlignment = VerticalAlignment.Stretch
+                    };
                     DockPanel.SetDock(tb, Dock.Top);
                     window.Wplace.Children.Add(tb);
                 }
