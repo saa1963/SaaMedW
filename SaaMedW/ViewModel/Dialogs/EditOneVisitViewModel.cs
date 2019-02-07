@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SaaMedW.ViewModel
 {
@@ -13,16 +10,10 @@ namespace SaaMedW.ViewModel
             = new ObservableCollection<VmSpecialty>();
         private List<Specialty> lst;
         private SaaMedEntities ctx = new SaaMedEntities();
-        private int m_PersonId;
-        private int m_PersonalId;
-        private DateTime m_Dt;
-        private int m_Duration;
         private enVisitStatus m_Status;
 
         public ObservableCollection<VmSpecialty> SpecialtyList { get => m_specialty; }
-        public List<Person> ListPerson { get; private set; }
-        public List<Personal> ListPersonal { get; private set; }
-        public List<IdName> ListStatus { get; private set; } = new List<IdName>();
+        public List<StatusName> ListStatus { get; set; } = new List<StatusName>();
         public EditOneVisitViewModel()
         {
             lst = ctx.Specialty.ToList();
@@ -32,24 +23,16 @@ namespace SaaMedW.ViewModel
                 BuildTree(sp);
                 m_specialty.Add(sp);
             }
-            ListPerson = ctx.Person.OrderBy(s => s.LastName).ThenBy(s => s.FirstName)
-                .ThenBy(s => s.MiddleName).ToList();
-            ListPersonal = ctx.Personal.Where(s => s.Active).OrderBy(s => s.Fio).ToList();
-            ListStatus.Add(new IdName() { Id = 0, Name = "Предварительный" });
-            ListStatus.Add(new IdName() { Id = 1, Name = "Завершен" });
+            ListStatus.Add(new StatusName() { Id = enVisitStatus.Предварительный, Name = "Предварительный" });
+            ListStatus.Add(new StatusName() { Id = enVisitStatus.Завершен, Name = "Завершен" });
         }
         public EditOneVisitViewModel(Visit visit):this()
         {
-            m_PersonId = visit.PersonId;
-            m_PersonalId = visit.PersonalId;
-            m_Dt = visit.Dt;
-            m_Duration = visit.Duration;
             m_Status = visit.Status;
             foreach(var o in visit.VisitBenefit)
             {
                 VisitBenefit.Add(new VisitBenefit()
                     { BenefitId = o.BenefitId, Benefit = ctx.Benefit.Find(o.BenefitId), Kol = o.Kol });
-                //ListBenefit.Remove(ListBenefit.Single(s => s.Id == o.BenefitId));
             }
             
         }
@@ -95,48 +78,6 @@ namespace SaaMedW.ViewModel
             = new ObservableCollection<VisitBenefit>();
         public Benefit SelectedBenefit1 { get; set; }
         public VisitBenefit SelectedBenefit2 { get; set; }
-        public int PersonId
-        {
-            get => m_PersonId;
-            set { m_PersonId = value; OnPropertyChanged("PersonId"); }
-        }
-        public int PersonalId
-        {
-            get => m_PersonalId;
-            set { m_PersonalId = value; OnPropertyChanged("PersonalId"); }
-        }
-        public DateTime Dt
-        {
-            get => m_Dt.Date;
-            set
-            {
-                m_Dt = value.Date.AddHours(m_Dt.Hour).AddMinutes(m_Dt.Minute);
-                OnPropertyChanged("Dt");
-            }
-        }
-        public int H1
-        {
-            get => m_Dt.Hour;
-            set
-            {
-                m_Dt = m_Dt.Date.AddHours(value).AddMinutes(m_Dt.Minute);
-                OnPropertyChanged("H1");
-            }
-        }
-        public int M1
-        {
-            get => m_Dt.Minute;
-            set
-            {
-                m_Dt = m_Dt.Date.AddHours(m_Dt.Hour).AddMinutes(value);
-                OnPropertyChanged("M1");
-            }
-        }
-        public int Duration
-        {
-            get => m_Duration;
-            set { m_Duration = value; OnPropertyChanged("Duration"); }
-        }
         public enVisitStatus Status
         {
             get => m_Status;
@@ -172,5 +113,11 @@ namespace SaaMedW.ViewModel
     {
         public string Name { get; set; }
         public int Kol { get; set; }
+    }
+
+    public class StatusName
+    {
+        public enVisitStatus Id { get; set; }
+        public string Name { get; set; }
     }
 }

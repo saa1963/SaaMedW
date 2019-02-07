@@ -59,10 +59,6 @@ namespace SaaMedW.ViewModel
             var f = new EditOneVisitView() { DataContext = modelView };
             if (f.ShowDialog() ?? false)
             {
-                SelectedVisit.Dt = modelView.Dt.Date.AddHours(modelView.H1).AddMinutes(modelView.M1);
-                SelectedVisit.Duration = modelView.Duration;
-                SelectedVisit.PersonalId = modelView.PersonalId;
-                SelectedVisit.PersonId = modelView.PersonId;
                 SelectedVisit.Status = modelView.Status;
                 ctx.VisitBenefit.RemoveRange(visit.VisitBenefit);
                 SelectedVisit.VisitBenefit.Clear();

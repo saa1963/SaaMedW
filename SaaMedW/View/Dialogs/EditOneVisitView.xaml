@@ -21,131 +21,68 @@
             <Setter Property="IsSelected" Value="{Binding IsSelected}" />
         </Style>
     </Window.Resources>
-    <Grid Margin="15,15,15,15">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"></ColumnDefinition>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"></ColumnDefinition>
-            <ColumnDefinition Width="Auto"></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
-        </Grid.ColumnDefinitions>
-        <Grid Grid.Column="0" Margin="0, 0, 15, 0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-            </Grid.RowDefinitions>
-            <StackPanel Grid.Row="0">
-                <Label Content="Пациент"></Label>
-                <ComboBox ItemsSource="{Binding ListPerson}" DisplayMemberPath="FioBirthday" 
-                          SelectedValuePath="Id" SelectedValue="{Binding PersonId}"></ComboBox>
-            </StackPanel>
-            <StackPanel Grid.Row="1">
-                <Label Content="Врач"></Label>
-                <ComboBox ItemsSource="{Binding ListPersonal}" DisplayMemberPath="Fio"
-                          SelectedValuePath="Id" SelectedValue="{Binding PersonalId}"></ComboBox>
-            </StackPanel>
-            <StackPanel Grid.Row="2">
-                <Label Content="Дата"></Label>
-                <DatePicker SelectedDate="{Binding Dt}" SelectedDateFormat="Short"></DatePicker>
-            </StackPanel>
-            <StackPanel Grid.Row="3">
-                <Label>Время</Label>
-                <StackPanel Orientation="Horizontal">
-                    <ComboBox Text="{Binding H1,  ValidatesOnDataErrors=True, 
-                            UpdateSourceTrigger=PropertyChanged}" Width="50">
-                        <ComboBoxItem>8</ComboBoxItem>
-                        <ComboBoxItem>9</ComboBoxItem>
-                        <ComboBoxItem>10</ComboBoxItem>
-                        <ComboBoxItem>11</ComboBoxItem>
-                        <ComboBoxItem>12</ComboBoxItem>
-                        <ComboBoxItem>13</ComboBoxItem>
-                        <ComboBoxItem>14</ComboBoxItem>
-                        <ComboBoxItem>15</ComboBoxItem>
-                        <ComboBoxItem>16</ComboBoxItem>
-                        <ComboBoxItem>17</ComboBoxItem>
-                        <ComboBoxItem>18</ComboBoxItem>
-                        <ComboBoxItem>19</ComboBoxItem>
-                        <ComboBoxItem>20</ComboBoxItem>
-                    </ComboBox>
-                    <ComboBox Text="{Binding M1,  ValidatesOnDataErrors=True, 
-                            UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:00}}" Width="50">
-                        <ComboBoxItem>00</ComboBoxItem>
-                        <ComboBoxItem>05</ComboBoxItem>
-                        <ComboBoxItem>10</ComboBoxItem>
-                        <ComboBoxItem>15</ComboBoxItem>
-                        <ComboBoxItem>20</ComboBoxItem>
-                        <ComboBoxItem>25</ComboBoxItem>
-                        <ComboBoxItem>30</ComboBoxItem>
-                        <ComboBoxItem>35</ComboBoxItem>
-                        <ComboBoxItem>40</ComboBoxItem>
-                        <ComboBoxItem>45</ComboBoxItem>
-                        <ComboBoxItem>50</ComboBoxItem>
-                        <ComboBoxItem>55</ComboBoxItem>
-                    </ComboBox>
-                </StackPanel>
-            </StackPanel>
-            <StackPanel Grid.Row="4">
-                <Label Content="Продолжительность (мин.)"></Label>
-                <local0:ClickSelectTextBox Text="{Binding Duration, StringFormat={}{0:0}}"></local0:ClickSelectTextBox>
-            </StackPanel>
-            <StackPanel Grid.Row="5">
-                <Label Content="Статус"></Label>
-                <ComboBox ItemsSource="{Binding ListStatus}" DisplayMemberPath="Name"
-                          SelectedValuePath="Id" SelectedValue="{Binding Status}"></ComboBox>
-            </StackPanel>
-            <StackPanel Grid.Row="6" Orientation="Horizontal">
-                <Button Margin="20,20,0,20" Width="60" Content="OK" IsDefault="True" Click="OK_Click"></Button>
-                <Button Margin="20" Width="60" Content="Отмена" IsCancel="True"></Button>
-            </StackPanel>
-        </Grid>
-        <DockPanel Grid.Column="1">
-            <Label DockPanel.Dock="Top" Content="Все услуги"></Label>
-            <TreeView Margin="0,0,10,0" Width="300" DockPanel.Dock="Top" 
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid Margin="15,15,15,0" Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <DockPanel Grid.Column="0">
+                <Label DockPanel.Dock="Top" Content="Все услуги"></Label>
+                <TreeView Margin="0,0,10,0" Width="300" DockPanel.Dock="Top" 
                 BorderBrush="Transparent"
                 ItemsSource="{Binding SpecialtyList}">
-                <TreeView.ItemTemplate>
-                    <HierarchicalDataTemplate ItemsSource="{Binding ChildSpecialties}">
-                        <Border Margin="2">
-                            <TextBlock Width="200" TextWrapping="Wrap">
+                    <TreeView.ItemTemplate>
+                        <HierarchicalDataTemplate ItemsSource="{Binding ChildSpecialties}">
+                            <Border Margin="2">
+                                <TextBlock Width="200" TextWrapping="Wrap">
                                 <Run Text="- "></Run>
                                 <Run Text="{Binding Name}"></Run>
-                            </TextBlock>
-                        </Border>
-                    </HierarchicalDataTemplate>
-                </TreeView.ItemTemplate>
-            </TreeView>
-        </DockPanel>
-        <StackPanel Grid.Column="2" VerticalAlignment="Center">
-            <Button Margin="10" Command="{Binding AddBenefitCommand}">
-                <Image Source="../../image/forward.png"></Image>
-            </Button>
-            <Button Margin="10" Command="{Binding RemoveBenefitCommand}">
-                <Image Source="../../image/back.png"></Image>
-            </Button>
-        </StackPanel>
-        <DockPanel Grid.Column="3">
-            <Label DockPanel.Dock="Top" Content="Выбранные услуги (Кол. + Наименование)"></Label>
-            <ListBox DockPanel.Dock="Top" ItemsSource="{Binding VisitBenefit}"
+                                </TextBlock>
+                            </Border>
+                        </HierarchicalDataTemplate>
+                    </TreeView.ItemTemplate>
+                </TreeView>
+            </DockPanel>
+            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                <Button Margin="10" Command="{Binding AddBenefitCommand}">
+                    <Image Source="../../image/forward.png"></Image>
+                </Button>
+                <Button Margin="10" Command="{Binding RemoveBenefitCommand}">
+                    <Image Source="../../image/back.png"></Image>
+                </Button>
+            </StackPanel>
+            <DockPanel Grid.Column="2">
+                <Label DockPanel.Dock="Top" Content="Выбранные услуги (Кол. + Наименование)"></Label>
+                <ListBox DockPanel.Dock="Top" ItemsSource="{Binding VisitBenefit}"
                  IsSynchronizedWithCurrentItem="True"
                  SelectedItem="{Binding SelectedBenefit2}">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <DockPanel>
-                            <TextBox Margin="5" DockPanel.Dock="Left" Text="{Binding Kol, 
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <DockPanel>
+                                <TextBox Margin="5" DockPanel.Dock="Left" Text="{Binding Kol, 
                             UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:0}}"
                                     Width="40" HorizontalContentAlignment="Right"></TextBox>
-                            <TextBlock Margin="5" DockPanel.Dock="Left" 
+                                <TextBlock Margin="5" DockPanel.Dock="Left" 
                                        Width="310" TextWrapping="Wrap"
                                        Text="{Binding Benefit.Name}"></TextBlock>
-                        </DockPanel>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-        </DockPanel>
+                            </DockPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </DockPanel>
+        </Grid>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="1">
+            <Label Margin="5" Content="Статус"></Label>
+            <ComboBox Margin="5" ItemsSource="{Binding ListStatus}" DisplayMemberPath="Name"
+                SelectedValuePath="Id" SelectedValue="{Binding Status}"></ComboBox>
+            <Button Margin="5" Width="60" Content="OK" IsDefault="True" Click="OK_Click" Name="OKButton"></Button>
+            <Button Margin="5" Width="60" Content="Отмена" IsCancel="True"></Button>
+        </StackPanel>
     </Grid>
 </Window>

@@ -59,6 +59,7 @@
                             <Image Source="..\..\image\folder-open_32.png"></Image>
                         </Button>
                     </DockPanel>
+                    <!-- Дерево направлений и услуг -->
                     <Popup x:Name="tbPopup" IsOpen="{Binding IsOpen}">
                         <Border>
                             <TreeView Margin="0,0,10,0" Width="300" DockPanel.Dock="Top" 
@@ -78,6 +79,7 @@
                         </Border>
                     </Popup>
                 </StackPanel>
+                <!-- Выбор пациента -->
                 <Label DockPanel.Dock="Left">Пациент</Label>
                 <ComboBox x:Name="PersonCombo" MinWidth="300" ItemsSource="{Binding PersonList}" 
                         DisplayMemberPath="FullName" 
@@ -87,6 +89,7 @@
                         >
                 </ComboBox>
             </DockPanel>
+            <!-- список врачей по выбраному направлению -->
             <ItemsControl Grid.Row="1" Margin="5" ItemsSource="{Binding PersonalVisits}" BorderBrush="Transparent">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -105,6 +108,7 @@
                                 <Label Content="{Binding PersonalFio}"></Label>
                             </Border>
                             <ScrollViewer Grid.Row="1" PreviewMouseWheel="ScrollViewer_PreviewMouseWheel">
+                                <!-- список дат приема врача согласно графику -->
                                 <ItemsControl ItemsSource="{Binding DateIntervals}" BorderBrush="Transparent">
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
@@ -117,6 +121,7 @@
                                                     <Label Content="{Binding Dt}" 
                                                         ContentStringFormat="{}{0:dd.MM.yyyy}"></Label>
                                                 </Border>
+                                                <!-- список интервалов приема -->
                                                 <ListBox Grid.Row="1" ItemsSource="{Binding Intervals}" 
                                                     HorizontalContentAlignment="Stretch" ItemTemplate="{StaticResource GraphicTemplate}" BorderBrush="Transparent">
                                                 </ListBox>

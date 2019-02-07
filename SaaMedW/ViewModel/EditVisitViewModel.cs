@@ -19,10 +19,10 @@ namespace SaaMedW.ViewModel
                 OnPropertyChanged("IsOpen");
             }
         }
-        private ObservableCollection<VmSpecialty> m_specialty
-            = new ObservableCollection<VmSpecialty>();
+
         private List<Specialty> lst;
-        public ObservableCollection<VmSpecialty> SpecialtyList { get => m_specialty; }
+        public ObservableCollection<VmSpecialty> SpecialtyList { get; } 
+            = new ObservableCollection<VmSpecialty>();
         private void BuildTree(VmSpecialty sp)
         {
             sp.ChildSpecialties.Clear();
@@ -98,7 +98,7 @@ namespace SaaMedW.ViewModel
                 .Select(s => new VmSpecialty(s) { Cargo = SelectedItemMethod }))
             {
                 BuildTree(sp);
-                m_specialty.Add(sp);
+                SpecialtyList.Add(sp);
             }
 
             foreach (var o in ctx.Person.OrderBy(s => s.LastName).ThenBy(s => s.FirstName)

@@ -40,7 +40,7 @@ namespace SaaMedW.ViewModel
                 Duration = this.Interval.Minutes,
                 PersonId = root.SelectedPersonId,
                 PersonalId = this.PersonalId,
-                Status = 0
+                Status = enVisitStatus.Предварительный
             };
             var benefit = root.ctx.Benefit.Find(root.BenefitSel.Id);
             visit.VisitBenefit.Add(new VisitBenefit() { Benefit = benefit, Kol = 1, Status = 0 });
@@ -48,7 +48,7 @@ namespace SaaMedW.ViewModel
             root.ctx.SaveChanges();
             this.VisitId = visit.Id;
             this.TypeTimeInterv = TypeTimeInterval.Visit;
-            OnPropertyChanged("typeTimeInterval");
+            OnPropertyChanged("TypeTimeInterv");
             OnPropertyChanged("IsVisit");
         }
         public RelayCommand EditVisitCommand
@@ -64,10 +64,6 @@ namespace SaaMedW.ViewModel
             var f = new EditOneVisitView() { DataContext = modelView };
             if (f.ShowDialog() ?? false)
             {
-                visit.Dt = modelView.Dt.AddHours(modelView.H1).AddMinutes(modelView.M1);
-                visit.Duration = modelView.Duration;
-                visit.PersonalId = modelView.PersonalId;
-                visit.PersonId = modelView.PersonId;
                 visit.Status = modelView.Status;
                 root.ctx.VisitBenefit.RemoveRange(visit.VisitBenefit);
                 visit.VisitBenefit.Clear();
