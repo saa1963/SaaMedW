@@ -22,34 +22,43 @@ namespace SaaMedW
     {
         protected override void OnStartup(StartupEventArgs e)
         {
+            MessageBox.Show("111");
             base.OnStartup(e);
 
             log4net.Config.XmlConfigurator.Configure();
             log4net.ILog log = log4net.LogManager.GetLogger(typeof(App));
+            log.Info("Начало работы");
 
-            using (var ctx = new SaaMedEntities())
+            try
             {
-                var serviceUser = ctx.Users.Where(s => s.Login == "Service").FirstOrDefault();
-                if (serviceUser == null)
+                using (var ctx = new SaaMedEntities())
                 {
-                    serviceUser = new Users
+                    var serviceUser = ctx.Users.Where(s => s.Login == "Service").FirstOrDefault();
+                    if (serviceUser == null)
                     {
-                        Disabled = false,
-                        Fio = "Service",
-                        Login = "Service",
-                        Role = 0
-                    };
-                    ctx.Users.Add(serviceUser);
-                    ctx.SaveChanges();
+                        serviceUser = new Users
+                        {
+                            Disabled = false,
+                            Fio = "Service",
+                            Login = "Service",
+                            Role = 0
+                        };
+                        ctx.Users.Add(serviceUser);
+                        ctx.SaveChanges();
+                    }
+                    serviceUser = ctx.Users.Where(s => s.Login == "Service").FirstOrDefault();
+                    if (serviceUser.Password == null)
+                    {
+                        var hash = new System.Security.Cryptography.SHA1CryptoServiceProvider()
+                            .ComputeHash(System.Text.Encoding.ASCII.GetBytes("rfktdfkf"));
+                        serviceUser.Password = hash;
+                        ctx.SaveChanges();
+                    }
                 }
-                serviceUser = ctx.Users.Where(s => s.Login == "Service").FirstOrDefault();
-                if (serviceUser.Password == null)
-                {
-                    var hash = new System.Security.Cryptography.SHA1CryptoServiceProvider()
-                        .ComputeHash(System.Text.Encoding.ASCII.GetBytes("rfktdfkf"));
-                    serviceUser.Password = hash;
-                    ctx.SaveChanges();
-                }
+            }
+            catch(Exception e1)
+            {
+                log.Error("Ошибка регистрации сервисного пользователя", e1);
             }
 
             this.ShutdownMode = ShutdownMode.OnExplicitShutdown;
