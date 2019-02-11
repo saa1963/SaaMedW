@@ -60,6 +60,11 @@
                                             RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=ContextMenu}}">
 
                                     </MenuItem>
+                                    <MenuItem Header="Перенести визит" 
+                                          Command="{Binding PlacementTarget.Tag.MoveVisitCommand,
+                                            RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=ContextMenu}}">
+
+                                    </MenuItem>
                                 </ContextMenu>
                             </Grid.ContextMenu>
                             <Grid.RowDefinitions>

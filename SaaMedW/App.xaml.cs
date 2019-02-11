@@ -26,7 +26,6 @@ namespace SaaMedW
 
             log4net.Config.XmlConfigurator.Configure();
             log4net.ILog log = log4net.LogManager.GetLogger(typeof(App));
-            log.Info("Начало работы");
 
             try
             {

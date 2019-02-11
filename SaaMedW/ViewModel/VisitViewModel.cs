@@ -147,5 +147,15 @@ namespace SaaMedW.ViewModel
                         .Show($"Сформирован счет № {newInvoice.Id}");
             }
         }
+
+        public RelayCommand MoveVisitCommand
+        {
+            get => new RelayCommand(MoveVisit, o => SelectedVisit != null && SelectedVisit.Status == enVisitStatus.Предварительный);
+        }
+
+        private void MoveVisit(object obj)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
