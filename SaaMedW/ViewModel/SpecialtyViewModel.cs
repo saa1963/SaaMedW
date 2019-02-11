@@ -176,6 +176,7 @@ namespace SaaMedW.ViewModel
 
         public void MoveNode(VmSpecialty source, VmSpecialty target)
         {
+            if (source.Id == target?.Id) return;
             if (source.ParentSpecialty != null)
             {
                 source.ParentSpecialty.ChildSpecialties.Remove(source);

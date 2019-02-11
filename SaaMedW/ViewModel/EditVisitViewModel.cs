@@ -9,6 +9,7 @@ namespace SaaMedW.ViewModel
 {
     public class EditVisitViewModel : ViewModelBase
     {
+        log4net.ILog log = log4net.LogManager.GetLogger(typeof(EditVisitViewModel));
         private bool m_IsOpen;
         public bool IsOpen
         {
@@ -93,6 +94,7 @@ namespace SaaMedW.ViewModel
             = new ObservableCollection<PersonalVisitsViewModel>();
         public EditVisitViewModel()
         {
+            //ctx.Database.Log = s => log.Info(s);
             lst = ctx.Specialty.ToList();
             foreach (var sp in lst.Where(s => !s.ParentId.HasValue)
                 .Select(s => new VmSpecialty(s) { Cargo = SelectedItemMethod }))

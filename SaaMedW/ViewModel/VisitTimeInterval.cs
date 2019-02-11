@@ -59,7 +59,7 @@ namespace SaaMedW.ViewModel
         private void EditVisitProc(object obj)
         {
             var root = this.Parent.Parent.Parent;
-            var visit = root.ctx.Visit.Find(VisitId);
+            Visit visit = root.ctx.Visit.Find(VisitId);
             var modelView = new EditOneVisitViewModel(visit);
             var f = new EditOneVisitView() { DataContext = modelView };
             if (f.ShowDialog() ?? false)

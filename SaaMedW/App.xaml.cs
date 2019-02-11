@@ -22,7 +22,6 @@ namespace SaaMedW
     {
         protected override void OnStartup(StartupEventArgs e)
         {
-            MessageBox.Show("111");
             base.OnStartup(e);
 
             log4net.Config.XmlConfigurator.Configure();
@@ -33,6 +32,7 @@ namespace SaaMedW
             {
                 using (var ctx = new SaaMedEntities())
                 {
+                    //ctx.Database.Log = s => log.Info(s);
                     var serviceUser = ctx.Users.Where(s => s.Login == "Service").FirstOrDefault();
                     if (serviceUser == null)
                     {

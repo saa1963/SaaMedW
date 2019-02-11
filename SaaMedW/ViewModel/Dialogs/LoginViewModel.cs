@@ -13,9 +13,11 @@ namespace SaaMedW.ViewModel
         private readonly ILocalStorage storage;
         private string m_login;
         private string m_password;
+        log4net.ILog log;
 
         public LoginViewModel()
         {
+            log = log4net.LogManager.GetLogger(this.GetType());
             storage = (ILocalStorage)ServiceLocator.Instance.GetService(typeof(ILocalStorage));
             m_login = storage.GetLoginName(Environment.UserName);
         }

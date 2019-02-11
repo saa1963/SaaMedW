@@ -14,9 +14,17 @@ namespace SaaMedW.ViewModel
 
         public ObservableCollection<VmSpecialty> SpecialtyList { get => m_specialty; }
         public List<StatusName> ListStatus { get; set; } = new List<StatusName>();
-        public EditOneVisitViewModel()
+        public EditOneVisitViewModel(IEnumerable<int> sps = null)
         {
-            lst = ctx.Specialty.ToList();
+            if (sps == null)
+            {
+                lst = ctx.Specialty.ToList();
+            }
+            else
+            {
+                lst = ctx.Specialty
+                    .Where(s => sps.Contains(s.Id)).ToList();
+            }
             foreach (var sp in lst.Where(s => !s.ParentId.HasValue)
                 .Select(s => new VmSpecialty(s) { Cargo = SelectedItemMethod }))
             {
@@ -26,7 +34,8 @@ namespace SaaMedW.ViewModel
             ListStatus.Add(new StatusName() { Id = enVisitStatus.Предварительный, Name = "Предварительный" });
             ListStatus.Add(new StatusName() { Id = enVisitStatus.Завершен, Name = "Завершен" });
         }
-        public EditOneVisitViewModel(Visit visit):this()
+        public EditOneVisitViewModel(Visit visit)
+            :this(visit.Personal.PersonalSpecialty.Select(s => s.SpecialtyId))
         {
             m_Status = visit.Status;
             foreach(var o in visit.VisitBenefit)

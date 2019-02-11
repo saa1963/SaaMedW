@@ -27,11 +27,12 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <InstallUrl>http://78.132.141.29/saamedw/</InstallUrl>
+    <InstallUrl>http://192.168.28.32/saamedw/</InstallUrl>
+    <PublisherName>Сошин Андрей Алексеевич</PublisherName>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>index.html</WebPage>
     <TrustUrlParameters>true</TrustUrlParameters>
-    <ApplicationRevision>31</ApplicationRevision>
+    <ApplicationRevision>37</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -62,10 +63,10 @@
     </ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>DA470D26A71294A8DC2391C67D0EF6DFC8C0648D</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>5E3B4A90220D080767155CC36E361FCCA414B245</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>SaaMedW_1_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>SaaMedW_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
@@ -169,6 +170,7 @@
     <Compile Include="Graphic.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ContextPartial.cs" />
     <Compile Include="Models\OptionPartial.cs" />
     <Compile Include="NameValue.cs" />
     <Compile Include="OptionItemTemplateSelector.cs" />
@@ -510,20 +512,21 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Include="SaaMedW_1_TemporaryKey.pfx" />
     <None Include="SaaMedW_TemporaryKey.pfx" />
-    <None Include="templates\Invoice.xlsx">
+    <Content Include="templates\Invoice.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="templates\Медкарта.docx">
+    </Content>
+    <Content Include="templates\Медкарта.docx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="templates\Согласие.docx">
+    </Content>
+    <Content Include="templates\Согласие.docx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    </Content>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Новое посещение.xml" />
