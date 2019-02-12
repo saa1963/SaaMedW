@@ -59,5 +59,21 @@ namespace SaaMedW.ViewModel
             if (arg.SpecialtyId == specialty.Id) return true;
             else return false;
         }
+
+        public RelayCommand SelectIntervalCommand
+        {
+            get { return new RelayCommand(SelectIntervalProc); }
+        }
+
+        private void SelectIntervalProc(object obj)
+        {
+            var ti = obj as SelectVisitTimeInterval;
+            if (!ti.IsVisit)
+            {
+                var i = 0;
+            }
+            //SelectIntervalViewModel root 
+            //    = this.Parent
+        }
     }
 }

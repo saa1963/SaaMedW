@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SaaMedW.View"
+             xmlns:local0="clr-namespace:SaaMedW.ViewModel"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
@@ -23,13 +24,13 @@
         <DataTemplate x:Key="GraphicTemplate">
             <Border BorderBrush="Transparent" Style="{StaticResource TimeIntervalStyle}" CornerRadius="10">
                 <Label Content="{Binding DisplayName}">
-                    <Label.ContextMenu>
-                        <ContextMenu>
-                            <MenuItem Header="Добавить" Command="{Binding AddVisitCommand}" IsEnabled="{Binding Parent.Parent.Parent.IsSelectedPerson}"></MenuItem>
-                            <MenuItem Header="Изменить" Command="{Binding EditVisitCommand}" IsEnabled="{Binding IsVisit}"></MenuItem>
-                            <MenuItem Header="Удалить" Command="{Binding DelVisitCommand}" IsEnabled="{Binding IsVisit}"></MenuItem>
-                        </ContextMenu>
-                    </Label.ContextMenu>
+                    <Label.InputBindings>
+                        <MouseBinding Gesture="LeftDoubleClick" 
+                                    Command="{Binding Path=DataContext.SelectIntervalCommand, 
+                                        RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}"
+                                      CommandParameter="{Binding Path=DataContext}">
+                        </MouseBinding>
+                    </Label.InputBindings>
                 </Label>
             </Border>
         </DataTemplate>
