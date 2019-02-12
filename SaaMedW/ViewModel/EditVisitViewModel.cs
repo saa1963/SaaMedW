@@ -66,7 +66,7 @@ namespace SaaMedW.ViewModel
             RefreshGridProc(null);
         }
 
-        public SaaMedEntities ctx = new SaaMedEntities();
+        public SaaMedEntities ctx { get; set; } = new SaaMedEntities();
         private Benefit m_BenefitSel = null;
         public Benefit BenefitSel
         {

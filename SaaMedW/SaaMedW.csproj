@@ -249,13 +249,18 @@
     <Compile Include="ViewModel\Dialogs\EditOneVisitViewModel.cs" />
     <Compile Include="ViewModel\EditInvoiceViewModel.cs" />
     <Compile Include="ViewModel\EditVisitViewModel.cs" />
+    <Compile Include="ViewModel\IEditVisitViewModel.cs" />
     <Compile Include="ViewModel\InvoiceViewModel.cs" />
     <Compile Include="ViewModel\OptionsViewModel.cs" />
     <Compile Include="ViewModel\PayInvoiceViewModel.cs" />
     <Compile Include="ViewModel\PersonalVisitsViewModel.cs" />
     <Compile Include="ViewModel\PersonInfoViewModel.cs" />
     <Compile Include="ViewModel\SelectBenefitViewModel.cs" />
+    <Compile Include="ViewModel\SelectDateIntervalsViewModel.cs" />
+    <Compile Include="ViewModel\SelectIntervalViewModel.cs" />
+    <Compile Include="ViewModel\SelectPersonalVisitsViewModel.cs" />
     <Compile Include="ViewModel\SelectSpecialtyViewModel.cs" />
+    <Compile Include="ViewModel\SelectVisitTimeInterval.cs" />
     <Compile Include="ViewModel\VisitTimeInterval.cs" />
     <Compile Include="ViewModel\VisitViewModel.cs" />
     <Compile Include="View\OptionsView.xaml.cs">
@@ -269,6 +274,9 @@
     </Compile>
     <Compile Include="View\SelectBenefitView.xaml.cs">
       <DependentUpon>SelectBenefitView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SelectEditVisitView.xaml.cs">
+      <DependentUpon>SelectEditVisitView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\SelectSpecialtyView.xaml.cs">
       <DependentUpon>SelectSpecialtyView.xaml</DependentUpon>
@@ -462,6 +470,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\SelectBenefitView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\SelectEditVisitView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
