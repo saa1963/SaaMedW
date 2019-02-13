@@ -10,26 +10,18 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace SaaMedW.View
 {
     /// <summary>
-    /// Логика взаимодействия для SelectEditVisitView.xaml
+    /// Логика взаимодействия для SelectInterval.xaml
     /// </summary>
-    public partial class SelectEditVisitView : UserControl
+    public partial class SelectInterval : Window
     {
-        public SelectEditVisitView()
+        public SelectInterval()
         {
             InitializeComponent();
-        }
-
-        private void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
-        {
-            ScrollViewer scv = (ScrollViewer)sender;
-            scv.ScrollToVerticalOffset(scv.VerticalOffset - e.Delta);
-            e.Handled = true;
         }
     }
 }

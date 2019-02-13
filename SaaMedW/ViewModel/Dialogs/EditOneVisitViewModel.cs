@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using SaaMedW.View;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace SaaMedW.ViewModel
 {
-    public class EditOneVisitViewModel: ViewModelBase
+    public class EditOneVisitViewModel : ViewModelBase
     {
         private ObservableCollection<VmSpecialty> m_specialty
             = new ObservableCollection<VmSpecialty>();
@@ -14,6 +16,28 @@ namespace SaaMedW.ViewModel
 
         public ObservableCollection<VmSpecialty> SpecialtyList { get => m_specialty; }
         public List<StatusName> ListStatus { get; set; } = new List<StatusName>();
+        public bool IsEnabledOk
+        {
+            get
+            {
+                if (VisitBenefit.Count <= 0) return false;
+                if (PersonalSel == null) return false;
+                if (IntervalSel == null) return false;
+                return true;
+            }
+        }
+        private int m_Duration;
+        public int Duration
+        {
+            get => m_Duration;
+            set
+            {
+                m_Duration = value;
+                OnPropertyChanged("Duration");
+            }
+        }
+        public VmPersonal PersonalSel { get; set; }
+        public TimeInterval IntervalSel { get; set; }
         public EditOneVisitViewModel(IEnumerable<int> sps = null)
         {
             if (sps == null)
@@ -33,10 +57,18 @@ namespace SaaMedW.ViewModel
             }
             ListStatus.Add(new StatusName() { Id = enVisitStatus.Предварительный, Name = "Предварительный" });
             ListStatus.Add(new StatusName() { Id = enVisitStatus.Завершен, Name = "Завершен" });
+
+            VisitBenefit.CollectionChanged += VisitBenefit_CollectionChanged;
         }
+
+        private void VisitBenefit_CollectionChanged(
+            object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e) 
+            => OnPropertyChanged("IsEnabledOk");
+
         public EditOneVisitViewModel(Visit visit)
             :this(visit.Personal.PersonalSpecialty.Select(s => s.SpecialtyId))
         {
+            m_Duration = visit.Duration;
             m_Status = visit.Status;
             foreach(var o in visit.VisitBenefit)
             {
@@ -83,6 +115,9 @@ namespace SaaMedW.ViewModel
                 SelectedBenefit1 = null;
             }
         }
+        /// <summary>
+        /// Отобранные услуги
+        /// </summary>
         public ObservableCollection<VisitBenefit> VisitBenefit { get; set; } 
             = new ObservableCollection<VisitBenefit>();
         public Benefit SelectedBenefit1 { get; set; }
@@ -115,6 +150,33 @@ namespace SaaMedW.ViewModel
         private void RemoveBenefit(object obj)
         {
             VisitBenefit.Remove(SelectedBenefit2);
+        }
+
+        public RelayCommand CalcDurationCommand
+        {
+            get => new RelayCommand(CalcDuration, s => VisitBenefit.Count > 0);
+        }
+
+        private void CalcDuration(object obj)
+        {
+            Duration = VisitBenefit.Sum(s => s.Benefit.Duration);
+        }
+
+        public RelayCommand SelectTimeCommand
+        {
+            get => new RelayCommand(SelectTime, 
+                s => VisitBenefit.Count > 0 && m_Duration > 0);
+        }
+
+        private void SelectTime(object obj)
+        {
+            var modelView 
+                = new SelectIntervalViewModel(VisitBenefit.Select(s => s.Benefit).ToList(), m_Duration);
+            var f = new SelectInterval() { DataContext = modelView };
+            if (f.ShowDialog() ?? false)
+            {
+                //PersonalSel = modelView.
+            }
         }
     }
 

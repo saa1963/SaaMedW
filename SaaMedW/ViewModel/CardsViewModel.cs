@@ -39,13 +39,7 @@ namespace SaaMedW.ViewModel
                 return CollectionViewSource.GetDefaultView(CardsList);
             }
         }
-        public RelayCommand Add
-        {
-            get
-            {
-                return new RelayCommand(AddPerson);
-            }
-        }
+        public RelayCommand Add => new RelayCommand(AddPerson);
 
         private void AddPerson(object obj)
         {
@@ -60,13 +54,7 @@ namespace SaaMedW.ViewModel
             }
         }
 
-        public RelayCommand Edit
-        {
-            get
-            {
-                return new RelayCommand(EditPerson);
-            }
-        }
+        public RelayCommand Edit => new RelayCommand(EditPerson);
 
         private void EditPerson(object obj)
         {
@@ -81,13 +69,7 @@ namespace SaaMedW.ViewModel
             }
         }
 
-        public RelayCommand Del
-        {
-            get
-            {
-                return new RelayCommand(DelPerson);
-            }
-        }
+        public RelayCommand Del => new RelayCommand(DelPerson);
 
         private void DelPerson(object obj)
         {
@@ -98,13 +80,7 @@ namespace SaaMedW.ViewModel
             CardsList.Remove(person);
         }
 
-        public RelayCommand MedCard
-        {
-            get
-            {
-                return new RelayCommand(PrintMedCard);
-            }
-        }
+        public RelayCommand MedCard => new RelayCommand(PrintMedCard);
 
         private void PrintMedCard(object obj)
         {
@@ -113,13 +89,7 @@ namespace SaaMedW.ViewModel
             new MedCard().DoIt(person.Obj);
         }
 
-        public RelayCommand Vmesh
-        {
-            get
-            {
-                return new RelayCommand(PrintVmesh);
-            }
-        }
+        public RelayCommand Vmesh => new RelayCommand(PrintVmesh);
 
         private void PrintVmesh(object obj)
         {
@@ -128,11 +98,18 @@ namespace SaaMedW.ViewModel
             new Vmesh().DoIt(person.Obj);
         }
 
-        public RelayCommand PersonsInfoCommand
+        public RelayCommand PersonsInfoCommand => new RelayCommand(PersonsInfo);
+
+        public RelayCommand NewVisitCommand => new RelayCommand(NewVisit, s => CardsSel != null);
+
+        private void NewVisit(object obj)
         {
-            get
+            if (CardsSel == null) return;
+            var viewModel = new EditOneVisitViewModel();
+            var f = new EditOneVisitView() { DataContext = viewModel };
+            if (f.ShowDialog() ?? false)
             {
-                return new RelayCommand(PersonsInfo);
+                var i = 0;
             }
         }
 

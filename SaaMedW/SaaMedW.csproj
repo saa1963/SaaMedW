@@ -278,6 +278,9 @@
     <Compile Include="View\SelectEditVisitView.xaml.cs">
       <DependentUpon>SelectEditVisitView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\SelectInterval.xaml.cs">
+      <DependentUpon>SelectInterval.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\SelectSpecialtyView.xaml.cs">
       <DependentUpon>SelectSpecialtyView.xaml</DependentUpon>
     </Compile>
@@ -474,6 +477,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\SelectEditVisitView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\SelectInterval.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

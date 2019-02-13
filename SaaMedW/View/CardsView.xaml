@@ -29,7 +29,9 @@
                 <MenuItem Header="Согласие на вмешательство" Command="{Binding Vmesh}">
                 </MenuItem>
             </MenuItem>
-            <MenuItem Header="Посещения" Command="{Binding Visits}">
+            <MenuItem Header="Посещения">
+                <MenuItem Header="Новое" Command="{Binding NewVisitCommand}">
+                </MenuItem>
             </MenuItem>
             <MenuItem Header="Лица для информирования" Command="{Binding PersonsInfoCommand}">
             </MenuItem>

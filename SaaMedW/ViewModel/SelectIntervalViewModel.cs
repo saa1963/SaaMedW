@@ -26,14 +26,15 @@ namespace SaaMedW.ViewModel
         /// <summary>
         /// Продолжительность суммы услуг
         /// </summary>
-        public int Duration => Benefits.Sum(s => s.Duration);
+        public int Duration { get; set; }
         /// <summary>
         /// Конструктор
         /// </summary>
         /// <param name="benefits">Набор услуг по одному направлению</param>
-        public SelectIntervalViewModel(List<Benefit> benefits)
+        public SelectIntervalViewModel(List<Benefit> benefits, int duration)
         {
             log = log4net.LogManager.GetLogger(this.GetType());
+            Duration = duration;
             Benefits = benefits;
             foreach (var o in ctx.PersonalSpecialty.Include(s => s.Personal)
                 .Where(ПроверкаНаСпециальность)
@@ -50,8 +51,7 @@ namespace SaaMedW.ViewModel
         private bool ПроверкаНаСпециальность(PersonalSpecialty arg)
         {
             // это направление к которой подвязана 1-ая услуга
-            Specialty specialty 
-                = ctx.Specialty.Find(ctx.Benefit.Find(Benefits[0]).SpecialtyId);
+            Specialty specialty = ctx.Specialty.Find(Benefits[0].SpecialtyId);
             while (arg.SpecialtyId != specialty.Id && specialty.ParentId != null)
             {
                 specialty = ctx.Specialty.Find(specialty.ParentId);
