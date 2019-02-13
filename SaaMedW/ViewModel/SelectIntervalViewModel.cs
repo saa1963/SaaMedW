@@ -27,6 +27,7 @@ namespace SaaMedW.ViewModel
         /// Продолжительность суммы услуг
         /// </summary>
         public int Duration { get; set; }
+        public SelectVisitTimeInterval ReturnInterval { get; set; }
         /// <summary>
         /// Конструктор
         /// </summary>
@@ -65,15 +66,14 @@ namespace SaaMedW.ViewModel
             get { return new RelayCommand(SelectIntervalProc); }
         }
 
+        public Action CloseAction { get; set; }
+
         private void SelectIntervalProc(object obj)
         {
             var ti = obj as SelectVisitTimeInterval;
-            if (!ti.IsVisit)
-            {
-                var i = 0;
-            }
-            //SelectIntervalViewModel root 
-            //    = this.Parent
+            if (ti.IsVisit) return;
+            ReturnInterval = ti;
+            CloseAction();
         }
     }
 }

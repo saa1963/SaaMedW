@@ -27,6 +27,9 @@ namespace SaaMedW.ViewModel
             }
         }
         private int m_Duration;
+        private VmPersonal _personalSel;
+        private TimeInterval _intervalSel;
+
         public int Duration
         {
             get => m_Duration;
@@ -36,8 +39,24 @@ namespace SaaMedW.ViewModel
                 OnPropertyChanged("Duration");
             }
         }
-        public VmPersonal PersonalSel { get; set; }
-        public TimeInterval IntervalSel { get; set; }
+        public VmPersonal PersonalSel
+        {
+            get => _personalSel;
+            set
+            {
+                _personalSel = value;
+                OnPropertyChanged("PersonalSel");
+            }
+        }
+        public TimeInterval IntervalSel
+        {
+            get => _intervalSel;
+            set
+            {
+                _intervalSel = value;
+                OnPropertyChanged("IntervalSel");
+            }
+        }
         public EditOneVisitViewModel(IEnumerable<int> sps = null)
         {
             if (sps == null)
@@ -62,20 +81,20 @@ namespace SaaMedW.ViewModel
         }
 
         private void VisitBenefit_CollectionChanged(
-            object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e) 
+            object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
             => OnPropertyChanged("IsEnabledOk");
 
         public EditOneVisitViewModel(Visit visit)
-            :this(visit.Personal.PersonalSpecialty.Select(s => s.SpecialtyId))
+            : this(visit.Personal.PersonalSpecialty.Select(s => s.SpecialtyId))
         {
             m_Duration = visit.Duration;
             m_Status = visit.Status;
-            foreach(var o in visit.VisitBenefit)
+            foreach (var o in visit.VisitBenefit)
             {
                 VisitBenefit.Add(new VisitBenefit()
-                    { BenefitId = o.BenefitId, Benefit = ctx.Benefit.Find(o.BenefitId), Kol = o.Kol });
+                { BenefitId = o.BenefitId, Benefit = ctx.Benefit.Find(o.BenefitId), Kol = o.Kol });
             }
-            
+
         }
         private void BuildTree(VmSpecialty sp)
         {
@@ -118,7 +137,7 @@ namespace SaaMedW.ViewModel
         /// <summary>
         /// Отобранные услуги
         /// </summary>
-        public ObservableCollection<VisitBenefit> VisitBenefit { get; set; } 
+        public ObservableCollection<VisitBenefit> VisitBenefit { get; set; }
             = new ObservableCollection<VisitBenefit>();
         public Benefit SelectedBenefit1 { get; set; }
         public VisitBenefit SelectedBenefit2 { get; set; }
@@ -133,14 +152,14 @@ namespace SaaMedW.ViewModel
         }
         public RelayCommand AddBenefitCommand
         {
-            get => new RelayCommand(AddBenefit, s => SelectedBenefit1 != null 
+            get => new RelayCommand(AddBenefit, s => SelectedBenefit1 != null
                 && VisitBenefit.SingleOrDefault(s0 => s0.BenefitId == SelectedBenefit1.Id) == null);
         }
 
         private void AddBenefit(object obj)
         {
             VisitBenefit.Add(new VisitBenefit()
-                { BenefitId = SelectedBenefit1.Id, Benefit = SelectedBenefit1, Kol = 1  });
+            { BenefitId = SelectedBenefit1.Id, Benefit = SelectedBenefit1, Kol = 1 });
         }
         public RelayCommand RemoveBenefitCommand
         {
@@ -164,18 +183,20 @@ namespace SaaMedW.ViewModel
 
         public RelayCommand SelectTimeCommand
         {
-            get => new RelayCommand(SelectTime, 
+            get => new RelayCommand(SelectTime,
                 s => VisitBenefit.Count > 0 && m_Duration > 0);
         }
 
         private void SelectTime(object obj)
         {
-            var modelView 
+            var modelView
                 = new SelectIntervalViewModel(VisitBenefit.Select(s => s.Benefit).ToList(), m_Duration);
             var f = new SelectInterval() { DataContext = modelView };
+            modelView.CloseAction = new Action(f.Close);
             if (f.ShowDialog() ?? false)
             {
-                //PersonalSel = modelView.
+                PersonalSel = new VmPersonal(ctx.Personal.Find(modelView.ReturnInterval.Parent.Parent.PersonalId));
+                IntervalSel = modelView.ReturnInterval;
             }
         }
     }

@@ -28,7 +28,7 @@
                         <MouseBinding Gesture="LeftDoubleClick" 
                                     Command="{Binding Path=DataContext.SelectIntervalCommand, 
                                         RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=3, AncestorType={x:Type ItemsControl}}}"
-                                      CommandParameter="{Binding Path=Parent.DataContext}">
+                                      CommandParameter="{Binding Path=.}">
                         </MouseBinding>
                     </Label.InputBindings>
                 </Label>
