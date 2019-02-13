@@ -173,6 +173,7 @@
     <Compile Include="Models\ContextPartial.cs" />
     <Compile Include="Models\OptionPartial.cs" />
     <Compile Include="NameValue.cs" />
+    <Compile Include="NotifyPropertyChanged.cs" />
     <Compile Include="OptionItemTemplateSelector.cs" />
     <Compile Include="Options.cs">
       <DependentUpon>Model1.tt</DependentUpon>
@@ -236,66 +237,68 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="ValidationDialog.cs" />
-    <Compile Include="ViewModel\BenefitsViewModel.cs" />
-    <Compile Include="ViewModel\CardsViewModel.cs" />
-    <Compile Include="ViewModel\DateIntervalsViewModel.cs" />
-    <Compile Include="ViewModel\Dialogs\ChangePasswordViewModel.cs" />
-    <Compile Include="ViewModel\Dialogs\EditBenefitViewModel.cs" />
-    <Compile Include="ViewModel\Dialogs\EditGraphicViewModel.cs" />
-    <Compile Include="ViewModel\Dialogs\EditPersonalViewModel.cs" />
-    <Compile Include="ViewModel\Dialogs\EditUserViewModel.cs" />
-    <Compile Include="ViewModel\Dialogs\LoginViewModel.cs" />
-    <Compile Include="ViewModel\Bases\MasterWindowViewModel.cs" />
-    <Compile Include="ViewModel\Dialogs\EditOneVisitViewModel.cs" />
-    <Compile Include="ViewModel\EditInvoiceViewModel.cs" />
-    <Compile Include="ViewModel\EditVisitViewModel.cs" />
-    <Compile Include="ViewModel\IEditVisitViewModel.cs" />
-    <Compile Include="ViewModel\InvoiceViewModel.cs" />
-    <Compile Include="ViewModel\OptionsViewModel.cs" />
-    <Compile Include="ViewModel\PayInvoiceViewModel.cs" />
-    <Compile Include="ViewModel\PersonalVisitsViewModel.cs" />
-    <Compile Include="ViewModel\PersonInfoViewModel.cs" />
-    <Compile Include="ViewModel\SelectBenefitViewModel.cs" />
-    <Compile Include="ViewModel\SelectDateIntervalsViewModel.cs" />
-    <Compile Include="ViewModel\SelectIntervalViewModel.cs" />
-    <Compile Include="ViewModel\SelectPersonalVisitsViewModel.cs" />
-    <Compile Include="ViewModel\SelectSpecialtyViewModel.cs" />
-    <Compile Include="ViewModel\SelectVisitTimeInterval.cs" />
-    <Compile Include="ViewModel\VisitTimeInterval.cs" />
-    <Compile Include="ViewModel\VisitViewModel.cs" />
-    <Compile Include="View\OptionsView.xaml.cs">
+    <Compile Include="Vm\VmSpecialty.cs" />
+    <Compile Include="VVM\BenefitsViewModel.cs" />
+    <Compile Include="VVM\CardsViewModel.cs" />
+    <Compile Include="DateIntervals.cs" />
+    <Compile Include="VVM\ChangePasswordViewModel.cs" />
+    <Compile Include="VVM\EditBenefitViewModel.cs" />
+    <Compile Include="VVM\EditGraphicViewModel.cs" />
+    <Compile Include="VVM\EditPersonalViewModel.cs" />
+    <Compile Include="VVM\EditSpecialtyViewModel.cs" />
+    <Compile Include="VVM\EditUserViewModel.cs" />
+    <Compile Include="VVM\LoginViewModel.cs" />
+    <Compile Include="VVM\MasterWindowViewModel.cs" />
+    <Compile Include="VVM\EditOneVisitViewModel.cs" />
+    <Compile Include="VVM\EditInvoiceViewModel.cs" />
+    <Compile Include="VVM\EditVisitViewModel.cs" />
+    <Compile Include="VVM\IEditVisitViewModel.cs" />
+    <Compile Include="VVM\InvoiceViewModel.cs" />
+    <Compile Include="VVM\OptionsViewModel.cs" />
+    <Compile Include="VVM\PayInvoiceViewModel.cs" />
+    <Compile Include="VVM\PersonalVisitsViewModel.cs" />
+    <Compile Include="VVM\PersonInfoViewModel.cs" />
+    <Compile Include="VVM\SelectBenefitViewModel.cs" />
+    <Compile Include="VVM\SelectDateIntervalsViewModel.cs" />
+    <Compile Include="VVM\SelectIntervalViewModel.cs" />
+    <Compile Include="VVM\SelectPersonalVisitsViewModel.cs" />
+    <Compile Include="VVM\SelectSpecialtyViewModel.cs" />
+    <Compile Include="VVM\SelectVisitTimeInterval.cs" />
+    <Compile Include="VVM\VisitTimeInterval.cs" />
+    <Compile Include="VVM\VisitViewModel.cs" />
+    <Compile Include="VVM\OptionsView.xaml.cs">
       <DependentUpon>OptionsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\PayInvoiceView.xaml.cs">
+    <Compile Include="VVM\PayInvoiceView.xaml.cs">
       <DependentUpon>PayInvoiceView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\PersonInfoView.xaml.cs">
+    <Compile Include="VVM\PersonInfoView.xaml.cs">
       <DependentUpon>PersonInfoView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\SelectBenefitView.xaml.cs">
+    <Compile Include="VVM\SelectBenefitView.xaml.cs">
       <DependentUpon>SelectBenefitView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\SelectEditVisitView.xaml.cs">
+    <Compile Include="VVM\SelectEditVisitView.xaml.cs">
       <DependentUpon>SelectEditVisitView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\SelectInterval.xaml.cs">
+    <Compile Include="VVM\SelectInterval.xaml.cs">
       <DependentUpon>SelectInterval.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\SelectSpecialtyView.xaml.cs">
+    <Compile Include="VVM\SelectSpecialtyView.xaml.cs">
       <DependentUpon>SelectSpecialtyView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Reports\Vmesh.cs" />
     <Compile Include="Vm\VmPerson.cs" />
-    <Compile Include="View\Dialogs\EditOneVisitView.xaml.cs">
+    <Compile Include="VVM\EditOneVisitView.xaml.cs">
       <DependentUpon>EditOneVisitView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\EditInvoiceView.xaml.cs">
+    <Compile Include="VVM\EditInvoiceView.xaml.cs">
       <DependentUpon>EditInvoiceView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\InvoiceView.xaml.cs">
+    <Compile Include="VVM\InvoiceView.xaml.cs">
       <DependentUpon>InvoiceView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\VisitView.xaml.cs">
+    <Compile Include="VVM\VisitView.xaml.cs">
       <DependentUpon>VisitView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Visit.cs">
@@ -309,66 +312,64 @@
     <Compile Include="Vm\VmVisitBenefit.cs" />
     <Compile Include="Vm\VmBenefit.cs" />
     <Compile Include="Vm\VmPersonal.cs" />
-    <Compile Include="ViewModel\GraphicViewModel.cs" />
-    <Compile Include="ViewModel\ListGraphicViewModel.cs" />
-    <Compile Include="ViewModel\PersonalViewModel.cs" />
-    <Compile Include="ViewModel\SpecialtyViewModel.cs" />
-    <Compile Include="ViewModel\UsersViewModel.cs" />
-    <Compile Include="ViewModel\Bases\ViewModelBase.cs" />
+    <Compile Include="VVM\GraphicViewModel.cs" />
+    <Compile Include="VVM\ListGraphicViewModel.cs" />
+    <Compile Include="VVM\PersonalViewModel.cs" />
+    <Compile Include="VVM\SpecialtyViewModel.cs" />
+    <Compile Include="VVM\UsersViewModel.cs" />
     <Compile Include="Vm\VmDocumentType.cs" />
-    <Compile Include="ViewModel\Dialogs\EditPersonViewModel.cs" />
-    <Compile Include="Vm\VmSpecialty.cs" />
+    <Compile Include="VVM\EditPersonViewModel.cs" />
     <Compile Include="Vm\VmUsers.cs" />
     <Compile Include="Vm\VmGraphic.cs" />
-    <Compile Include="View\BenefitsView.xaml.cs">
+    <Compile Include="VVM\BenefitsView.xaml.cs">
       <DependentUpon>BenefitsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Dialogs\ChangePassword.xaml.cs">
+    <Compile Include="VVM\ChangePassword.xaml.cs">
       <DependentUpon>ChangePassword.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Dialogs\EditBenefit.xaml.cs">
+    <Compile Include="VVM\EditBenefit.xaml.cs">
       <DependentUpon>EditBenefit.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Dialogs\EditCards.xaml.cs">
-      <DependentUpon>EditCards.xaml</DependentUpon>
+    <Compile Include="VVM\EditPersonView.xaml.cs">
+      <DependentUpon>EditPersonView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Dialogs\EditGraphic.xaml.cs">
+    <Compile Include="VVM\EditGraphic.xaml.cs">
       <DependentUpon>EditGraphic.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Dialogs\EditPersonal.xaml.cs">
+    <Compile Include="VVM\EditPersonal.xaml.cs">
       <DependentUpon>EditPersonal.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Dialogs\EditSpecialty.xaml.cs">
-      <DependentUpon>EditSpecialty.xaml</DependentUpon>
+    <Compile Include="VVM\EditSpecialtyView.xaml.cs">
+      <DependentUpon>EditSpecialtyView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Dialogs\frmEditUser.xaml.cs">
-      <DependentUpon>frmEditUser.xaml</DependentUpon>
+    <Compile Include="VVM\EditUserView.xaml.cs">
+      <DependentUpon>EditUserView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Dialogs\frmLogin.xaml.cs">
-      <DependentUpon>frmLogin.xaml</DependentUpon>
+    <Compile Include="VVM\LoginView.xaml.cs">
+      <DependentUpon>LoginView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Bases\MasterWindow.xaml.cs">
+    <Compile Include="VVM\MasterWindow.xaml.cs">
       <DependentUpon>MasterWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\CardsView.xaml.cs">
+    <Compile Include="VVM\CardsView.xaml.cs">
       <DependentUpon>CardsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Dialogs\EditVisitView.xaml.cs">
+    <Compile Include="VVM\EditVisitView.xaml.cs">
       <DependentUpon>EditVisitView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\GraphicControl.xaml.cs">
-      <DependentUpon>GraphicControl.xaml</DependentUpon>
+    <Compile Include="VVM\GraphicControlView.xaml.cs">
+      <DependentUpon>GraphicControlView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\GraphicView.xaml.cs">
+    <Compile Include="VVM\GraphicView.xaml.cs">
       <DependentUpon>GraphicView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\PersonalView.xaml.cs">
+    <Compile Include="VVM\PersonalView.xaml.cs">
       <DependentUpon>PersonalView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\SpecialtyView.xaml.cs">
+    <Compile Include="VVM\SpecialtyView.xaml.cs">
       <DependentUpon>SpecialtyView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\UsersView.xaml.cs">
+    <Compile Include="VVM\UsersView.xaml.cs">
       <DependentUpon>UsersView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Vm\VmVisit.cs" />
@@ -388,115 +389,115 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\BenefitsView.xaml">
+    <Page Include="VVM\BenefitsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Dialogs\ChangePassword.xaml">
+    <Page Include="VVM\ChangePassword.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Dialogs\EditBenefit.xaml">
+    <Page Include="VVM\EditBenefit.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Dialogs\EditCards.xaml">
+    <Page Include="VVM\EditPersonView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Dialogs\EditGraphic.xaml">
+    <Page Include="VVM\EditGraphic.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Dialogs\EditOneVisitView.xaml">
+    <Page Include="VVM\EditOneVisitView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Dialogs\EditPersonal.xaml">
+    <Page Include="VVM\EditPersonal.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Dialogs\EditSpecialty.xaml">
+    <Page Include="VVM\EditSpecialtyView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Dialogs\frmEditUser.xaml">
+    <Page Include="VVM\EditUserView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Dialogs\frmLogin.xaml">
+    <Page Include="VVM\LoginView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Bases\MasterWindow.xaml">
+    <Page Include="VVM\MasterWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\CardsView.xaml">
+    <Page Include="VVM\CardsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Dialogs\EditVisitView.xaml">
+    <Page Include="VVM\EditVisitView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\EditInvoiceView.xaml">
+    <Page Include="VVM\EditInvoiceView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\GraphicControl.xaml">
+    <Page Include="VVM\GraphicControlView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\GraphicView.xaml">
+    <Page Include="VVM\GraphicView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\InvoiceView.xaml">
+    <Page Include="VVM\InvoiceView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\OptionsView.xaml">
+    <Page Include="VVM\OptionsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\PayInvoiceView.xaml">
+    <Page Include="VVM\PayInvoiceView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\PersonalView.xaml">
+    <Page Include="VVM\PersonalView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\PersonInfoView.xaml">
+    <Page Include="VVM\PersonInfoView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\SelectBenefitView.xaml">
+    <Page Include="VVM\SelectBenefitView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\SelectEditVisitView.xaml">
+    <Page Include="VVM\SelectEditVisitView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\SelectInterval.xaml">
+    <Page Include="VVM\SelectInterval.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\SelectSpecialtyView.xaml">
+    <Page Include="VVM\SelectSpecialtyView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\SpecialtyView.xaml">
+    <Page Include="VVM\SpecialtyView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\UsersView.xaml">
+    <Page Include="VVM\UsersView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\VisitView.xaml">
+    <Page Include="VVM\VisitView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

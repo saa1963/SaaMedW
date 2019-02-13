@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SaaMedW.ViewModel
+namespace SaaMedW
 {
-    public class VmBenefit : ViewModelBase
+    public class VmBenefit : NotifyPropertyChanged
     {
         protected Benefit m_object;
 

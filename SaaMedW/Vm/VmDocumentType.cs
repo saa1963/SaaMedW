@@ -5,12 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SaaMedW.ViewModel
+namespace SaaMedW
 {
-    public class VmDocumentType : INotifyPropertyChanged
+    public class VmDocumentType : NotifyPropertyChanged
     {
         private DocumentType m_object;
-        public event PropertyChangedEventHandler PropertyChanged;
         public VmDocumentType()
         {
             m_object = new DocumentType();
@@ -40,10 +39,6 @@ namespace SaaMedW.ViewModel
                 m_object.Name = value;
                 OnPropertyChanged("Name");
             }
-        }
-        private void OnPropertyChanged(string PropertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(PropertyName));
         }
     }
 }

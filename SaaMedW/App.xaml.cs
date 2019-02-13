@@ -63,7 +63,7 @@ namespace SaaMedW
             this.ShutdownMode = ShutdownMode.OnExplicitShutdown;
             var logonservice = (ILogonService)ServiceLocator.Instance.GetService(typeof(ILogonService));
             var loginViewModel = new LoginViewModel();
-            var f = new frmLogin { DataContext = loginViewModel };
+            var f = new LoginView { DataContext = loginViewModel };
             var showDialog = f.ShowDialog();
             if (showDialog != null && !showDialog.Value)
             {

@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SaaMedW.ViewModel
+namespace SaaMedW
 {
-    public class VmSpecialty : ViewModelBase, IDataErrorInfo
+    public class VmSpecialty : NotifyPropertyChanged
     {
         public VmSpecialty()
         {
@@ -76,24 +76,7 @@ namespace SaaMedW.ViewModel
                 OnPropertyChanged("ParentSpecialty");
             }
         }
-        public string this[string columnName]
-        {
-            get
-            {
-                var result = String.Empty;
-                switch (columnName)
-                {
-                    case "Name":
-                        if (String.IsNullOrWhiteSpace(Name))
-                            result = "Не введено наименование.";
-                        break;
-                    default:
-                        break;
-                }
-                return result;
-            }
-        }
-        public string Error => "";
+        
 
         public delegate void CargoDelegate(VmSpecialty o);
         public CargoDelegate Cargo { get; set; }

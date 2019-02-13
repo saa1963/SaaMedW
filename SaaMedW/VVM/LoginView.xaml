@@ -1,0 +1,47 @@
+﻿<Window x:Class="SaaMedW.LoginView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Регистрация" Width="300" SizeToContent="Height" ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen" 
+        FocusManager.FocusedElement="{Binding ElementName=tbLogin}"
+        Name="TopWindow"
+        >
+    <Window.Resources>
+        <Style TargetType="{x:Type TextBox}">
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="true">
+                    <Setter Property="ToolTip"
+                        Value="{Binding RelativeSource={x:Static RelativeSource.Self},
+                        Path=(Validation.Errors)[0].ErrorContent}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+    <Grid Margin="15">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0">
+            <Label>Пользователь</Label>
+            <TextBox Name="tbLogin" 
+                Text="{Binding Path=Login, ValidatesOnDataErrors=True, 
+                UpdateSourceTrigger=PropertyChanged}" MaxLength="50"></TextBox>
+        </StackPanel>
+        <StackPanel Grid.Row="1">
+            <Label>Пароль</Label>
+            <TextBox Name="tbPassword0" 
+                Text="{Binding Path=Password, ValidatesOnDataErrors=True, 
+                UpdateSourceTrigger=PropertyChanged}" Visibility="Collapsed"></TextBox>
+            <PasswordBox Name="tbPassword" PasswordChanged="tbPassword_PasswordChanged">
+            </PasswordBox>
+        </StackPanel>
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Width="60" Margin="10" IsDefault="True" 
+                    Click="Button_Click"
+                    >ОК</Button>
+            <Button Width="60" Margin="10" IsCancel="True">Отмена</Button>
+        </StackPanel>
+    </Grid>
+</Window>

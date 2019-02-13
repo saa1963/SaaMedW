@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SaaMedW.ViewModel
+namespace SaaMedW
 {
-    public class VmGraphic : ViewModelBase
+    public class VmGraphic : NotifyPropertyChanged
     {
         private Graphic m_object;
 

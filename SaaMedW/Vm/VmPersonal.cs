@@ -9,7 +9,7 @@ using System.Windows.Data;
 
 namespace SaaMedW.ViewModel
 {
-    public class VmPersonal : ViewModelBase
+    public class VmPersonal : NotifyPropertyChanged
     {
         private Personal m_object;
 

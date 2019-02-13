@@ -1,30 +1,108 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Data;
 
-namespace SaaMedW.ViewModel
+namespace SaaMedW
 {
-    public class VmPerson : NotifyPropertyChanged
+    public class EditPersonViewModel : ViewModelBase, IDataErrorInfo
     {
         private Person m_object;
+        public List<IdName> SexList { get; } =
+            new List<IdName> {
+                new IdName { Id = 1, Name = "Мужской" },
+                new IdName { Id = 2, Name = "Женский"} };
+        public List<IdName> MestnostList { get; } =
+            new List<IdName> {
+                new IdName { Id = 1, Name = "Городская" },
+                new IdName { Id = 2, Name = "Сельская"} };
+        public ObservableCollection<VmDocumentType> DocTypeList { get; set; } =
+            new ObservableCollection<VmDocumentType>();
+        private SaaMedEntities ctx = new SaaMedEntities();
 
-        public VmPerson()
+        public EditPersonViewModel()
         {
             m_object = new Person();
+            FillDocType();
             m_object.CreateDate = DateTime.Now;
         }
-        public VmPerson(Person par)
+        public EditPersonViewModel(Person par)
         {
             m_object = par;
+            FillDocType();
+        }
+        public EditPersonViewModel(EditPersonViewModel obj)
+        {
+            m_object = new Person
+            {
+                Id = obj.Id
+            };
+            CopyProperties(obj);
+        }
+        public EditPersonViewModel Copy(EditPersonViewModel obj)
+        {
+            CopyProperties(obj);
+            return this;
+        }
+        private void CopyProperties(EditPersonViewModel obj)
+        {
+            m_object.AddressCity = obj.AddressCity;
+            m_object.AddressFlat = obj.AddressFlat;
+            m_object.AddressHouse = obj.AddressHouse;
+            m_object.AddressPunkt = obj.AddressPunkt;
+            m_object.AddressRaion = obj.AddressRaion;
+            m_object.AddressStreet = obj.AddressStreet;
+            m_object.AddressSubject = obj.AddressSubject;
+            m_object.BirthDate = obj.BirthDate;
+            m_object.CreateDate = obj.CreateDate;
+            m_object.DocNumber = obj.DocNumber;
+            m_object.DocSeria = obj.DocSeria;
+            m_object.DocumentTypeId = obj.DocumentTypeId;
+            m_object.FirstName = obj.FirstName;
+            m_object.Inn = obj.Inn;
+            m_object.LastName = obj.LastName;
+            m_object.Mestnost = obj.Mestnost;
+            m_object.MiddleName = obj.MiddleName;
+            m_object.Phone = obj.Phone;
+            m_object.Sex = obj.Sex;
+            m_object.Snils = obj.Snils;
+        }
+        private void FillDocType()
+        {
+            foreach(DocumentType o in ctx.DocumentType)
+            {
+                DocTypeList.Add(new VmDocumentType(o));
+            }
+        }
+        public string this[string columnName]
+        {
+            get
+            {
+                var result = String.Empty;
+                switch (columnName)
+                {
+                    case "LastName":
+                        if (String.IsNullOrWhiteSpace(LastName))
+                            result = "Не введена фамилия.";
+                        break;
+                    case "FirstName":
+                        if (String.IsNullOrWhiteSpace(FirstName))
+                            result = "Не введено имя.";
+                        break;
+                    default:
+                        break;
+                }
+                return result;
+            }
         }
 
         public Person Obj
         {
             get => m_object;
-            set { m_object = value; OnPropertyChanged("Obj"); }
         }
         public int Id
         {
@@ -114,6 +192,15 @@ namespace SaaMedW.ViewModel
             {
                 m_object.DocumentTypeId = value;
                 OnPropertyChanged("DocumentTypeId");
+            }
+        }
+        public DocumentType DocumentType
+        {
+            get => m_object.DocumentType;
+            set
+            {
+                m_object.DocumentType = value;
+                OnPropertyChanged("DocumentType");
             }
         }
         public string DocSeria
@@ -223,5 +310,6 @@ namespace SaaMedW.ViewModel
         {
             return (LastName + " " + FirstName + " " + MiddleName ?? "").TrimEnd();
         }
+        public string Error => "";
     }
 }

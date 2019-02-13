@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SaaMedW.ViewModel
 {
-    public class VmVisitBenefit : ViewModelBase
+    public class VmVisitBenefit : NotifyPropertyChanged
     {
         private VisitBenefit m_object;
 

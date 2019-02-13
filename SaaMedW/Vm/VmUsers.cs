@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 
 namespace SaaMedW.ViewModel
 {
-    public class VmUsers : INotifyPropertyChanged
+    public class VmUsers : NotifyPropertyChanged
     {
         private Users m_users;
-        public event PropertyChangedEventHandler PropertyChanged;
         public List<IdName> ListRole = Global.Source.ListRole;
         public VmUsers()
         {
@@ -77,10 +76,6 @@ namespace SaaMedW.ViewModel
                 m_users.Disabled = value;
                 OnPropertyChanged("Disabled");
             }
-        }
-        private void OnPropertyChanged(string PropertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(PropertyName));
         }
     }
 }

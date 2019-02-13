@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SaaMedW.ViewModel
 {
-    public class VmInvoice : ViewModelBase
+    public class VmInvoice : NotifyPropertyChanged
     {
         private Invoice m_object;
 
