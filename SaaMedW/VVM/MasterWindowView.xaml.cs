@@ -12,14 +12,14 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace SaaMedW.View
+namespace SaaMedW
 {
     /// <summary>
     /// Логика взаимодействия для MasterWindow.xaml
     /// </summary>
-    public partial class MasterWindow : Window
+    public partial class MasterWindowView : Window
     {
-        public MasterWindow()
+        public MasterWindowView()
         {
             InitializeComponent();
         }

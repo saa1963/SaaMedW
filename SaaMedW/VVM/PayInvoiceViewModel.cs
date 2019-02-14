@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SaaMedW
 {
-    public class PayInvoiceViewModel: ViewModelBase, IDataErrorInfo
+    public class PayInvoiceViewModel: NotifyPropertyChanged, IDataErrorInfo
     {
         private enumPaymentType m_PaymentType;
         public enumPaymentType PaymentType

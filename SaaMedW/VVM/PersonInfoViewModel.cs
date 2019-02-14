@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SaaMedW
 {
-    public class PersonInfoViewModel: ViewModelBase
+    public class PersonInfoViewModel
     {
         private Person person;
         private SaaMedEntities ctx = new SaaMedEntities();

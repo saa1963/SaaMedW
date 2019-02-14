@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SaaMedW
 {
-    public class MasterWindowViewModel : ViewModelBase
+    public class MasterWindowViewModel
     {
         public RelayCommand Cmd
         {

@@ -11,34 +11,28 @@ using System.Data.Entity;
 
 namespace SaaMedW
 {
-    public class CardsViewModel : ViewModelBase
+    public class CardsViewModel : NotifyPropertyChanged
     {
         private SaaMedEntities ctx = new SaaMedEntities();
-        private readonly ObservableCollection<EditPersonViewModel> m_cards = new ObservableCollection<EditPersonViewModel>();
 
         public CardsViewModel()
         {
             foreach (var o in ctx.Person.Include(s => s.DocumentType))
             {
-                m_cards.Add(new EditPersonViewModel(o));
+                CardsList.Add(new VmPerson(o));
             }
         }
-        public ObservableCollection<EditPersonViewModel> CardsList
-        {
-            get { return m_cards; }
-        }
-        public object CardsSel
-        {
-            get { return viewUsers.CurrentItem; }
-            set { viewUsers.MoveCurrentTo(value); }
-        }
-        private ICollectionView viewUsers
-        {
-            get
-            {
-                return CollectionViewSource.GetDefaultView(CardsList);
-            }
-        }
+        public ObservableCollection<VmPerson> CardsList { get; } 
+            = new ObservableCollection<VmPerson>();
+
+        public VmPerson CardsSel { get; set; }
+        //{
+        //    get { return viewUsers.CurrentItem; }
+        //    set { viewUsers.MoveCurrentTo(value); }
+        //}
+
+        private ICollectionView viewUsers => CollectionViewSource.GetDefaultView(CardsList);
+
         public RelayCommand Add => new RelayCommand(AddPerson);
 
         private void AddPerson(object obj)
@@ -49,8 +43,9 @@ namespace SaaMedW
             {
                 ctx.Person.Add(modelView.Obj);
                 ctx.SaveChanges();
-                CardsList.Add(modelView);
-                viewUsers.MoveCurrentTo(modelView);
+                var o = new VmPerson(modelView.Obj);
+                CardsList.Add(o);
+                viewUsers.MoveCurrentTo(o);
             }
         }
 
@@ -59,12 +54,13 @@ namespace SaaMedW
         private void EditPerson(object obj)
         {
             if (CardsSel == null) return;
-            var person = CardsSel as EditPersonViewModel;
+            VmPerson person = CardsSel;
             var modelView = new EditPersonViewModel(person.Obj);
             var f = new EditPersonView() { DataContext = modelView };
             if (f.ShowDialog() ?? false)
             {
-                person.Copy(modelView);
+                person.OnPropertyChanged("Phone");
+                //person.Copy(modelView);
                 ctx.SaveChanges();
             }
         }
@@ -74,7 +70,7 @@ namespace SaaMedW
         private void DelPerson(object obj)
         {
             if (CardsSel == null) return;
-            var person = CardsSel as EditPersonViewModel;
+            VmPerson person = CardsSel;
             ctx.Person.Remove(person.Obj);
             ctx.SaveChanges();
             CardsList.Remove(person);
@@ -85,7 +81,7 @@ namespace SaaMedW
         private void PrintMedCard(object obj)
         {
             if (CardsSel == null) return;
-            var person = CardsSel as EditPersonViewModel;
+            VmPerson person = CardsSel;
             new MedCard().DoIt(person.Obj);
         }
 
@@ -94,7 +90,7 @@ namespace SaaMedW
         private void PrintVmesh(object obj)
         {
             if (CardsSel == null) return;
-            var person = CardsSel as EditPersonViewModel;
+            VmPerson person = CardsSel;
             new Vmesh().DoIt(person.Obj);
         }
 
@@ -109,14 +105,19 @@ namespace SaaMedW
             var f = new EditOneVisitView() { DataContext = viewModel };
             if (f.ShowDialog() ?? false)
             {
-                var i = 0;
+                //var o = new Visit()
+                //{
+                //    Dt = viewModel.IntervalSel.Begin.Date,
+                //    Duration = viewModel.IntervalSel.Interval.Minutes,
+                //    Person 
+                //}
             }
         }
 
         private void PersonsInfo(object obj)
         {
             if (CardsSel == null) return;
-            var person = CardsSel as EditPersonViewModel;
+            VmPerson person = CardsSel;
             var viewModel = new PersonInfoViewModel(person.Obj);
             var f = new PersonInfoView() { DataContext = viewModel };
             if (f.ShowDialog() ?? false)

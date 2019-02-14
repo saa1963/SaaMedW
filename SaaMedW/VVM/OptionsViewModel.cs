@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace SaaMedW
 {
-    public class OptionsViewModel: ViewModelBase
+    public class OptionsViewModel: NotifyPropertyChanged
     {
         private readonly SaaMedEntities ctx = new SaaMedEntities();
         private ObservableCollection<Options> m_CommonParameterList
@@ -69,7 +69,7 @@ namespace SaaMedW
         {
             var compId = Global.Source.GetMotherboardId();
             // Общие настройки
-            if (Global.Source.rUser.Role == 0)
+            if (Global.Source.RUser.Role == 0)
             {
                 foreach (var o in Options.ВсеВидыПараметров.Where(s => s.Value.profile == enumProfile.Общий))
                 {
@@ -92,7 +92,7 @@ namespace SaaMedW
                     ParameterType = o.Key,
                     Profile = enumProfile.ПеремещаемыйПользователя,
                     CompId = "0",
-                    UserId = Global.Source.rUser.Id
+                    UserId = Global.Source.RUser.Id
                 };
                 nv.SetObject(Options.GetParameter<object>(o.Key));
                 m_UserParameterList.Add(nv);
@@ -118,7 +118,7 @@ namespace SaaMedW
                     ParameterType = o.Key,
                     Profile = enumProfile.ЛокальныйПользователя,
                     CompId = compId,
-                    UserId = Global.Source.rUser.Id
+                    UserId = Global.Source.RUser.Id
                 };
                 nv.SetObject(Options.GetParameter<object>(o.Key));
                 m_UserComputerParameterList.Add(nv);

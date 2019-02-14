@@ -9,9 +9,9 @@ using System.Windows.Data;
 
 namespace SaaMedW
 {
-    public class EditPersonViewModel : ViewModelBase, IDataErrorInfo
+    public class EditPersonViewModel : NotifyPropertyChanged, IDataErrorInfo
     {
-        private Person m_object;
+        //private Person m_object;
         public List<IdName> SexList { get; } =
             new List<IdName> {
                 new IdName { Id = 1, Name = "Мужской" },
@@ -32,7 +32,8 @@ namespace SaaMedW
         }
         public EditPersonViewModel(Person par)
         {
-            m_object = par;
+            m_object = new Person();
+            CopyProperties(par);
             FillDocType();
         }
         public EditPersonViewModel(EditPersonViewModel obj)
@@ -41,14 +42,14 @@ namespace SaaMedW
             {
                 Id = obj.Id
             };
-            CopyProperties(obj);
+            CopyProperties(obj.Obj);
         }
         public EditPersonViewModel Copy(EditPersonViewModel obj)
         {
-            CopyProperties(obj);
+            CopyProperties(obj.Obj);
             return this;
         }
-        private void CopyProperties(EditPersonViewModel obj)
+        private void CopyProperties(Person obj)
         {
             m_object.AddressCity = obj.AddressCity;
             m_object.AddressFlat = obj.AddressFlat;
@@ -100,88 +101,97 @@ namespace SaaMedW
             }
         }
 
-        public Person Obj
-        {
-            get => m_object;
-        }
+        //public Person Obj
+        //{
+        //    get => m_object;
+        //}
+        private int m_Id;
         public int Id
         {
-            get => m_object.Id;
+            get => m_Id;
             set
             {
-                m_object.Id = value;
+                m_Id = value;
                 OnPropertyChanged("Id");
             }
         }
+        private string m_LastName;
         public string LastName
         {
-            get => m_object.LastName;
+            get => m_LastName;
             set
             {
-                m_object.LastName = value;
+                m_LastName = value;
                 OnPropertyChanged("LastName");
             }
         }
+        private string m_FirstName;
         public string FirstName
         {
-            get => m_object.FirstName;
+            get => m_FirstName;
             set
             {
-                m_object.FirstName = value;
+                m_FirstName = value;
                 OnPropertyChanged("FirstName");
             }
         }
+        private string m_MiddleName;
         public string MiddleName
         {
-            get => m_object.MiddleName;
+            get => m_MiddleName;
             set
             {
-                m_object.MiddleName = value;
+                m_MiddleName = value;
                 OnPropertyChanged("MiddleName");
             }
         }
+        private DateTime? m_BirthDate;
         public DateTime? BirthDate
         {
-            get => m_object.BirthDate;
+            get => m_BirthDate;
             set
             {
-                m_object.BirthDate = value;
+                m_BirthDate = value;
                 OnPropertyChanged("BirthDate");
             }
         }
+        private string m_Phone;
         public string Phone
         {
-            get => m_object.Phone;
+            get => m_Phone;
             set
             {
-                m_object.Phone = value;
+                m_Phone = value;
                 OnPropertyChanged("Phone");
             }
         }
+        private int? m_Sex;
         public int? Sex
         {
-            get => m_object.Sex;
+            get => m_Sex;
             set
             {
-                m_object.Sex = value;
+                m_Sex = value;
                 OnPropertyChanged("Sex");
             }
         }
+        private string m_Inn;
         public string Inn
         {
-            get => m_object.Inn;
+            get => m_Inn;
             set
             {
-                m_object.Inn = value;
+                m_Inn = value;
                 OnPropertyChanged("Inn");
             }
         }
+        private string m_Snils;
         public string Snils
         {
-            get => m_object.Snils;
+            get => m_Snils;
             set
             {
-                m_object.Snils = value;
+                m_Snils = value;
                 OnPropertyChanged("Snils");
             }
         }

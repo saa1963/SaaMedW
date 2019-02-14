@@ -36,7 +36,7 @@
             </MenuItem>
         </Menu>
         <local0:ScrollingDataGrid x:Name="g" Grid.Row="1" Margin="5" ItemsSource="{Binding CardsList}" 
-                  SelectedItem="{Binding CardsSel}" IsSynchronizedWithCurrentItem="True">
+                  SelectedItem="{Binding CardsSel}">
             <DataGrid.Columns>
                 <DataGridTextColumn IsReadOnly="True" Header="Id" Binding="{Binding Id}" Width="50"></DataGridTextColumn>
                 <DataGridTextColumn Header="Фамилия" Binding="{Binding LastName}" Width="150"></DataGridTextColumn>

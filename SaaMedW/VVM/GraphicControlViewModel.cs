@@ -11,12 +11,12 @@ using System.Windows.Data;
 
 namespace SaaMedW
 {
-    public class ListGraphicViewModel : ObservableCollection<VmGraphic>
+    public class GraphicControlViewModel : ObservableCollection<VmGraphic>
     {
         private SaaMedEntities ctx;
         private ICollectionView view;
         public GraphicViewModel parent { get; set; }
-        public ListGraphicViewModel(SaaMedEntities _ctx)
+        public GraphicControlViewModel(SaaMedEntities _ctx)
         {
             ctx = _ctx;
             view = CollectionViewSource.GetDefaultView(this);

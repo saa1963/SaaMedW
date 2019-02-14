@@ -9,7 +9,7 @@ using System.Windows.Data;
 
 namespace SaaMedW
 {
-    public class SelectSpecialtyViewModel : ViewModelBase
+    public class SelectSpecialtyViewModel
     {
         private ObservableCollection<VmSpecialty> m_specialty
             = new ObservableCollection<VmSpecialty>();

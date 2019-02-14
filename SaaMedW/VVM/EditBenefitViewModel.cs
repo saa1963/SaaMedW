@@ -10,10 +10,37 @@ using System.Windows.Data;
 
 namespace SaaMedW
 {
-    public class EditBenefitViewModel : VmBenefit, IDataErrorInfo
+    public class EditBenefitViewModel : NotifyPropertyChanged, IDataErrorInfo
     {
-        public EditBenefitViewModel():base()
+        private string m_Name;
+        public string Name
         {
+            get => m_Name;
+            set
+            {
+                m_Name = value;
+                OnPropertyChanged("Name");
+            }
+        }
+        private decimal m_Price;
+        public decimal Price
+        {
+            get => m_Price;
+            set
+            {
+                m_Price = value;
+                OnPropertyChanged("Price");
+            }
+        }
+        private int m_Duration;
+        public int Duration
+        {
+            get => m_Duration;
+            set
+            {
+                m_Duration = value;
+                OnPropertyChanged("Duration");
+            }
         }
         public string this[string columnName]
         {

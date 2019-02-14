@@ -52,7 +52,7 @@ namespace SaaMedW
                     break;
                 case enumProfile.ЛокальныйПользователя:
                     compId = Global.Source.GetMotherboardId();
-                    userId = Global.Source.rUser.Id;
+                    userId = Global.Source.RUser.Id;
                     break;
                 case enumProfile.ЛокальныйВсеПользователи:
                     compId = Global.Source.GetMotherboardId();
@@ -60,7 +60,7 @@ namespace SaaMedW
                     break;
                 case enumProfile.ПеремещаемыйПользователя:
                     compId = "0";
-                    userId = Global.Source.rUser.Id;
+                    userId = Global.Source.RUser.Id;
                     break;
                 default:
                     Debug.Assert(false);

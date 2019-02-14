@@ -10,7 +10,7 @@ using System.Windows.Data;
 
 namespace SaaMedW
 {
-    public class UsersViewModel : ViewModelBase
+    public class UsersViewModel
     {
         private SaaMedEntities ctx = new SaaMedEntities();
 

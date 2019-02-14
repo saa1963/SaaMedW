@@ -4,9 +4,9 @@ using System.Linq;
 
 namespace SaaMedW
 {
-    public class SelectPersonalVisitsViewModel: ViewModelBase
+    public class SelectPersonalVisits
     {
-        public SelectPersonalVisitsViewModel()
+        public SelectPersonalVisits()
         {
         }
 
@@ -14,8 +14,8 @@ namespace SaaMedW
         public int PersonalId { get; set; }
         public string PersonalFio { get; set; }
 
-        public ObservableCollection<SelectDateIntervalsViewModel> DateIntervals { get; set; }
-         = new ObservableCollection<SelectDateIntervalsViewModel>();
+        public ObservableCollection<SelectDateIntervals> DateIntervals { get; set; }
+         = new ObservableCollection<SelectDateIntervals>();
 
         public void Fill()
         {
@@ -26,7 +26,7 @@ namespace SaaMedW
                 var dates = personal.Graphic
                     .Where(s => s.Dt >= DateTime.Today && s.PersonalId == PersonalId)
                     .GroupBy(s => s.Dt)
-                    .Select(s => new SelectDateIntervalsViewModel()
+                    .Select(s => new SelectDateIntervals()
                     { Dt = s.Key, Parent = this })
                     .OrderBy(s => s.Dt);
                 foreach (var o in dates)

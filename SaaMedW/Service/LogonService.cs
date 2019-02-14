@@ -31,7 +31,7 @@ namespace SaaMedW.Service
                     if (!String.IsNullOrWhiteSpace(password))
                         throw new Exception($"Пароль для пользователя {login} должен быть пустым");
                 }
-                Global.Source.rUser = logonUser;
+                Global.Source.RUser = logonUser;
                 return true;
             }
             catch (Exception e)

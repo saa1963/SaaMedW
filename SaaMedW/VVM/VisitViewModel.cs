@@ -9,7 +9,7 @@ using SaaMedW.View;
 
 namespace SaaMedW
 {
-    public class VisitViewModel : ViewModelBase
+    public class VisitViewModel
     {
         private SaaMedEntities ctx = new SaaMedEntities();
         private DateTime _selectedDate;

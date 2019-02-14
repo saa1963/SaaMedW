@@ -13,7 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace SaaMedW.View
+namespace SaaMedW
 {
     /// <summary>
     /// Логика взаимодействия для SelectSpecialtyView.xaml

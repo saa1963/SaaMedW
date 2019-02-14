@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using SaaMedW.Service;
-using SaaMedW.ViewModel;
 using System.IO;
 using System.Reflection;
 using System.Windows.Media;
@@ -76,7 +75,7 @@ namespace SaaMedW
                 storage.SetLoginName(Environment.UserName, loginViewModel.Login);
                 this.ShutdownMode = ShutdownMode.OnMainWindowClose;
                 var modelview = new MasterWindowViewModel();
-                var window = new MasterWindow
+                var window = new MasterWindowView
                 {
                     DataContext = modelview
                 };
@@ -103,7 +102,7 @@ namespace SaaMedW
             if (o is ExecTypes)
             {
                 var ob = o as ExecTypes;
-                var window = (MasterWindow)Current.MainWindow;
+                var window = (MasterWindowView)Current.MainWindow;
 
                 // создаем экземпляр View
                 var f = (UserControl)Activator.CreateInstance(ob.View);

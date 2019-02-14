@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace SaaMedW
 {
-    public class DateIntervals : ViewModelBase
+    public class DateIntervals : NotifyPropertyChanged
     {
         private SaaMedEntities ctx = new SaaMedEntities();
 
-        public PersonalVisitsViewModel Parent { get; set; }
+        public PersonalVisits Parent { get; set; }
         private DateTime m_Dt;
         public DateTime Dt
         {

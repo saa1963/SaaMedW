@@ -5,9 +5,9 @@ using System.Linq;
 
 namespace SaaMedW
 {
-    public class SelectDateIntervalsViewModel: ViewModelBase
+    public class SelectDateIntervals: NotifyPropertyChanged
     {
-        public SelectPersonalVisitsViewModel Parent { get; set; }
+        public SelectPersonalVisits Parent { get; set; }
         private DateTime m_Dt;
         public DateTime Dt
         {

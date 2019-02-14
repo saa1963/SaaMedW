@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SaaMedW
 {
-    class ChangePasswordViewModel : ViewModelBase, IDataErrorInfo
+    class ChangePasswordViewModel : NotifyPropertyChanged, IDataErrorInfo
     {
         private string m_newpassword;
         private string m_reppassword;

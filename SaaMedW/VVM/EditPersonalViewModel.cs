@@ -9,7 +9,7 @@ using System.Windows.Data;
 
 namespace SaaMedW
 {
-    public class EditPersonalViewModel : ViewModelBase, IDataErrorInfo
+    public class EditPersonalViewModel : NotifyPropertyChanged, IDataErrorInfo
     {
         private List<Specialty> lst;
         private ObservableCollection<VmSpecialty> m_specialty

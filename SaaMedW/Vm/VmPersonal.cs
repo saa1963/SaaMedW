@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
 
-namespace SaaMedW.ViewModel
+namespace SaaMedW
 {
     public class VmPersonal : NotifyPropertyChanged
     {

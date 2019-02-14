@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace SaaMedW
 {
-    public class EditInvoiceViewModel : ViewModelBase, IDataErrorInfo
+    public class EditInvoiceViewModel : NotifyPropertyChanged, IDataErrorInfo
     {
         private SaaMedEntities ctx = new SaaMedEntities();
         private DateTime m_Dt = DateTime.Today;

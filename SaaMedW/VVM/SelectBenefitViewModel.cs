@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SaaMedW
 {
-    public class SelectBenefitViewModel: ViewModelBase
+    public class SelectBenefitViewModel
     {
         private ObservableCollection<VmSpecialty> m_specialty
             = new ObservableCollection<VmSpecialty>();

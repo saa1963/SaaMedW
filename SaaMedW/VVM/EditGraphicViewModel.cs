@@ -8,7 +8,7 @@ using System.Windows.Data;
 
 namespace SaaMedW
 {
-    public class EditGraphicViewModel : ViewModelBase, IDataErrorInfo
+    public class EditGraphicViewModel : NotifyPropertyChanged, IDataErrorInfo
     {
         SaaMedEntities ctx = new SaaMedEntities();
         private List<Personal> m_personal;

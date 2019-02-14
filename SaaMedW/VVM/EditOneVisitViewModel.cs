@@ -2,11 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 
 namespace SaaMedW
 {
-    public class EditOneVisitViewModel : ViewModelBase
+    public class EditOneVisitViewModel : NotifyPropertyChanged, IDataErrorInfo
     {
         private ObservableCollection<VmSpecialty> m_specialty
             = new ObservableCollection<VmSpecialty>();
@@ -25,6 +26,7 @@ namespace SaaMedW
                 if (IntervalSel == null) return false;
                 return true;
             }
+            set { }
         }
         private int m_Duration;
         private VmPersonal _personalSel;
@@ -46,6 +48,7 @@ namespace SaaMedW
             {
                 _personalSel = value;
                 OnPropertyChanged("PersonalSel");
+                OnPropertyChanged("IsEnabledOk");
             }
         }
         public TimeInterval IntervalSel
@@ -160,6 +163,7 @@ namespace SaaMedW
         {
             VisitBenefit.Add(new VisitBenefit()
             { BenefitId = SelectedBenefit1.Id, Benefit = SelectedBenefit1, Kol = 1 });
+            OnPropertyChanged("IsEnabledOk");
         }
         public RelayCommand RemoveBenefitCommand
         {
@@ -169,6 +173,11 @@ namespace SaaMedW
         private void RemoveBenefit(object obj)
         {
             VisitBenefit.Remove(SelectedBenefit2);
+            if (VisitBenefit.Count == 0)
+            {
+                PersonalSel = null;
+                IntervalSel = null;
+            }
         }
 
         public RelayCommand CalcDurationCommand
@@ -187,12 +196,31 @@ namespace SaaMedW
                 s => VisitBenefit.Count > 0 && m_Duration > 0);
         }
 
+        public string Error => "";
+
+        public string this[string columnName]
+        {
+            get
+            {
+                var result = String.Empty;
+                switch (columnName)
+                {
+                    case "Duration":
+                        if (Duration <= 0)
+                            result = "Не верная продолжительность посещения";
+                        break;
+                    default:
+                        break;
+                }
+                return result;
+            }
+        }
+
         private void SelectTime(object obj)
         {
             var modelView
                 = new SelectIntervalViewModel(VisitBenefit.Select(s => s.Benefit).ToList(), m_Duration);
             var f = new SelectInterval() { DataContext = modelView };
-            modelView.CloseAction = new Action(f.Close);
             if (f.ShowDialog() ?? false)
             {
                 PersonalSel = new VmPersonal(ctx.Personal.Find(modelView.ReturnInterval.Parent.Parent.PersonalId));

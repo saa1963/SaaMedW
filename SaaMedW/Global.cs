@@ -1,5 +1,4 @@
-﻿using SaaMedW.ViewModel;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -23,7 +22,7 @@ namespace SaaMedW
 
         public static Global Source { get { return lazy.Value; } }
 
-        public Users rUser { get; set; }
+        public Users RUser { get; set; }
 
         internal void SaveColumnsWidth(UserControl uc)
         {

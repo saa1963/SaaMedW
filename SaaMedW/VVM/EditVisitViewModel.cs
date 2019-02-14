@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace SaaMedW
 {
-    public class EditVisitViewModel : ViewModelBase
+    public class EditVisitViewModel : NotifyPropertyChanged
     {
         log4net.ILog log = log4net.LogManager.GetLogger(typeof(EditVisitViewModel));
         private bool m_IsOpen;
@@ -77,8 +77,8 @@ namespace SaaMedW
                 OnPropertyChanged("BenefitSel");
             }
         }
-        public ObservableCollection<EditPersonViewModel> PersonList { get; set; } =
-                new ObservableCollection<EditPersonViewModel>();
+        public ObservableCollection<VmPerson> PersonList { get; set; } =
+                new ObservableCollection<VmPerson>();
         private int m_SelectedPersonId;
         public int SelectedPersonId
         {
@@ -90,8 +90,8 @@ namespace SaaMedW
             }
         }
         public bool IsSelectedPerson { get => SelectedPersonId > 0; }
-        public ObservableCollection<PersonalVisitsViewModel> PersonalVisits { get; set; }
-            = new ObservableCollection<PersonalVisitsViewModel>();
+        public ObservableCollection<PersonalVisits> PersonalVisits { get; set; }
+            = new ObservableCollection<PersonalVisits>();
         public EditVisitViewModel()
         {
             //ctx.Database.Log = s => log.Info(s);
@@ -106,7 +106,7 @@ namespace SaaMedW
             foreach (var o in ctx.Person.OrderBy(s => s.LastName).ThenBy(s => s.FirstName)
                 .ThenBy(s => s.MiddleName))
             {
-                PersonList.Add(new EditPersonViewModel(o));
+                PersonList.Add(new VmPerson(o));
             }
         }
         public RelayCommand RefreshGrid
@@ -122,7 +122,7 @@ namespace SaaMedW
             foreach (var o in ctx.PersonalSpecialty.Include(s => s.Personal)
                 //.Where(s => s.SpecialtyId == specialtyCurrent)
                 .Where(ПроверкаНаСпециальность)
-                .Select(s => new PersonalVisitsViewModel()
+                .Select(s => new PersonalVisits()
                 { PersonalId = s.PersonalId, PersonalFio = s.Personal.Fio }))
             {
                 o.Parent = this;

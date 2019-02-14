@@ -5,10 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.Entity;
+using System.Windows;
 
 namespace SaaMedW
 {
-    public class SelectIntervalViewModel: ViewModelBase
+    public class SelectIntervalViewModel: NotifyPropertyChanged
     {
         log4net.ILog log;
 
@@ -17,8 +18,8 @@ namespace SaaMedW
         /// <summary>
         /// Список врачей -> Список дат по графику -> Список интервалов
         /// </summary>
-        public ObservableCollection<SelectPersonalVisitsViewModel> PersonalVisits { get; set; }
-            = new ObservableCollection<SelectPersonalVisitsViewModel>();
+        public ObservableCollection<SelectPersonalVisits> PersonalVisits { get; set; }
+            = new ObservableCollection<SelectPersonalVisits>();
         /// <summary>
         /// Набор услуг
         /// </summary>
@@ -39,7 +40,7 @@ namespace SaaMedW
             Benefits = benefits;
             foreach (var o in ctx.PersonalSpecialty.Include(s => s.Personal)
                 .Where(ПроверкаНаСпециальность)
-                .Select(s => new SelectPersonalVisitsViewModel()
+                .Select(s => new SelectPersonalVisits()
                 { PersonalId = s.PersonalId, PersonalFio = s.Personal.Fio }))
             {
                 o.Parent = this;
@@ -66,14 +67,23 @@ namespace SaaMedW
             get { return new RelayCommand(SelectIntervalProc); }
         }
 
-        public Action CloseAction { get; set; }
-
         private void SelectIntervalProc(object obj)
         {
             var ti = obj as SelectVisitTimeInterval;
             if (ti.IsVisit) return;
             ReturnInterval = ti;
-            CloseAction();
+            DialogResult = true;
+        }
+
+        private bool? m_DialogResult;
+        public bool? DialogResult
+        {
+            get => m_DialogResult;
+            set
+            {
+                m_DialogResult = value;
+                OnPropertyChanged("DialogResult");
+            }
         }
     }
 }

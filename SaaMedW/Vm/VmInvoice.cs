@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SaaMedW.ViewModel
+namespace SaaMedW
 {
     public class VmInvoice : NotifyPropertyChanged
     {

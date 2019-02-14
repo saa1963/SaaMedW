@@ -11,7 +11,7 @@ using System.Data.Entity;
 
 namespace SaaMedW
 {
-    public class SpecialtyViewModel : NotifyPropertyChanged
+    public class SpecialtyViewModel
     {
         private SaaMedEntities ctx = new SaaMedEntities();
         private readonly ObservableCollection<VmSpecialty> m_specialty 

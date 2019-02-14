@@ -1,5 +1,4 @@
-﻿using SaaMedW.ViewModel;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -29,7 +28,7 @@ namespace SaaMedW
         private void GraphicControl_Drop(object sender, DragEventArgs e)
         {
             var data = e.Data.GetData(typeof(VmGraphic)) as VmGraphic;
-            var ob = DataContext as ListGraphicViewModel;
+            var ob = DataContext as GraphicControlViewModel;
             var ti2 = new TimeInterval(data.Dt, data.H1, data.M1, data.H2, data.M2);
             bool intersected = false;
             foreach (var o in ob)
@@ -52,10 +51,10 @@ namespace SaaMedW
 
         private void TextBlock_MouseMove(object sender, MouseEventArgs e)
         {
-            ListGraphicViewModel o;
+            GraphicControlViewModel o;
             if (e.LeftButton == MouseButtonState.Pressed)
             {
-                o = DataContext as ListGraphicViewModel;
+                o = DataContext as GraphicControlViewModel;
                 if (o.Current != null)
                 {
                     DataObject data = new DataObject(o.Current);

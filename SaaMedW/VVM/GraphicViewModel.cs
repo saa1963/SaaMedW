@@ -10,13 +10,13 @@ using System.Windows.Data;
 
 namespace SaaMedW
 {
-    public class GraphicViewModel : ViewModelBase
+    public class GraphicViewModel : NotifyPropertyChanged
     {
         SaaMedEntities ctx = new SaaMedEntities();
         private DateTime m_dt1;
         private DateTime m_dt2;
         private const int CELLS_COUNT = 42;
-        private readonly ListGraphicViewModel[] m_mas = new ListGraphicViewModel[CELLS_COUNT];
+        private readonly GraphicControlViewModel[] m_mas = new GraphicControlViewModel[CELLS_COUNT];
         private Months[] m_months = new Months[12];
         private readonly List<Personal> m_personal = new List<Personal>();
         private readonly DateTime m_dt;

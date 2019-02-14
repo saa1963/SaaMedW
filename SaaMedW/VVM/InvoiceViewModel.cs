@@ -11,7 +11,7 @@ using System.Windows;
 
 namespace SaaMedW
 {
-    public class InvoiceViewModel : ViewModelBase
+    public class InvoiceViewModel : NotifyPropertyChanged
     {
         log4net.ILog log;
         IAccounts accounts = (IAccounts)Service.ServiceLocator.Instance.GetService(typeof(IAccounts));

@@ -11,7 +11,7 @@ using System.Data.Entity;
 
 namespace SaaMedW
 {
-    public class PersonalViewModel : ViewModelBase
+    public class PersonalViewModel
     {
         private SaaMedEntities ctx = new SaaMedEntities();
         public ObservableCollection<VmPersonal> PersonalList { get; private set; } 

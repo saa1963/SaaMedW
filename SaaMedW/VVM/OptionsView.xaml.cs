@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace SaaMedW.View
+namespace SaaMedW
 {
     /// <summary>
     /// Логика взаимодействия для OptionsView.xaml
@@ -37,7 +37,7 @@ namespace SaaMedW.View
 
         private void SetIsChanged(object sender)
         {
-            var viewModel = DataContext as ViewModel.OptionsViewModel;
+            var viewModel = DataContext as OptionsViewModel;
             viewModel.IsChanged = true;
         }
     }

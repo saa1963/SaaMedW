@@ -8,7 +8,7 @@ using SaaMedW.Service;
 
 namespace SaaMedW
 {
-    public class LoginViewModel : ViewModelBase, IDataErrorInfo
+    public class LoginViewModel : NotifyPropertyChanged, IDataErrorInfo
     {
         private readonly ILocalStorage storage;
         private string m_login;

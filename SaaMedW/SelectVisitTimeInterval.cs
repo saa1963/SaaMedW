@@ -8,7 +8,7 @@ namespace SaaMedW
 {
     public class SelectVisitTimeInterval : TimeInterval
     {
-        public SelectDateIntervalsViewModel Parent { get; set; }
+        public SelectDateIntervals Parent { get; set; }
         public TypeTimeInterval TypeTimeInterv { get; set; }
         public bool IsVisit { get => TypeTimeInterv == TypeTimeInterval.Visit; }
 
