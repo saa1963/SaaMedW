@@ -41,9 +41,30 @@ namespace SaaMedW
             var f = new EditPersonView() { DataContext = modelView };
             if (f.ShowDialog() ?? false)
             {
-                ctx.Person.Add(modelView.Obj);
+                var o = new VmPerson()
+                {
+                    AddressCity = modelView.AddressCity,
+                    AddressFlat = modelView.AddressFlat,
+                    AddressHouse = modelView.AddressHouse,
+                    AddressPunkt = modelView.AddressPunkt,
+                    AddressRaion = modelView.AddressRaion,
+                    AddressStreet = modelView.AddressStreet,
+                    AddressSubject = modelView.AddressSubject,
+                    BirthDate = modelView.BirthDate,
+                    DocNumber = modelView.DocNumber,
+                    DocSeria = modelView.DocSeria,
+                    DocumentTypeId = modelView.DocumentTypeId,
+                    FirstName = modelView.FirstName,
+                    Inn = modelView.Inn,
+                    LastName = modelView.LastName,
+                    Mestnost = modelView.Mestnost,
+                    MiddleName = modelView.MiddleName,
+                    Phone = modelView.Phone,
+                    Sex = modelView.Sex,
+                    Snils = modelView.Snils
+                };
+                ctx.Person.Add(o.Obj);
                 ctx.SaveChanges();
-                var o = new VmPerson(modelView.Obj);
                 CardsList.Add(o);
                 viewUsers.MoveCurrentTo(o);
             }
@@ -54,13 +75,29 @@ namespace SaaMedW
         private void EditPerson(object obj)
         {
             if (CardsSel == null) return;
-            VmPerson person = CardsSel;
-            var modelView = new EditPersonViewModel(person.Obj);
+            var modelView = new EditPersonViewModel(CardsSel.Obj);
             var f = new EditPersonView() { DataContext = modelView };
             if (f.ShowDialog() ?? false)
             {
-                person.OnPropertyChanged("Phone");
-                //person.Copy(modelView);
+                CardsSel.AddressCity = modelView.AddressCity;
+                CardsSel.AddressFlat = modelView.AddressFlat;
+                CardsSel.AddressHouse = modelView.AddressHouse;
+                CardsSel.AddressPunkt = modelView.AddressPunkt;
+                CardsSel.AddressRaion = modelView.AddressRaion;
+                CardsSel.AddressStreet = modelView.AddressStreet;
+                CardsSel.AddressSubject = modelView.AddressSubject;
+                CardsSel.BirthDate = modelView.BirthDate;
+                CardsSel.DocNumber = modelView.DocNumber;
+                CardsSel.DocSeria = modelView.DocSeria;
+                CardsSel.DocumentTypeId = modelView.DocumentTypeId;
+                CardsSel.FirstName = modelView.FirstName;
+                CardsSel.Inn = modelView.Inn;
+                CardsSel.LastName = modelView.LastName;
+                CardsSel.Mestnost = modelView.Mestnost;
+                CardsSel.MiddleName = modelView.MiddleName;
+                CardsSel.Phone = modelView.Phone;
+                CardsSel.Sex = modelView.Sex;
+                CardsSel.Snils = modelView.Snils;
                 ctx.SaveChanges();
             }
         }

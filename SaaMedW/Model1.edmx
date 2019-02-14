@@ -481,7 +481,7 @@
           <Property Name="MiddleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="BirthDate" Type="DateTime" Precision="0" />
           <Property Name="Phone" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="Sex" Type="Int32" />
+          <Property Name="Sex" Type="SaaMedModel.enSex" />
           <Property Name="Inn" Type="String" MaxLength="12" FixedLength="false" Unicode="true" />
           <Property Name="Snils" Type="String" MaxLength="11" FixedLength="true" Unicode="true" />
           <Property Name="DocumentTypeId" Type="Int32" />
@@ -494,7 +494,7 @@
           <Property Name="AddressStreet" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="AddressHouse" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="AddressFlat" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Mestnost" Type="Int32" />
+          <Property Name="Mestnost" Type="SaaMedModel.enMestnost" />
           <NavigationProperty Name="DocumentType" Relationship="Self.FK_Person_DocumentType" FromRole="Person" ToRole="DocumentType" />
           <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="Invoice" Relationship="SaaMedModel.FK_Invoice_Person" FromRole="Person" ToRole="Invoice" />
@@ -942,6 +942,14 @@
         <EnumType Name="enVisitStatus">
           <Member Name="Предварительный" Value="0" />
           <Member Name="Завершен" Value="1" />
+        </EnumType>
+        <EnumType Name="enSex">
+          <Member Name="Мужской" Value="1" />
+          <Member Name="Женский" Value="2" />
+        </EnumType>
+        <EnumType Name="enMestnost">
+          <Member Name="Городская" Value="1" />
+          <Member Name="Сельская" Value="2" />
         </EnumType>
       </Schema>
     </edmx:ConceptualModels>

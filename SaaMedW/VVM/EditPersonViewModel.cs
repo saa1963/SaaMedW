@@ -11,66 +11,42 @@ namespace SaaMedW
 {
     public class EditPersonViewModel : NotifyPropertyChanged, IDataErrorInfo
     {
-        //private Person m_object;
-        public List<IdName> SexList { get; } =
-            new List<IdName> {
-                new IdName { Id = 1, Name = "Мужской" },
-                new IdName { Id = 2, Name = "Женский"} };
-        public List<IdName> MestnostList { get; } =
-            new List<IdName> {
-                new IdName { Id = 1, Name = "Городская" },
-                new IdName { Id = 2, Name = "Сельская"} };
+        public enSex[] SexList { get; } = (enSex[])Enum.GetValues(typeof(enSex));
+        public enMestnost[] MestnostList { get; } = (enMestnost[])Enum.GetValues(typeof(enMestnost));
         public ObservableCollection<VmDocumentType> DocTypeList { get; set; } =
             new ObservableCollection<VmDocumentType>();
         private SaaMedEntities ctx = new SaaMedEntities();
 
         public EditPersonViewModel()
         {
-            m_object = new Person();
             FillDocType();
-            m_object.CreateDate = DateTime.Now;
         }
         public EditPersonViewModel(Person par)
         {
-            m_object = new Person();
             CopyProperties(par);
             FillDocType();
         }
-        public EditPersonViewModel(EditPersonViewModel obj)
-        {
-            m_object = new Person
-            {
-                Id = obj.Id
-            };
-            CopyProperties(obj.Obj);
-        }
-        public EditPersonViewModel Copy(EditPersonViewModel obj)
-        {
-            CopyProperties(obj.Obj);
-            return this;
-        }
         private void CopyProperties(Person obj)
         {
-            m_object.AddressCity = obj.AddressCity;
-            m_object.AddressFlat = obj.AddressFlat;
-            m_object.AddressHouse = obj.AddressHouse;
-            m_object.AddressPunkt = obj.AddressPunkt;
-            m_object.AddressRaion = obj.AddressRaion;
-            m_object.AddressStreet = obj.AddressStreet;
-            m_object.AddressSubject = obj.AddressSubject;
-            m_object.BirthDate = obj.BirthDate;
-            m_object.CreateDate = obj.CreateDate;
-            m_object.DocNumber = obj.DocNumber;
-            m_object.DocSeria = obj.DocSeria;
-            m_object.DocumentTypeId = obj.DocumentTypeId;
-            m_object.FirstName = obj.FirstName;
-            m_object.Inn = obj.Inn;
-            m_object.LastName = obj.LastName;
-            m_object.Mestnost = obj.Mestnost;
-            m_object.MiddleName = obj.MiddleName;
-            m_object.Phone = obj.Phone;
-            m_object.Sex = obj.Sex;
-            m_object.Snils = obj.Snils;
+            m_AddressCity = obj.AddressCity;
+            m_AddressFlat = obj.AddressFlat;
+            m_AddressHouse = obj.AddressHouse;
+            m_AddressPunkt = obj.AddressPunkt;
+            m_AddressRaion = obj.AddressRaion;
+            m_AddressStreet = obj.AddressStreet;
+            m_AddressSubject = obj.AddressSubject;
+            m_BirthDate = obj.BirthDate;
+            m_DocNumber = obj.DocNumber;
+            m_DocSeria = obj.DocSeria;
+            m_DocumentTypeId = obj.DocumentTypeId;
+            m_FirstName = obj.FirstName;
+            m_Inn = obj.Inn;
+            m_LastName = obj.LastName;
+            m_Mestnost = obj.Mestnost;
+            m_MiddleName = obj.MiddleName;
+            m_Phone = obj.Phone;
+            m_Sex = obj.Sex;
+            m_Snils = obj.Snils;
         }
         private void FillDocType()
         {
@@ -165,8 +141,8 @@ namespace SaaMedW
                 OnPropertyChanged("Phone");
             }
         }
-        private int? m_Sex;
-        public int? Sex
+        private enSex? m_Sex;
+        public enSex? Sex
         {
             get => m_Sex;
             set
@@ -195,121 +171,124 @@ namespace SaaMedW
                 OnPropertyChanged("Snils");
             }
         }
+        private int? m_DocumentTypeId;
         public int? DocumentTypeId
         {
-            get => m_object.DocumentTypeId;
+            get => m_DocumentTypeId;
             set
             {
-                m_object.DocumentTypeId = value;
+                m_DocumentTypeId = value;
                 OnPropertyChanged("DocumentTypeId");
             }
         }
+        private DocumentType m_DocumentType;
         public DocumentType DocumentType
         {
-            get => m_object.DocumentType;
+            get => m_DocumentType;
             set
             {
-                m_object.DocumentType = value;
+                m_DocumentType = value;
                 OnPropertyChanged("DocumentType");
             }
         }
+        private string m_DocSeria;
         public string DocSeria
         {
-            get => m_object.DocSeria;
+            get => m_DocSeria;
             set
             {
-                m_object.DocSeria = value;
+                m_DocSeria = value;
                 OnPropertyChanged("DocSeria");
             }
         }
+        private string m_DocNumber;
         public string DocNumber
         {
-            get => m_object.DocNumber;
+            get => m_DocNumber;
             set
             {
-                m_object.DocNumber = value;
+                m_DocNumber = value;
                 OnPropertyChanged("DocNumber");
             }
         }
+        private string m_AddressSubject;
         public string AddressSubject
         {
-            get => m_object.AddressSubject;
+            get => m_AddressSubject;
             set
             {
-                m_object.AddressSubject = value;
+                m_AddressSubject = value;
                 OnPropertyChanged("AddressSubject");
             }
         }
+        private string m_AddressRaion;
         public string AddressRaion
         {
-            get => m_object.AddressRaion;
+            get => m_AddressRaion;
             set
             {
-                m_object.AddressRaion = value;
+                m_AddressRaion = value;
                 OnPropertyChanged("AddressRaion");
             }
         }
+        private string m_AddressCity;
         public string AddressCity
         {
-            get => m_object.AddressCity;
+            get => m_AddressCity;
             set
             {
-                m_object.AddressCity = value;
+                m_AddressCity = value;
                 OnPropertyChanged("AddressCity");
             }
         }
+        private string m_AddressPunkt;
         public string AddressPunkt
         {
-            get => m_object.AddressPunkt;
+            get => m_AddressPunkt;
             set
             {
-                m_object.AddressPunkt = value;
+                m_AddressPunkt = value;
                 OnPropertyChanged("AddressPunkt");
             }
         }
+        private string m_AddressStreet;
         public string AddressStreet
         {
-            get => m_object.AddressStreet;
+            get => m_AddressStreet;
             set
             {
-                m_object.AddressStreet = value;
+                m_AddressStreet = value;
                 OnPropertyChanged("AddressStreet");
             }
         }
+        private string m_AddressHouse;
         public string AddressHouse
         {
-            get => m_object.AddressHouse;
+            get => m_AddressHouse;
             set
             {
-                m_object.AddressHouse = value;
+                m_AddressHouse = value;
                 OnPropertyChanged("AddressHouse");
             }
         }
+        private string m_AddressFlat;
         public string AddressFlat
         {
-            get => m_object.AddressFlat;
+            get => m_AddressFlat;
             set
             {
-                m_object.AddressFlat = value;
+                m_AddressFlat = value;
                 OnPropertyChanged("AddressFlat");
             }
         }
-        public int? Mestnost
+        public enMestnost? m_Mestnost;
+        public enMestnost? Mestnost
         {
-            get => m_object.Mestnost;
+            get => m_Mestnost;
             set
             {
-                m_object.Mestnost = value;
+                m_Mestnost = value;
                 OnPropertyChanged("Mestnost");
-            }
-        }
-        public DateTime CreateDate
-        {
-            get => m_object.CreateDate;
-            set
-            {
-                m_object.CreateDate = value;
-                OnPropertyChanged("CreateDate");
             }
         }
         public string FullName

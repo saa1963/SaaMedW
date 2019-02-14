@@ -3,6 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:core="clr-namespace:System;assembly=mscorlib"
+        xmlns:local0="clr-namespace:SaaMedW"
         mc:Ignorable="d"
         ResizeMode="NoResize"
         SizeToContent="Height" Width="600" WindowStartupLocation="CenterScreen">
@@ -67,9 +69,7 @@
                         </StackPanel>
                         <StackPanel Grid.Column="2">
                             <Label>Пол</Label>
-                            <ComboBox ItemsSource="{Binding SexList}" DisplayMemberPath="Name" 
-                                      SelectedValue="{Binding Sex}"
-                                      SelectedValuePath="Id"/>
+                            <ComboBox ItemsSource="{Binding SexList}" SelectedValue="{Binding Sex}" />
                         </StackPanel>
                     </Grid>
                     <StackPanel Grid.Row="4">
@@ -126,8 +126,7 @@
                     </Grid.RowDefinitions>
                     <StackPanel Grid.Row="0">
                         <Label>Местность</Label>
-                        <ComboBox ItemsSource="{Binding MestnostList}" DisplayMemberPath="Name" 
-                                  SelectedValuePath="Id" 
+                        <ComboBox ItemsSource="{Binding MestnostList}" 
                                   SelectedValue="{Binding Mestnost}"/>
                     </StackPanel>
                     <StackPanel Grid.Row="1">

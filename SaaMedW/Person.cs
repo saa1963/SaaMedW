@@ -30,7 +30,7 @@ namespace SaaMedW
         public string MiddleName { get; set; }
         public Nullable<System.DateTime> BirthDate { get; set; }
         public string Phone { get; set; }
-        public Nullable<int> Sex { get; set; }
+        public Nullable<enSex> Sex { get; set; }
         public string Inn { get; set; }
         public string Snils { get; set; }
         public Nullable<int> DocumentTypeId { get; set; }
@@ -43,7 +43,7 @@ namespace SaaMedW
         public string AddressStreet { get; set; }
         public string AddressHouse { get; set; }
         public string AddressFlat { get; set; }
-        public Nullable<int> Mestnost { get; set; }
+        public Nullable<enMestnost> Mestnost { get; set; }
         public System.DateTime CreateDate { get; set; }
         public Nullable<int> RepresentativeId { get; set; }
     

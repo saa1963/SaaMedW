@@ -3,11 +3,16 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:core="clr-namespace:System;assembly=mscorlib"
              xmlns:local0="clr-namespace:SaaMedW"
              mc:Ignorable="d" Tag="Пациенты"
              d:DesignHeight="450" d:DesignWidth="800" Unloaded="UserControl_Unloaded" Loaded="UserControl_Loaded">
     <UserControl.Resources>
-        <local0:RoleToIntConverter x:Key="myConverter" />
+        <ObjectDataProvider x:Key="sexEnum" MethodName="GetValues" ObjectType="{x:Type core:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type Type="local0:enSex"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -36,7 +41,7 @@
             </MenuItem>
         </Menu>
         <local0:ScrollingDataGrid x:Name="g" Grid.Row="1" Margin="5" ItemsSource="{Binding CardsList}" 
-                  SelectedItem="{Binding CardsSel}">
+                  SelectedItem="{Binding CardsSel}" IsSynchronizedWithCurrentItem="True">
             <DataGrid.Columns>
                 <DataGridTextColumn IsReadOnly="True" Header="Id" Binding="{Binding Id}" Width="50"></DataGridTextColumn>
                 <DataGridTextColumn Header="Фамилия" Binding="{Binding LastName}" Width="150"></DataGridTextColumn>
@@ -44,7 +49,9 @@
                 <DataGridTextColumn Header="Отчество" Binding="{Binding MiddleName, UpdateSourceTrigger=PropertyChanged}" Width="100"/>
                 <DataGridTextColumn Header="Дата рожд" Binding="{Binding BirthDate, StringFormat={}{0:dd.MM.yyyy}}" Width="100"></DataGridTextColumn>
                 <DataGridTextColumn Header="Телефон" Binding="{Binding Phone}" Width="100"></DataGridTextColumn>
-                <DataGridTextColumn Header="Пол" Binding="{Binding Sex}" Width="100"></DataGridTextColumn>
+                <DataGridComboBoxColumn Header="Пол" ItemsSource="{Binding Source={StaticResource sexEnum}}" 
+                                        SelectedValueBinding="{Binding Sex}"
+                                        Width="100"></DataGridComboBoxColumn>
                 <DataGridTextColumn Header="ИНН" Binding="{Binding Inn}" Width="100"></DataGridTextColumn>
                 <DataGridTextColumn Header="СНИЛС" Binding="{Binding Snils}" Width="100"></DataGridTextColumn>
                 <DataGridTextColumn IsReadOnly="True" Header="Тип док" Binding="{Binding DocumentType.Name}" Width="100"></DataGridTextColumn>
@@ -59,7 +66,6 @@
                 <DataGridTextColumn Header="Квартира" Binding="{Binding AddressFlat}" Width="100"></DataGridTextColumn>
                 <DataGridTextColumn Header="Местность" Binding="{Binding Mestnost}" Width="100"></DataGridTextColumn>
                 <DataGridTextColumn IsReadOnly="True" Header="Создано" Binding="{Binding CreateDate, StringFormat={}{0:dd.MM.yyyy HH:mm:ss}}" Width="100"></DataGridTextColumn>
-
             </DataGrid.Columns>
         </local0:ScrollingDataGrid>
     </Grid>

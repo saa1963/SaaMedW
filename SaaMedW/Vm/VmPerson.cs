@@ -80,7 +80,7 @@ namespace SaaMedW
                 OnPropertyChanged("Phone");
             }
         }
-        public int? Sex
+        public enSex? Sex
         {
             get => m_object.Sex;
             set
@@ -197,7 +197,7 @@ namespace SaaMedW
                 OnPropertyChanged("AddressFlat");
             }
         }
-        public int? Mestnost
+        public enMestnost? Mestnost
         {
             get => m_object.Mestnost;
             set
