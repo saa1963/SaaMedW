@@ -173,7 +173,7 @@ namespace SaaMedW
                         Duration = viewModel.IntervalSel.Interval.Minutes,
                         Person = CardsSel.Obj,
                         Personal = viewModel.PersonalSel.Obj,
-                        Status = enVisitStatus.Предварительный,
+                        Status = false,
                         VisitBenefit = viewModel.VisitBenefit
                     };
                     ctx.Visit.Add(o);

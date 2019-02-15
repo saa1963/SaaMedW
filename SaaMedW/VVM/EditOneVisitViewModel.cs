@@ -13,7 +13,7 @@ namespace SaaMedW
             = new ObservableCollection<VmSpecialty>();
         private List<Specialty> lst;
         private SaaMedEntities ctx;
-        private enVisitStatus m_Status;
+        private bool m_Status;
 
         public ObservableCollection<VmSpecialty> SpecialtyList { get => m_specialty; }
         public List<StatusName> ListStatus { get; set; } = new List<StatusName>();
@@ -144,7 +144,7 @@ namespace SaaMedW
             = new ObservableCollection<VisitBenefit>();
         public Benefit SelectedBenefit1 { get; set; }
         public VisitBenefit SelectedBenefit2 { get; set; }
-        public enVisitStatus Status
+        public bool Status
         {
             get => m_Status;
             set

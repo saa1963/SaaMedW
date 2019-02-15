@@ -157,7 +157,7 @@
           <Property Name="PersonId" Type="int" Nullable="false" />
           <Property Name="PersonalId" Type="int" Nullable="false" />
           <Property Name="Dt" Type="datetime" Nullable="false" />
-          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="Status" Type="bit" Nullable="false" />
           <Property Name="Duration" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="VisitBenefit">
@@ -715,7 +715,7 @@
           <Property Name="PersonId" Type="Int32" Nullable="false" />
           <Property Name="PersonalId" Type="Int32" Nullable="false" />
           <Property Name="Dt" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Status" Type="SaaMedModel.enVisitStatus" Nullable="false" />
+          <Property Name="Status" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Person" Relationship="SaaMedModel.FK_Visit_ToPerson" FromRole="Visit" ToRole="Person" />
           <NavigationProperty Name="Personal" Relationship="SaaMedModel.FK_Visit_ToPersonal" FromRole="Visit" ToRole="Personal" />
           <NavigationProperty Name="VisitBenefit" Relationship="SaaMedModel.FK_Table_Visit" FromRole="Visit" ToRole="VisitBenefit" />

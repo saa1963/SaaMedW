@@ -77,7 +77,8 @@ namespace SaaMedW
 
         public RelayCommand DelVisitCommand
         {
-            get => new RelayCommand(DelVisit, o => SelectedVisit != null);
+            get => new RelayCommand(DelVisit, o => SelectedVisit != null 
+                && !SelectedVisit.Status);
         }
 
         private void DelVisit(object obj)
@@ -91,7 +92,7 @@ namespace SaaMedW
 
         public RelayCommand GenerateInvoiceCommand
         {
-            get => new RelayCommand(GenerateInvoice, o => SelectedVisit != null && SelectedVisit.Status == enVisitStatus.Завершен);
+            get => new RelayCommand(GenerateInvoice, o => SelectedVisit != null && SelectedVisit.Status);
         }
 
         private void GenerateInvoice(object obj)
@@ -150,12 +151,22 @@ namespace SaaMedW
 
         public RelayCommand MoveVisitCommand
         {
-            get => new RelayCommand(MoveVisit, o => SelectedVisit != null && SelectedVisit.Status == enVisitStatus.Предварительный);
+            get => new RelayCommand(MoveVisit, o => SelectedVisit != null);
         }
 
         private void MoveVisit(object obj)
         {
             throw new NotImplementedException();
+        }
+
+        public RelayCommand ChangeStatusCommand
+        {
+            get => new RelayCommand(ChangeStatus, o => SelectedVisit != null);
+        }
+
+        private void ChangeStatus(object obj)
+        {
+            ctx.SaveChanges();
         }
     }
 }

@@ -5,14 +5,15 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SaaMedW.View"
              mc:Ignorable="d" Tag="Посещения" 
-             d:DesignHeight="450" d:DesignWidth="800" Padding="10">
+             d:DesignHeight="450" d:DesignWidth="800" Padding="10"
+             Name="UC">
     <UserControl.Resources>
         <Style x:Key="head" TargetType="TextBlock">
             <Setter Property="FontWeight" Value="Bold"></Setter>
         </Style>
         <Style x:Key="CompleteVisit" TargetType="Border">
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Status}" Value="1">
+                <DataTrigger Binding="{Binding Status}" Value="True">
                     <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.GradientActiveCaptionBrushKey}}"></Setter>
                 </DataTrigger>
             </Style.Triggers>
@@ -73,6 +74,7 @@
                                 <RowDefinition></RowDefinition>
                                 <RowDefinition></RowDefinition>
                                 <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
                             </Grid.RowDefinitions>
                             <DockPanel Grid.Row="0">
                                 <TextBlock Style="{StaticResource head}" Margin="5" DockPanel.Dock="Left" Text="Время">
@@ -94,6 +96,12 @@
                             <DockPanel Grid.Row="4">
                                 <TextBlock Style="{StaticResource head}" Margin="5" DockPanel.Dock="Left" Text="Продолжительность(мин)"></TextBlock>
                                 <TextBlock Margin="0,5,5,5" Text="{Binding Duration}"></TextBlock>
+                            </DockPanel>
+                            <DockPanel Grid.Row="5">
+                                <TextBlock Style="{StaticResource head}" Margin="5" DockPanel.Dock="Left" Text="Посещение завершено"></TextBlock>
+                                <CheckBox Width="50" IsChecked="{Binding Status}"
+                                    Command="{Binding DataContext.ChangeStatusCommand, ElementName=UC }"
+                                    CommandParameter="{Binding .}"></CheckBox>
                             </DockPanel>
                         </Grid>
                     </Border>

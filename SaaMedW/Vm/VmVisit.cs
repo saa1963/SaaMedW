@@ -59,7 +59,7 @@ namespace SaaMedW
                 OnPropertyChanged("Time");
             }
         }
-        public enVisitStatus Status
+        public bool Status
         {
             get => m_object.Status;
             set

@@ -40,7 +40,7 @@ namespace SaaMedW
                 Duration = this.Interval.Minutes,
                 PersonId = root.SelectedPersonId,
                 PersonalId = this.PersonalId,
-                Status = enVisitStatus.Предварительный
+                Status = false
             };
             var benefit = root.ctx.Benefit.Find(root.BenefitSel.Id);
             visit.VisitBenefit.Add(new VisitBenefit() { Benefit = benefit, Kol = 1, Status = 0 });
