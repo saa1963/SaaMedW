@@ -25,7 +25,7 @@ namespace SaaMedW
         private void RefreshData()
         {
             IQueryable<Person> expr;
-            CardsList.Cl-----ear();
+            CardsList.Clear();
             if (!String.IsNullOrWhiteSpace(m_SearchText))
             {
                 expr = ctx.Person.Where(s => s.LastName.ToUpper()
@@ -210,15 +210,14 @@ namespace SaaMedW
         private void DelSearch(object obj)
         {
             SearchText = "";
-            viewUsers.Filter = null;
+            RefreshData();
         }
 
         public RelayCommand SearchCommand => new RelayCommand(Search, s => (m_SearchText ?? "").Length > 0);
 
         private void Search(object obj)
         {
-            string str = obj as string;
-            viewUsers.Filter = s => ((VmPerson)s).LastName.ToUpper().Contains(str.ToUpper());
+            RefreshData();
         }
     }
 }

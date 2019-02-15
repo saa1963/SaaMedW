@@ -39,6 +39,7 @@ namespace SaaMedW
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             Global.Source.SetColumnsWidth(this);
+            Keyboard.Focus(this.SearchTextBox);
         }
     }
 }
