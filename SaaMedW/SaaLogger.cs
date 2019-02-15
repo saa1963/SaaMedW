@@ -6,5 +6,7 @@ using System.Threading.Tasks;
 
 namespace SaaMedW
 {
-    public enum Role { Администратор = 0, Пользователь = 1 };
+    class SaaLogger
+    {
+    }
 }

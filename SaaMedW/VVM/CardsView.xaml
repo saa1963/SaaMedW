@@ -20,7 +20,7 @@
             <RowDefinition></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
-        <Menu Grid.Row="0" Name="MainMenu">
+        <Menu Name="MainMenu" Grid.Row="0">
             <MenuItem Header="Добавить" Command="{Binding Add}">
             </MenuItem>
             <MenuItem Header="Изменить" Command="{Binding Edit}">
@@ -39,8 +39,28 @@
             </MenuItem>
             <MenuItem Header="Лица для информирования" Command="{Binding PersonsInfoCommand}">
             </MenuItem>
+            <WrapPanel>
+                <TextBlock Margin="0,0,5,0" VerticalAlignment="Center" Text="Поиск по фамилии"></TextBlock>
+                <TextBox Width="200" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                <Button Height="20" Command="{Binding SearchCommand}" CommandParameter="{Binding SearchText}">
+                    <Image Source="..\image\forward.png"></Image>
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="ToolTip" Value="Искать"></Setter>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <Button Height="20" Command="{Binding DelSearchCommand}">
+                    <Image Source="..\image\delete_32.png"></Image>
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="ToolTip" Value="Удалить выражение поиска"></Setter>
+                        </Style>
+                    </Button.Style>
+                </Button>
+            </WrapPanel>
         </Menu>
-        <local0:ScrollingDataGrid x:Name="g" Grid.Row="1" Margin="5" ItemsSource="{Binding CardsList}" 
+        <local0:ScrollingDataGrid x:Name="g" Grid.Row="1" Margin="5,0,5,0" ItemsSource="{Binding CardsList}" 
                   SelectedItem="{Binding CardsSel}" IsSynchronizedWithCurrentItem="True">
             <DataGrid.Columns>
                 <DataGridTextColumn IsReadOnly="True" Header="Id" Binding="{Binding Id}" Width="50"></DataGridTextColumn>

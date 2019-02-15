@@ -82,6 +82,14 @@ namespace SaaMedW
             else
                 return true;
         }
+        public TimeInterval Next()
+        {
+            return new TimeInterval()
+            {
+                Begin = this.End,
+                Interval = this.Interval
+            };
+        }
         public ObservableCollection<TimeInterval> Split(int duration)
         {
             TimeSpan ts = new TimeSpan(0, duration, 0);

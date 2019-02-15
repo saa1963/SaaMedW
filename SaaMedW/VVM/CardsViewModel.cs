@@ -8,29 +8,52 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Data.Entity;
+using log4net;
+using System.Windows;
 
 namespace SaaMedW
 {
     public class CardsViewModel : NotifyPropertyChanged
     {
         private SaaMedEntities ctx = new SaaMedEntities();
+        private ILog log;
 
         public CardsViewModel()
         {
-            foreach (var o in ctx.Person.Include(s => s.DocumentType))
+            log = LogManager.GetLogger(this.GetType());
+        }
+        private void RefreshData()
+        {
+            IQueryable<Person> expr;
+            CardsList.Cl-----ear();
+            if (!String.IsNullOrWhiteSpace(m_SearchText))
             {
-                CardsList.Add(new VmPerson(o));
+                expr = ctx.Person.Where(s => s.LastName.ToUpper()
+                    .Contains(m_SearchText.ToUpper())).Include(s => s.DocumentType);
+                
+                foreach (var o in expr)
+                {
+                    CardsList.Add(new VmPerson(o));
+                }
             }
         }
         public ObservableCollection<VmPerson> CardsList { get; } 
             = new ObservableCollection<VmPerson>();
 
         public VmPerson CardsSel { get; set; }
-        //{
-        //    get { return viewUsers.CurrentItem; }
-        //    set { viewUsers.MoveCurrentTo(value); }
-        //}
-
+        private string m_SearchText = "";
+        public string SearchText
+        {
+            get => m_SearchText;
+            set
+            {
+                if (value != m_SearchText)
+                {
+                    m_SearchText = value;
+                    OnPropertyChanged("SearchText");
+                }
+            }
+        }
         private ICollectionView viewUsers => CollectionViewSource.GetDefaultView(CardsList);
 
         public RelayCommand Add => new RelayCommand(AddPerson);
@@ -137,17 +160,31 @@ namespace SaaMedW
 
         private void NewVisit(object obj)
         {
-            if (CardsSel == null) return;
-            var viewModel = new EditOneVisitViewModel();
-            var f = new EditOneVisitView() { DataContext = viewModel };
-            if (f.ShowDialog() ?? false)
+            try
             {
-                //var o = new Visit()
-                //{
-                //    Dt = viewModel.IntervalSel.Begin.Date,
-                //    Duration = viewModel.IntervalSel.Interval.Minutes,
-                //    Person 
-                //}
+                if (CardsSel == null) return;
+                var viewModel = new EditOneVisitViewModel(ctx);
+                var f = new EditOneVisitView() { DataContext = viewModel };
+                if (f.ShowDialog() ?? false)
+                {
+                    var o = new Visit()
+                    {
+                        Dt = viewModel.IntervalSel.Begin,
+                        Duration = viewModel.IntervalSel.Interval.Minutes,
+                        Person = CardsSel.Obj,
+                        Personal = viewModel.PersonalSel.Obj,
+                        Status = enVisitStatus.Предварительный,
+                        VisitBenefit = viewModel.VisitBenefit
+                    };
+                    ctx.Visit.Add(o);
+                    ctx.SaveChanges();
+                }
+            }
+            catch (Exception e)
+            {
+                var msg = "Ошибка создания посещения.";
+                log.Error(msg, e);
+                MessageBox.Show(msg);
             }
         }
 
@@ -166,6 +203,22 @@ namespace SaaMedW
                 }
                 ctx.SaveChanges();
             }
+        }
+
+        public RelayCommand DelSearchCommand => new RelayCommand(DelSearch, s => (m_SearchText ?? "").Length > 0 );
+
+        private void DelSearch(object obj)
+        {
+            SearchText = "";
+            viewUsers.Filter = null;
+        }
+
+        public RelayCommand SearchCommand => new RelayCommand(Search, s => (m_SearchText ?? "").Length > 0);
+
+        private void Search(object obj)
+        {
+            string str = obj as string;
+            viewUsers.Filter = s => ((VmPerson)s).LastName.ToUpper().Contains(str.ToUpper());
         }
     }
 }

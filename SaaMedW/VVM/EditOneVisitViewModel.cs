@@ -12,7 +12,7 @@ namespace SaaMedW
         private ObservableCollection<VmSpecialty> m_specialty
             = new ObservableCollection<VmSpecialty>();
         private List<Specialty> lst;
-        private SaaMedEntities ctx = new SaaMedEntities();
+        private SaaMedEntities ctx;
         private enVisitStatus m_Status;
 
         public ObservableCollection<VmSpecialty> SpecialtyList { get => m_specialty; }
@@ -48,7 +48,6 @@ namespace SaaMedW
             {
                 _personalSel = value;
                 OnPropertyChanged("PersonalSel");
-                OnPropertyChanged("IsEnabledOk");
             }
         }
         public TimeInterval IntervalSel
@@ -60,8 +59,9 @@ namespace SaaMedW
                 OnPropertyChanged("IntervalSel");
             }
         }
-        public EditOneVisitViewModel(IEnumerable<int> sps = null)
+        public EditOneVisitViewModel(SaaMedEntities _ctx, IEnumerable<int> sps = null)
         {
+            ctx = _ctx;
             if (sps == null)
             {
                 lst = ctx.Specialty.ToList();
@@ -87,8 +87,8 @@ namespace SaaMedW
             object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
             => OnPropertyChanged("IsEnabledOk");
 
-        public EditOneVisitViewModel(Visit visit)
-            : this(visit.Personal.PersonalSpecialty.Select(s => s.SpecialtyId))
+        public EditOneVisitViewModel(SaaMedEntities _ctx, Visit visit)
+            : this(_ctx,  visit.Personal.PersonalSpecialty.Select(s => s.SpecialtyId))
         {
             m_Duration = visit.Duration;
             m_Status = visit.Status;
@@ -225,6 +225,7 @@ namespace SaaMedW
             {
                 PersonalSel = new VmPersonal(ctx.Personal.Find(modelView.ReturnInterval.Parent.Parent.PersonalId));
                 IntervalSel = modelView.ReturnInterval;
+                OnPropertyChanged("IsEnabledOk");
             }
         }
     }

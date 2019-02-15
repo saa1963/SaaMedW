@@ -46,15 +46,43 @@ namespace SaaMedW
                 }
                 foreach (var o in intervalsFromGraphic)
                 {
+                    var dt = o.Dt;
+                    var h = o.H1;
+                    var m = o.M1;
                     var ob = new TimeInterval(o.Dt, o.H1, o.M1, o.H2, o.M2);
-                    var obs = ob.Split(duration);
-                    foreach (var obs0 in obs)
+
+                    var t = new TimeInterval(dt, h, m, duration);
+                    while (t.End < ob.End)
                     {
-                        var vti = new SelectVisitTimeInterval(obs0)
-                        { TypeTimeInterv = TypeTimeInterval.Graphic, Parent = this };
-                        if (t_intervals.All(s => !s.IsIntersected(vti)))
-                            t_intervals.Add(vti);
+                        var pi = t_intervals.FirstOrDefault(s => s.IsIntersected(t));
+                        if (pi == null)
+                        {
+                            var svti = new SelectVisitTimeInterval(t)
+                            {
+                                 TypeTimeInterv = TypeTimeInterval.Graphic, 
+                                 Parent = this
+                            };
+                            t_intervals.Add(svti);
+                            t = t.Next();
+                        }
+                        else
+                        {
+                            t = new TimeInterval()
+                            {
+                                Begin = pi.End,
+                                Interval = t.Interval
+                            };
+                        }
                     }
+
+                    //var obs = ob.Split(duration);
+                    //foreach (var obs0 in obs)
+                    //{
+                    //    var vti = new SelectVisitTimeInterval(obs0)
+                    //    { TypeTimeInterv = TypeTimeInterval.Graphic, Parent = this };
+                    //    if (t_intervals.All(s => !s.IsIntersected(vti)))
+                    //        t_intervals.Add(vti);
+                    //}
                 }
                 foreach (var o in t_intervals.Where(s => s.Begin > DateTime.Now).OrderBy(s => s))
                 {

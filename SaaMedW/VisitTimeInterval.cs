@@ -60,7 +60,7 @@ namespace SaaMedW
         {
             var root = this.Parent.Parent.Parent;
             Visit visit = root.ctx.Visit.Find(VisitId);
-            var modelView = new EditOneVisitViewModel(visit);
+            var modelView = new EditOneVisitViewModel(root.ctx, visit);
             var f = new EditOneVisitView() { DataContext = modelView };
             if (f.ShowDialog() ?? false)
             {

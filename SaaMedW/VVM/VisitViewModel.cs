@@ -55,7 +55,7 @@ namespace SaaMedW
         private void EditVisit(object obj)
         {
             var visit = SelectedVisit.Obj;
-            var modelView = new EditOneVisitViewModel(visit);
+            var modelView = new EditOneVisitViewModel(ctx, visit);
             var f = new EditOneVisitView() { DataContext = modelView };
             if (f.ShowDialog() ?? false)
             {
