@@ -59,9 +59,10 @@ namespace SaaMedW
                 OnPropertyChanged("IntervalSel");
             }
         }
-        public EditOneVisitViewModel(SaaMedEntities _ctx, IEnumerable<int> sps = null)
+
+        private void RefreshBenefits1(IEnumerable<int> sps = null)
         {
-            ctx = _ctx;
+            m_specialty.Clear();
             if (sps == null)
             {
                 lst = ctx.Specialty.ToList();
@@ -77,6 +78,12 @@ namespace SaaMedW
                 BuildTree(sp);
                 m_specialty.Add(sp);
             }
+        }
+
+        public EditOneVisitViewModel(SaaMedEntities _ctx, IEnumerable<int> sps = null)
+        {
+            ctx = _ctx;
+            RefreshBenefits1(sps);
             ListStatus.Add(new StatusName() { Id = enVisitStatus.Предварительный, Name = "Предварительный" });
             ListStatus.Add(new StatusName() { Id = enVisitStatus.Завершен, Name = "Завершен" });
 
@@ -85,7 +92,28 @@ namespace SaaMedW
 
         private void VisitBenefit_CollectionChanged(
             object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-            => OnPropertyChanged("IsEnabledOk");
+        {
+            if (VisitBenefit.Count == 0)
+            {
+                RefreshBenefits1();
+            }
+            else
+            {
+                var sps0 = new HashSet<int>();
+                foreach(var o in VisitBenefit)
+                {
+                    var spId = o.Benefit.Specialty;
+                    while (spId != null)
+                    {
+                        spId = ctx.Specialty.Find(spId);
+                        sp.ParentSpecialty
+                    }
+                    sps0.Add(o.Benefit.SpecialtyId);
+                }
+                RefreshBenefits1(sps0);
+            }
+            OnPropertyChanged("IsEnabledOk");
+        }
 
         public EditOneVisitViewModel(SaaMedEntities _ctx, Visit visit)
             : this(_ctx,  visit.Personal.PersonalSpecialty.Select(s => s.SpecialtyId))

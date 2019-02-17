@@ -18,6 +18,20 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
+        <Style x:Key="myLBStyle" TargetType="{x:Type ListBoxItem}">
+            <Style.Resources>
+                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
+                             Color="Transparent"/>
+            </Style.Resources>
+            <Setter Property="Margin"  Value="5"></Setter>
+            <Setter Property="BorderBrush" Value="Red"/>
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="BorderThickness" Value="1"/>
+                    <Setter Property="Foreground"  Value="Black"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
     </UserControl.Resources>
     <DockPanel>
         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
@@ -26,7 +40,8 @@
         </StackPanel>
         <ListBox BorderBrush="Transparent" ItemsSource="{Binding ListVisit}" 
                  SelectedItem="{Binding SelectedVisit}" 
-                 ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                 ItemContainerStyle="{StaticResource myLBStyle}">
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
                     <WrapPanel>
@@ -35,8 +50,11 @@
             </ListBox.ItemsPanel>
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Border CornerRadius="20" Style="{StaticResource CompleteVisit}">
-                        <Grid Margin="10" Background="Transparent" Opacity="{Binding IsPreviously}"
+                    <!-- Style="{StaticResource CompleteVisit}" -->
+                    <Border CornerRadius="20" 
+                        >
+                        <!-- Opacity="{Binding IsPreviously}" -->
+                        <Grid Margin="10" Background="Transparent" 
                           Tag="{Binding DataContext,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}">
                             <Grid.InputBindings>
                                 <MouseBinding Gesture="LeftDoubleClick" 
@@ -99,7 +117,8 @@
                             </DockPanel>
                             <DockPanel Grid.Row="5">
                                 <TextBlock Style="{StaticResource head}" Margin="5" DockPanel.Dock="Left" Text="Посещение завершено"></TextBlock>
-                                <CheckBox Width="50" IsChecked="{Binding Status}"
+                                <CheckBox DockPanel.Dock="Left" Width="50" IsChecked="{Binding Status}"
+                                    VerticalAlignment="Center"
                                     Command="{Binding DataContext.ChangeStatusCommand, ElementName=UC }"
                                     CommandParameter="{Binding .}"></CheckBox>
                             </DockPanel>
