@@ -18,71 +18,63 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
-        <Style x:Key="myLBStyle" TargetType="{x:Type ListBoxItem}">
-            <Style.Resources>
-                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
-                             Color="Transparent"/>
-            </Style.Resources>
-            <Setter Property="Margin"  Value="5"></Setter>
-            <Setter Property="BorderBrush" Value="Red"/>
-            <Style.Triggers>
-                <Trigger Property="IsSelected" Value="True">
-                    <Setter Property="BorderThickness" Value="1"/>
-                    <Setter Property="Foreground"  Value="Black"/>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
     </UserControl.Resources>
     <DockPanel>
         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
             <Label DockPanel.Dock="Left" Content="Дата"></Label>
             <DatePicker SelectedDateFormat="Short" SelectedDate="{Binding SelectedDate}"></DatePicker>
         </StackPanel>
-        <ListBox BorderBrush="Transparent" ItemsSource="{Binding ListVisit}" 
-                 SelectedItem="{Binding SelectedVisit}" 
-                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                 ItemContainerStyle="{StaticResource myLBStyle}">
-            <ListBox.ItemsPanel>
+        <ItemsControl BorderBrush="Transparent" ItemsSource="{Binding ListVisit}" 
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+            <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <WrapPanel>
                     </WrapPanel>
                 </ItemsPanelTemplate>
-            </ListBox.ItemsPanel>
-            <ListBox.ItemTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <!-- Style="{StaticResource CompleteVisit}" -->
-                    <Border CornerRadius="20" 
-                        >
+                    <Border CornerRadius="20" Style="{StaticResource CompleteVisit}" Margin="5">
                         <!-- Opacity="{Binding IsPreviously}" -->
                         <Grid Margin="10" Background="Transparent" 
                           Tag="{Binding DataContext,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}">
                             <Grid.InputBindings>
                                 <MouseBinding Gesture="LeftDoubleClick" 
                                           Command="{Binding Path=DataContext.EditVisitCommand, 
-                                            RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}">
+                                            RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
+                                          CommandParameter="{Binding .}"
+                                              >
                                 </MouseBinding>
                             </Grid.InputBindings>
                             <Grid.ContextMenu>
                                 <ContextMenu>
                                     <MenuItem Header="Изменить" 
                                           Command="{Binding PlacementTarget.Tag.EditVisitCommand,
-                                            RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=ContextMenu}}">
+                                            RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=ContextMenu}}"
+                                          CommandParameter="{Binding .}"
+                                              >
 
                                     </MenuItem>
                                     <MenuItem Header="Удалить" 
                                           Command="{Binding PlacementTarget.Tag.DelVisitCommand,
-                                            RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=ContextMenu}}">
+                                            RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=ContextMenu}}"
+                                          CommandParameter="{Binding .}"
+                                              >
 
                                     </MenuItem>
                                     <MenuItem Header="Сформировать счет" 
                                           Command="{Binding PlacementTarget.Tag.GenerateInvoiceCommand,
-                                            RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=ContextMenu}}">
+                                            RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=ContextMenu}}"
+                                          CommandParameter="{Binding .}"
+                                              >
 
                                     </MenuItem>
                                     <MenuItem Header="Перенести визит" 
                                           Command="{Binding PlacementTarget.Tag.MoveVisitCommand,
-                                            RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=ContextMenu}}">
-
+                                            RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=ContextMenu}}"
+                                          CommandParameter="{Binding .}"
+                                              >
                                     </MenuItem>
                                 </ContextMenu>
                             </Grid.ContextMenu>
@@ -125,7 +117,7 @@
                         </Grid>
                     </Border>
                 </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
     </DockPanel>
 </UserControl>

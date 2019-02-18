@@ -49,22 +49,23 @@ namespace SaaMedW
 
         public RelayCommand EditVisitCommand
         {
-            get => new RelayCommand(EditVisit, o => SelectedVisit != null);
+            get => new RelayCommand(EditVisit, o => o != null);
         }
 
         private void EditVisit(object obj)
         {
-            var visit = SelectedVisit.Obj;
+            var selectedVisit = (VmVisit)obj;
+            var visit = selectedVisit.Obj;
             var modelView = new EditOneVisitViewModel(ctx, visit);
             var f = new EditOneVisitView() { DataContext = modelView };
             if (f.ShowDialog() ?? false)
             {
-                SelectedVisit.Status = modelView.Status;
+                selectedVisit.Status = modelView.Status;
                 ctx.VisitBenefit.RemoveRange(visit.VisitBenefit);
-                SelectedVisit.VisitBenefit.Clear();
+                selectedVisit.VisitBenefit.Clear();
                 foreach (var o in modelView.VisitBenefit)
                 {
-                    SelectedVisit.VisitBenefit.Add(new VisitBenefit()
+                    selectedVisit.VisitBenefit.Add(new VisitBenefit()
                     {
                         BenefitId = o.BenefitId,
                         Kol = o.Kol,
@@ -77,28 +78,31 @@ namespace SaaMedW
 
         public RelayCommand DelVisitCommand
         {
-            get => new RelayCommand(DelVisit, o => SelectedVisit != null 
-                && !SelectedVisit.Status);
+            get => new RelayCommand(DelVisit, o => o != null 
+                && !((VmVisit)o).Status);
         }
 
         private void DelVisit(object obj)
         {
-            var visit = SelectedVisit.Obj;
+            var selectedVisit = (VmVisit)obj;
+            var visit = selectedVisit.Obj;
             ctx.VisitBenefit.RemoveRange(visit.VisitBenefit);
             ctx.Visit.Remove(visit);
             ctx.SaveChanges();
-            ListVisit.Remove(SelectedVisit);
+            ListVisit.Remove(selectedVisit);
         }
 
         public RelayCommand GenerateInvoiceCommand
         {
-            get => new RelayCommand(GenerateInvoice, o => SelectedVisit != null && SelectedVisit.Status);
+            get => new RelayCommand(GenerateInvoice, 
+                o => o != null && ((VmVisit)o).Status);
         }
 
         private void GenerateInvoice(object obj)
         {
+            var selectedVisit = (VmVisit)obj;
             bool isDoit = true; ;
-            Invoice invoice = SelectedVisit.Obj.Invoice.SingleOrDefault(s => true);
+            Invoice invoice = selectedVisit.Obj.Invoice.SingleOrDefault(s => true);
             if (invoice != null)
             {
                 if (invoice.Status != enumStatusInvoice.Неоплачен)
@@ -127,12 +131,12 @@ namespace SaaMedW
                 var newInvoice = new Invoice()
                 {
                     Dt = DateTime.Now,
-                    Person = SelectedVisit.Person,
+                    Person = selectedVisit.Person,
                     Status = enumStatusInvoice.Неоплачен,
-                    Visit = SelectedVisit.Obj,
-                    Sm = SelectedVisit.VisitBenefit.Sum(s => s.Kol * s.Benefit.Price),
+                    Visit = selectedVisit.Obj,
+                    Sm = selectedVisit.VisitBenefit.Sum(s => s.Kol * s.Benefit.Price),
                 };
-                foreach (var o in SelectedVisit.VisitBenefit)
+                foreach (var o in selectedVisit.VisitBenefit)
                 {
                     newInvoice.InvoiceDetail.Add(new InvoiceDetail()
                     {
@@ -151,7 +155,7 @@ namespace SaaMedW
 
         public RelayCommand MoveVisitCommand
         {
-            get => new RelayCommand(MoveVisit, o => SelectedVisit != null);
+            get => new RelayCommand(MoveVisit, o => o != null);
         }
 
         private void MoveVisit(object obj)
@@ -161,7 +165,7 @@ namespace SaaMedW
 
         public RelayCommand ChangeStatusCommand
         {
-            get => new RelayCommand(ChangeStatus, o => SelectedVisit != null);
+            get => new RelayCommand(ChangeStatus, o => o != null);
         }
 
         private void ChangeStatus(object obj)

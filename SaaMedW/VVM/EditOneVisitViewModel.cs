@@ -63,14 +63,11 @@ namespace SaaMedW
         private void RefreshBenefits1(IEnumerable<int> sps = null)
         {
             m_specialty.Clear();
-            if (sps == null)
+            lst = ctx.Specialty.ToList();
+            if (sps != null)
             {
-                lst = ctx.Specialty.ToList();
-            }
-            else
-            {
-                lst = ctx.Specialty
-                    .Where(s => sps.Contains(s.Id)).ToList();
+                lst = lst
+                    .Where(s => ContainsSpecialty(sps, s)).ToList();
             }
             foreach (var sp in lst.Where(s => !s.ParentId.HasValue)
                 .Select(s => new VmSpecialty(s) { Cargo = SelectedItemMethod }))
@@ -78,6 +75,15 @@ namespace SaaMedW
                 BuildTree(sp);
                 m_specialty.Add(sp);
             }
+        }
+
+        private bool ContainsSpecialty(IEnumerable<int> sps, Specialty sp)
+        {
+            while (sp.ParentSpecialty != null)
+            {
+                sp = sp.ParentSpecialty;
+            }
+            return sps.Contains(sp.Id);
         }
 
         public EditOneVisitViewModel(SaaMedEntities _ctx, IEnumerable<int> sps = null)
@@ -102,13 +108,12 @@ namespace SaaMedW
                 var sps0 = new HashSet<int>();
                 foreach(var o in VisitBenefit)
                 {
-                    var spId = o.Benefit.Specialty;
-                    while (spId != null)
+                    var sp = o.Benefit.Specialty;
+                    while (sp.ParentSpecialty != null)
                     {
-                        spId = ctx.Specialty.Find(spId);
-                        sp.ParentSpecialty
+                        sp = sp.ParentSpecialty;
                     }
-                    sps0.Add(o.Benefit.SpecialtyId);
+                    sps0.Add(sp.Id);
                 }
                 RefreshBenefits1(sps0);
             }
