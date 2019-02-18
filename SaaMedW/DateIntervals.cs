@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SaaMedW
 {
-    public class DateIntervals : NotifyPropertyChanged
+    public class DateIntervals : NotifyPropertyChanged, IDisposable
     {
         private SaaMedEntities ctx = new SaaMedEntities();
 
@@ -71,6 +71,22 @@ namespace SaaMedW
                 Intervals.Add(o);
             }
             return Intervals.Count();
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                // dispose managed resources
+                ctx.
+            }
+            // free native resources
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
     }
 }

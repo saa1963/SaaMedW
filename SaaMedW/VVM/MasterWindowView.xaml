@@ -16,9 +16,6 @@
             <MenuItem Header="Картотека" Command="{Binding Cmd}" 
                           CommandParameter="{Binding CmdCards}">
             </MenuItem>
-            <MenuItem Header="Новое посещение" Command="{Binding Cmd}" 
-                          CommandParameter="{Binding CmdNewVisit}">
-            </MenuItem>
             <MenuItem Header="Бухгалтерия">
                 <MenuItem Header="Счета" Command="{Binding Cmd}" 
                           CommandParameter="{Binding CmdInvoice}"></MenuItem>

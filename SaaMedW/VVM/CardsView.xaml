@@ -44,9 +44,7 @@
                 <MenuItem Header="Согласие на вмешательство" Command="{Binding Vmesh}">
                 </MenuItem>
             </MenuItem>
-            <MenuItem Header="Посещения">
-                <MenuItem Name="qq" Header="Новое" Command="{Binding NewVisitCommand}">
-                </MenuItem>
+            <MenuItem Header="Запись к специалисту" Command="{Binding NewVisitCommand}">
             </MenuItem>
             <MenuItem Header="Лица для информирования" Command="{Binding PersonsInfoCommand}">
             </MenuItem>
@@ -55,7 +53,7 @@
             <TextBlock Margin="0,0,5,0" Text="Поиск по фамилии" VerticalAlignment="Center"></TextBlock>
             <TextBox Name="SearchTextBox" Width="200" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"></TextBox>
             <Button Height="20" Command="{Binding SearchCommand}" CommandParameter="{Binding SearchText}" IsDefault="True">
-                <Image Source="..\image\forward.png"></Image>
+                <Image Source="..\image\icons8-search-32.png"></Image>
                 <Button.Style>
                     <Style TargetType="Button">
                         <Setter Property="ToolTip" Value="Искать"></Setter>

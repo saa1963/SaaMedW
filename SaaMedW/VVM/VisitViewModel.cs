@@ -165,7 +165,7 @@ namespace SaaMedW
 
         public RelayCommand ChangeStatusCommand
         {
-            get => new RelayCommand(ChangeStatus, o => o != null);
+            get => new RelayCommand(ChangeStatus, o => o != null && !ctx.Invoice.Any(s => s.VisitId == ((VmVisit)o).Id));
         }
 
         private void ChangeStatus(object obj)
