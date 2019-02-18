@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace SaaMedW
 {
+    public enum TypeTimeInterval
+    {
+        Visit, Graphic
+    }
     public class SelectVisitTimeInterval : TimeInterval
     {
         public SelectDateIntervals Parent { get; set; }

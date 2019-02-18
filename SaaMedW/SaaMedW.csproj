@@ -177,7 +177,6 @@
     <Compile Include="Service\IAccounts.cs" />
     <Compile Include="Service\ILocalStorage.cs" />
     <Compile Include="Service\ILogonService.cs" />
-    <Compile Include="IntervalTemplateSelector.cs" />
     <Compile Include="Invoice.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -235,7 +234,6 @@
     <Compile Include="Vm\VmSpecialty.cs" />
     <Compile Include="VVM\BenefitsViewModel.cs" />
     <Compile Include="VVM\CardsViewModel.cs" />
-    <Compile Include="DateIntervals.cs" />
     <Compile Include="VVM\ChangePasswordViewModel.cs" />
     <Compile Include="VVM\EditBenefitViewModel.cs" />
     <Compile Include="VVM\EditGraphicViewModel.cs" />
@@ -246,11 +244,9 @@
     <Compile Include="VVM\MasterWindowViewModel.cs" />
     <Compile Include="VVM\EditOneVisitViewModel.cs" />
     <Compile Include="VVM\EditInvoiceViewModel.cs" />
-    <Compile Include="VVM\EditVisitViewModel.cs" />
     <Compile Include="VVM\InvoiceViewModel.cs" />
     <Compile Include="VVM\OptionsViewModel.cs" />
     <Compile Include="VVM\PayInvoiceViewModel.cs" />
-    <Compile Include="PersonalVisits.cs" />
     <Compile Include="VVM\PersonInfoViewModel.cs" />
     <Compile Include="VVM\SelectBenefitViewModel.cs" />
     <Compile Include="SelectDateIntervals.cs" />
@@ -261,7 +257,6 @@
     <Compile Include="SelectPersonalVisits.cs" />
     <Compile Include="VVM\SelectSpecialtyViewModel.cs" />
     <Compile Include="SelectVisitTimeInterval.cs" />
-    <Compile Include="VisitTimeInterval.cs" />
     <Compile Include="VVM\VisitViewModel.cs" />
     <Compile Include="VVM\OptionsView.xaml.cs">
       <DependentUpon>OptionsView.xaml</DependentUpon>
@@ -348,9 +343,6 @@
     <Compile Include="VVM\CardsView.xaml.cs">
       <DependentUpon>CardsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="VVM\EditVisitView.xaml.cs">
-      <DependentUpon>EditVisitView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="VVM\GraphicControlView.xaml.cs">
       <DependentUpon>GraphicControlView.xaml</DependentUpon>
     </Compile>
@@ -428,10 +420,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="VVM\CardsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="VVM\EditVisitView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

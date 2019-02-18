@@ -37,10 +37,6 @@ namespace SaaMedW
         {
             get { return new ExecTypes { View = typeof(BenefitsView), ViewModel = typeof(BenefitsViewModel) }; }
         }
-        public object CmdNewVisit
-        {
-            get { return new ExecTypes { View = typeof(EditVisitView), ViewModel = typeof(EditVisitViewModel) }; }
-        }
         public object CmdVisit
         {
             get { return new ExecTypes { View = typeof(VisitView), ViewModel = typeof(VisitViewModel) }; }
