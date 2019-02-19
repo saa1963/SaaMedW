@@ -172,7 +172,6 @@
     <Compile Include="Options.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="SaaLogger.cs" />
     <Compile Include="Service\AccountsService.cs" />
     <Compile Include="Service\IAccounts.cs" />
     <Compile Include="Service\ILocalStorage.cs" />

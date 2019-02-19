@@ -46,7 +46,7 @@ namespace SaaMedW
 
         #region ICommand Members
 
-        [DebuggerStepThrough]
+        //[DebuggerStepThrough]
         public bool CanExecute(object parameter)
         {
             return _canExecute == null ? true : _canExecute(parameter);

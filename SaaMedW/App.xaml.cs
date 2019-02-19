@@ -114,7 +114,26 @@ namespace SaaMedW
                 {
                     prop.SetValue(vm, f, null);
                 }
-                window.Wplace.Children.Clear();
+                var children = window.Wplace.Children;
+                if (children.Count > 0)
+                {
+                    IDisposable objectWillDisposed = null;
+                    foreach (FrameworkElement child in children)
+                    {
+                        if (child is UserControl)
+                        {
+                            if (child.DataContext is IDisposable)
+                            {
+                                objectWillDisposed = (IDisposable)child.DataContext;
+                            }
+                        }
+                    }
+                    children.Clear();
+                    if (objectWillDisposed != null)
+                    {
+                        objectWillDisposed.Dispose();
+                    }
+                }
                 if (f.Tag != null)
                 {
                     var tb = new TextBlock
@@ -127,9 +146,9 @@ namespace SaaMedW
                         VerticalAlignment = VerticalAlignment.Stretch
                     };
                     DockPanel.SetDock(tb, Dock.Top);
-                    window.Wplace.Children.Add(tb);
+                    children.Add(tb);
                 }
-                window.Wplace.Children.Add(f);
+                children.Add(f);
             }
             else
             {

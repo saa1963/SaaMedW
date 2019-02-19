@@ -18,12 +18,6 @@
         <Style TargetType="MenuItem">
             <Setter Property="VerticalAlignment" Value="Center"></Setter>
         </Style>
-        <Style TargetType="TextBlock">
-            <Setter Property="FontSize" Value="{Binding ElementName=MainMenu}"></Setter>
-        </Style>
-        <Style TargetType="TextBox">
-            <Setter Property="FontSize" Value="{Binding ElementName=MainMenu}"></Setter>
-        </Style>
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>

@@ -8,6 +8,7 @@ using System.Data.Entity;
 using SaaMedW.View;
 using System.Windows.Data;
 using System.Timers;
+using System.Diagnostics;
 
 namespace SaaMedW
 {
@@ -15,7 +16,8 @@ namespace SaaMedW
     {
         private SaaMedEntities ctx = new SaaMedEntities();
         private DateTime _selectedDate;
-        private Timer timer;
+        private System.Windows.Threading.DispatcherTimer timer;
+        private EventHandler eventHandler;
 
         public ObservableCollection<IdName> ListStatus { get; set; } = new ObservableCollection<IdName>()
         {
@@ -59,14 +61,15 @@ namespace SaaMedW
         private void SetTimer()
         {
             // Create a timer with a two second interval.
-            timer = new System.Timers.Timer(60000);
+            eventHandler = new EventHandler(OnTimedEvent);
+            timer = new System.Windows.Threading.DispatcherTimer();
             // Hook up the Elapsed event for the timer. 
-            timer.Elapsed += OnTimedEvent;
-            timer.AutoReset = true;
-            timer.Enabled = true;
+            timer.Tick += eventHandler;
+            timer.Interval = new TimeSpan(0, 0, 10);
+            timer.Start();
         }
 
-        private void OnTimedEvent(object sender, ElapsedEventArgs e)
+        private void OnTimedEvent(object sender, EventArgs e)
         {
             RefreshData();
         }
@@ -199,8 +202,16 @@ namespace SaaMedW
 
         public RelayCommand ChangeStatusCommand
         {
-            get => new RelayCommand(ChangeStatus, o => o != null 
-                && !ctx.Invoice.Any(s => s.VisitId == ((VmVisit)o).Id));
+            //get => new RelayCommand(ChangeStatus, o => o != null 
+            //    && !ctx.Invoice.Any(s => s.VisitId == ((VmVisit)o).Id));
+            get => new RelayCommand(ChangeStatus, CanRunChangeStatusCommand);
+        }
+
+        private bool CanRunChangeStatusCommand(object obj)
+        {
+            if (obj == null) return false;
+            var visit = obj as VmVisit;
+            return !ctx.Invoice.Any(s => s.VisitId == visit.Id);
         }
 
         private void ChangeStatus(object obj)
@@ -213,6 +224,8 @@ namespace SaaMedW
             if (disposing)
             {
                 ctx.Dispose();
+                timer.Tick -= eventHandler;
+                Debug.WriteLine("VisitViewModel - timer.Tick -= eventHandler");
             }
         }
 
