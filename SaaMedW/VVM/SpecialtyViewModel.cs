@@ -11,7 +11,7 @@ using System.Data.Entity;
 
 namespace SaaMedW
 {
-    public class SpecialtyViewModel
+    public class SpecialtyViewModel: IDisposable
     {
         private SaaMedEntities ctx = new SaaMedEntities();
         private readonly ObservableCollection<VmSpecialty> m_specialty 
@@ -210,6 +210,20 @@ namespace SaaMedW
             }
             ctx.SaveChanges();
 
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                ctx.Dispose();
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
     }
 }

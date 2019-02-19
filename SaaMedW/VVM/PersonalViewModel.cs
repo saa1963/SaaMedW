@@ -11,7 +11,7 @@ using System.Data.Entity;
 
 namespace SaaMedW
 {
-    public class PersonalViewModel
+    public class PersonalViewModel: IDisposable
     {
         private SaaMedEntities ctx = new SaaMedEntities();
         public ObservableCollection<VmPersonal> PersonalList { get; private set; } 
@@ -26,10 +26,10 @@ namespace SaaMedW
         }
         public object PersonalSel
         {
-            get { return view.CurrentItem; }
-            set { view.MoveCurrentTo(value); }
+            get { return View.CurrentItem; }
+            set { View.MoveCurrentTo(value); }
         }
-        private ICollectionView view
+        private ICollectionView View
         {
             get
             {
@@ -50,9 +50,11 @@ namespace SaaMedW
             var f = new EditPersonal() { DataContext = modelView };
             if (f.ShowDialog() ?? false)
             {
-                var p = new Personal();
-                p.Active = modelView.Active;
-                p.Fio = modelView.Fio;
+                var p = new Personal
+                {
+                    Active = modelView.Active,
+                    Fio = modelView.Fio
+                };
                 foreach (var o in modelView.SpecialtyListBox)
                 {
                     var o1 = ctx.Specialty.Find(o.Id);
@@ -62,7 +64,7 @@ namespace SaaMedW
                 ctx.SaveChanges();
                 var vp = new VmPersonal(p);
                 PersonalList.Add(vp);
-                view.MoveCurrentTo(vp);
+                View.MoveCurrentTo(vp);
             }
         }
 
@@ -112,6 +114,20 @@ namespace SaaMedW
             ctx.Personal.Remove(personal.Obj);
             ctx.SaveChanges();
             PersonalList.Remove(personal);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                ctx.Dispose();
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
     }

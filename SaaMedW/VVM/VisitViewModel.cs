@@ -6,13 +6,35 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.Entity;
 using SaaMedW.View;
+using System.Windows.Data;
+using System.Timers;
 
 namespace SaaMedW
 {
-    public class VisitViewModel
+    public class VisitViewModel: NotifyPropertyChanged, IDisposable
     {
         private SaaMedEntities ctx = new SaaMedEntities();
         private DateTime _selectedDate;
+        private Timer timer;
+
+        public ObservableCollection<IdName> ListStatus { get; set; } = new ObservableCollection<IdName>()
+        {
+            new IdName(){ Id = 0, Name = "Все"},
+            new IdName(){ Id = 1, Name = "Предварительные"},
+            new IdName(){ Id = 2, Name = "Завершенные"}
+        };
+
+        private int m_SelectedStatus;
+        public int SelectedStatus
+        {
+            get => m_SelectedStatus;
+            set
+            {
+                m_SelectedStatus = value;
+                OnPropertyChanged("SelectedStatus");
+                RefreshData();
+            }
+        }
 
         private DateTime SelectedDateNext { get => SelectedDate.AddDays(1); }
         public DateTime SelectedDate
@@ -30,49 +52,50 @@ namespace SaaMedW
             = new ObservableCollection<VmVisit>();
         public VisitViewModel() : base()
         {
+            SetTimer();
             SelectedDate = DateTime.Today;
+            RefreshData();
+        }
+        private void SetTimer()
+        {
+            // Create a timer with a two second interval.
+            timer = new System.Timers.Timer(60000);
+            // Hook up the Elapsed event for the timer. 
+            timer.Elapsed += OnTimedEvent;
+            timer.AutoReset = true;
+            timer.Enabled = true;
+        }
+
+        private void OnTimedEvent(object sender, ElapsedEventArgs e)
+        {
             RefreshData();
         }
 
         private void RefreshData()
         {
+            bool closestSet = false;
             ListVisit.Clear();
-            var q = ctx.Visit.Include(s => s.Person).Include(s => s.Personal)
-                .Include(s => s.VisitBenefit.Select(o => o.Benefit)).Include(s => s.Invoice)
-                .Where(s => s.Dt >= SelectedDate && s.Dt < SelectedDateNext)
-                .OrderBy(s => s.Dt);
+            IQueryable<Visit> q = ctx.Visit.Include(s => s.Person).Include(s => s.Personal)
+                    .Include(s => s.VisitBenefit.Select(o => o.Benefit)).Include(s => s.Invoice)
+                    .Where(s => s.Dt >= SelectedDate && s.Dt < SelectedDateNext)
+                    .OrderBy(s => s.Dt);
+            if (SelectedStatus == 1)
+            {
+                q = q.Where(s => !s.Status);
+            }
+            else if (SelectedStatus == 2)
+            {
+                q = q.Where(s => s.Status);
+            }
             foreach (var o in q)
             {
-                ListVisit.Add(new VmVisit(o));
-            }
-        }
-
-        public RelayCommand EditVisitCommand
-        {
-            get => new RelayCommand(EditVisit, o => o != null);
-        }
-
-        private void EditVisit(object obj)
-        {
-            var selectedVisit = (VmVisit)obj;
-            var visit = selectedVisit.Obj;
-            var modelView = new EditOneVisitViewModel(ctx, visit);
-            var f = new EditOneVisitView() { DataContext = modelView };
-            if (f.ShowDialog() ?? false)
-            {
-                selectedVisit.Status = modelView.Status;
-                ctx.VisitBenefit.RemoveRange(visit.VisitBenefit);
-                selectedVisit.VisitBenefit.Clear();
-                foreach (var o in modelView.VisitBenefit)
+                var v = new VmVisit(o);
+                if (o.Dt > DateTime.Now && !closestSet)
                 {
-                    selectedVisit.VisitBenefit.Add(new VisitBenefit()
-                    {
-                        BenefitId = o.BenefitId,
-                        Kol = o.Kol,
-                        Status = o.Status
-                    });
+                    v.Closest = true;
+                    closestSet = true;
                 }
-                ctx.SaveChanges();
+                ListVisit.Add(v);
             }
         }
 
@@ -155,22 +178,48 @@ namespace SaaMedW
 
         public RelayCommand MoveVisitCommand
         {
-            get => new RelayCommand(MoveVisit, o => o != null);
+            get => new RelayCommand(MoveVisit, o => o != null && !(o as VmVisit).Status);
         }
 
         private void MoveVisit(object obj)
         {
-            throw new NotImplementedException();
+            var selectedVisit = obj as VmVisit;
+            var modelView
+                = new SelectIntervalViewModel(selectedVisit.VisitBenefit.Select(s => s.Benefit).ToList(), selectedVisit.Duration);
+            var f = new SelectInterval() { DataContext = modelView };
+            if (f.ShowDialog() ?? false)
+            {
+                var selectedPersonalId = modelView.ReturnInterval.Parent.Parent.PersonalId;
+                selectedVisit.Personal = ctx.Personal.Find(selectedPersonalId);
+                selectedVisit.Dt = modelView.ReturnInterval.Begin;
+                ctx.SaveChanges();
+                RefreshData();
+            }
         }
 
         public RelayCommand ChangeStatusCommand
         {
-            get => new RelayCommand(ChangeStatus, o => o != null && !ctx.Invoice.Any(s => s.VisitId == ((VmVisit)o).Id));
+            get => new RelayCommand(ChangeStatus, o => o != null 
+                && !ctx.Invoice.Any(s => s.VisitId == ((VmVisit)o).Id));
         }
 
         private void ChangeStatus(object obj)
         {
             ctx.SaveChanges();
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                ctx.Dispose();
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
     }
 }

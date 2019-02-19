@@ -11,7 +11,7 @@ using System.Windows;
 
 namespace SaaMedW
 {
-    public class InvoiceViewModel : NotifyPropertyChanged
+    public class InvoiceViewModel : NotifyPropertyChanged, IDisposable
     {
         log4net.ILog log;
         IAccounts accounts = (IAccounts)Service.ServiceLocator.Instance.GetService(typeof(IAccounts));
@@ -237,6 +237,20 @@ namespace SaaMedW
                 InvoiceSel.OnPropertyChanged("Status");
                 MessageBox.Show("Возврат произведен.");
             }
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                ctx.Dispose();
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
     }
 }

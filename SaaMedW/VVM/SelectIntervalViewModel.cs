@@ -9,11 +9,11 @@ using System.Windows;
 
 namespace SaaMedW
 {
-    public class SelectIntervalViewModel: NotifyPropertyChanged
+    public class SelectIntervalViewModel: NotifyPropertyChanged, IDisposable
     {
-        log4net.ILog log;
+        readonly log4net.ILog log;
 
-        public SaaMedEntities ctx { get; set; } = new SaaMedEntities();
+        public SaaMedEntities ctx = new SaaMedEntities();
 
         /// <summary>
         /// Список врачей -> Список дат по графику -> Список интервалов
@@ -84,6 +84,20 @@ namespace SaaMedW
                 m_DialogResult = value;
                 OnPropertyChanged("DialogResult");
             }
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                ctx.Dispose();
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
     }
 }

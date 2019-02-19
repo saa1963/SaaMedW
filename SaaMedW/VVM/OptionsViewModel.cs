@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace SaaMedW
 {
-    public class OptionsViewModel: NotifyPropertyChanged
+    public class OptionsViewModel: NotifyPropertyChanged, IDisposable
     {
         private readonly SaaMedEntities ctx = new SaaMedEntities();
         private ObservableCollection<Options> m_CommonParameterList
@@ -151,6 +151,20 @@ namespace SaaMedW
             ctx.SaveChanges();
             MessageBox.Show("Параметры сохранены");
             IsChanged = false;
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                ctx.Dispose();
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
     }
 }

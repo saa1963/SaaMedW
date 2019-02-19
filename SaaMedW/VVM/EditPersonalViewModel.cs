@@ -9,7 +9,7 @@ using System.Windows.Data;
 
 namespace SaaMedW
 {
-    public class EditPersonalViewModel : NotifyPropertyChanged, IDataErrorInfo
+    public class EditPersonalViewModel : NotifyPropertyChanged, IDataErrorInfo, IDisposable
     {
         private List<Specialty> lst;
         private ObservableCollection<VmSpecialty> m_specialty
@@ -119,6 +119,20 @@ namespace SaaMedW
         {
             SpecialtyListBox.Remove(SpecialtyListBox.Single(s => s.Id == SelectedListBox));
             OnPropertyChanged("SpecialtyListBox");
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                ctx.Dispose();
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
     }
 }

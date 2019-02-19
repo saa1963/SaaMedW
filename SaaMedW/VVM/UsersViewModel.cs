@@ -10,7 +10,7 @@ using System.Windows.Data;
 
 namespace SaaMedW
 {
-    public class UsersViewModel
+    public class UsersViewModel: IDisposable
     {
         private SaaMedEntities ctx = new SaaMedEntities();
 
@@ -134,6 +134,20 @@ namespace SaaMedW
                 ctx.SaveChanges();
                 System.Windows.MessageBox.Show("Пароль изменен.");
             }
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                ctx.Dispose();
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
     }
 }

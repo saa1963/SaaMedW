@@ -11,7 +11,7 @@ using System.Data.Entity;
 
 namespace SaaMedW
 {
-    public class BenefitsViewModel : NotifyPropertyChanged
+    public class BenefitsViewModel : NotifyPropertyChanged, IDisposable
     {
         private ObservableCollection<VmSpecialty> m_specialty 
             = new ObservableCollection<VmSpecialty>();
@@ -179,6 +179,20 @@ namespace SaaMedW
             }
             ctx.SaveChanges();
             RefreshData();
+        }
+
+        protected virtual void Dispose(bool disposed)
+        {
+            if (disposed)
+            {
+                ctx.Dispose();
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
     }
 }

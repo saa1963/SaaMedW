@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace SaaMedW
 {
-    public class PersonInfoViewModel
+    public class PersonInfoViewModel: IDisposable
     {
         private Person person;
         private SaaMedEntities ctx = new SaaMedEntities();
-        private List<Person> m_PersonList;
+        private readonly List<Person> m_PersonList;
         public List<Person> PersonList
         {
             get => m_PersonList;
@@ -51,6 +51,20 @@ namespace SaaMedW
         private void DelInfo(object obj)
         {
             SelectedList.Remove(InfoSel);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                ctx.Dispose();
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
     }
 }

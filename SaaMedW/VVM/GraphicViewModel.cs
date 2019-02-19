@@ -10,7 +10,7 @@ using System.Windows.Data;
 
 namespace SaaMedW
 {
-    public class GraphicViewModel : NotifyPropertyChanged
+    public class GraphicViewModel : NotifyPropertyChanged, IDisposable
     {
         SaaMedEntities ctx = new SaaMedEntities();
         private DateTime m_dt1;
@@ -163,6 +163,20 @@ namespace SaaMedW
         {
             PersonalCurrent = null;
             RefreshGridProc(null);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                ctx.Dispose();
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
     }
 }

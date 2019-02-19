@@ -113,5 +113,15 @@ namespace SaaMedW
         {
             get => Dt < DateTime.Now ? 0.25 : 100;
         }
+        private bool m_Closest = false;
+        public bool Closest
+        {
+            get => m_Closest;
+            set
+            {
+                m_Closest = value;
+                OnPropertyChanged("Closest");
+            }
+        }
     }
 }
