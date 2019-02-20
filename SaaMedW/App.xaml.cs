@@ -11,6 +11,8 @@ using SaaMedW.Service;
 using System.IO;
 using System.Reflection;
 using System.Windows.Media;
+using System.Diagnostics;
+using Atol.Drivers10.Fptr;
 
 namespace SaaMedW
 {
@@ -19,12 +21,22 @@ namespace SaaMedW
     /// </summary>
     public partial class App : Application
     {
+        protected override void OnExit(ExitEventArgs e)
+        {
+            base.OnExit(e);
+            Global.Source.Fptr.destroy();
+        }
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
 
+            // инициализация драйвера atol
+            Global.Source.Fptr = new Fptr();
+
             log4net.Config.XmlConfigurator.Configure();
             log4net.ILog log = log4net.LogManager.GetLogger(typeof(App));
+
+            log.Info("Версия драйвера ККМ - " + Global.Source.Fptr.version());
 
             try
             {
@@ -109,31 +121,8 @@ namespace SaaMedW
                 // создаем экземпляр ViewModel
                 var vm = Activator.CreateInstance(ob.ViewModel);
                 f.DataContext = vm;
-                PropertyInfo prop = vm.GetType().GetProperty("Form", BindingFlags.Public | BindingFlags.Instance);
-                if (null != prop && prop.CanWrite)
-                {
-                    prop.SetValue(vm, f, null);
-                }
                 var children = window.Wplace.Children;
-                if (children.Count > 0)
-                {
-                    IDisposable objectWillDisposed = null;
-                    foreach (FrameworkElement child in children)
-                    {
-                        if (child is UserControl)
-                        {
-                            if (child.DataContext is IDisposable)
-                            {
-                                objectWillDisposed = (IDisposable)child.DataContext;
-                            }
-                        }
-                    }
-                    children.Clear();
-                    if (objectWillDisposed != null)
-                    {
-                        objectWillDisposed.Dispose();
-                    }
-                }
+                children.Clear();
                 if (f.Tag != null)
                 {
                     var tb = new TextBlock

@@ -1,6 +1,7 @@
 ﻿using SaaMedW.View;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +14,48 @@ namespace SaaMedW
         {
             get { return new RelayCommand(App.ActivateView); }
         }
+        public RelayCommand FrOptionsCommand
+        {
+            get { return new RelayCommand(FrOptions); }
+        }
+
+        private void FrOptions(object obj)
+        {
+            var atol = new Atol(Global.Source.Fptr);
+            string options = atol.ShowProperties();
+            if (options != null)
+            {
+                var compId = Global.Source.GetMotherboardId();
+                using (var ctx = new SaaMedEntities())
+                {
+                    var opt = ctx.Options.Find(
+                        new object[] 
+                        {
+                            enumParameterType.Настройки_ФР,
+                            0,
+                            compId
+                        });
+                    if (opt != null)
+                    {
+                        opt.SetObject(options);
+                    }
+                    else
+                    {
+                        var o = new Options()
+                        {
+                            CompId = compId,
+                            ParameterType = enumParameterType.Настройки_ФР,
+                            Profile = enumProfile.ЛокальныйВсеПользователи,
+                            UserId = 0,
+                            ParameterValue = options
+                        };
+                        ctx.Options.Add(o);
+                    }
+                    ctx.SaveChanges();
+                }
+            }
+        }
+
         public object CmdUsers
         {
             get { return new ExecTypes { View = typeof(UsersView), ViewModel = typeof(UsersViewModel) }; }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SaaMedW
 {
-    public class PersonInfoViewModel: IDisposable
+    public class PersonInfoViewModel
     {
         private Person person;
         private SaaMedEntities ctx = new SaaMedEntities();
@@ -51,20 +51,6 @@ namespace SaaMedW
         private void DelInfo(object obj)
         {
             SelectedList.Remove(InfoSel);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                ctx.Dispose();
-            }
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
         }
     }
 }

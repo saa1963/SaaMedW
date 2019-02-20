@@ -12,7 +12,7 @@ using System.Diagnostics;
 
 namespace SaaMedW
 {
-    public class VisitViewModel: NotifyPropertyChanged, IDisposable
+    public class VisitViewModel: NotifyPropertyChanged
     {
         private SaaMedEntities ctx = new SaaMedEntities();
         private DateTime _selectedDate;
@@ -217,22 +217,6 @@ namespace SaaMedW
         private void ChangeStatus(object obj)
         {
             ctx.SaveChanges();
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                ctx.Dispose();
-                timer.Tick -= eventHandler;
-                Debug.WriteLine("VisitViewModel - timer.Tick -= eventHandler");
-            }
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
         }
     }
 }

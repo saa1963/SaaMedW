@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SaaMedW
 {
-    public class SelectBenefitViewModel: IDisposable
+    public class SelectBenefitViewModel
     {
         private ObservableCollection<VmSpecialty> m_specialty
             = new ObservableCollection<VmSpecialty>();
@@ -79,19 +79,5 @@ namespace SaaMedW
         }
         public ObservableCollection<VmSpecialty> SpecialtyList { get => m_specialty; }
         public VmBenefit BenefitSel { get; set; }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                ctx.Dispose();
-            }
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
     }
 }

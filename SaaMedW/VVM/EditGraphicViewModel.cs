@@ -8,7 +8,7 @@ using System.Windows.Data;
 
 namespace SaaMedW
 {
-    public class EditGraphicViewModel : NotifyPropertyChanged, IDataErrorInfo, IDisposable
+    public class EditGraphicViewModel : NotifyPropertyChanged, IDataErrorInfo
     {
         SaaMedEntities ctx = new SaaMedEntities();
         private List<Personal> m_personal;
@@ -96,19 +96,5 @@ namespace SaaMedW
             }
         }
         public string Error => "";
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                ctx.Dispose();
-            }
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
     }
 }

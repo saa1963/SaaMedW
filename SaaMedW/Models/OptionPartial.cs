@@ -28,6 +28,10 @@ namespace SaaMedW
                 {enumParameterType.Коэффициент_для_Excel,
                     new OptionType()
                     { type = typeof(int), profile = enumProfile.ЛокальныйВсеПользователи, defaultValue = 88 }
+                },
+                {enumParameterType.Настройки_ФР,
+                    new OptionType()
+                    { type = typeof(string), profile = enumProfile.ЛокальныйВсеПользователи, defaultValue = "" }
                 }
             };
         public string Name

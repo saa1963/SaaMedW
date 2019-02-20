@@ -10,6 +10,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Management;
+using Atol.Drivers10.Fptr;
 
 namespace SaaMedW
 {
@@ -191,5 +192,7 @@ namespace SaaMedW
             }
             return mbInfo;
         }
+
+        public IFptr Fptr { get; set; }
     }
 }

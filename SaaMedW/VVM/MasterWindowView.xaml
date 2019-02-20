@@ -37,8 +37,12 @@
                 <MenuItem Header="Услуги" Command="{Binding Cmd}" 
                           CommandParameter="{Binding CmdBenefits}"></MenuItem>
             </MenuItem>
-            <MenuItem Header="Настройки" Command="{Binding Cmd}" 
+            <MenuItem Header="Настройки">
+                <MenuItem Header="Общие настройки" Command="{Binding Cmd}" 
                         CommandParameter="{Binding OptionsCommand}">
+                </MenuItem>
+                <MenuItem Header="Настройки ФР" Command="{Binding FrOptionsCommand}">
+                </MenuItem>
             </MenuItem>
         </Menu>
         <DockPanel Name="Wplace" Grid.Row="1">

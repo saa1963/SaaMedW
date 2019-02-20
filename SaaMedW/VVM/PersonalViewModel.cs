@@ -11,7 +11,7 @@ using System.Data.Entity;
 
 namespace SaaMedW
 {
-    public class PersonalViewModel: IDisposable
+    public class PersonalViewModel
     {
         private SaaMedEntities ctx = new SaaMedEntities();
         public ObservableCollection<VmPersonal> PersonalList { get; private set; } 
@@ -115,20 +115,5 @@ namespace SaaMedW
             ctx.SaveChanges();
             PersonalList.Remove(personal);
         }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                ctx.Dispose();
-            }
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
     }
 }

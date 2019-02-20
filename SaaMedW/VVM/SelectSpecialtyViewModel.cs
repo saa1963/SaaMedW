@@ -9,7 +9,7 @@ using System.Windows.Data;
 
 namespace SaaMedW
 {
-    public class SelectSpecialtyViewModel: IDisposable
+    public class SelectSpecialtyViewModel
     {
         private ObservableCollection<VmSpecialty> m_specialty
             = new ObservableCollection<VmSpecialty>();
@@ -81,20 +81,6 @@ namespace SaaMedW
             {
                 return CollectionViewSource.GetDefaultView(BenefitsList);
             }
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                ctx.Dispose();
-            }
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
         }
     }
 }

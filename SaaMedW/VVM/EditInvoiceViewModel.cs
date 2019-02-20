@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace SaaMedW
 {
-    public class EditInvoiceViewModel : NotifyPropertyChanged, IDataErrorInfo, IDisposable
+    public class EditInvoiceViewModel : NotifyPropertyChanged, IDataErrorInfo
     {
         private SaaMedEntities ctx = new SaaMedEntities();
         private DateTime m_Dt = DateTime.Today;
@@ -191,19 +191,5 @@ namespace SaaMedW
         }
 
         public VmInvoiceDetail InvoiceDetailSel { get; set; }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                ctx.Dispose();
-            }
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
     }
 }

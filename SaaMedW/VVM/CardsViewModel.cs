@@ -13,7 +13,7 @@ using System.Windows;
 
 namespace SaaMedW
 {
-    public class CardsViewModel : NotifyPropertyChanged, IDisposable
+    public class CardsViewModel : NotifyPropertyChanged
     {
         private SaaMedEntities ctx = new SaaMedEntities();
         private ILog log;
@@ -218,20 +218,6 @@ namespace SaaMedW
         private void Search(object obj)
         {
             RefreshData();
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                ctx.Dispose();
-            }
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
         }
     }
 }

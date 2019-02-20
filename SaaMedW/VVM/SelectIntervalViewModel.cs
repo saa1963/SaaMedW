@@ -9,7 +9,7 @@ using System.Windows;
 
 namespace SaaMedW
 {
-    public class SelectIntervalViewModel: NotifyPropertyChanged, IDisposable
+    public class SelectIntervalViewModel: NotifyPropertyChanged
     {
         readonly log4net.ILog log;
 
@@ -84,20 +84,6 @@ namespace SaaMedW
                 m_DialogResult = value;
                 OnPropertyChanged("DialogResult");
             }
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                ctx.Dispose();
-            }
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
         }
     }
 }

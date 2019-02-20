@@ -9,7 +9,7 @@ using System.Windows.Data;
 
 namespace SaaMedW
 {
-    public class EditPersonViewModel : NotifyPropertyChanged, IDataErrorInfo, IDisposable
+    public class EditPersonViewModel : NotifyPropertyChanged, IDataErrorInfo
     {
         public enSex[] SexList { get; } = (enSex[])Enum.GetValues(typeof(enSex));
         public enMestnost[] MestnostList { get; } = (enMestnost[])Enum.GetValues(typeof(enMestnost));
@@ -300,19 +300,5 @@ namespace SaaMedW
             return (LastName + " " + FirstName + " " + MiddleName ?? "").TrimEnd();
         }
         public string Error => "";
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                ctx.Dispose();
-            }
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
     }
 }
