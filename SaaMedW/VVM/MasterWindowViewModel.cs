@@ -14,14 +14,16 @@ namespace SaaMedW
         {
             get { return new RelayCommand(App.ActivateView); }
         }
+
         public RelayCommand FrOptionsCommand
         {
-            get { return new RelayCommand(FrOptions, s => Global.Source.Fptr != null); }
+            get { return new RelayCommand(FrOptions, s => Global.Source.Fptr != null 
+                && (Global.Source.Fptr is Atol)); }
         }
 
         private void FrOptions(object obj)
         {
-            var atol = new Atol(Global.Source.Fptr);
+            var atol = (Atol)Global.Source.Fptr;
             string options = atol.ShowProperties();
             if (options != null)
             {

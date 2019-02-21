@@ -31,7 +31,7 @@ namespace SaaMedW
                 },
                 {enumParameterType.Настройки_ФР,
                     new OptionType()
-                    { type = typeof(string), profile = enumProfile.ЛокальныйВсеПользователи, defaultValue = "" }
+                    { type = typeof(string), profile = enumProfile.ЛокальныйВсеПользователи, defaultValue = null }
                 }
             };
         public string Name

@@ -210,14 +210,18 @@ namespace SaaMedW
 
         private void PayInvoice(object obj)
         {
+            IKkm kkm = Global.Source.Fptr;
             var viewModel = new PayInvoiceViewModel() { КОплате = InvoiceSel.Sm - InvoiceSel.Payed };
             var f = new PayInvoiceView() { DataContext = viewModel };
             if (f.ShowDialog() ?? false)
             {
                 var pay = Math.Min(viewModel.Sm, viewModel.КОплате);
-                accounts.PayOneInvoice(pay, InvoiceSel.Obj, viewModel.PaymentType);
-                ctx.Entry(InvoiceSel.Obj).Reload();
-                InvoiceSel.OnPropertyChanged("Status");
+                if (kkm.Register(pay))
+                {
+                    accounts.PayOneInvoice(pay, InvoiceSel.Obj, viewModel.PaymentType);
+                    ctx.Entry(InvoiceSel.Obj).Reload();
+                    InvoiceSel.OnPropertyChanged("Status");
+                }
             }
         }
 

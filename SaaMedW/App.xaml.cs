@@ -24,7 +24,7 @@ namespace SaaMedW
         protected override void OnExit(ExitEventArgs e)
         {
             base.OnExit(e);
-            Global.Source.Fptr.destroy();
+            Global.Source.Fptr.Close();
         }
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -33,19 +33,7 @@ namespace SaaMedW
             log4net.Config.XmlConfigurator.Configure();
             log4net.ILog log = log4net.LogManager.GetLogger(typeof(App));
 
-            try
-            {
-                // инициализация драйвера atol
-                Global.Source.Fptr = new Fptr();
-                log.Info("Версия драйвера ККМ - " + Global.Source.Fptr.version());
-            }
-            catch(Exception e1)
-            {
-                Global.Source.Fptr = null;
-                var msg = "Ошибка инициализации драйвера ККМ";
-                log.Error(msg, e1);
-                MessageBox.Show(msg);
-            }
+            
 
             try
             {
@@ -92,6 +80,13 @@ namespace SaaMedW
             }
             if (logonservice.RegisterUser(loginViewModel.Login, loginViewModel.Password))
             {
+                // инициализация драйвера KKM
+                Global.Source.Fptr = new Atol();
+                if (!Global.Source.Fptr.Init())
+                {
+
+                }
+
                 var storage = (ILocalStorage)ServiceLocator.Instance.GetService(typeof(ILocalStorage));
                 storage.SetLoginName(Environment.UserName, loginViewModel.Login);
                 this.ShutdownMode = ShutdownMode.OnMainWindowClose;
