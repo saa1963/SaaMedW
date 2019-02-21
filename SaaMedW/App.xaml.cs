@@ -30,13 +30,22 @@ namespace SaaMedW
         {
             base.OnStartup(e);
 
-            // инициализация драйвера atol
-            Global.Source.Fptr = new Fptr();
-
             log4net.Config.XmlConfigurator.Configure();
             log4net.ILog log = log4net.LogManager.GetLogger(typeof(App));
 
-            log.Info("Версия драйвера ККМ - " + Global.Source.Fptr.version());
+            try
+            {
+                // инициализация драйвера atol
+                Global.Source.Fptr = new Fptr();
+                log.Info("Версия драйвера ККМ - " + Global.Source.Fptr.version());
+            }
+            catch(Exception e1)
+            {
+                Global.Source.Fptr = null;
+                var msg = "Ошибка инициализации драйвера ККМ";
+                log.Error(msg, e1);
+                MessageBox.Show(msg);
+            }
 
             try
             {

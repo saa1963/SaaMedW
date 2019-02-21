@@ -8,7 +8,7 @@ using Atol.Drivers10.Fptr;
 
 namespace SaaMedW
 {
-    public class Atol
+    public class Atol: IKkm
     {
         private IFptr fptr;
         public Atol(IFptr _fptr)

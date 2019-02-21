@@ -16,7 +16,7 @@ namespace SaaMedW
         }
         public RelayCommand FrOptionsCommand
         {
-            get { return new RelayCommand(FrOptions); }
+            get { return new RelayCommand(FrOptions, s => Global.Source.Fptr != null); }
         }
 
         private void FrOptions(object obj)

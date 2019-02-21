@@ -205,7 +205,7 @@ namespace SaaMedW
         public RelayCommand PayCommand
         {
             get => new RelayCommand(PayInvoice, s => InvoiceSel != null 
-                && InvoiceSel.Status != enumStatusInvoice.Оплачен);
+                && InvoiceSel.Status != enumStatusInvoice.Оплачен && Global.Source.Fptr != null);
         }
 
         private void PayInvoice(object obj)
