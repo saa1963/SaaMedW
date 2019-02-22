@@ -151,7 +151,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Atol.cs" />
+    <Compile Include="Service\Atol.cs" />
     <Compile Include="Benefit.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -188,7 +188,7 @@
     <Compile Include="Graphic.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="IKkm.cs" />
+    <Compile Include="Service\IKkm.cs" />
     <Compile Include="Models\ContextPartial.cs" />
     <Compile Include="Models\OptionPartial.cs" />
     <Compile Include="NameValue.cs" />

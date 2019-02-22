@@ -18,6 +18,7 @@ namespace SaaMedW.Service
             m_lst.Add(typeof(ILocalStorage), Activator.CreateInstance(typeof(SaaMedW.Service.LocalStorage)));
             m_lst.Add(typeof(ILogonService), Activator.CreateInstance(typeof(SaaMedW.Service.LogonService)));
             m_lst.Add(typeof(IAccounts), Activator.CreateInstance(typeof(SaaMedW.Service.AccountsService)));
+            m_lst.Add(typeof(IKkm), Activator.CreateInstance(typeof(SaaMedW.Service.AtolService)));
             //m_lst.Add(typeof(ISendFile), typeof(TKPBSec.Service.SendFileService));
         }
 
@@ -45,6 +46,19 @@ namespace SaaMedW.Service
             catch (Exception)
             {
                 return null;
+            }
+        }
+
+        public T GetService<T>()
+        {
+            var iface = typeof(T);
+            try
+            {
+                return (T)m_lst[iface];
+            }
+            catch (Exception)
+            {
+                return default(T);
             }
         }
     }

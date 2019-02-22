@@ -8,6 +8,7 @@ using System.Data.Entity;
 using SaaMedW.View;
 using System.Diagnostics;
 using System.Windows;
+using SaaMedW.Service;
 
 namespace SaaMedW
 {
@@ -205,12 +206,13 @@ namespace SaaMedW
         public RelayCommand PayCommand
         {
             get => new RelayCommand(PayInvoice, s => InvoiceSel != null 
-                && InvoiceSel.Status != enumStatusInvoice.Оплачен && Global.Source.Fptr != null);
+                && InvoiceSel.Status != enumStatusInvoice.Оплачен 
+                && ServiceLocator.Instance.GetService<IKkm>().IsInitialized);
         }
 
         private void PayInvoice(object obj)
         {
-            IKkm kkm = Global.Source.Fptr;
+            IKkm kkm = ServiceLocator.Instance.GetService<IKkm>();
             var viewModel = new PayInvoiceViewModel() { КОплате = InvoiceSel.Sm - InvoiceSel.Payed };
             var f = new PayInvoiceView() { DataContext = viewModel };
             if (f.ShowDialog() ?? false)

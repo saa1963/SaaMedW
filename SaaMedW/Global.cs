@@ -192,7 +192,5 @@ namespace SaaMedW
             }
             return mbInfo;
         }
-
-        public IKkm Fptr { get; set; }
     }
 }

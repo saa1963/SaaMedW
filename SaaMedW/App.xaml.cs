@@ -24,7 +24,7 @@ namespace SaaMedW
         protected override void OnExit(ExitEventArgs e)
         {
             base.OnExit(e);
-            Global.Source.Fptr.Close();
+            ServiceLocator.Instance.GetService<IKkm>().Close();
         }
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -32,8 +32,6 @@ namespace SaaMedW
 
             log4net.Config.XmlConfigurator.Configure();
             log4net.ILog log = log4net.LogManager.GetLogger(typeof(App));
-
-            
 
             try
             {
@@ -81,10 +79,10 @@ namespace SaaMedW
             if (logonservice.RegisterUser(loginViewModel.Login, loginViewModel.Password))
             {
                 // инициализация драйвера KKM
-                Global.Source.Fptr = new Atol();
-                if (!Global.Source.Fptr.Init())
+                var fptr = ServiceLocator.Instance.GetService<IKkm>();
+                if (!fptr.Init())
                 {
-
+                    MessageBox.Show("Ошибка инициализации драйвера ККМ");
                 }
 
                 var storage = (ILocalStorage)ServiceLocator.Instance.GetService(typeof(ILocalStorage));

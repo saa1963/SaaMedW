@@ -7,19 +7,19 @@ using System.Threading.Tasks;
 using Atol.Drivers10.Fptr;
 using log4net;
 
-namespace SaaMedW
+namespace SaaMedW.Service
 {
-    public class Atol: IKkm, IDisposable
+    public class AtolService: IKkm, IDisposable
     {
         private IFptr fptr = null;
         ILog log;
 
-        public Atol()
+        public AtolService()
         {
             log = log4net.LogManager.GetLogger(this.GetType());
         }
 
-        ~Atol()
+        ~AtolService()
         {
             Dispose(false);
         }
@@ -33,9 +33,7 @@ namespace SaaMedW
             try
             {
                 if (config == null)
-                {
                     throw new Exception("Параметр Настройки_ФР равен null");
-                }
                 fptr = new Fptr();
                 fptr.setSettings((string)config);
                 rt = true;
@@ -82,18 +80,30 @@ namespace SaaMedW
             return true;
         }
 
-        public string ShowProperties()
+        public static string ShowProperties()
         {
-            int res = fptr.showProperties(Constants.LIBFPTR_GUI_PARENT_NATIVE, (IntPtr)0);
-            if (res == 0)
-                return fptr.getSettings();
-            else
-                return null;
+            Fptr fptr = null;
+            try
+            {
+                fptr = new Fptr();
+                int res = fptr.showProperties(Constants.LIBFPTR_GUI_PARENT_NATIVE, (IntPtr)0);
+                if (res == 0)
+                    return fptr.getSettings();
+                else
+                    return null;
+            }
+            finally
+            {
+                if (fptr != null)
+                    fptr.destroy();
+            }
         }
 
         public bool ZReport()
         {
             throw new NotImplementedException();
         }
+
+        public string Model => "АТОЛ";
     }
 }

@@ -1,10 +1,12 @@
-﻿using SaaMedW.View;
+﻿using SaaMedW.Service;
+using SaaMedW.View;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace SaaMedW
 {
@@ -17,14 +19,14 @@ namespace SaaMedW
 
         public RelayCommand FrOptionsCommand
         {
-            get { return new RelayCommand(FrOptions, s => Global.Source.Fptr != null 
-                && (Global.Source.Fptr is Atol)); }
+            get { return new RelayCommand(FrOptions, 
+                s => ServiceLocator.Instance.GetService<IKkm>() is AtolService); }
         }
 
         private void FrOptions(object obj)
         {
-            var atol = (Atol)Global.Source.Fptr;
-            string options = atol.ShowProperties();
+            var atol = (AtolService)ServiceLocator.Instance.GetService<IKkm>();
+            string options = AtolService.ShowProperties();
             if (options != null)
             {
                 var compId = Global.Source.GetMotherboardId();
@@ -54,6 +56,10 @@ namespace SaaMedW
                         ctx.Options.Add(o);
                     }
                     ctx.SaveChanges();
+                    if (!atol.Init())
+                    {
+                        MessageBox.Show("Ошибка инициализации драйвера ККМ");
+                    }
                 }
             }
         }
