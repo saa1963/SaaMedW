@@ -58,7 +58,7 @@ namespace SaaMedW
                     ctx.SaveChanges();
                     if (!atol.Init())
                     {
-                        MessageBox.Show("Ошибка инициализации драйвера ККМ");
+                        MessageBox.Show("Ошибка инициализации драйвера ККТ");
                     }
                 }
             }

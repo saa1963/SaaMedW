@@ -40,9 +40,55 @@ namespace SaaMedW.Service
             }
             catch (Exception e)
             {
-                var msg = "Ошибка инициализации драйвера ККМ";
+                var msg = "Ошибка инициализации драйвера ККТ";
                 log.Error(msg, e);
                 fptr = null;
+            }
+            return rt;
+        }
+
+        private bool Open()
+        {
+            bool rt = false;
+            try
+            {
+                fptr.open();
+                if (!fptr.isOpened())
+                    throw new Exception("Невозможно установить соединение с кассой.");
+
+                rt = true;
+            }
+            catch (Exception e)
+            {
+                var msg = "Ошибка открытия кассы.";
+                log.Error(msg, e);
+            }
+            return rt;
+        }
+
+        private void Close()
+        {
+            if (fptr == null) return;
+            if (!fptr.isOpened()) return;
+            fptr.close();
+        }
+
+        private bool RegisterUser()
+        {
+            bool rt = false;
+            try
+            {
+                if (fptr == null)
+                    throw new Exception("Не проинициализирован рабочий экземпляр драйвера.");
+                fptr.setParam(1021, Global.Source.RUser.Fio);
+                fptr.setParam(1203, Global.Source.RUser.Inn);
+                if (fptr.operatorLogin() != 0) throw new Exception();
+                rt = true;
+            }
+            catch (Exception e)
+            {
+                var msg = "Ошибка регистрации кассира";
+                log.Error(msg, e);
             }
             return rt;
         }
@@ -52,7 +98,7 @@ namespace SaaMedW.Service
             throw new NotImplementedException();
         }
 
-        public void Close()
+        public void Destroy()
         {
             Dispose();
         }
@@ -63,6 +109,10 @@ namespace SaaMedW.Service
             {
                 if (fptr != null)
                 {
+                    if (fptr.isOpened())
+                    {
+                        fptr.close();
+                    }
                     fptr.destroy();
                     fptr = null;
                 }

@@ -24,7 +24,7 @@ namespace SaaMedW
         protected override void OnExit(ExitEventArgs e)
         {
             base.OnExit(e);
-            ServiceLocator.Instance.GetService<IKkm>().Close();
+            ServiceLocator.Instance.GetService<IKkm>().Destroy();
         }
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -82,7 +82,7 @@ namespace SaaMedW
                 var fptr = ServiceLocator.Instance.GetService<IKkm>();
                 if (!fptr.Init())
                 {
-                    MessageBox.Show("Ошибка инициализации драйвера ККМ");
+                    MessageBox.Show("Ошибка инициализации драйвера ККТ");
                 }
 
                 var storage = (ILocalStorage)ServiceLocator.Instance.GetService(typeof(ILocalStorage));

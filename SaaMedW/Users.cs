@@ -20,5 +20,6 @@ namespace SaaMedW
         public byte[] Password { get; set; }
         public int Role { get; set; }
         public bool Disabled { get; set; }
+        public string Inn { get; set; }
     }
 }

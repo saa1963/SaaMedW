@@ -7,7 +7,7 @@
         bool Register(decimal sm);
         bool Back(decimal sm);
         bool ZReport();
-        void Close();
+        void Destroy();
         string Model { get; }
     }
 }
