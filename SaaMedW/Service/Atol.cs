@@ -151,7 +151,51 @@ namespace SaaMedW.Service
 
         public bool ZReport()
         {
-            throw new NotImplementedException();
+            bool rt = false;
+            try
+            {
+                fptr.setParam(1021, Global.Source.RUser.Fio);
+                fptr.setParam(1203, Global.Source.RUser.Inn);
+                fptr.operatorLogin();
+
+                fptr.setParam(Constants.LIBFPTR_PARAM_REPORT_TYPE, Constants.LIBFPTR_RT_CLOSE_SHIFT);
+                fptr.report();
+
+                fptr.checkDocumentClosed();
+
+                while (fptr.checkDocumentClosed() < 0)
+                {
+                    // Не удалось проверить состояние документа. Вывести пользователю текст ошибки, попросить устранить неполадку и повторить запрос
+                    Console.WriteLine(fptr.errorDescription());
+                    continue;
+                }
+
+                if (!fptr.getParamBool(Constants.LIBFPTR_PARAM_DOCUMENT_CLOSED))
+                {
+                    // Документ не закрылся. Требуется его отменить (если это чек) и сформировать заново
+                    fptr.cancelReceipt();
+                    return;
+                }
+
+                if (!fptr.getParamBool(Constants.LIBFPTR_PARAM_DOCUMENT_PRINTED))
+                {
+                    // Можно сразу вызвать метод допечатывания документа, он завершится с ошибкой, если это невозможно
+                    while (fptr.continuePrint() < 0)
+                    {
+                        // Если не удалось допечатать документ - показать пользователю ошибку и попробовать еще раз.
+                        Console.WriteLine(String.Format("Не удалось напечатать документ (Ошибка \"{0}\"). Устраните неполадку и повторите.", fptr.errorDescription()));
+                        continue;
+                    }
+                }
+
+                rt = true;
+            }
+            catch (Exception e)
+            {
+                var msg = "Ошибка открытия кассы.";
+                log.Error(msg, e);
+            }
+            return rt;
         }
 
         public string Model => "АТОЛ";
