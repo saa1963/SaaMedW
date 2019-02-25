@@ -19,6 +19,8 @@
             <MenuItem Header="Бухгалтерия">
                 <MenuItem Header="Счета" Command="{Binding Cmd}" 
                           CommandParameter="{Binding CmdInvoice}"></MenuItem>
+                <MenuItem Header="Закрыть смену на кассе" Command="{Binding ZReportCommand}" 
+                          ></MenuItem>
             </MenuItem>
             <MenuItem Header="Персонал">
                 <MenuItem Header="Сотрудники" Command="{Binding Cmd}" 

@@ -14,6 +14,7 @@ namespace SaaMedW
     public enum enumParameterType : int
     {
         Наименование_организации = 0,
-        Коэффициент_для_Excel = 1
+        Коэффициент_для_Excel = 1,
+        Настройки_ФР = 2
     }
 }

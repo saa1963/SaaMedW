@@ -17,6 +17,28 @@ namespace SaaMedW
             get { return new RelayCommand(App.ActivateView); }
         }
 
+        public RelayCommand ZReportCommand
+        {
+            get
+            {
+                return new RelayCommand(ZReport, 
+                    s => ServiceLocator.Instance.GetService<IKkm>().IsInitialized);
+            }
+        }
+
+        private void ZReport(object obj)
+        {
+            var kkt = ServiceLocator.Instance.GetService<IKkm>();
+            if (kkt.ZReport())
+            {
+                MessageBox.Show("Смена закрыта");
+            }
+            else
+            {
+                MessageBox.Show("Ошибка закрытия смены");
+            }
+        }
+
         public RelayCommand FrOptionsCommand
         {
             get { return new RelayCommand(FrOptions, 

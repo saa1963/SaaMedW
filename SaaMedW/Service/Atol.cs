@@ -154,6 +154,7 @@ namespace SaaMedW.Service
             bool rt = false;
             try
             {
+                if (!this.Open()) throw new Exception("Ошибка соединение с кассой.");
                 fptr.setParam(1021, Global.Source.RUser.Fio);
                 fptr.setParam(1203, Global.Source.RUser.Inn);
                 fptr.operatorLogin();
@@ -161,38 +162,30 @@ namespace SaaMedW.Service
                 fptr.setParam(Constants.LIBFPTR_PARAM_REPORT_TYPE, Constants.LIBFPTR_RT_CLOSE_SHIFT);
                 fptr.report();
 
-                fptr.checkDocumentClosed();
-
-                while (fptr.checkDocumentClosed() < 0)
+                if (fptr.checkDocumentClosed() < 0)
                 {
                     // Не удалось проверить состояние документа. Вывести пользователю текст ошибки, попросить устранить неполадку и повторить запрос
-                    Console.WriteLine(fptr.errorDescription());
-                    continue;
-                }
+                    log.Error($"Код ошибки - {fptr.errorCode()} {fptr.errorDescription()}");
 
-                if (!fptr.getParamBool(Constants.LIBFPTR_PARAM_DOCUMENT_CLOSED))
-                {
-                    // Документ не закрылся. Требуется его отменить (если это чек) и сформировать заново
-                    fptr.cancelReceipt();
-                    return;
-                }
-
-                if (!fptr.getParamBool(Constants.LIBFPTR_PARAM_DOCUMENT_PRINTED))
-                {
-                    // Можно сразу вызвать метод допечатывания документа, он завершится с ошибкой, если это невозможно
-                    while (fptr.continuePrint() < 0)
+                    if (!fptr.getParamBool(Constants.LIBFPTR_PARAM_DOCUMENT_CLOSED))
                     {
-                        // Если не удалось допечатать документ - показать пользователю ошибку и попробовать еще раз.
-                        Console.WriteLine(String.Format("Не удалось напечатать документ (Ошибка \"{0}\"). Устраните неполадку и повторите.", fptr.errorDescription()));
-                        continue;
+                        // Документ не закрылся. Требуется его отменить (если это чек) и сформировать заново
+                        throw new Exception("Смена не закрыта.");
+                        //return;
+                    }
+
+                    if (!fptr.getParamBool(Constants.LIBFPTR_PARAM_DOCUMENT_PRINTED))
+                    {
+                        // Можно сразу вызвать метод допечатывания документа, он завершится с ошибкой, если это невозможно
+                        log.Warn("Смена закрыта. Документ не допечатан.");
                     }
                 }
-
+                this.Close();
                 rt = true;
             }
             catch (Exception e)
             {
-                var msg = "Ошибка открытия кассы.";
+                var msg = "Ошибка закрытия смены.";
                 log.Error(msg, e);
             }
             return rt;

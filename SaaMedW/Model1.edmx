@@ -915,6 +915,7 @@
         <EnumType Name="enumParameterType">
           <Member Name="Наименование_организации" Value="0" />
           <Member Name="Коэффициент_для_Excel" Value="1" />
+          <Member Name="Настройки_ФР" Value="2" />
         </EnumType>
         <Association Name="Person2">
           <Documentation>
