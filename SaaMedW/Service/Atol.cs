@@ -125,9 +125,54 @@ namespace SaaMedW.Service
             GC.SuppressFinalize(this);
         }
 
-        public bool Register(decimal sm)
+        public bool Register(decimal sm, string emailOrPhone, bool electron)
         {
-            return true;
+            bool rt = false;
+            try
+            {
+                if (fptr.open() < 0) throw AtolException();
+                fptr.setParam(1021, Global.Source.RUser.Fio);
+                fptr.setParam(1203, Global.Source.RUser.Inn);
+                if (fptr.operatorLogin() < 0) throw AtolException();
+
+                // Открытие чека
+                fptr.setParam(Constants.LIBFPTR_PARAM_RECEIPT_TYPE, Constants.LIBFPTR_RT_SELL);
+                if (electron)
+                {
+                    fptr.setParam(Constants.LIBFPTR_PARAM_RECEIPT_ELECTRONICALLY, true);
+                    fptr.setParam(1008, emailOrPhone);
+                }
+                if (fptr.openReceipt() < 0) throw AtolException();
+
+                // Регистрация позиции
+                fptr.setParam(Constants.LIBFPTR_PARAM_COMMODITY_NAME, "Чипсы LAYS");
+                fptr.setParam(Constants.LIBFPTR_PARAM_PRICE, 73.99);
+                fptr.setParam(Constants.LIBFPTR_PARAM_QUANTITY, 5);
+                fptr.setParam(Constants.LIBFPTR_PARAM_TAX_TYPE, Constants.LIBFPTR_TAX_VAT18);
+                fptr.setParam(1212, 1);
+                fptr.setParam(1214, 7);
+                fptr.registration();
+
+                // Регистрация итога (отрасываем копейки)
+                fptr.setParam(Constants.LIBFPTR_PARAM_SUM, 369.0);
+                fptr.receiptTotal();
+
+                // Оплата наличными
+                fptr.setParam(Constants.LIBFPTR_PARAM_PAYMENT_TYPE, Constants.LIBFPTR_PT_CASH);
+                fptr.setParam(Constants.LIBFPTR_PARAM_PAYMENT_SUM, 1000);
+                fptr.payment();
+
+                // Закрытие чека
+                fptr.closeReceipt();
+                rt = true;
+            }
+            catch (Exception e)
+            {
+                var msg = "Ошибка закрытия смены.";
+                log.Error(msg, e);
+            }
+            if (fptr.isOpened()) fptr.close();
+            return rt;
         }
 
         public static string ShowProperties()
@@ -154,33 +199,28 @@ namespace SaaMedW.Service
             bool rt = false;
             try
             {
-                if (!this.Open()) throw new Exception("Ошибка соединение с кассой.");
+                if (fptr.open() < 0) throw AtolException();
                 fptr.setParam(1021, Global.Source.RUser.Fio);
                 fptr.setParam(1203, Global.Source.RUser.Inn);
-                fptr.operatorLogin();
+                if (fptr.operatorLogin() < 0) throw AtolException();
 
                 fptr.setParam(Constants.LIBFPTR_PARAM_REPORT_TYPE, Constants.LIBFPTR_RT_CLOSE_SHIFT);
-                fptr.report();
+                if (fptr.report() < 0) throw AtolException();
 
-                if (fptr.checkDocumentClosed() < 0)
+                if (fptr.checkDocumentClosed() < 0) throw AtolException();
+
+                if (!fptr.getParamBool(Constants.LIBFPTR_PARAM_DOCUMENT_CLOSED))
                 {
-                    // Не удалось проверить состояние документа. Вывести пользователю текст ошибки, попросить устранить неполадку и повторить запрос
-                    log.Error($"Код ошибки - {fptr.errorCode()} {fptr.errorDescription()}");
-
-                    if (!fptr.getParamBool(Constants.LIBFPTR_PARAM_DOCUMENT_CLOSED))
-                    {
-                        // Документ не закрылся. Требуется его отменить (если это чек) и сформировать заново
-                        throw new Exception("Смена не закрыта.");
-                        //return;
-                    }
-
-                    if (!fptr.getParamBool(Constants.LIBFPTR_PARAM_DOCUMENT_PRINTED))
-                    {
-                        // Можно сразу вызвать метод допечатывания документа, он завершится с ошибкой, если это невозможно
-                        log.Warn("Смена закрыта. Документ не допечатан.");
-                    }
+                    // Документ не закрылся. Требуется его отменить (если это чек) и сформировать заново
+                    throw new Exception("Смена не закрыта.");
                 }
-                this.Close();
+
+                if (!fptr.getParamBool(Constants.LIBFPTR_PARAM_DOCUMENT_PRINTED))
+                {
+                    // Можно сразу вызвать метод допечатывания документа, он завершится с ошибкой, если это невозможно
+                    log.Warn("Смена закрыта. Документ не допечатан.");
+                }
+
                 rt = true;
             }
             catch (Exception e)
@@ -188,7 +228,13 @@ namespace SaaMedW.Service
                 var msg = "Ошибка закрытия смены.";
                 log.Error(msg, e);
             }
+            if (fptr.isOpened()) fptr.close();
             return rt;
+        }
+
+        private Exception AtolException()
+        {
+            return new Exception($"Код ошибки - {fptr.errorCode()} {fptr.errorDescription()}");
         }
 
         public string Model => "АТОЛ";

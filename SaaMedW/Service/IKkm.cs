@@ -4,7 +4,7 @@
     {
         bool IsInitialized { get; }
         bool Init();
-        bool Register(decimal sm);
+        bool Register(decimal sm, string email);
         bool Back(decimal sm);
         bool ZReport();
         void Destroy();

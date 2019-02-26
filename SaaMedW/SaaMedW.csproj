@@ -530,6 +530,7 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model1.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <None Include="54-ФЗ.pdf" />
     <None Include="Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </None>
@@ -539,6 +540,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <None Include="SaaMedW_TemporaryKey.pfx" />
+    <None Include="Об особенностях формирования кассового чека коррекции.pdf" />
     <Resource Include="image\icons8-search-32.png" />
     <Resource Include="image\icons8-two-tickets-32.png" />
     <Content Include="templates\Invoice.xlsx">
