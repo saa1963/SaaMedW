@@ -160,7 +160,7 @@ namespace SaaMedW.Service
                     fptr.setParam(Constants.LIBFPTR_PARAM_COMMODITY_NAME, ch_name);
                     fptr.setParam(Constants.LIBFPTR_PARAM_PRICE, Convert.ToDouble(ch_price));
                     fptr.setParam(Constants.LIBFPTR_PARAM_QUANTITY, ch_quantity);
-                    fptr.setParam(Constants.LIBFPTR_PARAM_TAX_TYPE, Constants.LIBFPTR_TAX_VAT18);
+                    fptr.setParam(Constants.LIBFPTR_PARAM_TAX_TYPE, Constants.LIBFPTR_TAX_VAT20);
                     fptr.setParam(1212, 1);
                     fptr.setParam(1214, 7);
                     fptr.registration();

@@ -218,12 +218,12 @@ namespace SaaMedW
             if (f.ShowDialog() ?? false)
             {
                 var pay = Math.Min(viewModel.Sm, viewModel.КОплате);
-                if (kkm.Register(pay))
-                {
-                    accounts.PayOneInvoice(pay, InvoiceSel.Obj, viewModel.PaymentType);
-                    ctx.Entry(InvoiceSel.Obj).Reload();
-                    InvoiceSel.OnPropertyChanged("Status");
-                }
+                //if (kkm.Register(pay))
+                //{
+                //    accounts.PayOneInvoice(pay, InvoiceSel.Obj, viewModel.PaymentType);
+                //    ctx.Entry(InvoiceSel.Obj).Reload();
+                //    InvoiceSel.OnPropertyChanged("Status");
+                //}
             }
         }
 
