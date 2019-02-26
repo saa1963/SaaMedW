@@ -125,7 +125,14 @@ namespace SaaMedW.Service
             GC.SuppressFinalize(this);
         }
 
-        public bool Register(decimal sm, string emailOrPhone, bool electron)
+        /// <summary>
+        /// Пробить чек
+        /// </summary>
+        /// <param name="sm">имя, кол-во, цена</param>
+        /// <param name="emailOrPhone"></param>
+        /// <param name="electron"></param>
+        /// <returns></returns>
+        public bool Register(List<Tuple<string, int, decimal>> sm, string emailOrPhone, bool electron)
         {
             bool rt = false;
             try
@@ -144,14 +151,20 @@ namespace SaaMedW.Service
                 }
                 if (fptr.openReceipt() < 0) throw AtolException();
 
-                // Регистрация позиции
-                fptr.setParam(Constants.LIBFPTR_PARAM_COMMODITY_NAME, "Чипсы LAYS");
-                fptr.setParam(Constants.LIBFPTR_PARAM_PRICE, 73.99);
-                fptr.setParam(Constants.LIBFPTR_PARAM_QUANTITY, 5);
-                fptr.setParam(Constants.LIBFPTR_PARAM_TAX_TYPE, Constants.LIBFPTR_TAX_VAT18);
-                fptr.setParam(1212, 1);
-                fptr.setParam(1214, 7);
-                fptr.registration();
+                foreach (var o in sm)
+                {
+                    var ch_name = o.Item1;
+                    var ch_quantity = o.Item2;
+                    var ch_price = o.Item3;
+                    // Регистрация позиции
+                    fptr.setParam(Constants.LIBFPTR_PARAM_COMMODITY_NAME, ch_name);
+                    fptr.setParam(Constants.LIBFPTR_PARAM_PRICE, Convert.ToDouble(ch_price));
+                    fptr.setParam(Constants.LIBFPTR_PARAM_QUANTITY, ch_quantity);
+                    fptr.setParam(Constants.LIBFPTR_PARAM_TAX_TYPE, Constants.LIBFPTR_TAX_VAT18);
+                    fptr.setParam(1212, 1);
+                    fptr.setParam(1214, 7);
+                    fptr.registration();
+                }
 
                 // Регистрация итога (отрасываем копейки)
                 fptr.setParam(Constants.LIBFPTR_PARAM_SUM, 369.0);
