@@ -152,5 +152,20 @@ namespace SaaMedW
             MessageBox.Show("Параметры сохранены");
             IsChanged = false;
         }
+
+        public RelayCommand EditMultiLineCommand => new RelayCommand(EditMultiLine);
+
+        private void EditMultiLine(object obj)
+        {
+            var s = obj as Options;
+            var modelView = new MultiEditViewModel() { Text = String.Copy(s.ParameterValue) };
+            var f = new MultiEditView() { DataContext = modelView };
+            if (f.ShowDialog() ?? false)
+            {
+                s.ParameterValue = modelView.Text;
+                IsChanged = true;
+                s.OnPropertyChanged("ParameterValue");
+            }
+        }
     }
 }

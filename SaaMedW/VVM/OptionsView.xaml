@@ -5,7 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SaaMedW"
              mc:Ignorable="d" Tag="Настройки"
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800"
+             Name="UC">
     <UserControl.Resources>
         <local:OptionItemTemplateSelector x:Key="myDataTemplateSelector"/>
         <DataTemplate x:Key="IntDataTemplate">
@@ -23,14 +24,27 @@
         <DataTemplate x:Key="TextDataTemplate">
              <local:ClickSelectTextBox Margin="10,0,0,0" 
                                        Text="{Binding ParameterValue}" 
+                                       TextChanged="ParameterChanged"></local:ClickSelectTextBox>
+        </DataTemplate>
+        <DataTemplate x:Key="MultiLineTextDataTemplate">
+            <DockPanel>
+                <TextBox Margin="10,0,0,0" IsEnabled="False"
+                                       Text="{Binding ParameterValue, UpdateSourceTrigger=PropertyChanged}" 
                                        TextChanged="ParameterChanged"
-                                       TextWrapping="Wrap"></local:ClickSelectTextBox>
+                                       MaxLines="1" DockPanel.Dock="Left"></TextBox>
+                <Button Margin="5,0,0,0" DockPanel.Dock="Left" Content="Редактировать"
+                        Command="{Binding DataContext.EditMultiLineCommand, ElementName=UC}"
+                        CommandParameter="{Binding .}"></Button>
+            </DockPanel>
         </DataTemplate>
         <DataTemplate x:Key="DateTimeDataTemplate">
             <DatePicker Margin="10,0,0,0"  
                         SelectedDate="{Binding ParameterValue, StringFormat={}{0:dd.MM.yyyy}}"
                         SelectedDateChanged="DateTimeParameterChanged"
                         ></DatePicker>
+        </DataTemplate>
+        <DataTemplate x:Key="EnumDataTemplate">
+            <ComboBox ItemsSource="{Binding EnumList}"></ComboBox>
         </DataTemplate>
         <DataTemplate x:Key="PathDataTemplate">
             <DockPanel>
@@ -62,8 +76,8 @@
                     </StackPanel>
                 </TabItem.Header>
                 <TabItem.Content>
-                    <ListBox Grid.Row="1" ItemsSource="{Binding CommonParameterList}">
-                        <ListBox.ItemTemplate>
+                    <ItemsControl ItemsSource="{Binding CommonParameterList}">
+                        <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <Border BorderThickness="0,0,0,1" Padding="5" Background="AliceBlue">
                                     <DockPanel LastChildFill="False">
@@ -73,8 +87,8 @@
                                     </DockPanel>
                                 </Border>
                             </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
                 </TabItem.Content>
             </TabItem>
             <TabItem x:Name="UserParameterTab">
@@ -85,8 +99,8 @@
                     </StackPanel>
                 </TabItem.Header>
                 <TabItem.Content>
-                    <ListBox Grid.Row="3" ItemsSource="{Binding UserParameterList}">
-                        <ListBox.ItemTemplate>
+                    <ItemsControl ItemsSource="{Binding UserParameterList}">
+                        <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <Border BorderThickness="0,0,0,1" Padding="5" Background="AliceBlue">
                                     <DockPanel LastChildFill="False">
@@ -96,8 +110,8 @@
                                     </DockPanel>
                                 </Border>
                             </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
                 </TabItem.Content>
             </TabItem>
             <TabItem x:Name="ComputerParameterTab">
@@ -108,8 +122,8 @@
                     </StackPanel>
                 </TabItem.Header>
                 <TabItem.Content>
-                    <ListBox Grid.Row="5" ItemsSource="{Binding ComputerParameterList}">
-                        <ListBox.ItemTemplate>
+                    <ItemsControl ItemsSource="{Binding ComputerParameterList}">
+                        <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <Border BorderThickness="0,0,0,1" Padding="5" Background="AliceBlue">
                                     <DockPanel LastChildFill="False">
@@ -119,8 +133,8 @@
                                     </DockPanel>
                                 </Border>
                             </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
                 </TabItem.Content>
             </TabItem>
             <TabItem x:Name="UserComputerParameterTab">
@@ -131,8 +145,8 @@
                     </StackPanel>
                 </TabItem.Header>
                 <TabItem.Content>
-                    <ListBox Grid.Row="7" ItemsSource="{Binding UserComputerParameterList}">
-                        <ListBox.ItemTemplate>
+                    <ItemsControl ItemsSource="{Binding UserComputerParameterList}">
+                        <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <Border BorderThickness="0,0,0,1" Padding="5" Background="AliceBlue">
                                     <DockPanel LastChildFill="False">
@@ -142,8 +156,8 @@
                                     </DockPanel>
                                 </Border>
                             </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
                 </TabItem.Content>
             </TabItem>
         </TabControl>

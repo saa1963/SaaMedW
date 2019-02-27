@@ -26,11 +26,21 @@ namespace SaaMedW
                 else if (tp.Equals(typeof(decimal)))
                     return element.FindResource("DecimalDataTemplate") as DataTemplate;
                 else if (tp.Equals(typeof(string)))
-                    return element.FindResource("TextDataTemplate") as DataTemplate;
+                {
+                    var nLine = nv.ParameterValue.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries).Count();
+                    if (nLine == 1)
+                    {
+                        return element.FindResource("TextDataTemplate") as DataTemplate;
+                    }
+                    else
+                        return element.FindResource("MultiLineTextDataTemplate") as DataTemplate;
+                }
                 else if (tp.Equals(typeof(DateTime)))
                     return element.FindResource("DateTimeDataTemplate") as DataTemplate;
                 else if (tp.Equals(typeof(System.IO.Path)))
                     return element.FindResource("PathDataTemplate") as DataTemplate;
+                else if (tp.IsSubclassOf(typeof(Enum)))
+                    return element.FindResource("EnumDataTemplate") as DataTemplate;
                 else
                     return null;
             }

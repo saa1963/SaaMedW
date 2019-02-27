@@ -14,7 +14,7 @@ namespace SaaMedW
         public enumProfile profile { get; set; }
         public object defaultValue { get; set; }
     }
-    public partial class Options
+    public partial class Options: NotifyPropertyChanged
     {
         public static Dictionary<enumParameterType, OptionType> ВсеВидыПараметров { get; set; } =
             new Dictionary<enumParameterType, OptionType>()
@@ -32,12 +32,35 @@ namespace SaaMedW
                 {enumParameterType.Настройки_ФР,
                     new OptionType()
                     { type = typeof(string), profile = enumProfile.ЛокальныйВсеПользователи, defaultValue = null }
+                },
+                {enumParameterType.Система_налогообложения,
+                    new OptionType()
+                    { type = typeof(enTaxSystem), profile = enumProfile.Общий, defaultValue = enTaxSystem.Общая }
                 }
             };
         public string Name
         {
             get => Enum.GetName(typeof(enumParameterType), ParameterType).Replace('_', ' ');
         }
+        public List<object> EnumList
+        {
+            get
+            {
+                var tp = Options.ВсеВидыПараметров[this.ParameterType].type;
+                if (tp.IsSubclassOf(typeof(Enum)))
+                {
+                    var rt = new List<object>();
+                    foreach (var o in Enum.GetValues(tp))
+                    {
+                        rt.Add(o);
+                    }
+                    return rt;
+                }
+                else
+                    return null;
+            }
+        }
+
         /// <summary>
         /// Возвращает из БД указанный параметр или значение по умолчанию
         /// </summary>
@@ -119,6 +142,26 @@ namespace SaaMedW
                     return null;
                 }
             }
+            else if (type.IsSubclassOf(typeof(Enum)))
+            {
+
+                if (Int32.TryParse(ParameterValue, out int resultInt))
+                {
+                    try
+                    {
+                        return Enum.ToObject(type, resultInt);
+                    }
+                    catch
+                    {
+                        return null;
+                    }
+                }
+                else
+                {
+                    Debug.Assert(false, "Недопустимое значение параметра.");
+                    return null;
+                }
+            }
             else
             {
                 Debug.Assert(false, "Недопустимый тип параметра.");
@@ -159,6 +202,25 @@ namespace SaaMedW
                     return default(T);
                 }
             }
+            else if (type.IsSubclassOf(typeof(Enum)))
+            {
+                if (Int32.TryParse(ParameterValue, out int resultInt))
+                {
+                    try
+                    {
+                        return (T)Enum.ToObject(type, resultInt);
+                    }
+                    catch
+                    {
+                        return default(T);
+                    }
+                }
+                else
+                {
+                    Debug.Assert(false, "Недопустимое значение параметра.");
+                    return default(T);
+                }
+            }
             else
             {
                 Debug.Assert(false, "Недопустимый тип параметра.");
@@ -184,6 +246,10 @@ namespace SaaMedW
             else if (Value is DateTime)
             {
                 ParameterValue = ((DateTime)dv).ToString(new CultureInfo("ru-RU").DateTimeFormat);
+            }
+            else if (Value is Enum)
+            {
+                ParameterValue = ((int)dv).ToString();
             }
             else
             {

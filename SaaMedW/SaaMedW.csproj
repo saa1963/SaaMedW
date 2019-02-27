@@ -269,6 +269,10 @@
     <Compile Include="VVM\EditOneVisitViewModel.cs" />
     <Compile Include="VVM\EditInvoiceViewModel.cs" />
     <Compile Include="VVM\InvoiceViewModel.cs" />
+    <Compile Include="VVM\MultiEditView.xaml.cs">
+      <DependentUpon>MultiEditView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="VVM\MultiEditViewModel.cs" />
     <Compile Include="VVM\OptionsViewModel.cs" />
     <Compile Include="VVM\PayInvoiceViewModel.cs" />
     <Compile Include="VVM\PersonInfoViewModel.cs" />
@@ -460,6 +464,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="VVM\InvoiceView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="VVM\MultiEditView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
