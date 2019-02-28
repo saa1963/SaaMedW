@@ -36,6 +36,10 @@ namespace SaaMedW
                 {enumParameterType.Система_налогообложения,
                     new OptionType()
                     { type = typeof(enTaxSystem), profile = enumProfile.Общий, defaultValue = enTaxSystem.Общая }
+                },
+                {enumParameterType.НДС,
+                    new OptionType()
+                    { type = typeof(enNds), profile = enumProfile.Общий, defaultValue = enNds.Процент_20 }
                 }
             };
         public string Name

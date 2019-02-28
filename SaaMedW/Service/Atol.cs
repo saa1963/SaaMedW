@@ -138,6 +138,23 @@ namespace SaaMedW.Service
             try
             {
                 var taxSystem = Options.GetParameter<enTaxSystem>(enumParameterType.Система_налогообложения);
+                var ndsPercent = Options.GetParameter<enNds>(enumParameterType.НДС);
+                int Nds;
+                switch (ndsPercent)
+                {
+                    case enNds.Нет_НДС:
+                        Nds = Constants.LIBFPTR_TAX_NO;
+                        break;
+                    case enNds.Процент_0:
+                        Nds = Constants.LIBFPTR_TAX_VAT0;
+                        break;
+                    case enNds.Процент_10:
+                        Nds = Constants.LIBFPTR_TAX_VAT10;
+                        break;
+                    case enNds.Процент_20:
+                        Nds = Constants.LIBFPTR_TAX_VAT20;
+                        break;
+                }
                 if (fptr.open() < 0) throw AtolException();
                 fptr.setParam(1021, Global.Source.RUser.Fio);
                 fptr.setParam(1203, Global.Source.RUser.Inn);
