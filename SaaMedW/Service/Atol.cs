@@ -182,8 +182,8 @@ namespace SaaMedW.Service
                     {
                         fptr.setParam(Constants.LIBFPTR_PARAM_TAX_TYPE, Constants.LIBFPTR_TAX_VAT20);
                     }
-                    fptr.setParam(1212, 1);
-                    fptr.setParam(1214, 7);
+                    fptr.setParam(1212, (int)enПризнак_предмета_расчета.Услуга_4);
+                    fptr.setParam(1214, (int)enПризнак_способа_расчета.Предоплата_100_процентов_1);
                     fptr.registration();
                 }
 
