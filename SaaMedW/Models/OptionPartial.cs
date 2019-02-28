@@ -61,6 +61,23 @@ namespace SaaMedW
             }
         }
 
+        //public delegate void DValueChanged();
+        //public event DValueChanged ValueChanged;
+
+        public Enum SelectedEnum
+        {
+            get
+            {
+                return (Enum)GetObject();
+            }
+            set
+            {
+                SetObject(value);
+                OnPropertyChanged("ParameterValue");
+                //ValueChanged?.Invoke();
+            }
+        }
+
         /// <summary>
         /// Возвращает из БД указанный параметр или значение по умолчанию
         /// </summary>

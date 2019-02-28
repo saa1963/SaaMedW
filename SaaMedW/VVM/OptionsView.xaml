@@ -44,7 +44,7 @@
                         ></DatePicker>
         </DataTemplate>
         <DataTemplate x:Key="EnumDataTemplate">
-            <ComboBox ItemsSource="{Binding EnumList}"></ComboBox>
+            <ComboBox ItemsSource="{Binding EnumList}" SelectedItem="{Binding SelectedEnum}"></ComboBox>
         </DataTemplate>
         <DataTemplate x:Key="PathDataTemplate">
             <DockPanel>

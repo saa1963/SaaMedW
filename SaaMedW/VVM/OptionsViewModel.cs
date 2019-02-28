@@ -80,6 +80,7 @@ namespace SaaMedW
                         CompId = "0",
                         UserId = 0
                     };
+                    nv.PropertyChanged += Nv_PropertyChanged;
                     nv.SetObject(Options.GetParameter<object>(o.Key));
                     m_CommonParameterList.Add(nv);
                 }
@@ -94,6 +95,7 @@ namespace SaaMedW
                     CompId = "0",
                     UserId = Global.Source.RUser.Id
                 };
+                nv.PropertyChanged += Nv_PropertyChanged;
                 nv.SetObject(Options.GetParameter<object>(o.Key));
                 m_UserParameterList.Add(nv);
             }
@@ -107,6 +109,7 @@ namespace SaaMedW
                     CompId = compId,
                     UserId = 0
                 };
+                nv.PropertyChanged += Nv_PropertyChanged;
                 nv.SetObject(Options.GetParameter<object>(o.Key));
                 m_ComputerParameterList.Add(nv);
             }
@@ -120,10 +123,17 @@ namespace SaaMedW
                     CompId = compId,
                     UserId = Global.Source.RUser.Id
                 };
+                nv.PropertyChanged += Nv_PropertyChanged;
                 nv.SetObject(Options.GetParameter<object>(o.Key));
                 m_UserComputerParameterList.Add(nv);
             }
         }
+
+        private void Nv_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            IsChanged = true;
+        }
+
         public RelayCommand SaveCommand
         {
             get => new RelayCommand(SaveParameters);
