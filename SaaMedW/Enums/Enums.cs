@@ -57,4 +57,5 @@ namespace SaaMedW
         Передача_в_кредит_6 = 6,
         Оплата_кредита_7 = 7
     }
+    public enum
 }

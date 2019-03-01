@@ -132,12 +132,13 @@ namespace SaaMedW.Service
         /// <param name="emailOrPhone"></param>
         /// <param name="electron"></param>
         /// <returns></returns>
-        public bool Register(List<Tuple<string, int, decimal>> uslugi, decimal oplata, string emailOrPhone, bool electron)
+        public bool Register(List<Tuple<string, int, decimal>> uslugi, 
+            decimal oplata, enumPaymentType vidOplata, 
+            string emailOrPhone, bool electron)
         {
             bool rt = false;
             try
             {
-                var taxSystem = Options.GetParameter<enTaxSystem>(enumParameterType.Система_налогообложения);
                 if (fptr.open() < 0) throw AtolException();
                 fptr.setParam(1021, Global.Source.RUser.Fio);
                 fptr.setParam(1203, Global.Source.RUser.Inn);
