@@ -132,29 +132,12 @@ namespace SaaMedW.Service
         /// <param name="emailOrPhone"></param>
         /// <param name="electron"></param>
         /// <returns></returns>
-        public bool Register(List<Tuple<string, int, decimal>> sm, string emailOrPhone, bool electron)
+        public bool Register(List<Tuple<string, int, decimal>> uslugi, decimal oplata, string emailOrPhone, bool electron)
         {
             bool rt = false;
             try
             {
                 var taxSystem = Options.GetParameter<enTaxSystem>(enumParameterType.Система_налогообложения);
-                var ndsPercent = Options.GetParameter<enNds>(enumParameterType.НДС);
-                int Nds;
-                switch (ndsPercent)
-                {
-                    case enNds.Нет_НДС:
-                        Nds = Constants.LIBFPTR_TAX_NO;
-                        break;
-                    case enNds.Процент_0:
-                        Nds = Constants.LIBFPTR_TAX_VAT0;
-                        break;
-                    case enNds.Процент_10:
-                        Nds = Constants.LIBFPTR_TAX_VAT10;
-                        break;
-                    case enNds.Процент_20:
-                        Nds = Constants.LIBFPTR_TAX_VAT20;
-                        break;
-                }
                 if (fptr.open() < 0) throw AtolException();
                 fptr.setParam(1021, Global.Source.RUser.Fio);
                 fptr.setParam(1203, Global.Source.RUser.Inn);
@@ -169,7 +152,7 @@ namespace SaaMedW.Service
                 }
                 if (fptr.openReceipt() < 0) throw AtolException();
 
-                foreach (var o in sm)
+                foreach (var o in uslugi)
                 {
                     var ch_name = o.Item1;
                     var ch_quantity = o.Item2;
@@ -178,19 +161,8 @@ namespace SaaMedW.Service
                     fptr.setParam(Constants.LIBFPTR_PARAM_COMMODITY_NAME, ch_name);
                     fptr.setParam(Constants.LIBFPTR_PARAM_PRICE, Convert.ToDouble(ch_price));
                     fptr.setParam(Constants.LIBFPTR_PARAM_QUANTITY, ch_quantity);
-                    if (taxSystem == enTaxSystem.Общая)
-                    {
-                        fptr.setParam(Constants.LIBFPTR_PARAM_TAX_TYPE, Constants.LIBFPTR_TAX_VAT20);
-                    }
-                    fptr.setParam(1212, (int)enПризнак_предмета_расчета.Услуга_4);
-                    fptr.setParam(1214, (int)enПризнак_способа_расчета.Предоплата_100_процентов_1);
                     fptr.registration();
                 }
-
-                // Регистрация итога (отрасываем копейки)
-                fptr.setParam(Constants.LIBFPTR_PARAM_SUM, 369.0);
-                fptr.receiptTotal();
-
                 // Оплата наличными
                 fptr.setParam(Constants.LIBFPTR_PARAM_PAYMENT_TYPE, Constants.LIBFPTR_PT_CASH);
                 fptr.setParam(Constants.LIBFPTR_PARAM_PAYMENT_SUM, 1000);
