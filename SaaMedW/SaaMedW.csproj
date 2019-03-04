@@ -549,6 +549,7 @@
     </None>
     <None Include="SaaMedW_TemporaryKey.pfx" />
     <None Include="Об особенностях формирования кассового чека коррекции.pdf" />
+    <None Include="ФФД-упрощенная.pdf" />
     <None Include="ФФД.pdf" />
     <Resource Include="image\icons8-search-32.png" />
     <Resource Include="image\icons8-two-tickets-32.png" />
