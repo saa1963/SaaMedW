@@ -244,6 +244,29 @@ namespace SaaMedW.Service
             return new Exception($"Код ошибки - {fptr.errorCode()} {fptr.errorDescription()}");
         }
 
+        public bool NumberOfUnsentDocuments(out uint unsentCount, out DateTime timeOfFirstUnsentDocument)
+        {
+            unsentCount = 0;
+            timeOfFirstUnsentDocument = DateTime.MinValue;
+            bool rt = false;
+            try
+            {
+                if (fptr.open() < 0) throw AtolException();
+                fptr.setParam(Constants.LIBFPTR_PARAM_FN_DATA_TYPE, Constants.LIBFPTR_FNDT_OFD_EXCHANGE_STATUS);
+                fptr.fnQueryData();
+                unsentCount = fptr.getParamInt(Constants.LIBFPTR_PARAM_DOCUMENTS_COUNT);
+                timeOfFirstUnsentDocument = fptr.getParamDateTime(Constants.LIBFPTR_PARAM_DATE_TIME);
+                fptr.close();
+                rt = true;
+            }
+            catch (Exception e)
+            {
+                var msg = "Ошибка получения информации о неотправленных документах.";
+                log.Error(msg, e);
+            }
+            return rt;
+        }
+
         public string Model => "АТОЛ";
     }
 }
