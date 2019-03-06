@@ -11,6 +11,7 @@ namespace SaaMedW.Service
            decimal oplata, enumPaymentType vidOplata,
            string emailOrPhone, bool electron);
         bool Back(decimal sm);
+        bool OpenShift();
         bool ZReport();
         void Destroy();
         string Model { get; }
@@ -19,6 +20,6 @@ namespace SaaMedW.Service
         /// </summary>
         /// <param name="timeOfFirstUnsentDocument">Дата и время первого неотправленного документа</param>
         /// <returns>Кол-во неотправленных документов</returns>
-        public bool NumberOfUnsentDocuments(out uint unsentCount, out DateTime timeOfFirstUnsentDocument);
+        bool NumberOfUnsentDocuments(out uint unsentCount, out DateTime timeOfFirstUnsentDocument);
     }
 }

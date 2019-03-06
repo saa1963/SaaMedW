@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using Atol.Drivers10.Fptr;
 using log4net;
 
@@ -36,6 +37,7 @@ namespace SaaMedW.Service
                     throw new Exception("Параметр Настройки_ФР равен null");
                 fptr = new Fptr();
                 fptr.setSettings((string)config);
+                if (fptr.open() != 0) throw AtolException();
                 rt = true;
             }
             catch (Exception e)
@@ -43,52 +45,6 @@ namespace SaaMedW.Service
                 var msg = "Ошибка инициализации драйвера ККТ";
                 log.Error(msg, e);
                 fptr = null;
-            }
-            return rt;
-        }
-
-        private bool Open()
-        {
-            bool rt = false;
-            try
-            {
-                fptr.open();
-                if (!fptr.isOpened())
-                    throw new Exception("Невозможно установить соединение с кассой.");
-
-                rt = true;
-            }
-            catch (Exception e)
-            {
-                var msg = "Ошибка открытия кассы.";
-                log.Error(msg, e);
-            }
-            return rt;
-        }
-
-        private void Close()
-        {
-            if (fptr == null) return;
-            if (!fptr.isOpened()) return;
-            fptr.close();
-        }
-
-        private bool RegisterUser()
-        {
-            bool rt = false;
-            try
-            {
-                if (fptr == null)
-                    throw new Exception("Не проинициализирован рабочий экземпляр драйвера.");
-                fptr.setParam(1021, Global.Source.RUser.Fio);
-                fptr.setParam(1203, Global.Source.RUser.Inn);
-                if (fptr.operatorLogin() != 0) throw new Exception();
-                rt = true;
-            }
-            catch (Exception e)
-            {
-                var msg = "Ошибка регистрации кассира";
-                log.Error(msg, e);
             }
             return rt;
         }
@@ -171,6 +127,9 @@ namespace SaaMedW.Service
 
                 // Закрытие чека
                 fptr.closeReceipt();
+
+                CheckDocumentClosed(true);
+
                 rt = true;
             }
             catch (Exception e)
@@ -214,19 +173,7 @@ namespace SaaMedW.Service
                 fptr.setParam(Constants.LIBFPTR_PARAM_REPORT_TYPE, Constants.LIBFPTR_RT_CLOSE_SHIFT);
                 if (fptr.report() < 0) throw AtolException();
 
-                if (fptr.checkDocumentClosed() < 0) throw AtolException();
-
-                if (!fptr.getParamBool(Constants.LIBFPTR_PARAM_DOCUMENT_CLOSED))
-                {
-                    // Документ не закрылся. Требуется его отменить (если это чек) и сформировать заново
-                    throw new Exception("Смена не закрыта.");
-                }
-
-                if (!fptr.getParamBool(Constants.LIBFPTR_PARAM_DOCUMENT_PRINTED))
-                {
-                    // Можно сразу вызвать метод допечатывания документа, он завершится с ошибкой, если это невозможно
-                    log.Warn("Смена закрыта. Документ не допечатан.");
-                }
+                CheckDocumentClosed();
 
                 rt = true;
             }
@@ -239,9 +186,9 @@ namespace SaaMedW.Service
             return rt;
         }
 
-        private Exception AtolException()
+        private Exception AtolException(string msg = "")
         {
-            return new Exception($"Код ошибки - {fptr.errorCode()} {fptr.errorDescription()}");
+            return new Exception($"{msg} Код ошибки - {fptr.errorCode()} {fptr.errorDescription()}");
         }
 
         public bool NumberOfUnsentDocuments(out uint unsentCount, out DateTime timeOfFirstUnsentDocument)
@@ -265,6 +212,70 @@ namespace SaaMedW.Service
                 log.Error(msg, e);
             }
             return rt;
+        }
+
+        public bool OpenShift()
+        {
+            bool rt = false;
+            try
+            {
+                fptr.setParam(1021, Global.Source.RUser.Fio);
+                fptr.setParam(1203, Global.Source.RUser.Inn);
+                if (fptr.operatorLogin() != 0) throw AtolException();
+                if (fptr.openShift() != 0) throw AtolException();
+
+                CheckDocumentClosed();
+
+                rt = true;
+            }
+            catch (Exception e)
+            {
+                var msg = "Ошибка открытия смены.";
+                log.Error(msg, e);
+            }
+            return rt;
+        }
+
+        private void CheckDocumentClosed(bool IsRegistration = false)
+        {
+            while (fptr.checkDocumentClosed() < 0)
+            {
+                var msg = String.Join("\r\n",
+                "Невозможно проверить статус закрытого документа",
+                $"Код ошибки - {fptr.errorCode()} {fptr.errorDescription()}",
+                "Попробовать еще?");
+                if (MessageBox.Show(msg, "", MessageBoxButton.YesNo) != MessageBoxResult.Yes)
+                {
+                    throw AtolException();
+                }
+            }
+            if (!fptr.getParamBool(Constants.LIBFPTR_PARAM_DOCUMENT_CLOSED))
+            {
+                // Документ не закрылся. Требуется его отменить (если это чек) и сформировать заново
+                if (IsRegistration)
+                {
+                    fptr.cancelReceipt();
+                }
+                throw AtolException("Constants.LIBFPTR_PARAM_DOCUMENT_CLOSED == false");
+            }
+
+            if (!fptr.getParamBool(Constants.LIBFPTR_PARAM_DOCUMENT_PRINTED))
+            {
+                // Можно сразу вызвать метод допечатывания документа, он завершится с ошибкой, если это невозможно
+                while (fptr.continuePrint() < 0)
+                {
+                    // Если не удалось допечатать документ - показать пользователю ошибку и попробовать еще раз.
+                    //Console.WriteLine(String.Format("Не удалось напечатать документ (Ошибка \"{0}\"). Устраните неполадку и повторите.", fptr.errorDescription()));
+                    var msg = String.Join("\r\n",
+                    "Ошибка при допечатывании документа.",
+                    $"Код ошибки - {fptr.errorCode()} {fptr.errorDescription()}",
+                    "Попробовать еще?");
+                    if (MessageBox.Show(msg, "", MessageBoxButton.YesNo) != MessageBoxResult.Yes)
+                    {
+                        throw AtolException();
+                    }
+                }
+            }
         }
 
         public string Model => "АТОЛ";
