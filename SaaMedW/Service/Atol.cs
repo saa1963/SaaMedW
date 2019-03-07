@@ -81,6 +81,27 @@ namespace SaaMedW.Service
             GC.SuppressFinalize(this);
         }
 
+        private void OpenConnection()
+        {
+            fptr.setParam(Constants.LIBFPTR_PARAM_DATA_TYPE, Constants.LIBFPTR_DT_SHORT_STATUS);
+            if (fptr.queryData() < 0)
+            {
+                var errCode = fptr.errorCode();
+                if (errCode == Constants.LIBFPTR_ERROR_CONNECTION_DISABLED
+                    || errCode == Constants.LIBFPTR_ERROR_NO_CONNECTION)
+                {
+                    if (fptr.open() < 0) throw AtolException();
+                }
+                else
+                {
+                    throw AtolException();
+                }
+            }
+            fptr.setParam(1021, Global.Source.RUser.Fio);
+            fptr.setParam(1203, Global.Source.RUser.Inn);
+            if (fptr.operatorLogin() < 0) throw AtolException();
+        }
+
         /// <summary>
         /// Пробить чек
         /// </summary>
@@ -95,10 +116,7 @@ namespace SaaMedW.Service
             bool rt = false;
             try
             {
-                if (fptr.open() < 0) throw AtolException();
-                fptr.setParam(1021, Global.Source.RUser.Fio);
-                fptr.setParam(1203, Global.Source.RUser.Inn);
-                if (fptr.operatorLogin() < 0) throw AtolException();
+                OpenConnection();
 
                 // Открытие чека
                 fptr.setParam(Constants.LIBFPTR_PARAM_RECEIPT_TYPE, Constants.LIBFPTR_RT_SELL);
@@ -165,10 +183,7 @@ namespace SaaMedW.Service
             bool rt = false;
             try
             {
-                if (fptr.open() < 0) throw AtolException();
-                fptr.setParam(1021, Global.Source.RUser.Fio);
-                fptr.setParam(1203, Global.Source.RUser.Inn);
-                if (fptr.operatorLogin() < 0) throw AtolException();
+                OpenConnection();
 
                 fptr.setParam(Constants.LIBFPTR_PARAM_REPORT_TYPE, Constants.LIBFPTR_RT_CLOSE_SHIFT);
                 if (fptr.report() < 0) throw AtolException();
@@ -219,9 +234,8 @@ namespace SaaMedW.Service
             bool rt = false;
             try
             {
-                fptr.setParam(1021, Global.Source.RUser.Fio);
-                fptr.setParam(1203, Global.Source.RUser.Inn);
-                if (fptr.operatorLogin() != 0) throw AtolException();
+                OpenConnection();
+
                 if (fptr.openShift() != 0) throw AtolException();
 
                 CheckDocumentClosed();
