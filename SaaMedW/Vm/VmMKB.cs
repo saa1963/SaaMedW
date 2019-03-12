@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,13 +10,23 @@ namespace SaaMedW
     public class VmMKB: NotifyPropertyChanged
     {
         private MKB m_object;
-        public VmMKB()
-        {
-            m_object = new MKB();
-        }
-        public VmMKB(MKB _object)
+        private ObservableCollection<VmMKB> m_ChildMkb = new ObservableCollection<VmMKB>();
+        public VmMKB(List<MKB> _lst,  MKB _object)
         {
             m_object = _object;
+            foreach (var o in _lst.Where(s => s.Parent == _object.Kod))
+            {
+                m_ChildMkb.Add(new VmMKB(_lst, o));
+            }
+        }
+        public ObservableCollection<VmMKB> ChildMkb
+        {
+            get => m_ChildMkb;
+            set
+            {
+                m_ChildMkb = value;
+                OnPropertyChanged("ChildMkb");
+            }
         }
         public string Kod
         {

@@ -40,6 +40,8 @@
                           CommandParameter="{Binding CmdSpec}"></MenuItem>
                 <MenuItem Header="Услуги" Command="{Binding Cmd}" 
                           CommandParameter="{Binding CmdBenefits}"></MenuItem>
+                <MenuItem Header="МКБ-10" Command="{Binding Cmd}" 
+                          CommandParameter="{Binding CmdMkb}"></MenuItem>
             </MenuItem>
             <MenuItem Header="Настройки">
                 <MenuItem Header="Общие настройки" Command="{Binding Cmd}" 

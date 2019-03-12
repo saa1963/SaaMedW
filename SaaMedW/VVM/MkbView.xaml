@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="SaaMedW.VVM.MkbView"
+﻿<UserControl x:Class="SaaMedW.MkbView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -20,7 +20,7 @@
                   BorderBrush="Transparent"
                   ItemsSource="{Binding MkbList}">
             <TreeView.ItemTemplate>
-                <HierarchicalDataTemplate ItemsSource="{Binding ChildSpecialties}">
+                <HierarchicalDataTemplate ItemsSource="{Binding ChildMkb}">
                     <TextBlock Text="{Binding Name}"></TextBlock>
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>

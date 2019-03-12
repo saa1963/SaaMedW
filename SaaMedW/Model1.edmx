@@ -926,6 +926,8 @@
           <Member Name="Наименование_организации" Value="0" />
           <Member Name="Коэффициент_для_Excel" Value="1" />
           <Member Name="Настройки_ФР" Value="2" />
+          <Member Name="Система_налогообложения" Value="3" />
+          <Member Name="НДС" Value="4" />
         </EnumType>
         <Association Name="Person2">
           <Documentation>

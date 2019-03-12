@@ -140,6 +140,10 @@ namespace SaaMedW
         {
             get { return new ExecTypes { View = typeof(InvoiceView), ViewModel = typeof(InvoiceViewModel) }; }
         }
+        public object CmdMkb
+        {
+            get { return new ExecTypes { View = typeof(MkbView), ViewModel = typeof(MkbViewModel) }; }
+        }
         public object OptionsCommand
         {
             get { return new ExecTypes { View = typeof(OptionsView), ViewModel = typeof(OptionsViewModel) }; }
