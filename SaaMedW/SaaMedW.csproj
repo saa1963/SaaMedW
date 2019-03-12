@@ -151,6 +151,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="MKB.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Service\Atol.cs" />
     <Compile Include="Benefit.cs">
       <DependentUpon>Model1.tt</DependentUpon>
@@ -255,6 +258,7 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="ValidationDialog.cs" />
+    <Compile Include="Vm\VmMKB.cs" />
     <Compile Include="Vm\VmSpecialty.cs" />
     <Compile Include="VVM\BenefitsViewModel.cs" />
     <Compile Include="VVM\CardsViewModel.cs" />
@@ -269,6 +273,10 @@
     <Compile Include="VVM\EditOneVisitViewModel.cs" />
     <Compile Include="VVM\EditInvoiceViewModel.cs" />
     <Compile Include="VVM\InvoiceViewModel.cs" />
+    <Compile Include="VVM\MkbView.xaml.cs">
+      <DependentUpon>MkbView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="VVM\MkbViewModel.cs" />
     <Compile Include="VVM\MultiEditView.xaml.cs">
       <DependentUpon>MultiEditView.xaml</DependentUpon>
     </Compile>
@@ -464,6 +472,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="VVM\InvoiceView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="VVM\MkbView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -10,11 +10,12 @@
 namespace SaaMedW
 {
     using System;
+    using System.Collections.Generic;
     
-    public enum enumParameterType : int
+    public partial class MKB
     {
-        Наименование_организации = 0,
-        Коэффициент_для_Excel = 1,
-        Настройки_ФР = 2
+        public string Kod { get; set; }
+        public string Name { get; set; }
+        public string Parent { get; set; }
     }
 }

@@ -57,6 +57,14 @@
           <Property Name="Sm" Type="money" Nullable="false" />
           <Property Name="InvoiceId" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="MKB">
+          <Key>
+            <PropertyRef Name="Kod" />
+          </Key>
+          <Property Name="Kod" Type="nvarchar" MaxLength="7" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="Parent" Type="nvarchar" MaxLength="7" />
+        </EntityType>
         <EntityType Name="Options">
           <Key>
             <PropertyRef Name="ParameterType" />
@@ -381,6 +389,7 @@
           <EntitySet Name="Graphic" EntityType="Self.Graphic" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Invoice" EntityType="Self.Invoice" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="InvoiceDetail" EntityType="Self.InvoiceDetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MKB" EntityType="Self.MKB" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Options" EntityType="Self.Options" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Pays" EntityType="Self.Pays" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Person" EntityType="Self.Person" Schema="dbo" store:Type="Tables" />
@@ -609,6 +618,7 @@
             <End Role="Person" EntitySet="Person" />
             <End Role="Person1" EntitySet="Person" />
           </AssociationSet>
+          <EntitySet Name="MKB" EntityType="SaaMedModel.MKB" />
         </EntityContainer>
         <EntityType Name="Specialty">
           <Key>
@@ -954,6 +964,14 @@
           <Member Name="Городская" Value="1" />
           <Member Name="Сельская" Value="2" />
         </EnumType>
+        <EntityType Name="MKB">
+          <Key>
+            <PropertyRef Name="Kod" />
+          </Key>
+          <Property Name="Kod" Type="String" Nullable="false" MaxLength="7" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Parent" Type="String" MaxLength="7" FixedLength="false" Unicode="true" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1138,6 +1156,15 @@
               <ScalarProperty Name="Id" ColumnName="PersonId" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="MKB">
+            <EntityTypeMapping TypeName="SaaMedModel.MKB">
+              <MappingFragment StoreEntitySet="MKB">
+                <ScalarProperty Name="Parent" ColumnName="Parent" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Kod" ColumnName="Kod" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>
