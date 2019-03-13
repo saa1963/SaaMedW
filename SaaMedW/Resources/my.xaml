@@ -3,6 +3,9 @@
                     xmlns:local="clr-namespace:SaaMedW"
                     xmlns:core="clr-namespace:System;assembly=mscorlib">
     <Style x:Key="unused" />
+    <Style TargetType="MenuItem">
+        <Setter Property="FontSize" Value="14"></Setter>
+    </Style>
     <Style TargetType="Window">
         <Setter Property="FontSize" Value="14"></Setter>
         <Setter Property="Background" Value="AliceBlue"></Setter>

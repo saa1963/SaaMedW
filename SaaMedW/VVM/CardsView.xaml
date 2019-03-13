@@ -15,9 +15,9 @@
                 <x:Type Type="local0:enSex"/>
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
-        <Style TargetType="MenuItem">
+        <!--<Style TargetType="MenuItem">
             <Setter Property="VerticalAlignment" Value="Center"></Setter>
-        </Style>
+        </Style>-->
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
