@@ -6,7 +6,7 @@
         mc:Ignorable="d"
         Title="" Width="400"
         SizeToContent="Height" ResizeMode="NoResize"
-        WindowStartupLocation="CenterScreen" 
+        WindowStartupLocation="CenterScreen" Style="{StaticResource {x:Type Window}}"
         FocusManager.FocusedElement="{Binding ElementName=tbFio}"
         Name="frmUserEditName">
     <Window.Resources>

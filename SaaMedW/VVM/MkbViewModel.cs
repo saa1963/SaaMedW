@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data;
+using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -34,19 +36,19 @@ namespace SaaMedW
         {
             lst = ctx.MKB.ToList();
             m_MkbList.Clear();
-            var q = lst.Where(s => s.Parent == null).OrderBy(s => s.Kod);
+            var q = lst.Where(s => String.IsNullOrWhiteSpace(s.Parent) || s.Parent == "NULL").OrderBy(s => s.Kod);
             foreach(var o in q)
             {
                 m_MkbList.Add(new VmMKB(lst, o));
             }
         }
-        public RelayCommand LoadCommand = new RelayCommand(Load);
+        public RelayCommand LoadCommand { get; set; } = new RelayCommand(Load);
 
         private static void Load(object obj)
         {
             string fname;
             OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Filter = "*.xlsx|.xlsx файлы";
+            ofd.Filter = "Файл МКБ-10|mkb10.xlsx";
             if (ofd.ShowDialog() == true)
             {
                 fname = ofd.FileName;
@@ -63,11 +65,14 @@ namespace SaaMedW
                 using (var ctx = new SaaMedEntities())
                 {
                     ctx.Database.ExecuteSqlCommand("DELETE FROM MKB");
-                    while ((kod = wsh.Cells[row, 1].Text) != null)
+                    while (!String.IsNullOrWhiteSpace(kod = wsh.Cells[row, 1].Text))
                     {
                         name = wsh.Cells[row, 2].Text;
                         parent = wsh.Cells[row, 3].Text;
-                        ctx.Database.ExecuteSqlCommand("INSERT INTO MKB (Kod, Name, Parent) VALUES (@p1, @p2, @p3)", kod, name, parent);
+                        ctx.Database.ExecuteSqlCommand("INSERT INTO MKB (Kod, Name, Parent) VALUES (@kod, @name, @parent)", 
+                            new SqlParameter("@kod", kod),
+                            new SqlParameter("@name", name),
+                            new SqlParameter("@parent", parent));
                         row++;
                     }
                 }

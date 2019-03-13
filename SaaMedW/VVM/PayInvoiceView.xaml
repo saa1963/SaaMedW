@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SaaMedW.View"
         xmlns:local0="clr-namespace:SaaMedW"
-        mc:Ignorable="d" FontSize="20"
+        mc:Ignorable="d" FontSize="20" Style="{StaticResource {x:Type Window}}"
         Title="" SizeToContent="Height" Width="350"
         FocusManager.FocusedElement="{Binding ElementName=tbSm}">
     <Grid>

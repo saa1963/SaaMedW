@@ -21,7 +21,16 @@
                   ItemsSource="{Binding MkbList}">
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding ChildMkb}">
-                    <TextBlock Text="{Binding Name}"></TextBlock>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Kod}" Margin="0,0,5,0">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="FontWeight" Value="Bold"></Setter>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                        <TextBlock Text="{Binding Name}"></TextBlock>
+                    </StackPanel>
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>
         </TreeView>

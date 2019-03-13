@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SaaMedW.View"
         xmlns:local0="clr-namespace:SaaMedW"
-        mc:Ignorable="d" WindowState="Maximized"
+        mc:Ignorable="d" WindowState="Maximized" Style="{StaticResource {x:Type Window}}"
         Title="Выбор направления" Height="450" Width="1000">
     <Window.Resources>
         <Style TargetType="{x:Type TreeViewItem}">

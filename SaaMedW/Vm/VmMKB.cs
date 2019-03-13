@@ -55,5 +55,6 @@ namespace SaaMedW
                 OnPropertyChanged("Parent");
             }
         }
+        public string DisplayName => m_object.Kod + " " + m_object.Name;
     }
 }

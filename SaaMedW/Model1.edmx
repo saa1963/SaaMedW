@@ -62,7 +62,7 @@
             <PropertyRef Name="Kod" />
           </Key>
           <Property Name="Kod" Type="nvarchar" MaxLength="7" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="250" Nullable="false" />
           <Property Name="Parent" Type="nvarchar" MaxLength="7" />
         </EntityType>
         <EntityType Name="Options">
@@ -971,7 +971,7 @@
             <PropertyRef Name="Kod" />
           </Key>
           <Property Name="Kod" Type="String" Nullable="false" MaxLength="7" FixedLength="false" Unicode="true" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="Parent" Type="String" MaxLength="7" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
