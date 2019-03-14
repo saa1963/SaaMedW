@@ -22,17 +22,5 @@ namespace SaaMedW.Properties {
                 return defaultInstance;
             }
         }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string login {
-            get {
-                return ((string)(this["login"]));
-            }
-            set {
-                this["login"] = value;
-            }
-        }
     }
 }

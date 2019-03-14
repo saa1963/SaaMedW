@@ -100,18 +100,21 @@ namespace SaaMedW
                 m_UserParameterList.Add(nv);
             }
             // Локальные настройки для всех пользователей
-            foreach (var o in Options.ВсеВидыПараметров.Where(s => s.Value.profile == enumProfile.ЛокальныйВсеПользователи && s.Value.IsEditable))
+            if (Global.Source.RUser.Role == 0)
             {
-                var nv = new Options()
+                foreach (var o in Options.ВсеВидыПараметров.Where(s => s.Value.profile == enumProfile.ЛокальныйВсеПользователи && s.Value.IsEditable))
                 {
-                    ParameterType = o.Key,
-                    Profile = enumProfile.ЛокальныйВсеПользователи,
-                    CompId = compId,
-                    UserId = 0
-                };
-                nv.PropertyChanged += Nv_PropertyChanged;
-                nv.SetObject(Options.GetParameter<object>(o.Key));
-                m_ComputerParameterList.Add(nv);
+                    var nv = new Options()
+                    {
+                        ParameterType = o.Key,
+                        Profile = enumProfile.ЛокальныйВсеПользователи,
+                        CompId = compId,
+                        UserId = 0
+                    };
+                    nv.PropertyChanged += Nv_PropertyChanged;
+                    nv.SetObject(Options.GetParameter<object>(o.Key));
+                    m_ComputerParameterList.Add(nv);
+                }
             }
             // Локальные настройки пользователя
             foreach (var o in Options.ВсеВидыПараметров.Where(s => s.Value.profile == enumProfile.ЛокальныйПользователя && s.Value.IsEditable))

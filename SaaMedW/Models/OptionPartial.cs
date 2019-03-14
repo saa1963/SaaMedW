@@ -15,7 +15,7 @@ namespace SaaMedW
         public object defaultValue { get; set; }
         public bool IsEditable { get; set; }
     }
-    public partial class Options: NotifyPropertyChanged
+    public partial class Options : NotifyPropertyChanged
     {
         public static Dictionary<enumParameterType, OptionType> ВсеВидыПараметров { get; set; } =
             new Dictionary<enumParameterType, OptionType>()
@@ -280,6 +280,45 @@ namespace SaaMedW
             else
             {
                 Debug.Assert(false, "Недопустимый тип параметра.");
+            }
+        }
+        public static void SetParameter<T>(enumParameterType type, T value)
+        {
+            string compId = "0";
+            int userId = 0;
+            switch (ВсеВидыПараметров[type].profile)
+            {
+                case enumProfile.Общий:
+                    compId = "0";
+                    userId = 0;
+                    break;
+                case enumProfile.ЛокальныйПользователя:
+                    compId = Global.Source.GetMotherboardId();
+                    userId = Global.Source.RUser.Id;
+                    break;
+                case enumProfile.ЛокальныйВсеПользователи:
+                    compId = Global.Source.GetMotherboardId();
+                    userId = 0;
+                    break;
+                case enumProfile.ПеремещаемыйПользователя:
+                    compId = "0";
+                    userId = Global.Source.RUser.Id;
+                    break;
+                default:
+                    Debug.Assert(false);
+                    break;
+            }
+            using (var ctx = new SaaMedEntities())
+            {
+
+                var opt = ctx.Options.Find(new object[] { type, userId, compId });
+                if (opt == null)
+                {
+                    opt = new Options() { CompId = compId, UserId = userId, ParameterType = type };
+                    ctx.Options.Add(opt);
+                }
+                opt.SetObject(value);
+                ctx.SaveChanges();
             }
         }
     }

@@ -15,7 +15,6 @@ namespace SaaMedW.Service
         ServiceLocator()
         {
             m_lst = new Dictionary<Type, object>();
-            m_lst.Add(typeof(ILocalStorage), Activator.CreateInstance(typeof(SaaMedW.Service.LocalStorage)));
             m_lst.Add(typeof(ILogonService), Activator.CreateInstance(typeof(SaaMedW.Service.LogonService)));
             m_lst.Add(typeof(IAccounts), Activator.CreateInstance(typeof(SaaMedW.Service.AccountsService)));
             m_lst.Add(typeof(IKkm), Activator.CreateInstance(typeof(SaaMedW.Service.AtolService)));

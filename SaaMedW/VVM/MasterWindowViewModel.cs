@@ -148,5 +148,7 @@ namespace SaaMedW
         {
             get { return new ExecTypes { View = typeof(OptionsView), ViewModel = typeof(OptionsViewModel) }; }
         }
+        public string Title => $"Регистратура ({Global.Source.RUser.Fio})";
+        public bool IsAdmin => Global.Source.RUser.Role == 0;
     }
 }

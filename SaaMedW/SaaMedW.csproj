@@ -202,7 +202,6 @@
     </Compile>
     <Compile Include="Service\AccountsService.cs" />
     <Compile Include="Service\IAccounts.cs" />
-    <Compile Include="Service\ILocalStorage.cs" />
     <Compile Include="Service\ILogonService.cs" />
     <Compile Include="Invoice.cs">
       <DependentUpon>Model1.tt</DependentUpon>
@@ -246,7 +245,6 @@
     <Compile Include="Enums\Enums.cs" />
     <Compile Include="Converters\RoleToIntConverter.cs" />
     <Compile Include="ScrollingDataGrid.cs" />
-    <Compile Include="Service\LocalStorage.cs" />
     <Compile Include="Service\LogonService.cs" />
     <Compile Include="Service\ServiceLocator.cs" />
     <Compile Include="Specialty.cs">

@@ -11,32 +11,34 @@ namespace SaaMedW
 {
     public class LoginViewModel : NotifyPropertyChanged, IDataErrorInfo
     {
-        private readonly ILocalStorage storage;
-        private string m_login;
         private string m_password;
         log4net.ILog log;
 
         public ObservableCollection<VmUsers> UsersList { get; set; }
+            = new ObservableCollection<VmUsers>();
+        public VmUsers CurrentUser { get; set; }
 
         public LoginViewModel()
         {
             log = log4net.LogManager.GetLogger(this.GetType());
-            storage = (ILocalStorage)ServiceLocator.Instance.GetService(typeof(ILocalStorage));
-            m_login = storage.GetLoginName(Environment.UserName);
-            //foreach(var o in )
+            using (var ctx = new SaaMedEntities())
+            {
+                foreach (var o in ctx.Users)
+                {
+                    UsersList.Add(new VmUsers(o));
+                }
+            }
+            Login = Options.GetParameter<string>(enumParameterType.Последний_логин);
         }
 
         public string Login
         {
-            get { return m_login; }
+            get { return CurrentUser.Login; }
             set
             {
-                string savedvalue = m_login;
-                if (value != savedvalue)
-                {
-                    m_login = value;
-                    OnPropertyChanged("Login");
-                }
+                CurrentUser = UsersList.Single(s => s.Login == value);
+                OnPropertyChanged("Login");
+                OnPropertyChanged("CurrentUser");
             }
         }
 

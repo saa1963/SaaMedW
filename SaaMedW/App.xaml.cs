@@ -85,8 +85,7 @@ namespace SaaMedW
                     MessageBox.Show("Ошибка инициализации драйвера ККТ");
                 }
 
-                var storage = (ILocalStorage)ServiceLocator.Instance.GetService(typeof(ILocalStorage));
-                storage.SetLoginName(Environment.UserName, loginViewModel.Login);
+                Options.SetParameter<string>(enumParameterType.Последний_логин, loginViewModel.Login);
                 this.ShutdownMode = ShutdownMode.OnMainWindowClose;
                 var modelview = new MasterWindowViewModel();
                 var window = new MasterWindowView
