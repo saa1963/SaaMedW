@@ -42,9 +42,11 @@ namespace SaaMedW
     public class ReportGenerator
     {
         private Report report;
+        private int KoeffExcelMergeHeight;
         public ReportGenerator(Report report)
         {
             this.report = report;
+            KoeffExcelMergeHeight = Options.GetParameter<int>(enumParameterType.Коэффициент_для_Excel);
         }
         public void Generate(string newFile, string templateName)
         {
@@ -141,7 +143,7 @@ namespace SaaMedW
             var size = graphics.MeasureString(text, drawingFont, pixelWidth);
 
             //72 DPI and 96 points per inch.  Excel height in points with max of 409 per Excel requirements.
-            return Math.Min(Convert.ToDouble(size.Height) * 72 / Settings.Default.KoeffExcelMergeHeight, 409);
+            return Math.Min(Convert.ToDouble(size.Height) * 72 / KoeffExcelMergeHeight, 409);
         }
 
         private double GetMergeWidth(ExcelWorksheet wsh, ExcelRange rc)

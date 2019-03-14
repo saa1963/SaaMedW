@@ -26,11 +26,11 @@ namespace SaaMedW
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            if (!ValidationDialog.IsValid(this))
-            {
-                MessageBox.Show("Не введены данные.");
-                return;
-            }
+            //if (!ValidationDialog.IsValid(this))
+            //{
+            //    MessageBox.Show("Не введены данные.");
+            //    return;
+            //}
             if (tbNewPassword0.Text != tbRepPassword0.Text)
             {
                 MessageBox.Show("Пароли не совпадают.");

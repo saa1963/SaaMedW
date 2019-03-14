@@ -13,6 +13,7 @@ namespace SaaMedW
         public Type type { get; set; }
         public enumProfile profile { get; set; }
         public object defaultValue { get; set; }
+        public bool IsEditable { get; set; }
     }
     public partial class Options: NotifyPropertyChanged
     {
@@ -22,24 +23,28 @@ namespace SaaMedW
                 { enumParameterType.Наименование_организации,
                     new OptionType()
                     {
-                        type = typeof(string), profile = enumProfile.Общий, defaultValue = ""
+                        type = typeof(string), profile = enumProfile.Общий, defaultValue = "", IsEditable = true
                     }
                 },
                 {enumParameterType.Коэффициент_для_Excel,
                     new OptionType()
-                    { type = typeof(int), profile = enumProfile.ЛокальныйВсеПользователи, defaultValue = 88 }
+                    { type = typeof(int), profile = enumProfile.ЛокальныйВсеПользователи, defaultValue = 88, IsEditable = true }
                 },
                 {enumParameterType.Настройки_ФР,
                     new OptionType()
-                    { type = typeof(string), profile = enumProfile.ЛокальныйВсеПользователи, defaultValue = null }
+                    { type = typeof(string), profile = enumProfile.ЛокальныйВсеПользователи, defaultValue = null, IsEditable = true }
                 },
                 {enumParameterType.Система_налогообложения,
                     new OptionType()
-                    { type = typeof(enTaxSystem), profile = enumProfile.Общий, defaultValue = enTaxSystem.Общая }
+                    { type = typeof(enTaxSystem), profile = enumProfile.Общий, defaultValue = enTaxSystem.Общая, IsEditable = true }
                 },
                 {enumParameterType.НДС,
                     new OptionType()
-                    { type = typeof(enNds), profile = enumProfile.Общий, defaultValue = enNds.Процент_20 }
+                    { type = typeof(enNds), profile = enumProfile.Общий, defaultValue = enNds.Процент_20, IsEditable = true }
+                },
+                {enumParameterType.Последний_логин,
+                    new OptionType()
+                    { type = typeof(string), profile = enumProfile.ЛокальныйВсеПользователи, defaultValue = "", IsEditable = false}
                 }
             };
         public string Name

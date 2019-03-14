@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Data;
 
 namespace SaaMedW
@@ -69,7 +70,7 @@ namespace SaaMedW
         {
             get
             {
-                return new RelayCommand(EditUser);
+                return new RelayCommand(EditUser, s => UsersSel != null);
             }
         }
 
@@ -98,7 +99,7 @@ namespace SaaMedW
         {
             get
             {
-                return new RelayCommand(DelUser);
+                return new RelayCommand(DelUser, s => UsersSel != null);
             }
         }
 
@@ -106,16 +107,23 @@ namespace SaaMedW
         {
             if (UsersSel == null) return;
             var user = UsersSel as VmUsers;
-            ctx.Users.Remove(user.users);
-            ctx.SaveChanges();
-            UsersList.Remove(user);
+            if (user.Login != "Service")
+            {
+                ctx.Users.Remove(user.users);
+                ctx.SaveChanges();
+                UsersList.Remove(user);
+            }
+            else
+            {
+                MessageBox.Show("Нельзя удалять встроенного пользователя.");
+            }
         }
 
         public RelayCommand ChangePassword
         {
             get
             {
-                return new RelayCommand(changePassword);
+                return new RelayCommand(changePassword, s => UsersSel != null);
             }
         }
 
@@ -129,10 +137,19 @@ namespace SaaMedW
             var r = f.ShowDialog();
             if (r ?? false)
             {
-                user.Password = new System.Security.Cryptography.SHA1CryptoServiceProvider()
-                        .ComputeHash(System.Text.Encoding.ASCII.GetBytes(mv.NewPassword));
-                ctx.SaveChanges();
-                System.Windows.MessageBox.Show("Пароль изменен.");
+                if (!String.IsNullOrWhiteSpace(mv.NewPassword))
+                {
+                    user.Password = new System.Security.Cryptography.SHA1CryptoServiceProvider()
+                            .ComputeHash(System.Text.Encoding.ASCII.GetBytes(mv.NewPassword));
+                    ctx.SaveChanges();
+                    System.Windows.MessageBox.Show("Пароль изменен.");
+                }
+                else
+                {
+                    user.Password = null;
+                    ctx.SaveChanges();
+                    System.Windows.MessageBox.Show("Пароль сброшен.");
+                }
             }
         }
     }

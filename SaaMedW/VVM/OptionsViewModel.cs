@@ -71,7 +71,7 @@ namespace SaaMedW
             // Общие настройки
             if (Global.Source.RUser.Role == 0)
             {
-                foreach (var o in Options.ВсеВидыПараметров.Where(s => s.Value.profile == enumProfile.Общий))
+                foreach (var o in Options.ВсеВидыПараметров.Where(s => s.Value.profile == enumProfile.Общий && s.Value.IsEditable))
                 {
                     var nv = new Options()
                     {
@@ -86,7 +86,7 @@ namespace SaaMedW
                 }
             }
             // Перемещаемые настройки пользователя
-            foreach (var o in Options.ВсеВидыПараметров.Where(s => s.Value.profile == enumProfile.ПеремещаемыйПользователя))
+            foreach (var o in Options.ВсеВидыПараметров.Where(s => s.Value.profile == enumProfile.ПеремещаемыйПользователя && s.Value.IsEditable))
             {
                 var nv = new Options()
                 {
@@ -100,7 +100,7 @@ namespace SaaMedW
                 m_UserParameterList.Add(nv);
             }
             // Локальные настройки для всех пользователей
-            foreach (var o in Options.ВсеВидыПараметров.Where(s => s.Value.profile == enumProfile.ЛокальныйВсеПользователи))
+            foreach (var o in Options.ВсеВидыПараметров.Where(s => s.Value.profile == enumProfile.ЛокальныйВсеПользователи && s.Value.IsEditable))
             {
                 var nv = new Options()
                 {
@@ -114,7 +114,7 @@ namespace SaaMedW
                 m_ComputerParameterList.Add(nv);
             }
             // Локальные настройки пользователя
-            foreach (var o in Options.ВсеВидыПараметров.Where(s => s.Value.profile == enumProfile.ЛокальныйПользователя))
+            foreach (var o in Options.ВсеВидыПараметров.Where(s => s.Value.profile == enumProfile.ЛокальныйПользователя && s.Value.IsEditable))
             {
                 var nv = new Options()
                 {

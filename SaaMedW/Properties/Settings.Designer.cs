@@ -34,17 +34,5 @@ namespace SaaMedW.Properties {
                 this["login"] = value;
             }
         }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("88")]
-        public int KoeffExcelMergeHeight {
-            get {
-                return ((int)(this["KoeffExcelMergeHeight"]));
-            }
-            set {
-                this["KoeffExcelMergeHeight"] = value;
-            }
-        }
     }
 }

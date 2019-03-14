@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -15,11 +16,14 @@ namespace SaaMedW
         private string m_password;
         log4net.ILog log;
 
+        public ObservableCollection<VmUsers> UsersList { get; set; }
+
         public LoginViewModel()
         {
             log = log4net.LogManager.GetLogger(this.GetType());
             storage = (ILocalStorage)ServiceLocator.Instance.GetService(typeof(ILocalStorage));
             m_login = storage.GetLoginName(Environment.UserName);
+            //foreach(var o in )
         }
 
         public string Login

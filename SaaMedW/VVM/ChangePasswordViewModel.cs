@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SaaMedW
 {
-    class ChangePasswordViewModel : NotifyPropertyChanged, IDataErrorInfo
+    class ChangePasswordViewModel : NotifyPropertyChanged
     {
         private string m_newpassword;
         private string m_reppassword;
@@ -29,25 +29,5 @@ namespace SaaMedW
                 OnPropertyChanged("RepPassword");
             }
         }
-        public string this[string columnName]
-        {
-            get
-            {
-                string result = String.Empty;
-                if (columnName == "NewPassword")
-                {
-                    if (String.IsNullOrWhiteSpace(NewPassword))
-                        result = "Не заполнено поле 'Новый пароль'";
-                }
-                if (columnName == "RepPassword")
-                {
-                    if (String.IsNullOrWhiteSpace(RepPassword))
-                        result = "Не заполнено поле 'Повторить'";
-                }
-                return result;
-            }
-        }
-
-        public string Error => "";
     }
 }

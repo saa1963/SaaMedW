@@ -10,6 +10,7 @@ using System.Windows.Data;
 using System.Data.Entity;
 using log4net;
 using System.Windows;
+using System.Data.SqlClient;
 
 namespace SaaMedW
 {
@@ -93,7 +94,7 @@ namespace SaaMedW
             }
         }
 
-        public RelayCommand Edit => new RelayCommand(EditPerson);
+        public RelayCommand Edit => new RelayCommand(EditPerson, s => CardsSel != null);
 
         private void EditPerson(object obj)
         {
@@ -125,18 +126,36 @@ namespace SaaMedW
             }
         }
 
-        public RelayCommand Del => new RelayCommand(DelPerson);
+        public RelayCommand Del => new RelayCommand(DelPerson, s => CardsSel != null);
 
         private void DelPerson(object obj)
         {
-            if (CardsSel == null) return;
-            VmPerson person = CardsSel;
-            ctx.Person.Remove(person.Obj);
-            ctx.SaveChanges();
-            CardsList.Remove(person);
+            try
+            {
+                if (CardsSel == null) return;
+                VmPerson person = CardsSel;
+                ctx.Person.Remove(person.Obj);
+                ctx.SaveChanges();
+                CardsList.Remove(person);
+            }
+            catch (Exception e) when (e.InnerException?.InnerException != null)
+            {
+                if (e.InnerException.InnerException is SqlException)
+                {
+                    var ex = e.InnerException.InnerException as SqlException;
+                    if (ex.Number == 547)
+                    {
+                        MessageBox.Show("Есть ссылки на клиента. Удаление невозможно.");
+                    }
+                    else
+                    {
+                        throw e;
+                    }
+                }
+            }
         }
 
-        public RelayCommand MedCard => new RelayCommand(PrintMedCard);
+        public RelayCommand MedCard => new RelayCommand(PrintMedCard, s => CardsSel != null);
 
         private void PrintMedCard(object obj)
         {
@@ -145,7 +164,7 @@ namespace SaaMedW
             new MedCard().DoIt(person.Obj);
         }
 
-        public RelayCommand Vmesh => new RelayCommand(PrintVmesh);
+        public RelayCommand Vmesh => new RelayCommand(PrintVmesh, s => CardsSel != null);
 
         private void PrintVmesh(object obj)
         {
@@ -154,7 +173,7 @@ namespace SaaMedW
             new Vmesh().DoIt(person.Obj);
         }
 
-        public RelayCommand PersonsInfoCommand => new RelayCommand(PersonsInfo);
+        public RelayCommand PersonsInfoCommand => new RelayCommand(PersonsInfo, s => CardsSel != null);
 
         public RelayCommand NewVisitCommand => new RelayCommand(NewVisit, s => CardsSel != null);
 

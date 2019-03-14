@@ -928,6 +928,7 @@
           <Member Name="Настройки_ФР" Value="2" />
           <Member Name="Система_налогообложения" Value="3" />
           <Member Name="НДС" Value="4" />
+          <Member Name="Последний_логин" Value="5" />
         </EnumType>
         <Association Name="Person2">
           <Documentation>

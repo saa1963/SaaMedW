@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Data.Entity;
+using System.Windows;
 
 namespace SaaMedW
 {
@@ -109,11 +110,25 @@ namespace SaaMedW
 
         private void DelPersonal(object obj)
         {
-            if (PersonalSel == null) return;
-            var personal = PersonalSel as VmPersonal;
-            ctx.Personal.Remove(personal.Obj);
-            ctx.SaveChanges();
-            PersonalList.Remove(personal);
+            try
+            {
+                if (PersonalSel == null) return;
+                var personal = PersonalSel as VmPersonal;
+                ctx.Personal.Remove(personal.Obj);
+                ctx.SaveChanges();
+                PersonalList.Remove(personal);
+            }
+            catch(InvalidOperationException e)
+            {
+                if (e.HResult == -2146233079)
+                {
+                    MessageBox.Show("Есть ссылки на данную запись. Удаление невозможно");
+                }
+                else
+                {
+                    throw e;
+                }
+            }
         }
     }
 }
