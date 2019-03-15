@@ -203,6 +203,17 @@ namespace SaaMedW
             
         }
 
+        public RelayCommand PrintDogovorCommand
+        {
+            get => new RelayCommand(PrnDogovor, s => InvoiceSel != null);
+        }
+
+        private void PrnDogovor(object obj)
+        {
+            Debug.Assert(InvoiceSel != null);
+            new Dogovor().DoIt(InvoiceSel.Obj);
+        }
+
         public RelayCommand PayCommand
         {
             get => new RelayCommand(PayInvoice, s => InvoiceSel != null 
@@ -229,7 +240,9 @@ namespace SaaMedW
 
         public RelayCommand BackMoneyCommand
         {
-            get => new RelayCommand(BackMoney, s => InvoiceSel != null && InvoiceSel.Status != 0);
+            get => new RelayCommand(BackMoney, s => InvoiceSel != null 
+                            && InvoiceSel.Status != 0
+                            && ServiceLocator.Instance.GetService<IKkm>().IsInitialized);
         }
 
         private void BackMoney(object obj)

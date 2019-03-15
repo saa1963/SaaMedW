@@ -154,6 +154,7 @@
     <Compile Include="MKB.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="RusPropis.cs" />
     <Compile Include="Service\Atol.cs" />
     <Compile Include="Benefit.cs">
       <DependentUpon>Model1.tt</DependentUpon>
@@ -209,7 +210,7 @@
     <Compile Include="InvoiceDetail.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="MedCard.cs" />
+    <Compile Include="Reports\MedCard.cs" />
     <Compile Include="Model1.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -261,6 +262,7 @@
     <Compile Include="VVM\BenefitsViewModel.cs" />
     <Compile Include="VVM\CardsViewModel.cs" />
     <Compile Include="VVM\ChangePasswordViewModel.cs" />
+    <Compile Include="Reports\Dogovor.cs" />
     <Compile Include="VVM\EditBenefitViewModel.cs" />
     <Compile Include="VVM\EditGraphicViewModel.cs" />
     <Compile Include="VVM\EditPersonalViewModel.cs" />
@@ -558,6 +560,9 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <None Include="SaaMedW_TemporaryKey.pfx" />
+    <Content Include="templates\dogovor-usluga-medichina.docx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="Об особенностях формирования кассового чека коррекции.pdf" />
     <None Include="ФФД-упрощенная.pdf" />
     <None Include="ФФД.pdf" />

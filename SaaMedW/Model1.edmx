@@ -929,6 +929,17 @@
           <Member Name="Система_налогообложения" Value="3" />
           <Member Name="НДС" Value="4" />
           <Member Name="Последний_логин" Value="5" />
+          <Member Name="Номер_договора" Value="6" />
+          <Member Name="Лицензия" Value="7" />
+          <Member Name="ФИО_руководителя" Value="8" />
+          <Member Name="Должность_руководителя" Value="9" />
+          <Member Name="Юридический_адрес" Value="10" />
+          <Member Name="Телефоны" Value="11" />
+          <Member Name="ИНН" Value="12" />
+          <Member Name="КПП" Value="13" />
+          <Member Name="Наименование_банка" Value="14" />
+          <Member Name="БИК_банка" Value="15" />
+          <Member Name="Расчетный_счет" Value="16" />
         </EnumType>
         <Association Name="Person2">
           <Documentation>

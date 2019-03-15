@@ -28,7 +28,7 @@ namespace SaaMedW
                 else if (tp.Equals(typeof(string)))
                 {
                     var nLine = nv.ParameterValue.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries).Count();
-                    if (nLine == 1)
+                    if (nLine <= 1)
                     {
                         return element.FindResource("TextDataTemplate") as DataTemplate;
                     }

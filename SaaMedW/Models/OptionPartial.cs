@@ -45,6 +45,46 @@ namespace SaaMedW
                 {enumParameterType.Последний_логин,
                     new OptionType()
                     { type = typeof(string), profile = enumProfile.ЛокальныйВсеПользователи, defaultValue = "", IsEditable = false}
+                },
+                {enumParameterType.Номер_договора,
+                    new OptionType()
+                    { type = typeof(int), profile = enumProfile.Общий, defaultValue = 1, IsEditable = true}
+                },
+                {enumParameterType.Лицензия,
+                    new OptionType()
+                    { type = typeof(string), profile = enumProfile.Общий, defaultValue = "", IsEditable = true}
+                },
+                {enumParameterType.ФИО_руководителя,
+                    new OptionType()
+                    { type = typeof(string), profile = enumProfile.Общий, defaultValue = "", IsEditable = true}
+                },
+                {enumParameterType.Юридический_адрес,
+                    new OptionType()
+                    { type = typeof(string), profile = enumProfile.Общий, defaultValue = "", IsEditable = true}
+                },
+                {enumParameterType.Телефоны,
+                    new OptionType()
+                    { type = typeof(string), profile = enumProfile.Общий, defaultValue = "", IsEditable = true}
+                },
+                {enumParameterType.ИНН,
+                    new OptionType()
+                    { type = typeof(string), profile = enumProfile.Общий, defaultValue = "", IsEditable = true}
+                },
+                {enumParameterType.КПП,
+                    new OptionType()
+                    { type = typeof(string), profile = enumProfile.Общий, defaultValue = "", IsEditable = true}
+                },
+                {enumParameterType.БИК_банка,
+                    new OptionType()
+                    { type = typeof(string), profile = enumProfile.Общий, defaultValue = "", IsEditable = true}
+                },
+                {enumParameterType.Наименование_банка,
+                    new OptionType()
+                    { type = typeof(string), profile = enumProfile.Общий, defaultValue = "", IsEditable = true}
+                },
+                {enumParameterType.Расчетный_счет,
+                    new OptionType()
+                    { type = typeof(string), profile = enumProfile.Общий, defaultValue = "", IsEditable = true}
                 }
             };
         public string Name
