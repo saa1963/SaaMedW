@@ -21,5 +21,6 @@ namespace SaaMedW.Service
         /// <param name="timeOfFirstUnsentDocument">Дата и время первого неотправленного документа</param>
         /// <returns>Кол-во неотправленных документов</returns>
         bool NumberOfUnsentDocuments(out uint unsentCount, out DateTime timeOfFirstUnsentDocument);
+        int GetNumShift();
     }
 }

@@ -36,8 +36,10 @@ namespace SaaMedW.Service
                 if (config == null)
                     throw new Exception("Параметр Настройки_ФР равен null");
                 fptr = new Fptr();
+                log.Info("Экземпляр драйвера инициализирован");
                 fptr.setSettings((string)config);
                 if (fptr.open() != 0) throw AtolException();
+                log.Info("Соединение с ККТ открыто");
                 rt = true;
             }
             catch (Exception e)
@@ -68,8 +70,10 @@ namespace SaaMedW.Service
                     if (fptr.isOpened())
                     {
                         fptr.close();
+                        log.Info("Соединение с ККТ закрыто");
                     }
                     fptr.destroy();
+                    log.Info("Экземпляр драйвера деинициализирован");
                     fptr = null;
                 }
             }
@@ -98,7 +102,7 @@ namespace SaaMedW.Service
                 }
             }
             fptr.setParam(1021, Global.Source.RUser.Fio);
-            fptr.setParam(1203, Global.Source.RUser.Inn);
+            //fptr.setParam(1203, Global.Source.RUser.Inn);
             if (fptr.operatorLogin() < 0) throw AtolException();
         }
 
@@ -136,6 +140,7 @@ namespace SaaMedW.Service
                     fptr.setParam(Constants.LIBFPTR_PARAM_COMMODITY_NAME, ch_name);
                     fptr.setParam(Constants.LIBFPTR_PARAM_PRICE, Convert.ToDouble(ch_price));
                     fptr.setParam(Constants.LIBFPTR_PARAM_QUANTITY, ch_quantity);
+                    fptr.setParam(Constants.LIBFPTR_PARAM_TAX_TYPE, Constants.LIBFPTR_TAX_NO);
                     fptr.registration();
                 }
                 // Оплата наличными
@@ -290,6 +295,37 @@ namespace SaaMedW.Service
                     }
                 }
             }
+        }
+
+        public int GetNumShift()
+        {
+            int rt = -3;
+            try
+            {
+                OpenConnection();
+
+                fptr.setParam(Constants.LIBFPTR_PARAM_DATA_TYPE, Constants.LIBFPTR_DT_STATUS);
+                if (fptr.queryData() < 0) throw AtolException();
+                uint shiftState = fptr.getParamInt(Constants.LIBFPTR_PARAM_SHIFT_STATE);
+                if (shiftState == Constants.LIBFPTR_SS_CLOSED)
+                {
+                    rt = -1;
+                }
+                else if (shiftState == Constants.LIBFPTR_SS_EXPIRED)
+                {
+                    rt = -2;
+                }
+                else
+                {
+                    rt = (int)fptr.getParamInt(Constants.LIBFPTR_PARAM_SHIFT_NUMBER);
+                }
+            }
+            catch (Exception e)
+            {
+                var msg = "Получения номера открытой смены.";
+                log.Error(msg, e);
+            }
+            return rt;
         }
 
         public string Model => "АТОЛ";

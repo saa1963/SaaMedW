@@ -32,7 +32,7 @@ namespace SaaMedW
 
             log4net.Config.XmlConfigurator.Configure();
             log4net.ILog log = log4net.LogManager.GetLogger(typeof(App));
-
+            log.Info("Старт приложения");
             try
             {
                 using (var ctx = new SaaMedEntities())
@@ -88,6 +88,7 @@ namespace SaaMedW
                 Options.SetParameter<string>(enumParameterType.Последний_логин, loginViewModel.Login);
                 this.ShutdownMode = ShutdownMode.OnMainWindowClose;
                 var modelview = new MasterWindowViewModel();
+                modelview.SetTitle();
                 var window = new MasterWindowView
                 {
                     DataContext = modelview
@@ -95,7 +96,7 @@ namespace SaaMedW
                 Current.MainWindow = window;
                 window.Show();
 
-                log.Info("Старт приложения");
+                
             }
             else
             {

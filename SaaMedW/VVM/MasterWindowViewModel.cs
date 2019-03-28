@@ -1,4 +1,5 @@
-﻿using SaaMedW.Service;
+﻿using log4net;
+using SaaMedW.Service;
 using SaaMedW.View;
 using System;
 using System.Collections.Generic;
@@ -10,8 +11,13 @@ using System.Windows;
 
 namespace SaaMedW
 {
-    public class MasterWindowViewModel
+    public class MasterWindowViewModel: NotifyPropertyChanged
     {
+        ILog log;
+        public MasterWindowViewModel()
+        {
+            log = log4net.LogManager.GetLogger(this.GetType());
+        }
         public RelayCommand Cmd
         {
             get { return new RelayCommand(App.ActivateView); }
@@ -37,6 +43,7 @@ namespace SaaMedW
             {
                 MessageBox.Show("Ошибка открытия смены");
             }
+            SetTitle();
         }
 
         public RelayCommand ZReportCommand
@@ -59,6 +66,7 @@ namespace SaaMedW
             {
                 MessageBox.Show("Ошибка закрытия смены");
             }
+            SetTitle();
         }
 
         public RelayCommand FrOptionsCommand
@@ -148,7 +156,45 @@ namespace SaaMedW
         {
             get { return new ExecTypes { View = typeof(OptionsView), ViewModel = typeof(OptionsViewModel) }; }
         }
-        public string Title => $"Регистратура ({Global.Source.RUser.Fio})";
+        private string m_Title;
+        public string Title
+        {
+            get => m_Title;
+            set
+            {
+                m_Title = value;
+                OnPropertyChanged("Title");
+            }
+        }
         public bool IsAdmin => Global.Source.RUser.Role == 0;
+
+        public void SetTitle()
+        {
+            var fptr = ServiceLocator.Instance.GetService<IKkm>();
+            if (fptr != null)
+            {
+                int numShift = fptr.GetNumShift();
+                if (numShift >= 0)
+                {
+                    Title = $"Регистратура. (Кассир - {Global.Source.RUser.Fio})(Номер открытой смены {numShift})";
+                }
+                else if (numShift == -1)
+                {
+                    Title = $"Регистратура. (Кассир - {Global.Source.RUser.Fio})(Смена закрыта)";
+                }
+                else if (numShift == -2)
+                {
+                    Title = $"Регистратура. (Кассир - {Global.Source.RUser.Fio})(Смена истекла > 24 часов)";
+                }
+                else if (numShift == -3)
+                {
+                    Title = $"Регистратура. (Кассир - {Global.Source.RUser.Fio})(Состояние смены неизвестно)";
+                }
+            }
+            else
+            {
+                Title = $"Регистратура. (Кассир - {Global.Source.RUser.Fio})(Состояние смены неизвестно)";
+            }
+        }
     }
 }

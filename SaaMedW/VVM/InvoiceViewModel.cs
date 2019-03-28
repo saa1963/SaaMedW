@@ -221,20 +221,28 @@ namespace SaaMedW
                 && ServiceLocator.Instance.GetService<IKkm>().IsInitialized);
         }
 
+        //List<Tuple<string, int, decimal>> uslugi,
+        //    decimal oplata, enumPaymentType vidOplata, 
+        //    string emailOrPhone, bool electron
         private void PayInvoice(object obj)
         {
+            List<Tuple<string, int, decimal>> uslugi = new List<Tuple<string, int, decimal>>();
             IKkm kkm = ServiceLocator.Instance.GetService<IKkm>();
             var viewModel = new PayInvoiceViewModel() { КОплате = InvoiceSel.Sm - InvoiceSel.Payed };
             var f = new PayInvoiceView() { DataContext = viewModel };
             if (f.ShowDialog() ?? false)
             {
+                foreach (var o in InvoiceSel.InvoiceDetail)
+                {
+                    uslugi.Add(new Tuple<string, int, decimal>(o.BenefitName, o.Kol, o.Price));
+                }
                 var pay = Math.Min(viewModel.Sm, viewModel.КОплате);
-                //if (kkm.Register(pay))
-                //{
-                //    accounts.PayOneInvoice(pay, InvoiceSel.Obj, viewModel.PaymentType);
-                //    ctx.Entry(InvoiceSel.Obj).Reload();
-                //    InvoiceSel.OnPropertyChanged("Status");
-                //}
+                if (kkm.Register(uslugi, pay, viewModel.PaymentType, null, false ))
+                {
+                    accounts.PayOneInvoice(pay, InvoiceSel.Obj, viewModel.PaymentType);
+                    ctx.Entry(InvoiceSel.Obj).Reload();
+                    InvoiceSel.OnPropertyChanged("Status");
+                }
             }
         }
 
