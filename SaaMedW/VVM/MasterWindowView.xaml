@@ -24,6 +24,8 @@
                           ></MenuItem>
                 <MenuItem Header="Закрыть смену на кассе" Command="{Binding ZReportCommand}" 
                           ></MenuItem>
+                <MenuItem Header="Информация о чеке" Command="{Binding DataCheckCommand}" 
+                          ></MenuItem>
             </MenuItem>
             <MenuItem Header="Персонал">
                 <MenuItem Header="Сотрудники" Command="{Binding Cmd}" 

@@ -46,6 +46,27 @@ namespace SaaMedW
             SetTitle();
         }
 
+        public RelayCommand DataCheckCommand
+        {
+            get
+            {
+                return new RelayCommand(DataCheck,
+                    s => ServiceLocator.Instance.GetService<IKkm>().IsInitialized);
+            }
+        }
+
+        private void DataCheck(object obj)
+        {
+            var modelView = new EditGetCheckdataViewModel();
+            var f = new EditGetCheckdataView() { DataContext = modelView };
+            if (f.ShowDialog() ?? false)
+            {
+                var kkt = ServiceLocator.Instance.GetService<IKkm>();
+                ((AtolService)kkt).ReadCheck(num: modelView.Nfd);
+                MessageBox.Show("Расчет закончен");
+            }
+        }
+
         public RelayCommand ZReportCommand
         {
             get

@@ -264,6 +264,10 @@
     <Compile Include="VVM\ChangePasswordViewModel.cs" />
     <Compile Include="Reports\Dogovor.cs" />
     <Compile Include="VVM\EditBenefitViewModel.cs" />
+    <Compile Include="VVM\EditGetCheckdataView.xaml.cs">
+      <DependentUpon>EditGetCheckdataView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="VVM\EditGetCheckdataViewModel.cs" />
     <Compile Include="VVM\EditGraphicViewModel.cs" />
     <Compile Include="VVM\EditPersonalViewModel.cs" />
     <Compile Include="VVM\EditSpecialtyViewModel.cs" />
@@ -420,6 +424,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="VVM\EditBenefit.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="VVM\EditGetCheckdataView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

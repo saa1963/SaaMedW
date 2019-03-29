@@ -328,6 +328,52 @@ namespace SaaMedW.Service
             return rt;
         }
 
+        public void ReadCheck(uint num)
+        {
+            try
+            {
+                OpenConnection();
+
+                fptr.setParam(Constants.LIBFPTR_PARAM_RECORDS_TYPE, Constants.LIBFPTR_RT_FN_DOCUMENT_TLVS);
+                fptr.setParam(Constants.LIBFPTR_PARAM_DOCUMENT_NUMBER, num);
+                fptr.beginReadRecords();
+                uint documentType = fptr.getParamInt(Constants.LIBFPTR_PARAM_FN_DOCUMENT_TYPE);
+                uint documentSize = fptr.getParamInt(Constants.LIBFPTR_PARAM_COUNT);
+
+                byte[] tagValue;
+                uint tagNumber;
+                string s = "\r\n";
+                s += "--------------- Документ из ФН _________________________";
+                s += "\r\n";
+                while (fptr.readNextRecord() == Constants.LIBFPTR_OK)
+                {
+                    tagValue = fptr.getParamByteArray(Constants.LIBFPTR_PARAM_TAG_VALUE);
+                    tagNumber = fptr.getParamInt(Constants.LIBFPTR_PARAM_TAG_NUMBER);
+                    s += "Номер реквизита - " + tagNumber.ToString();
+                    s += "\r\n";
+                    foreach (var o in tagValue)
+                    {
+                        s += o.ToString("X2");
+                        s += o.ToString(" ");
+                    }
+                    s += "\r\n";
+                }
+
+                fptr.endReadRecords();
+                s += "\r\n";
+                s += "--------------- Конец Документ из ФН _________________________";
+                s += "\r\n";
+                log.Info(s);
+            }
+            catch (Exception e)
+            {
+                var msg = "Ошибка чтения чека.";
+                log.Error(msg, e);
+            }
+
+            
+        }
+
         public string Model => "АТОЛ";
     }
 }
