@@ -50,6 +50,22 @@ namespace SaaMedW
                 OnPropertyChanged("Сдача");
             }
         }
+        private string m_Email;
+        public string Email
+        {
+            get
+            {
+                if (String.IsNullOrWhiteSpace(m_Email))
+                    return null;
+                else
+                    return m_Email;
+            }
+            set
+            {
+                m_Email = value;
+                OnPropertyChanged("Email");
+            }
+        }
         public string this[string columnName]
         {
             get

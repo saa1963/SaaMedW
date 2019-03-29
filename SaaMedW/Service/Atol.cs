@@ -141,7 +141,8 @@ namespace SaaMedW.Service
                     fptr.setParam(Constants.LIBFPTR_PARAM_PRICE, Convert.ToDouble(ch_price));
                     fptr.setParam(Constants.LIBFPTR_PARAM_QUANTITY, ch_quantity);
                     fptr.setParam(Constants.LIBFPTR_PARAM_TAX_TYPE, Constants.LIBFPTR_TAX_NO);
-                    fptr.setParam(1214, 4); // признак способа расчета (в случае 4 - необязателен)
+                    fptr.setParam(1214, 4); // признак способа расчета (в случае 4 - необязателен ПОЛНЫЙ РАСЧЕТ)
+                    fptr.setParam(1212, 4); // признак предмета расчета (в случае 4 - УСЛУГА, 3 - РАБОТА)
                     fptr.registration();
                 }
                 // Оплата наличными

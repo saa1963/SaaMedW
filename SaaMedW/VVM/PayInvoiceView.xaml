@@ -15,6 +15,7 @@
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
         <DockPanel Grid.Row="0">
             <TextBlock Margin="10" DockPanel.Dock="Left" Text="Вид оплаты"></TextBlock>
@@ -41,7 +42,11 @@
             <TextBlock HorizontalAlignment="Right" Margin="10" DockPanel.Dock="Left" 
                        Text="{Binding Сдача, StringFormat={}{0:0.00}}"></TextBlock>
         </DockPanel>
-        <DockPanel Grid.Row="4" HorizontalAlignment="Center">
+        <StackPanel Grid.Row="4">
+            <TextBlock Margin="10" DockPanel.Dock="Left" Text="EMAIL или номер телефона для электронного чека" TextWrapping="Wrap"></TextBlock>
+            <local0:ClickSelectTextBox Text="{Binding Email, UpdateSourceTrigger=PropertyChanged}"></local0:ClickSelectTextBox>
+        </StackPanel>
+        <DockPanel Grid.Row="5" HorizontalAlignment="Center">
             <Button FontSize="12" Width="60" Margin="10" IsDefault="True" Click="Button_Click">Оплатить</Button>
             <Button FontSize="12" Width="60" Margin="10" IsCancel="True">Отмена</Button>
         </DockPanel>

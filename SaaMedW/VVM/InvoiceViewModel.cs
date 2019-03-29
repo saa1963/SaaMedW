@@ -221,9 +221,6 @@ namespace SaaMedW
                 && ServiceLocator.Instance.GetService<IKkm>().IsInitialized);
         }
 
-        //List<Tuple<string, int, decimal>> uslugi,
-        //    decimal oplata, enumPaymentType vidOplata, 
-        //    string emailOrPhone, bool electron
         private void PayInvoice(object obj)
         {
             List<Tuple<string, int, decimal>> uslugi = new List<Tuple<string, int, decimal>>();
@@ -237,11 +234,15 @@ namespace SaaMedW
                     uslugi.Add(new Tuple<string, int, decimal>(o.BenefitName, o.Kol, o.Price));
                 }
                 var pay = Math.Min(viewModel.Sm, viewModel.КОплате);
-                if (kkm.Register(uslugi, pay, viewModel.PaymentType, null, false ))
+                if (kkm.Register(uslugi, pay, viewModel.PaymentType, viewModel.Email, viewModel.Email != null ))
                 {
                     accounts.PayOneInvoice(pay, InvoiceSel.Obj, viewModel.PaymentType);
                     ctx.Entry(InvoiceSel.Obj).Reload();
                     InvoiceSel.OnPropertyChanged("Status");
+                }
+                else
+                {
+                    MessageBox.Show("Ошибка регистрации кассового чека.");
                 }
             }
         }
