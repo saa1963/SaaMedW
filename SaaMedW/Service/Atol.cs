@@ -141,6 +141,7 @@ namespace SaaMedW.Service
                     fptr.setParam(Constants.LIBFPTR_PARAM_PRICE, Convert.ToDouble(ch_price));
                     fptr.setParam(Constants.LIBFPTR_PARAM_QUANTITY, ch_quantity);
                     fptr.setParam(Constants.LIBFPTR_PARAM_TAX_TYPE, Constants.LIBFPTR_TAX_NO);
+                    fptr.setParam(1214, 4); // признак способа расчета (в случае 4 - необязателен)
                     fptr.registration();
                 }
                 // Оплата наличными
@@ -328,50 +329,36 @@ namespace SaaMedW.Service
             return rt;
         }
 
-        public void ReadCheck(uint num)
+        public bool ReadCheck(uint num)
         {
+            bool rt = false;
             try
             {
                 OpenConnection();
 
-                fptr.setParam(Constants.LIBFPTR_PARAM_RECORDS_TYPE, Constants.LIBFPTR_RT_FN_DOCUMENT_TLVS);
-                fptr.setParam(Constants.LIBFPTR_PARAM_DOCUMENT_NUMBER, num);
-                fptr.beginReadRecords();
-                uint documentType = fptr.getParamInt(Constants.LIBFPTR_PARAM_FN_DOCUMENT_TYPE);
-                uint documentSize = fptr.getParamInt(Constants.LIBFPTR_PARAM_COUNT);
+                fptr.setParam(Constants.LIBFPTR_PARAM_JSON_DATA, 
+                    "{\"type\": \"getFnDocument\", \"fiscalDocumentNumber\": " + num.ToString() + "}");
+                if (fptr.processJson() < 0) throw AtolException();
+                String result = fptr.getParamString(Constants.LIBFPTR_PARAM_JSON_DATA);
 
-                byte[] tagValue;
-                uint tagNumber;
                 string s = "\r\n";
                 s += "--------------- Документ из ФН _________________________";
                 s += "\r\n";
-                while (fptr.readNextRecord() == Constants.LIBFPTR_OK)
-                {
-                    tagValue = fptr.getParamByteArray(Constants.LIBFPTR_PARAM_TAG_VALUE);
-                    tagNumber = fptr.getParamInt(Constants.LIBFPTR_PARAM_TAG_NUMBER);
-                    s += "Номер реквизита - " + tagNumber.ToString();
-                    s += "\r\n";
-                    foreach (var o in tagValue)
-                    {
-                        s += o.ToString("X2");
-                        s += o.ToString(" ");
-                    }
-                    s += "\r\n";
-                }
 
-                fptr.endReadRecords();
+                s += result;
+
                 s += "\r\n";
                 s += "--------------- Конец Документ из ФН _________________________";
                 s += "\r\n";
                 log.Info(s);
+                rt = true;
             }
             catch (Exception e)
             {
-                var msg = "Ошибка чтения чека.";
+                var msg = "Ошибка чтения документа.";
                 log.Error(msg, e);
             }
-
-            
+            return rt;
         }
 
         public string Model => "АТОЛ";

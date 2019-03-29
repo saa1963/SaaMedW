@@ -62,8 +62,10 @@ namespace SaaMedW
             if (f.ShowDialog() ?? false)
             {
                 var kkt = ServiceLocator.Instance.GetService<IKkm>();
-                ((AtolService)kkt).ReadCheck(num: modelView.Nfd);
-                MessageBox.Show("Расчет закончен");
+                if (((AtolService)kkt).ReadCheck(num: modelView.Nfd))
+                    MessageBox.Show("Расчет закончен");
+                else
+                    MessageBox.Show("Ошибка чтения документа");
             }
         }
 
