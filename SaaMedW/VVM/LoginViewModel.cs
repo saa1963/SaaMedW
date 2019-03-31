@@ -36,7 +36,7 @@ namespace SaaMedW
             get { return CurrentUser.Login; }
             set
             {
-                CurrentUser = UsersList.Single(s => s.Login == value);
+                CurrentUser = UsersList.SingleOrDefault(s => s.Login == value);
                 OnPropertyChanged("Login");
                 OnPropertyChanged("CurrentUser");
             }

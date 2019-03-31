@@ -8,7 +8,7 @@
         mc:Ignorable="d" FontSize="20" Style="{StaticResource {x:Type Window}}"
         Title="" SizeToContent="Height" Width="350"
         FocusManager.FocusedElement="{Binding ElementName=tbSm}">
-    <Grid>
+    <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
@@ -20,7 +20,7 @@
         <DockPanel Grid.Row="0">
             <TextBlock Margin="10" DockPanel.Dock="Left" Text="Вид оплаты"></TextBlock>
             <ComboBox DockPanel.Dock="Left" Margin="0,0,0,10" Width="150"
-                ItemsSource="{Binding Source={StaticResource PaymentTypeEnum}}" 
+                ItemsSource="{Binding PaymentTypeList}" 
                 SelectedValue="{Binding PaymentType}">
             </ComboBox>
         </DockPanel>

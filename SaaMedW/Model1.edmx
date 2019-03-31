@@ -901,7 +901,6 @@
         </Association>
         <EnumType Name="enumPaymentType">
           <Member Name="Наличные" Value="0" />
-          <Member Name="Карта" Value="1" />
           <Member Name="Безналичные" Value="2" />
           <Member Name="Возврат" Value="3" />
         </EnumType>

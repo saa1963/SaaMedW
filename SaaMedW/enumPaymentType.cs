@@ -14,7 +14,6 @@ namespace SaaMedW
     public enum enumPaymentType : int
     {
         Наличные = 0,
-        Карта = 1,
         Безналичные = 2,
         Возврат = 3
     }

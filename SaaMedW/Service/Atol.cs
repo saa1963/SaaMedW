@@ -123,7 +123,15 @@ namespace SaaMedW.Service
                 OpenConnection();
 
                 // Открытие чека
-                fptr.setParam(Constants.LIBFPTR_PARAM_RECEIPT_TYPE, Constants.LIBFPTR_RT_SELL);
+                if (vidOplata != enumPaymentType.Возврат)
+                {
+                    fptr.setParam(Constants.LIBFPTR_PARAM_RECEIPT_TYPE, Constants.LIBFPTR_RT_SELL);
+                }
+                else
+                {
+                    fptr.setParam(Constants.LIBFPTR_PARAM_RECEIPT_TYPE, Constants.LIBFPTR_RT_SELL_RETURN);
+                }
+                
                 if (electron)
                 {
                     fptr.setParam(Constants.LIBFPTR_PARAM_RECEIPT_ELECTRONICALLY, true);
@@ -146,8 +154,15 @@ namespace SaaMedW.Service
                     fptr.registration();
                 }
                 // Оплата наличными
-                fptr.setParam(Constants.LIBFPTR_PARAM_PAYMENT_TYPE, Constants.LIBFPTR_PT_CASH);
-                fptr.setParam(Constants.LIBFPTR_PARAM_PAYMENT_SUM, 1000);
+                if (vidOplata != enumPaymentType.Безналичные)
+                {
+                    fptr.setParam(Constants.LIBFPTR_PARAM_PAYMENT_TYPE, Constants.LIBFPTR_PT_CASH);
+                }
+                else
+                {
+                    fptr.setParam(Constants.LIBFPTR_PARAM_PAYMENT_TYPE, Constants.LIBFPTR_PT_ELECTRONICALLY);
+                }
+                fptr.setParam(Constants.LIBFPTR_PARAM_PAYMENT_SUM, Convert.ToDouble(oplata));
                 fptr.payment();
 
                 // Закрытие чека

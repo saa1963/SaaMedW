@@ -9,6 +9,20 @@ namespace SaaMedW
 {
     public class PayInvoiceViewModel: NotifyPropertyChanged, IDataErrorInfo
     {
+        public PayInvoiceViewModel()
+        {
+            var temp
+                = (enumPaymentType[])Enum.GetValues(typeof(enumPaymentType));
+            PaymentTypeList = new List<enumPaymentType>();
+            foreach(var o in temp)
+            {
+                if (o != enumPaymentType.Возврат)
+                    PaymentTypeList.Add(o);
+            }
+        }
+
+        public List<enumPaymentType> PaymentTypeList { get; set; }
+
         private enumPaymentType m_PaymentType;
         public enumPaymentType PaymentType
         {
