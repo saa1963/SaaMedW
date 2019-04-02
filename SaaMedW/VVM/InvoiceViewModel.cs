@@ -234,11 +234,13 @@ namespace SaaMedW
                     uslugi.Add(new Tuple<string, int, decimal>(o.BenefitName, o.Kol, o.Price));
                 }
                 var pay = Math.Min(viewModel.Sm, viewModel.КОплате);
-                if (kkm.Register(uslugi, pay, viewModel.PaymentType, viewModel.Email, viewModel.Email != null ))
+                if (kkm.Register(uslugi, viewModel.Sm, viewModel.PaymentType, viewModel.Email, viewModel.IsElectronic ))
                 {
-                    accounts.PayOneInvoice(pay, InvoiceSel.Obj, viewModel.PaymentType);
+                    accounts.PayOneInvoice(pay, InvoiceSel.Obj, viewModel.PaymentType, viewModel.Email);
                     ctx.Entry(InvoiceSel.Obj).Reload();
                     InvoiceSel.OnPropertyChanged("Status");
+                    if (viewModel.IsElectronic)
+                        MessageBox.Show("Электронный чек сформирован.");
                 }
                 else
                 {
@@ -256,15 +258,24 @@ namespace SaaMedW
 
         private void BackMoney(object obj)
         {
-            if (!accounts.BackMoneyOneInvoice(InvoiceSel.Obj, out string message))
+            IKkm kkm = ServiceLocator.Instance.GetService<IKkm>();
+            List<Tuple<string, int, decimal>> uslugi = new List<Tuple<string, int, decimal>>();
+            foreach (var o in InvoiceSel.InvoiceDetail)
             {
-                MessageBox.Show(message);
+                uslugi.Add(new Tuple<string, int, decimal>(o.BenefitName, o.Kol, o.Price));
             }
-            else
+            if (kkm.Register(uslugi, InvoiceSel.Sm, enumPaymentType.Возврат, InvoiceSel.Email, InvoiceSel.Email != null))
             {
-                ctx.Entry(InvoiceSel.Obj).Reload();
-                InvoiceSel.OnPropertyChanged("Status");
-                MessageBox.Show("Возврат произведен.");
+                if (!accounts.BackMoneyOneInvoice(InvoiceSel.Obj, out string message))
+                {
+                    MessageBox.Show(message);
+                }
+                else
+                {
+                    ctx.Entry(InvoiceSel.Obj).Reload();
+                    InvoiceSel.OnPropertyChanged("Status");
+                    MessageBox.Show("Возврат произведен.");
+                }
             }
         }
     }

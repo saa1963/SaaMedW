@@ -27,6 +27,7 @@ namespace SaaMedW
         public decimal Sm { get; set; }
         public Nullable<int> VisitId { get; set; }
         public decimal Payed { get; set; }
+        public string Email { get; set; }
     
         public virtual Person Person { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

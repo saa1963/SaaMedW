@@ -77,6 +77,15 @@ namespace SaaMedW
                 OnPropertyChanged("Payed");
             }
         }
+        public string Email
+        {
+            get => String.IsNullOrWhiteSpace(m_object.Email) ? m_object.Email : null;
+            set
+            {
+                m_object.Email = value;
+                OnPropertyChanged("Email");
+            }
+        }
         public Person Person
         {
             get => m_object.Person;

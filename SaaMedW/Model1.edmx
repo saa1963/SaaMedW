@@ -45,6 +45,7 @@
           <Property Name="VisitId" Type="int" />
           <Property Name="Sm" Type="money" Nullable="false" />
           <Property Name="Payed" Type="money" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="InvoiceDetail">
           <Key>
@@ -706,6 +707,7 @@
           <Property Name="VisitId" Type="Int32" Nullable="true" />
           <NavigationProperty Name="Visit" Relationship="SaaMedModel.FK_Invoice_Visit1" FromRole="Invoice" ToRole="Visit" />
           <Property Name="Payed" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="InvoiceDetail">
           <Key>
@@ -1085,7 +1087,8 @@
     <EntitySetMapping Name="Invoice">
       <EntityTypeMapping TypeName="IsTypeOf(SaaMedModel.Invoice)">
         <MappingFragment StoreEntitySet="Invoice">
-          <ScalarProperty Name="Payed" ColumnName="Payed" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Payed" ColumnName="Payed" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Dt" ColumnName="Dt" />
           <ScalarProperty Name="Status" ColumnName="Status" />

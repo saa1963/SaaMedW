@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using Atol.Drivers10.Fptr;
 using log4net;
+using Newtonsoft.Json;
 
 namespace SaaMedW.Service
 {
@@ -356,6 +357,8 @@ namespace SaaMedW.Service
                     "{\"type\": \"getFnDocument\", \"fiscalDocumentNumber\": " + num.ToString() + "}");
                 if (fptr.processJson() < 0) throw AtolException();
                 String result = fptr.getParamString(Constants.LIBFPTR_PARAM_JSON_DATA);
+                dynamic parsedJson = JsonConvert.DeserializeObject(result);
+                result = JsonConvert.SerializeObject(parsedJson, Formatting.Indented);
 
                 string s = "\r\n";
                 s += "--------------- Документ из ФН _________________________";

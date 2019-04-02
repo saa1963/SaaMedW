@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Net.Mail;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace SaaMedW
 {
@@ -80,6 +83,28 @@ namespace SaaMedW
                 OnPropertyChanged("Email");
             }
         }
+        private bool m_IsElectronic;
+        public bool IsElectronic
+        {
+            get => m_IsElectronic;
+            set
+            {
+                m_IsElectronic = value;
+                OnPropertyChanged("IsElectronic");
+                OnPropertyChanged("EmailVisibility");
+                OnPropertyChanged("Email");
+            }
+        }
+        public Visibility EmailVisibility
+        {
+            get
+            {
+                if (m_IsElectronic)
+                    return Visibility.Visible;
+                else
+                    return Visibility.Collapsed;
+            }
+        }
         public string this[string columnName]
         {
             get
@@ -91,12 +116,49 @@ namespace SaaMedW
                         if (Sm <= 0)
                             result = "Не введена сумма.";
                         break;
+                    case "Email":
+                        if (IsElectronic)
+                        {
+                            if (String.IsNullOrWhiteSpace(Email))
+                            {
+                                result = "Не введен Email или телефон.";
+                            }
+                            else
+                            {
+                                if (!ValidEmail(Email) && !ValidPhone(Email))
+                                {
+                                    result = "Неверный формат (пример qq@mail.ru или 79101233983)";
+                                }
+                            }
+                        }
+                        break;
                     default:
                         break;
                 }
                 return result;
             }
         }
+
+        private bool ValidPhone(string email)
+        {
+            Regex regex = new Regex(@"7\d{10}");
+            return regex.IsMatch(email);
+        }
+
+        private bool ValidEmail(string email)
+        {
+            try
+            {
+                MailAddress m = new MailAddress(email);
+
+                return true;
+            }
+            catch (FormatException)
+            {
+                return false;
+            }
+        }
+
         public string Error { get; set; } = String.Empty;
     }
 }

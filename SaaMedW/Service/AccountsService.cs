@@ -47,7 +47,7 @@ namespace SaaMedW.Service
             }
         }
 
-        public bool PayOneInvoice(decimal pay, Invoice p_invoice, enumPaymentType paymentType)
+        public bool PayOneInvoice(decimal pay, Invoice p_invoice, enumPaymentType paymentType, string Email)
         {
             bool rt = false;
             using (SaaMedEntities ctx = new SaaMedEntities())
@@ -66,6 +66,7 @@ namespace SaaMedW.Service
                     invoice.Status = enumStatusInvoice.Оплачен;
                 else
                     invoice.Status = enumStatusInvoice.Оплачен_частично;
+                invoice.Email = Email;
                 try
                 {
                     ctx.SaveChanges();
