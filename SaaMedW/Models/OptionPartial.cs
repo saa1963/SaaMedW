@@ -178,7 +178,10 @@ namespace SaaMedW
         {
             Type type = ВсеВидыПараметров[this.ParameterType].type;
             if (type == typeof(string))
-                return ParameterValue;
+                if (ParameterValue != "NULL")
+                    return ParameterValue;
+                else
+                    return null;
             else if (type == typeof(System.IO.Path))
                 return ParameterValue;
             else if (type == typeof(int))
@@ -238,7 +241,10 @@ namespace SaaMedW
         {
             Type type = ВсеВидыПараметров[this.ParameterType].type;
             if (type == typeof(string))
-                return (T)Convert.ChangeType(ParameterValue, typeof(T));
+                if (ParameterValue != "NULL")
+                    return (T)Convert.ChangeType(ParameterValue, typeof(T));
+                else
+                    return default(T);
             else if (type == typeof(System.IO.Path))
                 return (T)Convert.ChangeType(ParameterValue, typeof(T));
             else if (type == typeof(int))
@@ -317,9 +323,13 @@ namespace SaaMedW
             {
                 ParameterValue = ((int)dv).ToString();
             }
+            else if (Value == null && dv == null)
+            {
+                ParameterValue = "NULL";
+            }
             else
             {
-                Debug.Assert(false, "Недопустимый тип параметра.");
+                Debug.Assert(false, message: $"Недопустимый тип параметра. Value = {this.Name}");
             }
         }
         public static void SetParameter<T>(enumParameterType type, T value)

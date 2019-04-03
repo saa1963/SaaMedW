@@ -194,6 +194,12 @@ namespace SaaMedW.Service
                 else
                     return null;
             }
+            catch (Exception e)
+            {
+                var log = log4net.LogManager.GetLogger(typeof(AtolService));
+                log.Error("", e);
+                throw e;
+            }
             finally
             {
                 if (fptr != null)
