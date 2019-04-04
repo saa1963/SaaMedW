@@ -21,6 +21,8 @@ namespace SaaMedW
         private List<VmMKB> m_SearchList = new List<VmMKB>();
         private VmMKB m_SelectedItem;
         private string m_SearchString;
+        private string m_SearchString0;
+        private int m_IndexSearch;
         public string SearchString
         {
             get => m_SearchString;
@@ -68,28 +70,66 @@ namespace SaaMedW
             }
         }
         public RelayCommand LoadCommand { get; set; } = new RelayCommand(Load);
-        public RelayCommand SearchBackCommand => new RelayCommand(SearchBack, s => !String.IsNullOrWhiteSpace(SearchString));
-        public RelayCommand SearchForwardCommand => new RelayCommand(SearchForward, s => !String.IsNullOrWhiteSpace(SearchString));
+        public RelayCommand SearchBackCommand => new RelayCommand(SearchBack);
+        public RelayCommand SearchForwardCommand => new RelayCommand(SearchForward);
 
         private static void SearchForward(object obj)
         {
             var vm = obj as MkbViewModel;
-            vm.SearchStringForward();
+            if (!String.IsNullOrWhiteSpace(vm.SearchString))
+                vm.SearchStringForward();
+        }
+
+        private static void SearchBack(object obj)
+        {
+            var vm = obj as MkbViewModel;
+            if (!String.IsNullOrWhiteSpace(vm.SearchString))
+                vm.SearchStringBack();
+        }
+
+        private void InitSearch()
+        {
+            foreach (var o in m_MkbList)
+            {
+                SearchStringInNode(o);
+            }
+            if (m_SearchList.Count > 0)
+            {
+                m_IndexSearch = 0;
+            }
         }
 
         private void SearchStringForward()
         {
+            m_SearchString0 = m_SearchString.ToUpper();
             if (m_SearchList.Count == 0)
             {
-                var ss = m_SearchString.ToUpper();
-                foreach (var o in m_MkbList)
-                {
-                    SearchStringInNode(o);
-                }
-                if (m_SearchList.Count > 0)
-                {
-                    SelectedItem = m_SearchList[0];
-                }
+                InitSearch();    
+            }
+            if (m_SearchList.Count > 0)
+            {
+                SelectedItem = m_SearchList[m_IndexSearch];
+                if (m_IndexSearch == m_SearchList.Count - 1)
+                    m_IndexSearch = 0;
+                else
+                    m_IndexSearch++;
+            }
+        }
+
+        private void SearchStringBack()
+        {
+            m_SearchString0 = m_SearchString.ToUpper();
+            if (m_SearchList.Count == 0)
+            {
+                InitSearch();
+            }
+            if (m_SearchList.Count > 0)
+            {
+                if (m_IndexSearch > 0)
+                    m_IndexSearch--;
+                else
+                    m_IndexSearch = m_SearchList.Count - 1;
+                SelectedItem = m_SearchList[m_IndexSearch];
             }
         }
 
@@ -97,7 +137,7 @@ namespace SaaMedW
         {
             if (o.ChildMkb.Count == 0)
             {
-                if (o.Name.ToUpper().IndexOf(m_SearchString) >= 0)
+                if (o.Name.ToUpper().IndexOf(m_SearchString0) >= 0)
                     m_SearchList.Add(o);
             }
             else

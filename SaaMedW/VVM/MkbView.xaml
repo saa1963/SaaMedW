@@ -30,7 +30,7 @@
                     </Style>
                 </Button.Style>
             </Button>
-            <Button Height="20" Command="{Binding SearchForwardCommand}">
+            <Button Height="20" Command="{Binding SearchForwardCommand}" CommandParameter="{Binding .}">
                 <Image Source="..\image\forward.png"></Image>
                 <Button.Style>
                     <Style TargetType="Button">
