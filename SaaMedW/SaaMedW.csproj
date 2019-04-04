@@ -154,6 +154,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Behaviors\BindableSelectedItemBehavior.cs" />
     <Compile Include="MKB.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -273,7 +274,7 @@
     <Compile Include="VVM\EditGetCheckdataViewModel.cs" />
     <Compile Include="VVM\EditGraphicViewModel.cs" />
     <Compile Include="VVM\EditPersonalViewModel.cs" />
-    <Compile Include="VVM\EditSpecialtyViewModel.cs" />
+    <Compile Include="VVM\EditStringViewModel.cs" />
     <Compile Include="VVM\EditUserViewModel.cs" />
     <Compile Include="VVM\LoginViewModel.cs" />
     <Compile Include="VVM\MasterWindowViewModel.cs" />
@@ -371,8 +372,8 @@
     <Compile Include="VVM\EditPersonal.xaml.cs">
       <DependentUpon>EditPersonal.xaml</DependentUpon>
     </Compile>
-    <Compile Include="VVM\EditSpecialtyView.xaml.cs">
-      <DependentUpon>EditSpecialtyView.xaml</DependentUpon>
+    <Compile Include="VVM\EditStringView.xaml.cs">
+      <DependentUpon>EditStringView.xaml</DependentUpon>
     </Compile>
     <Compile Include="VVM\EditUserView.xaml.cs">
       <DependentUpon>EditUserView.xaml</DependentUpon>
@@ -450,7 +451,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="VVM\EditSpecialtyView.xaml">
+    <Page Include="VVM\EditStringView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -626,9 +627,7 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Behaviors\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
       <Visible>False</Visible>

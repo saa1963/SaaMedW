@@ -18,6 +18,31 @@ namespace SaaMedW
         private SaaMedEntities ctx = new SaaMedEntities();
         private List<MKB> lst;
         private ObservableCollection<VmMKB> m_MkbList = new ObservableCollection<VmMKB>();
+        private List<VmMKB> m_SearchList = new List<VmMKB>();
+        private VmMKB m_SelectedItem;
+        private string m_SearchString;
+        public string SearchString
+        {
+            get => m_SearchString;
+            set
+            {
+                if (value != m_SearchString)
+                {
+                    m_SearchList.Clear();
+                    m_SearchString = value;
+                    OnPropertyChanged("SearchString");
+                }
+            }
+        }
+        public VmMKB SelectedItem
+        {
+            get => m_SelectedItem;
+            set
+            {
+                m_SelectedItem = value;
+                OnPropertyChanged("SelectedItem");
+            }
+        }
         public ObservableCollection<VmMKB> MkbList
         {
             get => m_MkbList;
@@ -43,6 +68,46 @@ namespace SaaMedW
             }
         }
         public RelayCommand LoadCommand { get; set; } = new RelayCommand(Load);
+        public RelayCommand SearchBackCommand => new RelayCommand(SearchBack, s => !String.IsNullOrWhiteSpace(SearchString));
+        public RelayCommand SearchForwardCommand => new RelayCommand(SearchForward, s => !String.IsNullOrWhiteSpace(SearchString));
+
+        private static void SearchForward(object obj)
+        {
+            var vm = obj as MkbViewModel;
+            vm.SearchStringForward();
+        }
+
+        private void SearchStringForward()
+        {
+            if (m_SearchList.Count == 0)
+            {
+                var ss = m_SearchString.ToUpper();
+                foreach (var o in m_MkbList)
+                {
+                    SearchStringInNode(o);
+                }
+                if (m_SearchList.Count > 0)
+                {
+                    SelectedItem = m_SearchList[0];
+                }
+            }
+        }
+
+        private void SearchStringInNode(VmMKB o)
+        {
+            if (o.ChildMkb.Count == 0)
+            {
+                if (o.Name.ToUpper().IndexOf(m_SearchString) >= 0)
+                    m_SearchList.Add(o);
+            }
+            else
+            {
+                foreach(var o1 in o.ChildMkb)
+                {
+                    SearchStringInNode(o1);
+                }
+            }
+        }
 
         private static void Load(object obj)
         {

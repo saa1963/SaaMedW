@@ -24,5 +24,10 @@ namespace SaaMedW
         {
             InitializeComponent();
         }
+
+        private void OnSelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            MessageBox.Show("11");
+        }
     }
 }

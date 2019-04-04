@@ -93,8 +93,8 @@ namespace SaaMedW
         private void AddSpecialty(bool isRoot)
         {
             if (!isRoot && SpecialtySel == null) return;
-            var modelView = new EditSpecialtyViewModel();
-            var f = new EditSpecialtyView() { DataContext = modelView };
+            var modelView = new EditStringViewModel();
+            var f = new EditStringView() { DataContext = modelView };
             if (f.ShowDialog() ?? false)
             {
                 var specialtyNew = new VmSpecialty();
@@ -129,8 +129,8 @@ namespace SaaMedW
         private void EditObject(object obj)
         {
             if (SpecialtySel == null) return;
-            var modelView = new EditSpecialtyViewModel(SpecialtySel);
-            var f = new EditSpecialtyView() { DataContext = modelView };
+            var modelView = new EditStringViewModel(SpecialtySel);
+            var f = new EditStringView() { DataContext = modelView };
             if (f.ShowDialog() ?? false)
             {
                 SpecialtySel.Name = modelView.Name;

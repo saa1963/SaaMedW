@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:e="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              xmlns:local="clr-namespace:SaaMedW"
              mc:Ignorable="d" Tag="МКБ-10"
              d:DesignHeight="450" d:DesignWidth="800">
@@ -15,10 +16,35 @@
         <Menu DockPanel.Dock="Top" Name="MainMenu">
             <MenuItem Header="Загрузить из Excel" Command="{Binding LoadCommand}">
             </MenuItem>
+            <MenuItem Header="Поиск по названию" Command="{Binding SearchCommand}" CommandParameter="{Binding .}">
+            </MenuItem>
         </Menu>
+        <WrapPanel DockPanel.Dock="Top" Margin="5">
+            <TextBlock Margin="0,0,5,0" Text="Поиск по названию" VerticalAlignment="Center"></TextBlock>
+            <TextBox Name="SearchTextBox" Width="200" Text="{Binding SearchString}"></TextBox>
+            <Button Height="20" Command="{Binding SearchBackCommand}" CommandParameter="{Binding .}">
+                <Image Source="..\image\back.png"></Image>
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="ToolTip" Value="Поиск назад"></Setter>
+                    </Style>
+                </Button.Style>
+            </Button>
+            <Button Height="20" Command="{Binding SearchForwardCommand}">
+                <Image Source="..\image\forward.png"></Image>
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="ToolTip" Value="Поиск вперед"></Setter>
+                    </Style>
+                </Button.Style>
+            </Button>
+        </WrapPanel>
         <TreeView x:Name="tbTree" Margin="0,0,10,0" MinWidth="200" 
                   BorderBrush="Transparent"
                   ItemsSource="{Binding MkbList}">
+            <e:Interaction.Behaviors>
+                <local:BindableSelectedItemBehavior SelectedItem="{Binding SelectedItem, Mode=TwoWay}" />
+            </e:Interaction.Behaviors>
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding ChildMkb}">
                     <StackPanel Orientation="Horizontal">

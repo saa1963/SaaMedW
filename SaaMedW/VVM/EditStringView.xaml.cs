@@ -17,9 +17,9 @@ namespace SaaMedW
     /// <summary>
     /// Логика взаимодействия для EditSpecialty.xaml
     /// </summary>
-    public partial class EditSpecialtyView : Window
+    public partial class EditStringView : Window
     {
-        public EditSpecialtyView()
+        public EditStringView()
         {
             InitializeComponent();
         }

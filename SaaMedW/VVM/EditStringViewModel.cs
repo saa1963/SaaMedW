@@ -7,12 +7,13 @@ using System.Threading.Tasks;
 
 namespace SaaMedW
 {
-    class EditSpecialtyViewModel: NotifyPropertyChanged, IDataErrorInfo
+    class EditStringViewModel: NotifyPropertyChanged, IDataErrorInfo
     {
         private string m_Name;
+        private string m_Header = "Наименование";
 
-        public EditSpecialtyViewModel() { }
-        public EditSpecialtyViewModel(VmSpecialty specialty)
+        public EditStringViewModel() { }
+        public EditStringViewModel(VmSpecialty specialty)
         {
             m_Name = specialty.Name;
         }
@@ -24,6 +25,15 @@ namespace SaaMedW
             {
                 m_Name = value;
                 OnPropertyChanged("Name");
+            }
+        }
+        public string Header
+        {
+            get => m_Header;
+            set
+            {
+                m_Header = value;
+                OnPropertyChanged("Header");
             }
         }
         public string this[string columnName]
