@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,25 +31,6 @@ namespace SaaMedW
             var tree = bh.AssociatedObject as TreeView;
             TreeViewItem tvi = bh.GetTreeViewItem(tree, item);
             tvi.IsSelected = true;
-            //if (tree.Items.Count > 0)
-            //{
-
-            //    ItemCollection items = tree.Items;
-
-            //    foreach (TreeViewItem node in items)
-            //    {
-
-            //        //   node.IsExpanded = false; 
-            //    }
-
-            //}
-            ////var tv = e.Property.
-            //if (item != null)
-            //{
-            //    //item.IsSelected = true;
-            //    //item.ExpandSubtree();
-            //    //item.SetValue(TreeViewItem.IsSelectedProperty, true);
-            //}
         }
 
         #endregion

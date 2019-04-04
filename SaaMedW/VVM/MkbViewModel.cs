@@ -95,7 +95,7 @@ namespace SaaMedW
             }
             if (m_SearchList.Count > 0)
             {
-                m_IndexSearch = 0;
+                m_IndexSearch = -1;
             }
         }
 
@@ -108,11 +108,11 @@ namespace SaaMedW
             }
             if (m_SearchList.Count > 0)
             {
-                SelectedItem = m_SearchList[m_IndexSearch];
                 if (m_IndexSearch == m_SearchList.Count - 1)
                     m_IndexSearch = 0;
                 else
                     m_IndexSearch++;
+                SelectedItem = m_SearchList[m_IndexSearch];
             }
         }
 
@@ -127,6 +127,8 @@ namespace SaaMedW
             {
                 if (m_IndexSearch > 0)
                     m_IndexSearch--;
+                else if (m_IndexSearch == -1)
+                    m_IndexSearch = 0;
                 else
                     m_IndexSearch = m_SearchList.Count - 1;
                 SelectedItem = m_SearchList[m_IndexSearch];
