@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:e="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              xmlns:local="clr-namespace:SaaMedW"
              mc:Ignorable="d" Tag="МКБ-10"
              d:DesignHeight="450" d:DesignWidth="800">
@@ -22,16 +21,8 @@
         <WrapPanel DockPanel.Dock="Top" Margin="5">
             <TextBlock Margin="0,0,5,0" Text="Поиск по названию" VerticalAlignment="Center"></TextBlock>
             <TextBox Name="SearchTextBox" Width="200" Text="{Binding SearchString}"></TextBox>
-            <Button Height="20" Command="{Binding SearchBackCommand}" CommandParameter="{Binding .}">
-                <Image Source="..\image\back.png"></Image>
-                <Button.Style>
-                    <Style TargetType="Button">
-                        <Setter Property="ToolTip" Value="Поиск назад"></Setter>
-                    </Style>
-                </Button.Style>
-            </Button>
             <Button Height="20" Command="{Binding SearchForwardCommand}" CommandParameter="{Binding .}">
-                <Image Source="..\image\forward.png"></Image>
+                <Image Source="..\image\icons8-search-32.png"></Image>
                 <Button.Style>
                     <Style TargetType="Button">
                         <Setter Property="ToolTip" Value="Поиск вперед"></Setter>
@@ -39,26 +30,50 @@
                 </Button.Style>
             </Button>
         </WrapPanel>
-        <TreeView x:Name="tbTree" Margin="0,0,10,0" MinWidth="200" 
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TreeView x:Name="tbTree" Margin="0,0,10,0" MinWidth="200" 
                   BorderBrush="Transparent"
-                  ItemsSource="{Binding MkbList}">
-            <e:Interaction.Behaviors>
-                <local:BindableSelectedItemBehavior SelectedItem="{Binding SelectedItem, Mode=TwoWay}" />
-            </e:Interaction.Behaviors>
-            <TreeView.ItemTemplate>
-                <HierarchicalDataTemplate ItemsSource="{Binding ChildMkb}">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding Kod}" Margin="0,0,5,0">
-                            <TextBlock.Style>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="FontWeight" Value="Bold"></Setter>
-                                </Style>
-                            </TextBlock.Style>
-                        </TextBlock>
-                        <TextBlock Text="{Binding Name}"></TextBlock>
-                    </StackPanel>
-                </HierarchicalDataTemplate>
-            </TreeView.ItemTemplate>
-        </TreeView>
+                  ItemsSource="{Binding MkbList}" Grid.Column="0">
+                <TreeView.ItemTemplate>
+                    <HierarchicalDataTemplate ItemsSource="{Binding ChildMkb}">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Kod}" Margin="0,0,5,0">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="FontWeight" Value="Bold"></Setter>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            <TextBlock Text="{Binding Name}"></TextBlock>
+                        </StackPanel>
+                    </HierarchicalDataTemplate>
+                </TreeView.ItemTemplate>
+            </TreeView>
+            <DockPanel Grid.Column="1">
+                <Border DockPanel.Dock="Top">
+                    <TextBlock Text="Найденные болезни"></TextBlock>
+                </Border>
+                <ListBox ItemsSource="{Binding SearchList}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Kod}" Margin="0,0,5,0">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="FontWeight" Value="Bold"></Setter>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                                <TextBlock Text="{Binding Name}"></TextBlock>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </DockPanel>
+        </Grid>
     </DockPanel>
 </UserControl>

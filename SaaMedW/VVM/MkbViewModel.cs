@@ -18,7 +18,7 @@ namespace SaaMedW
         private SaaMedEntities ctx = new SaaMedEntities();
         private List<MKB> lst;
         private ObservableCollection<VmMKB> m_MkbList = new ObservableCollection<VmMKB>();
-        private List<VmMKB> m_SearchList = new List<VmMKB>();
+        private ObservableCollection<VmMKB> m_SearchList = new ObservableCollection<VmMKB>();
         private VmMKB m_SelectedItem;
         private string m_SearchString;
         private string m_SearchString0;
@@ -36,15 +36,6 @@ namespace SaaMedW
                 }
             }
         }
-        public VmMKB SelectedItem
-        {
-            get => m_SelectedItem;
-            set
-            {
-                m_SelectedItem = value;
-                OnPropertyChanged("SelectedItem");
-            }
-        }
         public ObservableCollection<VmMKB> MkbList
         {
             get => m_MkbList;
@@ -52,6 +43,15 @@ namespace SaaMedW
             {
                 m_MkbList = value;
                 OnPropertyChanged("MbkList");
+            }
+        }
+        public ObservableCollection<VmMKB> SearchList
+        {
+            get => m_SearchList;
+            set
+            {
+                m_SearchList = value;
+                OnPropertyChanged("SearchList");
             }
         }
         public MkbViewModel()
@@ -70,7 +70,6 @@ namespace SaaMedW
             }
         }
         public RelayCommand LoadCommand { get; set; } = new RelayCommand(Load);
-        public RelayCommand SearchBackCommand => new RelayCommand(SearchBack);
         public RelayCommand SearchForwardCommand => new RelayCommand(SearchForward);
 
         private static void SearchForward(object obj)
@@ -80,58 +79,12 @@ namespace SaaMedW
                 vm.SearchStringForward();
         }
 
-        private static void SearchBack(object obj)
-        {
-            var vm = obj as MkbViewModel;
-            if (!String.IsNullOrWhiteSpace(vm.SearchString))
-                vm.SearchStringBack();
-        }
-
-        private void InitSearch()
-        {
-            foreach (var o in m_MkbList)
-            {
-                SearchStringInNode(o);
-            }
-            if (m_SearchList.Count > 0)
-            {
-                m_IndexSearch = -1;
-            }
-        }
-
         private void SearchStringForward()
         {
             m_SearchString0 = m_SearchString.ToUpper();
-            if (m_SearchList.Count == 0)
+            foreach (var o in m_MkbList)
             {
-                InitSearch();    
-            }
-            if (m_SearchList.Count > 0)
-            {
-                if (m_IndexSearch == m_SearchList.Count - 1)
-                    m_IndexSearch = 0;
-                else
-                    m_IndexSearch++;
-                SelectedItem = m_SearchList[m_IndexSearch];
-            }
-        }
-
-        private void SearchStringBack()
-        {
-            m_SearchString0 = m_SearchString.ToUpper();
-            if (m_SearchList.Count == 0)
-            {
-                InitSearch();
-            }
-            if (m_SearchList.Count > 0)
-            {
-                if (m_IndexSearch > 0)
-                    m_IndexSearch--;
-                else if (m_IndexSearch == -1)
-                    m_IndexSearch = 0;
-                else
-                    m_IndexSearch = m_SearchList.Count - 1;
-                SelectedItem = m_SearchList[m_IndexSearch];
+                SearchStringInNode(o);
             }
         }
 
@@ -140,7 +93,7 @@ namespace SaaMedW
             if (o.ChildMkb.Count == 0)
             {
                 if (o.Name.ToUpper().IndexOf(m_SearchString0) >= 0)
-                    m_SearchList.Add(o);
+                    SearchList.Add(o);
             }
             else
             {
