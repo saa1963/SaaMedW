@@ -19,10 +19,8 @@ namespace SaaMedW
         private List<MKB> lst;
         private ObservableCollection<VmMKB> m_MkbList = new ObservableCollection<VmMKB>();
         private ObservableCollection<VmMKB> m_SearchList = new ObservableCollection<VmMKB>();
-        private VmMKB m_SelectedItem;
         private string m_SearchString;
         private string m_SearchString0;
-        private int m_IndexSearch;
         public string SearchString
         {
             get => m_SearchString;
