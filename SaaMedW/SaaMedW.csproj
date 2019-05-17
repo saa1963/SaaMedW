@@ -578,7 +578,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <None Include="SaaMedW_TemporaryKey.pfx" />
-    <Content Include="templates\dogovor-usluga-medichina.docx">
+    <Content Include="templates\ДОГОВОР 2019.docx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="Об особенностях формирования кассового чека коррекции.pdf" />
