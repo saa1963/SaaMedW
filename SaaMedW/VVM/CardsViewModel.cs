@@ -182,7 +182,7 @@ namespace SaaMedW
             try
             {
                 if (CardsSel == null) return;
-                var viewModel = new EditOneVisitViewModel(ctx);
+                var viewModel = new EditOneVisitViewModel(ctx, CardsSel.Obj);
                 var f = new EditOneVisitView() { DataContext = viewModel };
                 if (f.ShowDialog() ?? false)
                 {

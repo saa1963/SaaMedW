@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using Xceed.Words.NET;
 
@@ -10,7 +11,7 @@ namespace SaaMedW
         {
         }
 
-        internal void DoIt(Invoice inv)
+        internal void DoIt(DateTime dt, Person person, IEnumerable<VisitBenefit> benefits)
         {
             var templateName =
                 Path.Combine(Path.GetDirectoryName(
@@ -31,9 +32,9 @@ namespace SaaMedW
                     //doc.InsertAtBookmark(license, "license");
                     //var fioruk = Options.GetParameter<string>(enumParameterType.ФИО_руководителя);
                     //doc.InsertAtBookmark(fioruk, "fioruk");
-                    doc.InsertAtBookmark(inv.Person.Fio, "patient");
-                    doc.InsertAtBookmark(inv.Person.FullAddress, "patient_address");
-                    doc.InsertAtBookmark(inv.Person.Phone, "patient_phone");
+                    doc.InsertAtBookmark(person.Fio, "patient");
+                    doc.InsertAtBookmark(person.FullAddress, "patient_address");
+                    doc.InsertAtBookmark(person.Phone, "patient_phone");
                     //doc.InsertAtBookmark(inv.Person.Fio, "patient_rod");
                     //var sm = RuDateAndMoneyConverter.CurrencyToTxt(Convert.ToDouble(inv.Sm), true);
                     //doc.InsertAtBookmark(sm, "sum_prop");
@@ -56,6 +57,29 @@ namespace SaaMedW
                     //doc.InsertAtBookmark(inv.Person.DocSeria, "serpasp");
                     //doc.InsertAtBookmark(inv.Person.DocNumber, "numpasp");
                     //doc.InsertAtBookmark("11.11.1111 Отделом МВД г.Тамбова", "vidan");
+                    var t = doc.Tables.Find(s => s.TableCaption == "Услуги");
+                    if (t != null)
+                    {
+                        foreach (var benefit in benefits)
+                        {
+                            var r = t.InsertRow();
+                            r.Cells[0].Paragraphs[0].Append(dt.ToString("dd.MM.yyyy")).Font(new Font("Times New Roman")).FontSize(9);
+                            r.Cells[0].SetBorder(TableCellBorderType.Left, new Border());
+                            r.Cells[0].SetBorder(TableCellBorderType.Top, new Border());
+                            r.Cells[0].SetBorder(TableCellBorderType.Right, new Border());
+                            r.Cells[0].SetBorder(TableCellBorderType.Bottom, new Border());
+                            r.Cells[1].Paragraphs[0].Append(benefit.Benefit.Name).Font(new Font("Times New Roman")).FontSize(9);
+                            r.Cells[1].SetBorder(TableCellBorderType.Left, new Border());
+                            r.Cells[1].SetBorder(TableCellBorderType.Top, new Border());
+                            r.Cells[1].SetBorder(TableCellBorderType.Right, new Border());
+                            r.Cells[1].SetBorder(TableCellBorderType.Bottom, new Border());
+                            r.Cells[2].Paragraphs[0].Append((benefit.Kol * benefit.Benefit.Price).ToString("#0.00")).Font(new Font("Times New Roman")).FontSize(9);
+                            r.Cells[2].SetBorder(TableCellBorderType.Left, new Border());
+                            r.Cells[2].SetBorder(TableCellBorderType.Top, new Border());
+                            r.Cells[2].SetBorder(TableCellBorderType.Right, new Border());
+                            r.Cells[2].SetBorder(TableCellBorderType.Bottom, new Border());
+                        }
+                    }
                     doc.Save();
                 }
             }

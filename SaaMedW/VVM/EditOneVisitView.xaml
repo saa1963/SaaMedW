@@ -51,10 +51,10 @@
             </DockPanel>
             <StackPanel Grid.Column="1" VerticalAlignment="Center">
                 <Button Margin="10" Command="{Binding AddBenefitCommand}">
-                    <Image Source="../../image/forward.png"></Image>
+                    <Image Source="../image/forward.png"></Image>
                 </Button>
                 <Button Margin="10" Command="{Binding RemoveBenefitCommand}">
-                    <Image Source="../../image/back.png"></Image>
+                    <Image Source="../image/back.png"></Image>
                 </Button>
             </StackPanel>
             <Grid Grid.Column="2">
@@ -125,11 +125,13 @@
                 </Grid>
             </Grid>
         </Grid>
-        <StackPanel Margin="10" Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="1">
-            <Button Margin="5" Width="60" Content="OK" IsDefault="True" 
+        <StackPanel Margin="20" Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="1">
+            <Button Margin="5" Width="70" Content="Договор" Command="{Binding DogovorCommand}"></Button>
+            <Button Margin="5" Width="70" Content="Согласие" Command="{Binding SoglasieCommand}"></Button>
+            <Button Margin="5" Width="70" Content="OK" IsDefault="True" 
                     Click="OK_Click" Name="OKButton"
                     IsEnabled="{Binding IsEnabledOk}"></Button>
-            <Button Margin="5" Width="60" Content="Отмена" IsCancel="True"></Button>
+            <Button Margin="5" Width="70" Content="Отмена" IsCancel="True"></Button>
         </StackPanel>
     </Grid>
 </Window>

@@ -14,6 +14,7 @@ namespace SaaMedW
         private List<Specialty> lst;
         private SaaMedEntities ctx;
         private bool m_Status;
+        private Person m_person;
 
         public ObservableCollection<VmSpecialty> SpecialtyList { get => m_specialty; }
         public List<StatusName> ListStatus { get; set; } = new List<StatusName>();
@@ -86,9 +87,10 @@ namespace SaaMedW
             return sps.Contains(sp.Id);
         }
 
-        public EditOneVisitViewModel(SaaMedEntities _ctx, IEnumerable<int> sps = null)
+        public EditOneVisitViewModel(SaaMedEntities _ctx, Person person, IEnumerable<int> sps = null)
         {
             ctx = _ctx;
+            m_person = person;
             RefreshBenefits1(sps);
             ListStatus.Add(new StatusName() { Id = enVisitStatus.Предварительный, Name = "Предварительный" });
             ListStatus.Add(new StatusName() { Id = enVisitStatus.Завершен, Name = "Завершен" });
@@ -120,8 +122,8 @@ namespace SaaMedW
             OnPropertyChanged("IsEnabledOk");
         }
 
-        public EditOneVisitViewModel(SaaMedEntities _ctx, Visit visit)
-            : this(_ctx,  visit.Personal.PersonalSpecialty.Select(s => s.SpecialtyId))
+        public EditOneVisitViewModel(SaaMedEntities _ctx, Person person, Visit visit)
+            : this(_ctx, person, visit.Personal.PersonalSpecialty.Select(s => s.SpecialtyId))
         {
             m_Duration = visit.Duration;
             m_Status = visit.Status;
@@ -227,6 +229,17 @@ namespace SaaMedW
         {
             get => new RelayCommand(SelectTime,
                 s => VisitBenefit.Count > 0 && m_Duration > 0);
+        }
+
+        public RelayCommand DogovorCommand
+        {
+            get => new RelayCommand(PrnDogovor,
+                s => VisitBenefit.Count > 0);
+        }
+
+        private void PrnDogovor(object obj)
+        {
+            new Dogovor().DoIt(DateTime.Now, m_person, VisitBenefit);
         }
 
         public string Error => "";

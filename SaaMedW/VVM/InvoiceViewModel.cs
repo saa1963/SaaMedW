@@ -203,17 +203,6 @@ namespace SaaMedW
             
         }
 
-        public RelayCommand PrintDogovorCommand
-        {
-            get => new RelayCommand(PrnDogovor, s => InvoiceSel != null);
-        }
-
-        private void PrnDogovor(object obj)
-        {
-            Debug.Assert(InvoiceSel != null);
-            new Dogovor().DoIt(InvoiceSel.Obj);
-        }
-
         public RelayCommand PayCommand
         {
             get => new RelayCommand(PayInvoice, s => InvoiceSel != null 

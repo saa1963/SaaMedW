@@ -55,19 +55,6 @@
             </Button>
             <Button DockPanel.Dock="Left" 
                 Height="32"
-                Command="{Binding PrintDogovorCommand}">
-                <StackPanel Orientation="Horizontal">
-                    <Image Source="..\image\icons8-печать-32.png"></Image>
-                    <TextBlock VerticalAlignment="Center" Margin="5,0,5,0">Договор</TextBlock>
-                </StackPanel>
-                <Button.Style>
-                    <Style TargetType="Button">
-                        <Setter Property="ToolTip" Value="Печатать договор"></Setter>
-                    </Style>
-                </Button.Style>
-            </Button>
-            <Button DockPanel.Dock="Left" 
-                Height="32"
                 Command="{Binding PayCommand}">
                 <StackPanel Orientation="Horizontal">
                     <Image Source="..\image\icons8-ruble-32.png"></Image>
