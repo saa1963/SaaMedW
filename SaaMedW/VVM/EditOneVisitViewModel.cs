@@ -239,7 +239,8 @@ namespace SaaMedW
 
         private void PrnDogovor(object obj)
         {
-            new Dogovor().DoIt(DateTime.Now, m_person, VisitBenefit);
+            var numdog = Options.GetParameter<int>(enumParameterType.Номер_договора);
+            new Dogovor().DoIt(DateTime.Now, numdog, m_person, VisitBenefit);
         }
 
         public string Error => "";

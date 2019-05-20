@@ -193,10 +193,12 @@ namespace SaaMedW
                         Person = CardsSel.Obj,
                         Personal = viewModel.PersonalSel.Obj,
                         Status = false,
-                        VisitBenefit = viewModel.VisitBenefit
+                        VisitBenefit = viewModel.VisitBenefit,
+                        NumDog = Options.GetParameter<int>(enumParameterType.Номер_договора)
                     };
                     ctx.Visit.Add(o);
                     ctx.SaveChanges();
+                    Options.SetParameter<int>(enumParameterType.Номер_договора, o.NumDog.Value + 1);
                 }
             }
             catch (Exception e)

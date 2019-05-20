@@ -11,7 +11,7 @@ namespace SaaMedW
         {
         }
 
-        internal void DoIt(DateTime dt, Person person, IEnumerable<VisitBenefit> benefits)
+        internal void DoIt(DateTime dt, int numdog, Person person, IEnumerable<VisitBenefit> benefits)
         {
             var templateName =
                 Path.Combine(Path.GetDirectoryName(
@@ -22,10 +22,12 @@ namespace SaaMedW
             {
                 using (var doc = DocX.Load(fs))
                 {
-                    var numdog = Options.GetParameter<int>(enumParameterType.Номер_договора);
+                    //var numdog = Options.GetParameter<int>(enumParameterType.Номер_договора);
                     doc.InsertAtBookmark(numdog.ToString(), "numdog");
-                    Options.SetParameter<int>(enumParameterType.Номер_договора, numdog + 1);
+                    doc.Bookmarks["numdog"].Paragraph.Font(new Font("Times New Roman")).FontSize(9);
+                    //Options.SetParameter<int>(enumParameterType.Номер_договора, numdog + 1);
                     doc.InsertAtBookmark(DateTime.Today.ToString("dd.MM.yyyy") + " г.", "datedog");
+                    doc.Bookmarks["datedog"].Paragraph.Font(new Font("Times New Roman")).FontSize(9);
                     //var firma = Options.GetParameter<string>(enumParameterType.Наименование_организации);
                     //doc.InsertAtBookmark(firma, "firma");
                     //var license = Options.GetParameter<string>(enumParameterType.Лицензия);
@@ -33,8 +35,11 @@ namespace SaaMedW
                     //var fioruk = Options.GetParameter<string>(enumParameterType.ФИО_руководителя);
                     //doc.InsertAtBookmark(fioruk, "fioruk");
                     doc.InsertAtBookmark(person.Fio, "patient");
+                    doc.Bookmarks["patient"].Paragraph.Font(new Font("Times New Roman")).FontSize(9);
                     doc.InsertAtBookmark(person.FullAddress, "patient_address");
+                    doc.Bookmarks["patient_address"].Paragraph.Font(new Font("Times New Roman")).FontSize(9);
                     doc.InsertAtBookmark(person.Phone, "patient_phone");
+                    doc.Bookmarks["patient_phone"].Paragraph.Font(new Font("Times New Roman")).FontSize(9);
                     //doc.InsertAtBookmark(inv.Person.Fio, "patient_rod");
                     //var sm = RuDateAndMoneyConverter.CurrencyToTxt(Convert.ToDouble(inv.Sm), true);
                     //doc.InsertAtBookmark(sm, "sum_prop");
@@ -60,9 +65,12 @@ namespace SaaMedW
                     var t = doc.Tables.Find(s => s.TableCaption == "Услуги");
                     if (t != null)
                     {
+                        decimal sm = 0;
+                        Row r;
                         foreach (var benefit in benefits)
                         {
-                            var r = t.InsertRow();
+                            sm += benefit.Kol * benefit.Benefit.Price;
+                            r = t.InsertRow();
                             r.Cells[0].Paragraphs[0].Append(dt.ToString("dd.MM.yyyy")).Font(new Font("Times New Roman")).FontSize(9);
                             r.Cells[0].SetBorder(TableCellBorderType.Left, new Border());
                             r.Cells[0].SetBorder(TableCellBorderType.Top, new Border());
@@ -79,6 +87,22 @@ namespace SaaMedW
                             r.Cells[2].SetBorder(TableCellBorderType.Right, new Border());
                             r.Cells[2].SetBorder(TableCellBorderType.Bottom, new Border());
                         }
+                        r = t.InsertRow();
+                        r.Cells[0].Paragraphs[0].Append("ИТОГО").Font(new Font("Times New Roman")).FontSize(9);
+                        r.Cells[0].SetBorder(TableCellBorderType.Left, new Border());
+                        r.Cells[0].SetBorder(TableCellBorderType.Top, new Border());
+                        r.Cells[0].SetBorder(TableCellBorderType.Right, new Border());
+                        r.Cells[0].SetBorder(TableCellBorderType.Bottom, new Border());
+                        r.Cells[1].Paragraphs[0].Append("");
+                        r.Cells[1].SetBorder(TableCellBorderType.Left, new Border());
+                        r.Cells[1].SetBorder(TableCellBorderType.Top, new Border());
+                        r.Cells[1].SetBorder(TableCellBorderType.Right, new Border());
+                        r.Cells[1].SetBorder(TableCellBorderType.Bottom, new Border());
+                        r.Cells[2].Paragraphs[0].Append(sm.ToString("#0.00")).Font(new Font("Times New Roman")).FontSize(9);
+                        r.Cells[2].SetBorder(TableCellBorderType.Left, new Border());
+                        r.Cells[2].SetBorder(TableCellBorderType.Top, new Border());
+                        r.Cells[2].SetBorder(TableCellBorderType.Right, new Border());
+                        r.Cells[2].SetBorder(TableCellBorderType.Bottom, new Border());
                     }
                     doc.Save();
                 }

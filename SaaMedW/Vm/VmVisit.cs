@@ -96,6 +96,15 @@ namespace SaaMedW
                 OnPropertyChanged("Duration");
             }
         }
+        public int? NumDog
+        {
+            get => m_object.NumDog;
+            set
+            {
+                m_object.NumDog = value;
+                OnPropertyChanged("NumDog");
+            }
+        }
         public ICollection<VisitBenefit> VisitBenefit
         {
             get => m_object.VisitBenefit;

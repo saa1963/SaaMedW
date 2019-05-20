@@ -169,6 +169,7 @@
           <Property Name="Dt" Type="datetime" Nullable="false" />
           <Property Name="Status" Type="bit" Nullable="false" />
           <Property Name="Duration" Type="int" Nullable="false" />
+          <Property Name="NumDog" Type="int" />
         </EntityType>
         <EntityType Name="VisitBenefit">
           <Key>
@@ -735,6 +736,7 @@
           <NavigationProperty Name="VisitBenefit" Relationship="SaaMedModel.FK_Table_Visit" FromRole="Visit" ToRole="VisitBenefit" />
           <Property Name="Duration" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Invoice" Relationship="SaaMedModel.FK_Invoice_Visit1" FromRole="Visit" ToRole="Invoice" />
+          <Property Name="NumDog" Type="Int32" />
         </EntityType>
         <EntityType Name="VisitBenefit">
           <Key>
@@ -1113,7 +1115,8 @@
     <EntitySetMapping Name="Visit">
       <EntityTypeMapping TypeName="IsTypeOf(SaaMedModel.Visit)">
         <MappingFragment StoreEntitySet="Visit">
-          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="NumDog" ColumnName="NumDog" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="PersonId" ColumnName="PersonId" />
           <ScalarProperty Name="PersonalId" ColumnName="PersonalId" />
           <ScalarProperty Name="Dt" ColumnName="Dt" />

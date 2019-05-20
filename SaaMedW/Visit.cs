@@ -27,6 +27,7 @@ namespace SaaMedW
         public System.DateTime Dt { get; set; }
         public bool Status { get; set; }
         public int Duration { get; set; }
+        public Nullable<int> NumDog { get; set; }
     
         public virtual Person Person { get; set; }
         public virtual Personal Personal { get; set; }
