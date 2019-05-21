@@ -15,6 +15,12 @@ namespace SaaMedW
         public EditZakazViewModel(int personId)
         {
             Person = ctx.Person.Find(personId);
+            foreach (var p in ctx.Person.OrderBy(s => s.LastName)
+                .ThenBy(s => s.FirstName).ThenBy(s => s.MiddleName)
+                .ThenBy(s => s.BirthDate))
+            {
+                PersonList.Add(p);
+            }
         }
         private ObservableCollection<Person> m_PersonList = new ObservableCollection<Person>();
         public ObservableCollection<Person> PersonList
@@ -24,39 +30,6 @@ namespace SaaMedW
             {
                 m_PersonList = value;
                 OnPropertyChanged("PersonList");
-            }
-        }
-        public Visibility VisibilitySearchPerson
-        {
-            get
-            {
-                if (String.IsNullOrWhiteSpace(m_SearchPerson))
-                {
-                    return Visibility.Collapsed;
-                }
-                else
-                {
-                    return Visibility.Visible;
-                }
-            }
-            set
-            {
-                OnPropertyChanged("VisibilitySearchPerson");
-            }
-        }
-        private string m_SearchPerson;
-        public string SearchPerson
-        {
-            get => m_SearchPerson;
-            set
-            {
-                m_SearchPerson = value;
-                PersonList.Clear();
-                foreach (var p in ctx.Person.Where(s => s.Fio.StartsWith(m_SearchPerson)))
-                {
-                    PersonList.Add(p);
-                }
-                OnPropertyChanged("VisibilitySearchPerson");
             }
         }
         private int m_Num;

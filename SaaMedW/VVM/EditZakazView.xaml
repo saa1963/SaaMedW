@@ -31,13 +31,11 @@
                 <Label Margin="10, 10, 10, 0" Content="Дата"></Label>
                 <DatePicker Margin="10, 0, 10, 10" SelectedDate="{Binding Dt}"></DatePicker>
             </StackPanel>
-            <StackPanel>
+            <StackPanel Width="200">
                 <Label Margin="10, 10, 10, 0" Content="Пациент"></Label>
-                <TextBox Text="{Binding SearchPerson, UpdateSourceTrigger=PropertyChanged}" Width="150"></TextBox>
-                <ListBox Visibility="{Binding VisibilitySearchPerson, Mode=TwoWay}" 
-                         ItemsSource="{Binding PersonList}" DisplayMemberPath="Fio"
-                         Margin="10, 0, 10, 10" Width="150">
-                </ListBox>
+                <ComboBox ItemsSource="{Binding PersonList}" 
+                          DisplayMemberPath="FioBirthday" SelectedItem="{Binding Person}">
+                </ComboBox>
             </StackPanel>
             <CheckBox Margin="10" Content="ДМС?" VerticalAlignment="Bottom"></CheckBox>
             <StackPanel Orientation="Horizontal">
