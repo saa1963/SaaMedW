@@ -16,8 +16,8 @@ namespace SaaMedW
         {
             Person = ctx.Person.Find(personId);
         }
-        private List<Person> m_PersonList = new List<Person>();
-        public List<Person> PersonList
+        private ObservableCollection<Person> m_PersonList = new ObservableCollection<Person>();
+        public ObservableCollection<Person> PersonList
         {
             get => m_PersonList;
             set
@@ -30,7 +30,7 @@ namespace SaaMedW
         {
             get
             {
-                if (String.IsNullOrWhiteSpace(SearchPerson))
+                if (String.IsNullOrWhiteSpace(m_SearchPerson))
                 {
                     return Visibility.Collapsed;
                 }
@@ -38,6 +38,10 @@ namespace SaaMedW
                 {
                     return Visibility.Visible;
                 }
+            }
+            set
+            {
+                OnPropertyChanged("VisibilitySearchPerson");
             }
         }
         private string m_SearchPerson;
@@ -47,7 +51,11 @@ namespace SaaMedW
             set
             {
                 m_SearchPerson = value;
-                PersonList = ctx.Person.Where(s => s.Fio.StartsWith(m_SearchPerson)).ToList();
+                PersonList.Clear();
+                foreach (var p in ctx.Person.Where(s => s.Fio.StartsWith(m_SearchPerson)))
+                {
+                    PersonList.Add(p);
+                }
                 OnPropertyChanged("VisibilitySearchPerson");
             }
         }
