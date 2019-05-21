@@ -154,6 +154,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DmsCompany.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="VVM\EditZakazViewModel.cs" />
+    <Compile Include="VVM\EditZakazView.xaml.cs">
+      <DependentUpon>EditZakazView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MKB.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -260,8 +267,11 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="ValidationDialog.cs" />
+    <Compile Include="Vm\VmDmsCompany.cs" />
     <Compile Include="Vm\VmMKB.cs" />
     <Compile Include="Vm\VmSpecialty.cs" />
+    <Compile Include="Vm\VmZakaz.cs" />
+    <Compile Include="Vm\VmZakaz1.cs" />
     <Compile Include="VVM\BenefitsViewModel.cs" />
     <Compile Include="VVM\CardsViewModel.cs" />
     <Compile Include="VVM\ChangePasswordViewModel.cs" />
@@ -405,6 +415,16 @@
     <Compile Include="VVM\WaitingView.xaml.cs">
       <DependentUpon>WaitingView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Zakaz.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Zakaz1.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Page Include="VVM\EditZakazView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

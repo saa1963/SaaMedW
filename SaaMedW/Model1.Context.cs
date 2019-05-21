@@ -40,5 +40,8 @@ namespace SaaMedW
         public virtual DbSet<Pays> Pays { get; set; }
         public virtual DbSet<Options> Options { get; set; }
         public virtual DbSet<MKB> MKB { get; set; }
+        public virtual DbSet<DmsCompany> DmsCompany { get; set; }
+        public virtual DbSet<Zakaz> Zakaz { get; set; }
+        public virtual DbSet<Zakaz1> Zakaz1 { get; set; }
     }
 }

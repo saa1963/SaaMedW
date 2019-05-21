@@ -22,6 +22,7 @@ namespace SaaMedW
             this.Pays = new HashSet<Pays>();
             this.Person_Person2 = new HashSet<Person>();
             this.Person2_Person = new HashSet<Person>();
+            this.Zakaz = new HashSet<Zakaz>();
         }
     
         public int Id { get; set; }
@@ -59,5 +60,7 @@ namespace SaaMedW
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Person> Person2_Person { get; set; }
         public virtual Person Representative { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Zakaz> Zakaz { get; set; }
     }
 }

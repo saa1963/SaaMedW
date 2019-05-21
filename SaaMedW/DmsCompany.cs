@@ -12,28 +12,18 @@ namespace SaaMedW
     using System;
     using System.Collections.Generic;
     
-    public partial class Personal
+    public partial class DmsCompany
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Personal()
+        public DmsCompany()
         {
-            this.Graphic = new HashSet<Graphic>();
-            this.Visit = new HashSet<Visit>();
-            this.PersonalSpecialty = new HashSet<PersonalSpecialty>();
-            this.Zakaz1 = new HashSet<Zakaz1>();
+            this.Zakaz = new HashSet<Zakaz>();
         }
     
         public int Id { get; set; }
-        public string Fio { get; set; }
-        public bool Active { get; set; }
+        public string Name { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Graphic> Graphic { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Visit> Visit { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PersonalSpecialty> PersonalSpecialty { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Zakaz1> Zakaz1 { get; set; }
+        public virtual ICollection<Zakaz> Zakaz { get; set; }
     }
 }

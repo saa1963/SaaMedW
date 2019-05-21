@@ -15,6 +15,13 @@
           <Property Name="SpecialtyId" Type="int" Nullable="false" />
           <Property Name="Duration" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="DmsCompany">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="200" Nullable="false" />
+        </EntityType>
         <EntityType Name="DocumentType">
           <Key>
             <PropertyRef Name="Id" />
@@ -180,6 +187,30 @@
           <Property Name="BenefitId" Type="int" Nullable="false" />
           <Property Name="Status" Type="int" Nullable="false" />
           <Property Name="Kol" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Zakaz">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Dt" Type="date" Nullable="false" />
+          <Property Name="Num" Type="int" Nullable="false" />
+          <Property Name="PersonId" Type="int" Nullable="false" />
+          <Property Name="Dms" Type="bit" Nullable="false" />
+          <Property Name="Polis" Type="nchar" MaxLength="50" />
+          <Property Name="DmsCompanyId" Type="int" />
+        </EntityType>
+        <EntityType Name="Zakaz1">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BenefitId" Type="int" />
+          <Property Name="PersonalId" Type="int" Nullable="false" />
+          <Property Name="Price" Type="money" Nullable="false" />
+          <Property Name="Kol" Type="int" Nullable="false" />
+          <Property Name="ZakazId" Type="int" Nullable="false" />
+          <Property Name="BenefitName" Type="nchar" MaxLength="200" Nullable="false" />
         </EntityType>
         <Association Name="FK_Benefit_ToTable">
           <End Role="Specialty" Type="Self.Specialty" Multiplicity="1" />
@@ -385,8 +416,69 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Zakaz_DmsCompany">
+          <End Role="DmsCompany" Type="Self.DmsCompany" Multiplicity="0..1" />
+          <End Role="Zakaz" Type="Self.Zakaz" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DmsCompany">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Zakaz">
+              <PropertyRef Name="DmsCompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Zakaz_Person">
+          <End Role="Person" Type="Self.Person" Multiplicity="1" />
+          <End Role="Zakaz" Type="Self.Zakaz" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Zakaz">
+              <PropertyRef Name="PersonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Zakaz1_Benefit">
+          <End Role="Benefit" Type="Self.Benefit" Multiplicity="0..1" />
+          <End Role="Zakaz1" Type="Self.Zakaz1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Benefit">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Zakaz1">
+              <PropertyRef Name="BenefitId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Zakaz1_Personal">
+          <End Role="Personal" Type="Self.Personal" Multiplicity="1" />
+          <End Role="Zakaz1" Type="Self.Zakaz1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Personal">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Zakaz1">
+              <PropertyRef Name="PersonalId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Zakaz1_Zakaz">
+          <End Role="Zakaz" Type="Self.Zakaz" Multiplicity="1" />
+          <End Role="Zakaz1" Type="Self.Zakaz1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Zakaz">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Zakaz1">
+              <PropertyRef Name="ZakazId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="SaaMedModelStoreContainer">
           <EntitySet Name="Benefit" EntityType="Self.Benefit" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DmsCompany" EntityType="Self.DmsCompany" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DocumentType" EntityType="Self.DocumentType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Graphic" EntityType="Self.Graphic" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Invoice" EntityType="Self.Invoice" Schema="dbo" store:Type="Tables" />
@@ -402,6 +494,8 @@
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Visit" EntityType="Self.Visit" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="VisitBenefit" EntityType="Self.VisitBenefit" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Zakaz" EntityType="Self.Zakaz" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Zakaz1" EntityType="Self.Zakaz1" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Benefit_ToTable" Association="Self.FK_Benefit_ToTable">
             <End Role="Specialty" EntitySet="Specialty" />
             <End Role="Benefit" EntitySet="Benefit" />
@@ -470,6 +564,26 @@
             <End Role="Personal" EntitySet="Personal" />
             <End Role="Visit" EntitySet="Visit" />
           </AssociationSet>
+          <AssociationSet Name="FK_Zakaz_DmsCompany" Association="Self.FK_Zakaz_DmsCompany">
+            <End Role="DmsCompany" EntitySet="DmsCompany" />
+            <End Role="Zakaz" EntitySet="Zakaz" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Zakaz_Person" Association="Self.FK_Zakaz_Person">
+            <End Role="Person" EntitySet="Person" />
+            <End Role="Zakaz" EntitySet="Zakaz" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Zakaz1_Benefit" Association="Self.FK_Zakaz1_Benefit">
+            <End Role="Benefit" EntitySet="Benefit" />
+            <End Role="Zakaz1" EntitySet="Zakaz1" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Zakaz1_Personal" Association="Self.FK_Zakaz1_Personal">
+            <End Role="Personal" EntitySet="Personal" />
+            <End Role="Zakaz1" EntitySet="Zakaz1" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Zakaz1_Zakaz" Association="Self.FK_Zakaz1_Zakaz">
+            <End Role="Zakaz" EntitySet="Zakaz" />
+            <End Role="Zakaz1" EntitySet="Zakaz1" />
+          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -516,6 +630,7 @@
           <NavigationProperty Name="Person2_Person" Relationship="SaaMedModel.Person2" FromRole="Person1" ToRole="Person" />
           <Property Name="RepresentativeId" Type="Int32" />
           <NavigationProperty Name="Representative" Relationship="SaaMedModel.FK_Person_Representative" FromRole="Person1" ToRole="Person" />
+          <NavigationProperty Name="Zakaz" Relationship="SaaMedModel.FK_Zakaz_Person" FromRole="Person" ToRole="Zakaz" />
           </EntityType>
         <EntityType Name="Users">
           <Key>
@@ -621,6 +736,29 @@
             <End Role="Person1" EntitySet="Person" />
           </AssociationSet>
           <EntitySet Name="MKB" EntityType="SaaMedModel.MKB" />
+          <EntitySet Name="DmsCompany" EntityType="SaaMedModel.DmsCompany" />
+          <EntitySet Name="Zakaz" EntityType="SaaMedModel.Zakaz" />
+          <EntitySet Name="Zakaz1" EntityType="SaaMedModel.Zakaz1" />
+          <AssociationSet Name="FK_Zakaz1_Benefit" Association="SaaMedModel.FK_Zakaz1_Benefit">
+            <End Role="Benefit" EntitySet="Benefit" />
+            <End Role="Zakaz1" EntitySet="Zakaz1" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Zakaz_DmsCompany" Association="SaaMedModel.FK_Zakaz_DmsCompany">
+            <End Role="DmsCompany" EntitySet="DmsCompany" />
+            <End Role="Zakaz" EntitySet="Zakaz" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Zakaz_Person" Association="SaaMedModel.FK_Zakaz_Person">
+            <End Role="Person" EntitySet="Person" />
+            <End Role="Zakaz" EntitySet="Zakaz" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Zakaz1_Personal" Association="SaaMedModel.FK_Zakaz1_Personal">
+            <End Role="Personal" EntitySet="Personal" />
+            <End Role="Zakaz1" EntitySet="Zakaz1" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Zakaz1_Zakaz" Association="SaaMedModel.FK_Zakaz1_Zakaz">
+            <End Role="Zakaz" EntitySet="Zakaz" />
+            <End Role="Zakaz1" EntitySet="Zakaz1" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Specialty">
           <Key>
@@ -644,6 +782,7 @@
           <NavigationProperty Name="Graphic" Relationship="SaaMedModel.FK_Graphic_Personal" FromRole="Personal" ToRole="Graphic" />
           <NavigationProperty Name="Visit" Relationship="SaaMedModel.FK_Visit_ToPersonal" FromRole="Personal" ToRole="Visit" />
           <NavigationProperty Name="PersonalSpecialty" Relationship="SaaMedModel.FK_Table_Personal" FromRole="Personal" ToRole="PersonalSpecialty" />
+          <NavigationProperty Name="Zakaz1" Relationship="SaaMedModel.FK_Zakaz1_Personal" FromRole="Personal" ToRole="Zakaz1" />
         </EntityType>
         <EntityType Name="Graphic">
           <Key>
@@ -681,6 +820,7 @@
           <Property Name="Duration" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Specialty" Relationship="SaaMedModel.FK_Benefit_ToTable" FromRole="Benefit" ToRole="Specialty" />
           <NavigationProperty Name="VisitBenefit" Relationship="SaaMedModel.FK_Table_Benefit" FromRole="Benefit" ToRole="VisitBenefit" />
+          <NavigationProperty Name="Zakaz1" Relationship="SaaMedModel.FK_Zakaz1_Benefit" FromRole="Benefit" ToRole="Zakaz1" />
         </EntityType>
         <Association Name="FK_Benefit_ToTable">
           <End Type="SaaMedModel.Specialty" Role="Specialty" Multiplicity="1" />
@@ -989,6 +1129,104 @@
           <Property Name="Name" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="Parent" Type="String" MaxLength="7" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="DmsCompany">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Zakaz" Relationship="SaaMedModel.FK_Zakaz_DmsCompany" FromRole="DmsCompany" ToRole="Zakaz" />
+        </EntityType>
+        <EntityType Name="Zakaz">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Dt" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Num" Type="Int32" Nullable="false" />
+          <Property Name="PersonId" Type="Int32" Nullable="false" />
+          <Property Name="Dms" Type="Boolean" Nullable="false" />
+          <Property Name="Polis" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+          <Property Name="DmsCompanyId" Type="Int32" />
+          <NavigationProperty Name="DmsCompany" Relationship="SaaMedModel.FK_Zakaz_DmsCompany" FromRole="Zakaz" ToRole="DmsCompany" />
+          <NavigationProperty Name="Person" Relationship="SaaMedModel.FK_Zakaz_Person" FromRole="Zakaz" ToRole="Person" />
+          <NavigationProperty Name="Zakaz1" Relationship="SaaMedModel.FK_Zakaz1_Zakaz" FromRole="Zakaz" ToRole="Zakaz1" />
+        </EntityType>
+        <EntityType Name="Zakaz1">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BenefitId" Type="Int32" />
+          <Property Name="PersonalId" Type="Int32" Nullable="false" />
+          <Property Name="Price" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="Kol" Type="Int32" Nullable="false" />
+          <Property Name="ZakazId" Type="Int32" Nullable="false" />
+          <Property Name="BenefitName" Type="String" Nullable="false" MaxLength="200" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Benefit" Relationship="SaaMedModel.FK_Zakaz1_Benefit" FromRole="Zakaz1" ToRole="Benefit" />
+          <NavigationProperty Name="Personal" Relationship="SaaMedModel.FK_Zakaz1_Personal" FromRole="Zakaz1" ToRole="Personal" />
+          <NavigationProperty Name="Zakaz" Relationship="SaaMedModel.FK_Zakaz1_Zakaz" FromRole="Zakaz1" ToRole="Zakaz" />
+        </EntityType>
+        <Association Name="FK_Zakaz1_Benefit">
+          <End Type="SaaMedModel.Benefit" Role="Benefit" Multiplicity="0..1" />
+          <End Type="SaaMedModel.Zakaz1" Role="Zakaz1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Benefit">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Zakaz1">
+              <PropertyRef Name="BenefitId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Zakaz_DmsCompany">
+          <End Type="SaaMedModel.DmsCompany" Role="DmsCompany" Multiplicity="0..1" />
+          <End Type="SaaMedModel.Zakaz" Role="Zakaz" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DmsCompany">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Zakaz">
+              <PropertyRef Name="DmsCompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Zakaz_Person">
+          <End Type="SaaMedModel.Person" Role="Person" Multiplicity="1" />
+          <End Type="SaaMedModel.Zakaz" Role="Zakaz" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Zakaz">
+              <PropertyRef Name="PersonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Zakaz1_Personal">
+          <End Type="SaaMedModel.Personal" Role="Personal" Multiplicity="1" />
+          <End Type="SaaMedModel.Zakaz1" Role="Zakaz1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Personal">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Zakaz1">
+              <PropertyRef Name="PersonalId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Zakaz1_Zakaz">
+          <End Type="SaaMedModel.Zakaz" Role="Zakaz" Multiplicity="1" />
+          <End Type="SaaMedModel.Zakaz1" Role="Zakaz1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Zakaz">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Zakaz1">
+              <PropertyRef Name="ZakazId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1181,6 +1419,40 @@
                 <ScalarProperty Name="Parent" ColumnName="Parent" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Kod" ColumnName="Kod" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DmsCompany">
+            <EntityTypeMapping TypeName="SaaMedModel.DmsCompany">
+              <MappingFragment StoreEntitySet="DmsCompany">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Zakaz">
+            <EntityTypeMapping TypeName="SaaMedModel.Zakaz">
+              <MappingFragment StoreEntitySet="Zakaz">
+                <ScalarProperty Name="DmsCompanyId" ColumnName="DmsCompanyId" />
+                <ScalarProperty Name="Polis" ColumnName="Polis" />
+                <ScalarProperty Name="Dms" ColumnName="Dms" />
+                <ScalarProperty Name="PersonId" ColumnName="PersonId" />
+                <ScalarProperty Name="Num" ColumnName="Num" />
+                <ScalarProperty Name="Dt" ColumnName="Dt" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Zakaz1">
+            <EntityTypeMapping TypeName="SaaMedModel.Zakaz1">
+              <MappingFragment StoreEntitySet="Zakaz1">
+                <ScalarProperty Name="BenefitName" ColumnName="BenefitName" />
+                <ScalarProperty Name="ZakazId" ColumnName="ZakazId" />
+                <ScalarProperty Name="Kol" ColumnName="Kol" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="PersonalId" ColumnName="PersonalId" />
+                <ScalarProperty Name="BenefitId" ColumnName="BenefitId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

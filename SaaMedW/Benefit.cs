@@ -18,6 +18,7 @@ namespace SaaMedW
         public Benefit()
         {
             this.VisitBenefit = new HashSet<VisitBenefit>();
+            this.Zakaz1 = new HashSet<Zakaz1>();
         }
     
         public int Id { get; set; }
@@ -29,5 +30,7 @@ namespace SaaMedW
         public virtual Specialty Specialty { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<VisitBenefit> VisitBenefit { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Zakaz1> Zakaz1 { get; set; }
     }
 }

@@ -12,27 +12,24 @@ namespace SaaMedW
     using System;
     using System.Collections.Generic;
     
-    public partial class Personal
+    public partial class Zakaz
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Personal()
+        public Zakaz()
         {
-            this.Graphic = new HashSet<Graphic>();
-            this.Visit = new HashSet<Visit>();
-            this.PersonalSpecialty = new HashSet<PersonalSpecialty>();
             this.Zakaz1 = new HashSet<Zakaz1>();
         }
     
         public int Id { get; set; }
-        public string Fio { get; set; }
-        public bool Active { get; set; }
+        public System.DateTime Dt { get; set; }
+        public int Num { get; set; }
+        public int PersonId { get; set; }
+        public bool Dms { get; set; }
+        public string Polis { get; set; }
+        public Nullable<int> DmsCompanyId { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Graphic> Graphic { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Visit> Visit { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PersonalSpecialty> PersonalSpecialty { get; set; }
+        public virtual DmsCompany DmsCompany { get; set; }
+        public virtual Person Person { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Zakaz1> Zakaz1 { get; set; }
     }

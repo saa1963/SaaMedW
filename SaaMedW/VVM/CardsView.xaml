@@ -38,7 +38,9 @@
                 <MenuItem Header="Согласие на вмешательство" Command="{Binding Vmesh}">
                 </MenuItem>
             </MenuItem>
-            <MenuItem Header="Запись к специалисту" Command="{Binding NewVisitCommand}">
+            <MenuItem Header="Заказ" Command="{Binding ZakazCommand}">
+            </MenuItem>
+            <MenuItem Visibility="Collapsed"  Header="Запись к специалисту" Command="{Binding NewVisitCommand}">
             </MenuItem>
             <MenuItem Header="Лица для информирования" Command="{Binding PersonsInfoCommand}">
             </MenuItem>

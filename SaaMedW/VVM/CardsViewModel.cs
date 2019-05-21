@@ -209,6 +209,20 @@ namespace SaaMedW
             }
         }
 
+        public RelayCommand ZakazCommand => new RelayCommand(NewZakaz, s => CardsSel != null);
+
+        private void NewZakaz(object obj)
+        {
+            VmPerson person = CardsSel;
+            var viewModel = new EditZakazViewModel(person.Id)
+            {
+                Num = Options.GetParameter<int>(enumParameterType.Номер_договора),
+                Dt = DateTime.Today
+            };
+            var f = new EditZakazView() { DataContext = viewModel };
+            f.ShowDialog();
+        }
+
         private void PersonsInfo(object obj)
         {
             if (CardsSel == null) return;
