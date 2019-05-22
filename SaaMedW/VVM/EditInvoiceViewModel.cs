@@ -146,7 +146,7 @@ namespace SaaMedW
 
         public string Error => String.Empty;
 
-        private void A ddBenefit(object obj)
+        private void AddBenefit(object obj)
         {
             var viewModel = new SelectSpecialtyViewModel();
             var f = new SelectSpecialtyView() { DataContext = viewModel };

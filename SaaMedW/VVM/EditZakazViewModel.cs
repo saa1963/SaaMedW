@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Data;
 
 namespace SaaMedW
 {
@@ -22,6 +23,7 @@ namespace SaaMedW
                 PersonList.Add(p);
             }
             RefreshDmsCompanies();
+            m_Zakaz1List = new ObservableCollection<VmZakaz1>();
         }
         private ObservableCollection<Person> m_PersonList = new ObservableCollection<Person>();
         public ObservableCollection<Person> PersonList
@@ -41,6 +43,14 @@ namespace SaaMedW
             {
                 m_DmsCompanyList = value;
                 OnPropertyChanged("DmsCompanyList");
+            }
+        }
+        private ObservableCollection<VmZakaz1> m_Zakaz1List { get; set; }
+        public ICollectionView Zakaz1List
+        {
+            get
+            {
+                return CollectionViewSource.GetDefaultView(m_Zakaz1List);
             }
         }
         private int m_Num;
@@ -127,6 +137,40 @@ namespace SaaMedW
             }
         }
 
+        private decimal m_Sm = 0;
+
+        public RelayCommand AddBenefitCommand
+            => new RelayCommand(AddBenefit);
+
+        private void AddBenefit(object obj)
+        {
+            var viewModel = new SelectSpecialtyViewModel();
+            var f = new SelectSpecialtyView() { DataContext = viewModel };
+            if (f.ShowDialog() ?? false)
+            {
+                var o = new VmZakaz1()
+                {
+                    BenefitId = viewModel.BenefitSel.Id,
+                    BenefitName = viewModel.BenefitSel.Name,
+                    Kol = 1,
+                    Price = viewModel.BenefitSel.Price
+                };
+                o.PropertyChanged += InvoiceDetail_PropertyChanged;
+                m_Sm += ;
+                ListInvoiceDetail.Add(o);
+                OnPropertyChanged("ListInvoiceDetail");
+                OnPropertyChanged("DateNumSum");
+            }
+        }
+
+        public RelayCommand DelBenefitCommand
+            => new RelayCommand(DelBenefit, s => Zakaz1List.CurrentItem != null);
+
+        private void DelBenefit(object obj)
+        {
+            throw new NotImplementedException();
+        }
+
         public string this[string columnName]
         {
             get
@@ -146,5 +190,10 @@ namespace SaaMedW
         }
 
         public string Error => "";
+    }
+
+    internal class BenefitForZakaz: NotifyPropertyChanged
+    {
+
     }
 }

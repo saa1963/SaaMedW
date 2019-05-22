@@ -14,6 +14,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
         <Menu Grid.Row="0">
@@ -71,57 +72,37 @@
                 </Button>
             </StackPanel>
         </WrapPanel>
-        <Grid Margin="15,15,15,0" Grid.Row="2">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"></ColumnDefinition>
-                <ColumnDefinition Width="Auto"></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            <DockPanel Grid.Column="0">
-                <Label DockPanel.Dock="Top" Content="Все услуги"></Label>
-                <TreeView Margin="0,0,10,0" Width="300" DockPanel.Dock="Top" 
-                BorderBrush="Transparent"
-                ItemsSource="{Binding SpecialtyList}">
-                    <TreeView.ItemTemplate>
-                        <HierarchicalDataTemplate ItemsSource="{Binding ChildSpecialties}">
-                            <Border Margin="2">
-                                <TextBlock Width="200" TextWrapping="Wrap">
-                                <Run Text="- "></Run>
-                                <Run Text="{Binding Name}"></Run>
-                                </TextBlock>
-                            </Border>
-                        </HierarchicalDataTemplate>
-                    </TreeView.ItemTemplate>
-                </TreeView>
-            </DockPanel>
-            <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                <Button Margin="10" Command="{Binding AddBenefitCommand}">
-                    <Image Source="../image/forward.png"></Image>
-                </Button>
-                <Button Margin="10" Command="{Binding RemoveBenefitCommand}">
-                    <Image Source="../image/back.png"></Image>
-                </Button>
-            </StackPanel>
-            <Grid Grid.Column="2">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="3*"></RowDefinition>
-                    <RowDefinition></RowDefinition>
-                </Grid.RowDefinitions>
-                <DockPanel Grid.Row="0">
-                    <Label DockPanel.Dock="Top" Content="Выбранные услуги (Кол. + Наименование)"></Label>
-                    <DataGrid DockPanel.Dock="Top" ItemsSource="{Binding VisitBenefit}"
-                        IsSynchronizedWithCurrentItem="True"
-                        SelectedItem="{Binding SelectedBenefit2}">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Наименование" Binding="{Binding Name}" Width="150"></DataGridTextColumn>
-                            <DataGridComboBoxColumn Header="Врач" Width="100"></DataGridComboBoxColumn>
-                            <DataGridTextColumn Header="Цена" Binding="{Binding Price, StringFormat={}{0:#0.00}}" Width="100"/>
-                            <DataGridTextColumn Header="К-во" Binding="{Binding Kol, StringFormat={}{0:#0}}" Width="100"></DataGridTextColumn>
-                            <DataGridTextColumn IsReadOnly="True" Header="Сумма" Binding="{Binding Sm, StringFormat={}{0:#0.00}}" Width="100"/>
-                        </DataGrid.Columns>
-                    </DataGrid>
-                </DockPanel>
-            </Grid>
-        </Grid>
+        <DockPanel Grid.Row="2" DockPanel.Dock="Top" LastChildFill="False">
+            <Button DockPanel.Dock="Left" 
+                Height="25" Width="25"
+                Command="{Binding AddBenefitCommand}">
+                <Image Source="..\image\add_32.png"></Image>
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="ToolTip" Value="Добавить услугу"></Setter>
+                    </Style>
+                </Button.Style>
+            </Button>
+            <Button DockPanel.Dock="Left" 
+                Height="25" Width="25"
+                Command="{Binding DelBenefitCommand}">
+                <Image Source="..\image\delete_32.png"></Image>
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="ToolTip" Value="Удалить услугу"></Setter>
+                    </Style>
+                </Button.Style>
+            </Button>
+        </DockPanel>
+        <DataGrid Grid.Row="3" ItemsSource="{Binding Zakaz1List}"
+                        IsSynchronizedWithCurrentItem="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Наименование" Binding="{Binding Name}" Width="150"></DataGridTextColumn>
+                <DataGridComboBoxColumn Header="Врач" Width="100"></DataGridComboBoxColumn>
+                <DataGridTextColumn Header="Цена" Binding="{Binding Price, StringFormat={}{0:#0.00}}" Width="100"/>
+                <DataGridTextColumn Header="К-во" Binding="{Binding Kol, StringFormat={}{0:#0}}" Width="100"></DataGridTextColumn>
+                <DataGridTextColumn IsReadOnly="True" Header="Сумма" Binding="{Binding Sm, StringFormat={}{0:#0.00}}" Width="100"/>
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </Window>
