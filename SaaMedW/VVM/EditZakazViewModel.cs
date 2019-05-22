@@ -112,6 +112,11 @@ namespace SaaMedW
         private void DmsCompanyClassificatorOpen(object obj)
         {
             var modelView = new DmsCompanyViewModel(ctx);
+            var f = new DmsCompanyView() { DataContext = modelView };
+            if (f.ShowDialog() ?? false)
+            {
+
+            }
         }
 
         public string this[string columnName]
