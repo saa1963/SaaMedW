@@ -21,6 +21,10 @@ namespace SaaMedW
             {
                 PersonList.Add(p);
             }
+            foreach (var p in ctx.DmsCompany.OrderBy(s => s.Name))
+            {
+                DmsCompanyList.Add(p);
+            }
         }
         private ObservableCollection<Person> m_PersonList = new ObservableCollection<Person>();
         public ObservableCollection<Person> PersonList
@@ -30,6 +34,16 @@ namespace SaaMedW
             {
                 m_PersonList = value;
                 OnPropertyChanged("PersonList");
+            }
+        }
+        private ObservableCollection<DmsCompany> m_DmsCompanyList = new ObservableCollection<DmsCompany>();
+        public ObservableCollection<DmsCompany> DmsCompanyList
+        {
+            get => m_DmsCompanyList;
+            set
+            {
+                m_DmsCompanyList = value;
+                OnPropertyChanged("DmsCompanyList");
             }
         }
         private int m_Num;
@@ -92,6 +106,14 @@ namespace SaaMedW
                 OnPropertyChanged("DmsCompany");
             }
         }
+        public RelayCommand DmsCompanyClassificatorCommand
+            => new RelayCommand(DmsCompanyClassificatorOpen);
+
+        private void DmsCompanyClassificatorOpen(object obj)
+        {
+            var modelView = new DmsCompanyViewModel(ctx);
+        }
+
         public string this[string columnName]
         {
             get

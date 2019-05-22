@@ -5,7 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SaaMedW"
         mc:Ignorable="d"
-        Title="Заказ" Height="450" Width="900">
+        WindowStartupLocation="CenterScreen"
+        Title="Заказ" Height="600" Width="1000">
+    <Window.Resources>
+        <local:VisibilityToBoolConverter x:Key="VisibilityToBoolConverter" />
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
@@ -37,33 +41,31 @@
                           DisplayMemberPath="FioBirthday" SelectedItem="{Binding Person}">
                 </ComboBox>
             </StackPanel>
-            <CheckBox Margin="10" Content="ДМС?" VerticalAlignment="Bottom"></CheckBox>
-            <StackPanel Orientation="Horizontal">
+            <CheckBox Margin="10" Content="ДМС?" 
+                      VerticalAlignment="Bottom" IsChecked="{Binding Dms}"></CheckBox>
+            <StackPanel Orientation="Horizontal" Visibility="{Binding Dms, Converter={StaticResource VisibilityToBoolConverter}}">
                 <StackPanel VerticalAlignment="Bottom">
                     <Label Margin="10, 10, 10, 0" Content="Полис"></Label>
-                    <local:ClickSelectTextBox Margin="10, 0, 10, 10" Width="100"></local:ClickSelectTextBox>
+                    <local:ClickSelectTextBox Margin="10, 0, 10, 10" 
+                                              MaxLength="50"
+                                              Text="{Binding Polis}"
+                                              Width="100"></local:ClickSelectTextBox>
                 </StackPanel>
                 <StackPanel VerticalAlignment="Bottom">
                     <Label Margin="10, 10, 10, 0" Content="Компания"></Label>
-                    <ComboBox Margin="10, 0, 10, 10" Width="200"></ComboBox>
+                    <ComboBox Margin="10, 0, 10, 10" 
+                              ItemsSource="{Binding DmsCompanyList}"
+                              DisplayMemberPath="Name"
+                              SelectedItem="{Binding DmsCompany}"
+                              Width="200"></ComboBox>
                 </StackPanel>
                 <Button VerticalAlignment="Bottom" Margin="0, 0, 0, 10"
                 Height="32" Width="32"
-                Command="{Binding AddCommand}">
-                    <Image Source="..\image\add_32.png"></Image>
+                Command="{Binding DmsCompanyClassificatorCommand}">
+                    <Image Source="..\image\folder-open_32.png"></Image>
                     <Button.Style>
                         <Style TargetType="Button">
-                            <Setter Property="ToolTip" Value="Занести в справочник"></Setter>
-                        </Style>
-                    </Button.Style>
-                </Button>
-                <Button VerticalAlignment="Bottom" Margin="0, 0, 0, 10"
-                Height="32" Width="32"
-                Command="{Binding DelCommand}">
-                    <Image Source="..\image\delete_32.png"></Image>
-                    <Button.Style>
-                        <Style TargetType="Button">
-                            <Setter Property="ToolTip" Value="Удалить из справочника"></Setter>
+                            <Setter Property="ToolTip" Value="Открыть справочник"></Setter>
                         </Style>
                     </Button.Style>
                 </Button>
