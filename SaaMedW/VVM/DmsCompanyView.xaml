@@ -5,10 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SaaMedW"
         WindowStartupLocation="CenterScreen"
+        local:DialogCloser.DialogResult="{Binding CloseDialog}"
         mc:Ignorable="d"
         Title="Компании ДМС" Height="450" Width="800">
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
@@ -20,10 +22,22 @@
             <MenuItem Header="Удалить" Command="{Binding Del}">
             </MenuItem>
         </Menu>
-        <local:ScrollingDataGrid x:Name="g" Grid.Row="1" Margin="1" ItemsSource="{Binding DmsCompanyList}" 
-                  SelectedItem="{Binding DmsCompanySel}" IsSynchronizedWithCurrentItem="True">
+        <WrapPanel Grid.Row="1" Margin="5">
+            <TextBlock Margin="0,0,5,0" Text="Фильтр по названию" VerticalAlignment="Center"></TextBlock>
+            <TextBox Name="SearchTextBox" Width="200" 
+                     Text="{Binding SearchString, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+        </WrapPanel>
+        <local:ScrollingDataGrid x:Name="g" Grid.Row="2" Margin="1" ItemsSource="{Binding View}" 
+                                 IsReadOnly="True" IsSynchronizedWithCurrentItem="True">
+            <local:ScrollingDataGrid.InputBindings>
+                <MouseBinding
+                    MouseAction="LeftDoubleClick"
+                    Command="{Binding DoubleClickCommand}"
+                    CommandParameter="{Binding View/}"
+                />
+            </local:ScrollingDataGrid.InputBindings>
             <DataGrid.Columns>
-                <DataGridTextColumn IsReadOnly="True" Header="Id" Binding="{Binding Id}" Width="Auto"></DataGridTextColumn>
+                <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="Auto"></DataGridTextColumn>
                 <DataGridTextColumn Header="Наименование" Binding="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Width="Auto"></DataGridTextColumn>
             </DataGrid.Columns>
         </local:ScrollingDataGrid>

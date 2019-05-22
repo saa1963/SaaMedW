@@ -21,10 +21,7 @@ namespace SaaMedW
             {
                 PersonList.Add(p);
             }
-            foreach (var p in ctx.DmsCompany.OrderBy(s => s.Name))
-            {
-                DmsCompanyList.Add(p);
-            }
+            RefreshDmsCompanies();
         }
         private ObservableCollection<Person> m_PersonList = new ObservableCollection<Person>();
         public ObservableCollection<Person> PersonList
@@ -115,7 +112,18 @@ namespace SaaMedW
             var f = new DmsCompanyView() { DataContext = modelView };
             if (f.ShowDialog() ?? false)
             {
+                RefreshDmsCompanies();
+                var o = modelView.View.CurrentItem as VmDmsCompany;
+                DmsCompany = o.Obj;
+            }
+        }
 
+        private void RefreshDmsCompanies()
+        {
+            DmsCompanyList.Clear();
+            foreach (var p in ctx.DmsCompany.OrderBy(s => s.Name))
+            {
+                DmsCompanyList.Add(p);
             }
         }
 

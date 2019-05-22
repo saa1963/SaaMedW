@@ -33,8 +33,7 @@
                 <MenuItem Header="График приема" Command="{Binding Cmd}" 
                           CommandParameter="{Binding CmdGraphic}"></MenuItem>
             </MenuItem>
-            <MenuItem Header="Статистика" Command="{Binding Cmd}" 
-                          CommandParameter="{Binding CmdStat}">
+            <MenuItem Header="Статистика" Command="{Binding DmsCompanyCommand}">
             </MenuItem>
             <MenuItem Header="Справочники">
                 <MenuItem Header="Пользователи" Command="{Binding Cmd}" 
@@ -45,6 +44,7 @@
                           CommandParameter="{Binding CmdBenefits}"></MenuItem>
                 <MenuItem Header="МКБ-10" Command="{Binding Cmd}" 
                           CommandParameter="{Binding CmdMkb}"></MenuItem>
+                <MenuItem Header="ДМС компании" Command="{Binding DmsCompanyCommand}"></MenuItem>
             </MenuItem>
             <MenuItem Header="Настройки">
                 <MenuItem Header="Общие настройки" Command="{Binding Cmd}" 

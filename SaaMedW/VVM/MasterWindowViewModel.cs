@@ -219,5 +219,18 @@ namespace SaaMedW
                 Title = $"Регистратура. (Кассир - {Global.Source.RUser.Fio})(Состояние смены неизвестно)";
             }
         }
+
+        public RelayCommand DmsCompanyCommand
+            => new RelayCommand(DmsCompanyClassificator);
+
+        private void DmsCompanyClassificator(object obj)
+        {
+            var modelView = new DmsCompanyViewModel(new SaaMedEntities());
+            var f = new DmsCompanyView() { DataContext = modelView };
+            if (f.ShowDialog() ?? false)
+            {
+
+            }
+        }
     }
 }
