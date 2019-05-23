@@ -4,7 +4,7 @@
         Title="{Binding Title}" Height="600" Width="800" MinHeight="600" MinWidth="800" 
         WindowStartupLocation="CenterScreen" 
         WindowState="Maximized"
-        Style="{StaticResource {x:Type Window}}">
+        Style="{StaticResource {x:Type Window}}">   
      <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>

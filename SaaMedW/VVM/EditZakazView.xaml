@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:SaaMedW"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
+        Style="{StaticResource {x:Type Window}}"
         Title="Заказ" Height="600" Width="1000">
     <Window.Resources>
         <local:VisibilityToBoolConverter x:Key="VisibilityToBoolConverter" />
@@ -16,6 +17,7 @@
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
         <Menu Grid.Row="0">
             <MenuItem Header="Комплект"></MenuItem>
@@ -85,6 +87,16 @@
             </Button>
             <Button DockPanel.Dock="Left" 
                 Height="25" Width="25"
+                Command="{Binding AddEmptyBenefitCommand}">
+                <Image Source="..\image\add_32.png"></Image>
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="ToolTip" Value="Добавить пустую строку"></Setter>
+                    </Style>
+                </Button.Style>
+            </Button>
+            <Button DockPanel.Dock="Left" 
+                Height="25" Width="25"
                 Command="{Binding DelBenefitCommand}">
                 <Image Source="..\image\delete_32.png"></Image>
                 <Button.Style>
@@ -94,15 +106,42 @@
                 </Button.Style>
             </Button>
         </DockPanel>
-        <DataGrid Grid.Row="3" ItemsSource="{Binding Zakaz1List}"
+        <DockPanel Grid.Row="3">
+            <DockPanel DockPanel.Dock="Bottom">
+                <TextBlock DockPanel.Dock="Left" Text="ИТОГО" Margin="10"></TextBlock>
+                <TextBlock DockPanel.Dock="Left" Text="{Binding Sm, StringFormat={}{0:#0.00}}" Margin="10"></TextBlock>
+            </DockPanel>
+            <local:ScrollingDataGrid ItemsSource="{Binding Zakaz1List}"
                         IsSynchronizedWithCurrentItem="True">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Наименование" Binding="{Binding Name}" Width="150"></DataGridTextColumn>
-                <DataGridComboBoxColumn Header="Врач" Width="100"></DataGridComboBoxColumn>
-                <DataGridTextColumn Header="Цена" Binding="{Binding Price, StringFormat={}{0:#0.00}}" Width="100"/>
-                <DataGridTextColumn Header="К-во" Binding="{Binding Kol, StringFormat={}{0:#0}}" Width="100"></DataGridTextColumn>
-                <DataGridTextColumn IsReadOnly="True" Header="Сумма" Binding="{Binding Sm, StringFormat={}{0:#0.00}}" Width="100"/>
-            </DataGrid.Columns>
-        </DataGrid>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Наименование" Binding="{Binding BenefitName}" Width="450">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="TextWrapping" Value="Wrap"></Setter>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridComboBoxColumn Header="Врач" Width="200" SelectedValueBinding="{Binding PersonalId}" 
+                        SelectedValuePath="Id" DisplayMemberPath="Fio">
+                        <DataGridComboBoxColumn.ElementStyle>
+                            <Style TargetType="ComboBox">
+                                <Setter Property="ItemsSource" Value="{Binding 
+                        RelativeSource={RelativeSource FindAncestor, 
+                        AncestorType={x:Type Window}}, Path=DataContext.PersonalList}"/>
+                            </Style>
+                        </DataGridComboBoxColumn.ElementStyle>
+                        <DataGridComboBoxColumn.EditingElementStyle>
+                            <Style TargetType="ComboBox">
+                                <Setter Property="ItemsSource" Value="{Binding RelativeSource={RelativeSource FindAncestor, 
+                        AncestorType={x:Type Window}}, Path=DataContext.PersonalList}"/>
+                            </Style>
+                        </DataGridComboBoxColumn.EditingElementStyle>
+                    </DataGridComboBoxColumn>
+                    <DataGridTextColumn Header="Цена" Binding="{Binding Price, StringFormat={}{0:#0.00}}" Width="100"/>
+                    <DataGridTextColumn Header="К-во" Binding="{Binding Kol, StringFormat={}{0:#0}}" Width="100"></DataGridTextColumn>
+                    <DataGridTextColumn IsReadOnly="True" Header="Сумма" Binding="{Binding Sm, StringFormat={}{0:#0.00}}" Width="100"/>
+                </DataGrid.Columns>
+            </local:ScrollingDataGrid>
+        </DockPanel>
     </Grid>
 </Window>

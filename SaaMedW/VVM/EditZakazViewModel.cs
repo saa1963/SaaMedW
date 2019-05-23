@@ -22,8 +22,12 @@ namespace SaaMedW
             {
                 PersonList.Add(p);
             }
+            foreach (var p in ctx.Personal.Where(s => s.Active).OrderBy(s => s.Fio))
+            {
+                PersonalList.Add(new VmPersonal(p));
+            }
             RefreshDmsCompanies();
-            m_Zakaz1List = new ObservableCollection<VmZakaz1>();
+            m_Zakaz1List = new ObservableCollection<BenefitForZakaz>();
         }
         private ObservableCollection<Person> m_PersonList = new ObservableCollection<Person>();
         public ObservableCollection<Person> PersonList
@@ -33,6 +37,16 @@ namespace SaaMedW
             {
                 m_PersonList = value;
                 OnPropertyChanged("PersonList");
+            }
+        }
+        private ObservableCollection<VmPersonal> m_PersonalList = new ObservableCollection<VmPersonal>();
+        public ObservableCollection<VmPersonal> PersonalList
+        {
+            get => m_PersonalList;
+            set
+            {
+                m_PersonalList = value;
+                OnPropertyChanged("PersonalList");
             }
         }
         private ObservableCollection<DmsCompany> m_DmsCompanyList = new ObservableCollection<DmsCompany>();
@@ -45,7 +59,17 @@ namespace SaaMedW
                 OnPropertyChanged("DmsCompanyList");
             }
         }
-        private ObservableCollection<VmZakaz1> m_Zakaz1List { get; set; }
+        private ObservableCollection<BenefitForZakaz> m_Zakaz1List
+            = new ObservableCollection<BenefitForZakaz>();
+        //public ObservableCollection<BenefitForZakaz> m_Zakaz1List
+        //{
+        //    get => mm_Zakaz1List;
+        //    set
+        //    {
+        //        mm_Zakaz1List = value;
+        //        OnPropertyChanged("m_Zakaz1List");
+        //    }
+        //}
         public ICollectionView Zakaz1List
         {
             get
@@ -138,6 +162,15 @@ namespace SaaMedW
         }
 
         private decimal m_Sm = 0;
+        public decimal Sm
+        {
+            get => m_Sm;
+            set
+            {
+                m_Sm = value;
+                OnPropertyChanged("Sm");
+            }
+        }
 
         public RelayCommand AddBenefitCommand
             => new RelayCommand(AddBenefit);
@@ -148,19 +181,47 @@ namespace SaaMedW
             var f = new SelectSpecialtyView() { DataContext = viewModel };
             if (f.ShowDialog() ?? false)
             {
-                var o = new VmZakaz1()
+                var o = new BenefitForZakaz()
                 {
                     BenefitId = viewModel.BenefitSel.Id,
                     BenefitName = viewModel.BenefitSel.Name,
                     Kol = 1,
-                    Price = viewModel.BenefitSel.Price
+                    Price = viewModel.BenefitSel.Price,
+                    Sum = SetSum
                 };
-                o.PropertyChanged += InvoiceDetail_PropertyChanged;
-                m_Sm += ;
-                ListInvoiceDetail.Add(o);
-                OnPropertyChanged("ListInvoiceDetail");
-                OnPropertyChanged("DateNumSum");
+                m_Zakaz1List.Add(o);
+                Zakaz1List.MoveCurrentToLast();
+                RefreshItogo();
             }
+        }
+
+        private void SetSum()
+        {
+            RefreshItogo();
+        }
+
+        private void RefreshItogo()
+        {
+            decimal sm = 0;
+            foreach(var o in m_Zakaz1List)
+            {
+                sm += o.Kol * o.Price;
+            }
+            Sm = sm;
+        }
+
+        public RelayCommand AddEmptyBenefitCommand
+            => new RelayCommand(AddEmptyBenefit);
+
+        private void AddEmptyBenefit(object obj)
+        {
+            var o = new BenefitForZakaz()
+            {
+                Kol = 1,
+            };
+            m_Zakaz1List.Add(o);
+            Zakaz1List.MoveCurrentToLast();
+            RefreshItogo();
         }
 
         public RelayCommand DelBenefitCommand
@@ -168,7 +229,11 @@ namespace SaaMedW
 
         private void DelBenefit(object obj)
         {
-            throw new NotImplementedException();
+            var benefit = Zakaz1List.CurrentItem as BenefitForZakaz;
+            Sm -= benefit.Kol * benefit.Price;
+            m_Zakaz1List.Remove(benefit);
+            Zakaz1List.MoveCurrentToPrevious();
+            RefreshItogo();
         }
 
         public string this[string columnName]
@@ -194,6 +259,65 @@ namespace SaaMedW
 
     internal class BenefitForZakaz: NotifyPropertyChanged
     {
-
+        public Action Sum { get; set; }
+        private int? m_BenefitId;
+        public int? BenefitId
+        {
+            get => m_BenefitId;
+            set
+            {
+                m_BenefitId = value;
+                OnPropertyChanged("BenefitId");
+            }
+        }
+        private int m_PersonalId;
+        public int PersonalId
+        {
+            get => m_PersonalId;
+            set
+            {
+                m_PersonalId = value;
+                OnPropertyChanged("PersonalId");
+            }
+        }
+        private decimal m_Price;
+        public decimal Price
+        {
+            get => m_Price;
+            set
+            {
+                m_Price = value;
+                OnPropertyChanged("Price");
+                OnPropertyChanged("Sm");
+                Sum?.Invoke();
+            }
+        }
+        private int m_Kol;
+        public int Kol
+        {
+            get => m_Kol;
+            set
+            {
+                m_Kol = value;
+                OnPropertyChanged("Kol");
+                OnPropertyChanged("Sm");
+                Sum?.Invoke();
+            }
+        }
+        private string m_BenefitName;
+        public string BenefitName
+        {
+            get => m_BenefitName;
+            set
+            {
+                m_BenefitName = value;
+                OnPropertyChanged("BenefitName");
+            }
+        }
+        public decimal Sm
+        {
+            get => m_Price * m_Kol;
+            set {}
+        }
     }
 }
