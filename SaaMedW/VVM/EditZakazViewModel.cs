@@ -218,6 +218,7 @@ namespace SaaMedW
             var o = new BenefitForZakaz()
             {
                 Kol = 1,
+                Sum = SetSum
             };
             m_Zakaz1List.Add(o);
             Zakaz1List.MoveCurrentToLast();

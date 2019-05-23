@@ -607,6 +607,9 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <None Include="SaaMedW_TemporaryKey.pfx" />
+    <Resource Include="image\icons8-round-32.png" />
+    <Resource Include="image\icons8-literature-32.png" />
+    <Resource Include="image\icons8-literature-48.png" />
     <Content Include="templates\ДОГОВОР 2019.docx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

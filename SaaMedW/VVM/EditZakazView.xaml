@@ -30,7 +30,7 @@
             <MenuItem Header="Возврат"></MenuItem>
         </Menu>
         <WrapPanel Grid.Row="1">
-            <StackPanel VerticalAlignment="Bottom">
+            <StackPanel>
                 <Label Margin="10, 10, 10, 0" Content="Номер"></Label>
                 <TextBox Margin="10, 0, 10, 10" Width="50" Text="{Binding Num}"></TextBox>
             </StackPanel>
@@ -65,7 +65,7 @@
                 <Button VerticalAlignment="Bottom" Margin="0, 0, 0, 10"
                 Height="32" Width="32"
                 Command="{Binding DmsCompanyClassificatorCommand}">
-                    <Image Source="..\image\folder-open_32.png"></Image>
+                    <Image Source="..\image\icons8-literature-32.png"></Image>
                     <Button.Style>
                         <Style TargetType="Button">
                             <Setter Property="ToolTip" Value="Открыть справочник"></Setter>
@@ -88,7 +88,7 @@
             <Button DockPanel.Dock="Left" 
                 Height="25" Width="25"
                 Command="{Binding AddEmptyBenefitCommand}">
-                <Image Source="..\image\add_32.png"></Image>
+                <Image Source="..\image\icons8-round-32.png"></Image>
                 <Button.Style>
                     <Style TargetType="Button">
                         <Setter Property="ToolTip" Value="Добавить пустую строку"></Setter>
@@ -137,8 +137,8 @@
                             </Style>
                         </DataGridComboBoxColumn.EditingElementStyle>
                     </DataGridComboBoxColumn>
-                    <DataGridTextColumn Header="Цена" Binding="{Binding Price, StringFormat={}{0:#0.00}}" Width="100"/>
-                    <DataGridTextColumn Header="К-во" Binding="{Binding Kol, StringFormat={}{0:#0}}" Width="100"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Цена" Binding="{Binding Price, StringFormat={}{0:#0.00}, UpdateSourceTrigger=PropertyChanged}" Width="100"/>
+                    <DataGridTextColumn Header="К-во" Binding="{Binding Kol, StringFormat={}{0:#0}, UpdateSourceTrigger=PropertyChanged}" Width="100"></DataGridTextColumn>
                     <DataGridTextColumn IsReadOnly="True" Header="Сумма" Binding="{Binding Sm, StringFormat={}{0:#0.00}}" Width="100"/>
                 </DataGrid.Columns>
             </local:ScrollingDataGrid>
