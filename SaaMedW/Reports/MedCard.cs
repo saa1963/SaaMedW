@@ -10,7 +10,7 @@ namespace SaaMedW
 {
     public class MedCard
     {
-        public void DoIt(Person person)
+        public string DoIt(Person person)
         {
             var templateName =
                 Path.Combine(Path.GetDirectoryName(
@@ -25,7 +25,7 @@ namespace SaaMedW
                     doc.InsertAtBookmark(Global.Source.GetNameOfMonth(person.CreateDate.Month), "month_date");
                     doc.InsertAtBookmark(person.CreateDate.Year.ToString(), "year_date");
                     doc.InsertAtBookmark(person.LastName + " " + person.FirstName + " " + person.MiddleName, "fio");
-                    doc.InsertAtBookmark("  " + (person.Sex.HasValue ? person.Sex.Value.ToString() : ""), "sex");
+                    doc.InsertAtBookmark("  " + (person.Sex.HasValue ? ((int)person.Sex.Value).ToString() : ""), "sex");
                     if (person.BirthDate.HasValue)
                     {
                         doc.InsertAtBookmark(person.BirthDate.Value.Day.ToString(), "day_birth");
@@ -56,7 +56,8 @@ namespace SaaMedW
                     doc.Save();
                 }
             }
-            System.Diagnostics.Process.Start(tmpName);
+            return tmpName;
+            //System.Diagnostics.Process.Start(tmpName);
         }
     }
 }

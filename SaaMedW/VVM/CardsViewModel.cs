@@ -161,7 +161,8 @@ namespace SaaMedW
         {
             if (CardsSel == null) return;
             VmPerson person = CardsSel;
-            new MedCard().DoIt(person.Obj);
+            var fname = new MedCard().DoIt(person.Obj);
+            System.Diagnostics.Process.Start(fname);
         }
 
         public RelayCommand Vmesh => new RelayCommand(PrintVmesh, s => CardsSel != null);
@@ -170,7 +171,7 @@ namespace SaaMedW
         {
             if (CardsSel == null) return;
             VmPerson person = CardsSel;
-            new Vmesh().DoIt(person.Obj);
+            new Vmesh().DoIt(DateTime.Now, person.Obj);
         }
 
         public RelayCommand PersonsInfoCommand => new RelayCommand(PersonsInfo, s => CardsSel != null);

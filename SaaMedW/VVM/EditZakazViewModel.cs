@@ -1,11 +1,14 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Data;
 
 namespace SaaMedW
@@ -162,6 +165,9 @@ namespace SaaMedW
         }
 
         private decimal m_Sm = 0;
+
+        public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
+
         public decimal Sm
         {
             get => m_Sm;
@@ -237,6 +243,148 @@ namespace SaaMedW
             RefreshItogo();
         }
 
+        public bool IsOpenPrint { get; set; }
+
+        public RelayCommand PrintDogovorCommand { get; set; }
+            = new RelayCommand(PrintDogovor, IsPrintDovogor);
+
+        private static bool IsPrintDovogor(object obj)
+        {
+            return true;
+        }
+
+        private static void PrintDogovor(object obj)
+        {
+            var o = obj as EditZakazViewModel;
+            var fname = new Dogovor().GetDogovorFname(o.Dt, o.Num, o.Person);
+            if (!o.IsOpenPrint)
+            {
+                ProcessStartInfo info = new ProcessStartInfo(fname);
+                info.Verb = "Print";
+                info.CreateNoWindow = true;
+                info.WindowStyle = ProcessWindowStyle.Hidden;
+                Process.Start(info);
+            }
+            else
+            {
+                System.Diagnostics.Process.Start(fname);
+            }
+        }
+
+        public RelayCommand PrintVmeshCommand { get; set; }
+            = new RelayCommand(PrintVmesh, IsPrintVmesh);
+
+        private static bool IsPrintVmesh(object obj)
+        {
+            return true;
+        }
+
+        private static void PrintVmesh(object obj)
+        {
+            var o = obj as EditZakazViewModel;
+            var fname = new Vmesh().DoIt(o.Dt, o.Person);
+            if (!o.IsOpenPrint)
+            {
+                ProcessStartInfo info = new ProcessStartInfo(fname);
+                info.Verb = "Print";
+                info.CreateNoWindow = true;
+                info.WindowStyle = ProcessWindowStyle.Hidden;
+                Process.Start(info);
+            }
+            else
+            {
+                System.Diagnostics.Process.Start(fname);
+            }
+        }
+
+        public RelayCommand PrintMedcardCommand { get; set; }
+            = new RelayCommand(PrintMedcard, IsPrintMedcard);
+
+        private static bool IsPrintMedcard(object obj)
+        {
+            return true;
+        }
+
+        private static void PrintMedcard(object obj)
+        {
+            var o = obj as EditZakazViewModel;
+            var fname = new MedCard().DoIt(o.Person);
+            if (!o.IsOpenPrint)
+            {
+                ProcessStartInfo info = new ProcessStartInfo(fname);
+                info.Verb = "Print";
+                info.CreateNoWindow = true;
+                info.WindowStyle = ProcessWindowStyle.Hidden;
+                Process.Start(info);
+            }
+            else
+            {
+                System.Diagnostics.Process.Start(fname);
+            }
+        }
+
+        public RelayCommand ZakazReportCommand { get; set; }
+            = new RelayCommand(ZakazReport);
+
+        private static void ZakazReport(object obj)
+        {
+            var o = obj as EditZakazViewModel;
+
+            var fname = new ZakazReport().DoIt(o.Dt, o.Num, o.Person, o.Dms, o.m_Zakaz1List);
+            if (!o.IsOpenPrint)
+            {
+                ProcessStartInfo info = new ProcessStartInfo(fname);
+                info.Verb = "Print";
+                info.CreateNoWindow = true;
+                info.WindowStyle = ProcessWindowStyle.Hidden;
+                Process.Start(info);
+            }
+            else
+            {
+                System.Diagnostics.Process.Start(fname);
+            }
+        }
+
+        private bool ValidZakaz()
+        {
+            string result = null;
+            bool rt = true;
+            if (Num <= 0)
+            {
+                result = "Неверный номер заказа";
+            }
+            else if (Dms && String.IsNullOrWhiteSpace(Polis))
+            {
+                result = "Не введен номер полиса";
+            }
+            else if (Dms && DmsCompany == null)
+            {
+                result = "Не введена страховая компания";
+            }
+            else if (m_Zakaz1List.Count == 0)
+            {
+                result = "Не введены услуги";
+            } else if (!ValidBenefits(out string res))
+            {
+                result = res;
+            }
+            if (result != null)
+            {
+                MessageBox.Show(result);
+                rt = false;
+            }
+            return rt;
+        }
+
+        private bool ValidBenefits(out string res)
+        {
+            res = null;
+            foreach(var o in m_Zakaz1List)
+            {
+
+            }
+        }
+
         public string this[string columnName]
         {
             get
@@ -244,9 +392,16 @@ namespace SaaMedW
                 var result = String.Empty;
                 switch (columnName)
                 {
-                    case "Name":
-                        //if (String.IsNullOrWhiteSpace(Name))
-                        //    result = "Не введено наименование.";
+                    case "Num":
+                        if (Num <= 0) result = "Неверный номер заказа";
+                        break;
+                    case "Polis":
+                        if (Dms && String.IsNullOrWhiteSpace(Polis))
+                            result = "Не введен полис";
+                        break;
+                    case "DmsCompany":
+                        if (Dms && DmsCompany == null)
+                            result = "Не введена компания";
                         break;
                     default:
                         break;

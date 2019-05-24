@@ -200,17 +200,6 @@ namespace SaaMedW
             }
         }
 
-        public RelayCommand PrnDogovorCommand
-        {
-            get => new RelayCommand(PrnDogovor, o => o != null && ((VmVisit)o).NumDog.HasValue);
-        }
-
-        private void PrnDogovor(object obj)
-        {
-            var selectedVisit = obj as VmVisit;
-            new Dogovor().DoIt(selectedVisit.Dt, selectedVisit.NumDog.Value, selectedVisit.Person, selectedVisit.VisitBenefit);
-        }
-
         public RelayCommand ChangeStatusCommand
         {
             //get => new RelayCommand(ChangeStatus, o => o != null 

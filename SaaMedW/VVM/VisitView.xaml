@@ -69,12 +69,6 @@
                                           CommandParameter="{Binding .}"
                                               >
                                         </MenuItem>
-                                        <MenuItem Header="Печатать договор" 
-                                          Command="{Binding PlacementTarget.Tag.PrnDogovorCommand,
-                                            RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=ContextMenu}}"
-                                          CommandParameter="{Binding .}"
-                                              >
-                                        </MenuItem>
                                     </ContextMenu>
                                 </Grid.ContextMenu>
                                 <Grid.RowDefinitions>
