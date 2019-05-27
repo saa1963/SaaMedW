@@ -199,6 +199,7 @@
           <Property Name="Dms" Type="bit" Nullable="false" />
           <Property Name="Polis" Type="nchar" MaxLength="50" />
           <Property Name="DmsCompanyId" Type="int" />
+          <Property Name="Vozvrat" Type="date" />
         </EntityType>
         <EntityType Name="Zakaz1">
           <Key>
@@ -1151,6 +1152,7 @@
           <NavigationProperty Name="DmsCompany" Relationship="SaaMedModel.FK_Zakaz_DmsCompany" FromRole="Zakaz" ToRole="DmsCompany" />
           <NavigationProperty Name="Person" Relationship="SaaMedModel.FK_Zakaz_Person" FromRole="Zakaz" ToRole="Person" />
           <NavigationProperty Name="Zakaz1" Relationship="SaaMedModel.FK_Zakaz1_Zakaz" FromRole="Zakaz" ToRole="Zakaz1" />
+          <Property Name="Vozvrat" Type="DateTime" Precision="0" />
         </EntityType>
         <EntityType Name="Zakaz1">
           <Key>
@@ -1433,6 +1435,7 @@
           <EntitySetMapping Name="Zakaz">
             <EntityTypeMapping TypeName="SaaMedModel.Zakaz">
               <MappingFragment StoreEntitySet="Zakaz">
+                <ScalarProperty Name="Vozvrat" ColumnName="Vozvrat" />
                 <ScalarProperty Name="DmsCompanyId" ColumnName="DmsCompanyId" />
                 <ScalarProperty Name="Polis" ColumnName="Polis" />
                 <ScalarProperty Name="Dms" ColumnName="Dms" />

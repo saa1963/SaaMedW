@@ -427,6 +427,9 @@
     <Compile Include="Zakaz1.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="VVM\ZakazView.xaml.cs">
+      <DependentUpon>ZakazView.xaml</DependentUpon>
+    </Compile>
     <Page Include="VVM\DmsCompanyView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -572,6 +575,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="VVM\WaitingView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="VVM\ZakazView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

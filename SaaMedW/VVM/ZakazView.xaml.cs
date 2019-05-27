@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace SaaMedW
 {
     /// <summary>
-    /// Логика взаимодействия для InvoiceView.xaml
+    /// Логика взаимодействия для ZakazView.xaml
     /// </summary>
-    public partial class InvoiceView : UserControl
+    public partial class ZakazView : UserControl
     {
-        public InvoiceView()
+        public ZakazView()
         {
             InitializeComponent();
         }
