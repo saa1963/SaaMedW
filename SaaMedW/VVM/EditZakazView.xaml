@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:SaaMedW"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
+        local:DialogCloser.DialogResult="{Binding CloseDialog}"
         Style="{StaticResource {x:Type Window}}"
         Title="Заказ" Height="600" Width="1000">
     <Window.Resources>
@@ -20,14 +21,13 @@
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
         <Menu Grid.Row="0">
-            <MenuItem Header="Комплект"></MenuItem>
+            <MenuItem Header="Комплект" Command="{Binding PrintAllCommand}" CommandParameter="{Binding}"></MenuItem>
             <MenuItem Header="Договор" Command="{Binding PrintDogovorCommand}" CommandParameter="{Binding}"></MenuItem>
             <MenuItem Header="Согласие" Command="{Binding PrintVmeshCommand}" CommandParameter="{Binding}"></MenuItem>
             <MenuItem Header="Медкарта" Command="{Binding PrintMedcardCommand}" CommandParameter="{Binding}"></MenuItem>
             <MenuItem Header="Заказ" Command="{Binding ZakazReportCommand}" CommandParameter="{Binding}"></MenuItem>
             <MenuItem Header="Квитанция"></MenuItem>
-            <MenuItem Header="Оплатить"></MenuItem>
-            <MenuItem Header="Возврат"></MenuItem>
+            <MenuItem Header="Оплатить" Command="{Binding PayCommand}" CommandParameter="{Binding}" IsEnabled="{Binding NotPayed}"></MenuItem>
         </Menu>
         <WrapPanel Grid.Row="1">
             <StackPanel>

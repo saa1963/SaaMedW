@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SaaMedW.Service;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -259,11 +260,7 @@ namespace SaaMedW
             var fname = new Dogovor().GetDogovorFname(o.Dt, o.Num, o.Person);
             if (!o.IsOpenPrint)
             {
-                ProcessStartInfo info = new ProcessStartInfo(fname);
-                info.Verb = "Print";
-                info.CreateNoWindow = true;
-                info.WindowStyle = ProcessWindowStyle.Hidden;
-                Process.Start(info);
+                o.HardCopy(fname);
             }
             else
             {
@@ -285,11 +282,7 @@ namespace SaaMedW
             var fname = new Vmesh().DoIt(o.Dt, o.Person);
             if (!o.IsOpenPrint)
             {
-                ProcessStartInfo info = new ProcessStartInfo(fname);
-                info.Verb = "Print";
-                info.CreateNoWindow = true;
-                info.WindowStyle = ProcessWindowStyle.Hidden;
-                Process.Start(info);
+                o.HardCopy(fname);
             }
             else
             {
@@ -311,11 +304,7 @@ namespace SaaMedW
             var fname = new MedCard().DoIt(o.Person);
             if (!o.IsOpenPrint)
             {
-                ProcessStartInfo info = new ProcessStartInfo(fname);
-                info.Verb = "Print";
-                info.CreateNoWindow = true;
-                info.WindowStyle = ProcessWindowStyle.Hidden;
-                Process.Start(info);
+                o.HardCopy(fname);
             }
             else
             {
@@ -329,20 +318,129 @@ namespace SaaMedW
         private static void ZakazReport(object obj)
         {
             var o = obj as EditZakazViewModel;
-
+            if (!o.ValidZakaz()) return;
             var fname = new ZakazReport().DoIt(o.Dt, o.Num, o.Person, o.Dms, o.m_Zakaz1List);
             if (!o.IsOpenPrint)
             {
-                ProcessStartInfo info = new ProcessStartInfo(fname);
-                info.Verb = "Print";
-                info.CreateNoWindow = true;
-                info.WindowStyle = ProcessWindowStyle.Hidden;
-                Process.Start(info);
+                try
+                {
+                    o.HardCopy(fname);
+                }
+                catch(Exception e)
+                {
+                    MessageBox.Show(e.Message);
+                }
             }
             else
             {
                 System.Diagnostics.Process.Start(fname);
             }
+        }
+
+        public RelayCommand PrintAllCommand { get; set; }
+            = new RelayCommand(PrintAll);
+
+        private static void PrintAll(object obj)
+        {
+            var o = obj as EditZakazViewModel;
+            if (!o.ValidZakaz()) return;
+            var fname = new Dogovor().GetDogovorFname(o.Dt, o.Num, o.Person);
+            o.HardCopy(fname);
+            fname = new Vmesh().DoIt(o.Dt, o.Person);
+            o.HardCopy(fname);
+            fname = new MedCard().DoIt(o.Person);
+            o.HardCopy(fname);
+            fname = new ZakazReport().DoIt(o.Dt, o.Num, o.Person, o.Dms, o.m_Zakaz1List);
+            o.HardCopy(fname);
+        }
+
+        private bool m_NotPayed = true;
+        public bool NotPayed
+        {
+            get => m_NotPayed;
+            set
+            {
+                m_NotPayed = value;
+                OnPropertyChanged("NotPayed");
+            }
+        }
+#if (!DEBUG)
+        public RelayCommand PayCommand { get; set; }
+            = new RelayCommand(Pay, s => ServiceLocator.Instance.GetService<IKkm>().IsInitialized);
+#else
+        public RelayCommand PayCommand { get; set; }
+            = new RelayCommand(Pay);
+#endif
+        private static void Pay(object obj)
+        {
+            var o = obj as EditZakazViewModel;
+            if (!o.ValidZakaz()) return;
+            List<Tuple<string, int, decimal>> uslugi = new List<Tuple<string, int, decimal>>();
+            IKkm kkm = ServiceLocator.Instance.GetService<IKkm>();
+            var viewModel = new PayInvoiceViewModel() { КОплате = o.Sm };
+            var f = new PayInvoiceView() { DataContext = viewModel };
+            if (f.ShowDialog() ?? false)
+            {
+                foreach (var o1 in o.m_Zakaz1List)
+                {
+                    uslugi.Add(new Tuple<string, int, decimal>(o1.BenefitName, o1.Kol, o1.Price));
+                }
+#if (!DEBUG)
+  ...           if (kkm.Register(uslugi, viewModel.Sm, viewModel.PaymentType, viewModel.Email, viewModel.IsElectronic))
+#else
+                if (true)
+#endif
+                {
+                    o.NotPayed = false;
+                    o.Save();
+                    if (viewModel.IsElectronic)
+                        MessageBox.Show("Электронный чек сформирован.");
+                    o.CloseDialog = true;
+                }
+                else
+                {
+                    MessageBox.Show("Ошибка регистрации кассового чека.");
+                }
+            }
+        }
+
+        private void Save()
+        {
+            var zakaz = new Zakaz()
+            {
+                Dms = this.Dms,
+                DmsCompany = this.DmsCompany,
+                DmsCompanyId = this.DmsCompany?.Id,
+                Dt = this.Dt,
+                Num = this.Num,
+                Person = this.Person,
+                PersonId = this.Person.Id,
+                Polis = this.Polis,
+            };
+            foreach (var o1 in this.m_Zakaz1List)
+            {
+                var zakaz1 = new Zakaz1()
+                {
+                    BenefitId = o1.BenefitId,
+                    BenefitName = o1.BenefitName,
+                    Kol = o1.Kol,
+                    PersonalId = o1.PersonalId,
+                    Price = o1.Price
+                };
+                zakaz.Zakaz1.Add(zakaz1);
+            }
+            this.ctx.Zakaz.Add(zakaz);
+            this.ctx.SaveChanges();
+        }
+
+        private void HardCopy(string fname)
+        {
+            ProcessStartInfo info = new ProcessStartInfo(fname);
+            info.Verb = "Print";
+            info.CreateNoWindow = true;
+            info.WindowStyle = ProcessWindowStyle.Hidden;
+            var process = Process.Start(info);
+            process.WaitForExit(10000);
         }
 
         private bool ValidZakaz()
@@ -378,10 +476,46 @@ namespace SaaMedW
 
         private bool ValidBenefits(out string res)
         {
+            bool rt = true;
             res = null;
             foreach(var o in m_Zakaz1List)
             {
+                if (String.IsNullOrWhiteSpace(o.BenefitName))
+                {
+                    res = "Не введено наименование услуги";
+                    rt = false;
+                    break;
+                }
+                else if (o.PersonalId <= 0)
+                {
+                    res = "Не введен врач";
+                    rt = false;
+                    break;
+                }
+                else if (o.Kol <= 0)
+                {
+                    res = "Не введено количество";
+                    rt = false;
+                    break;
+                }
+                else if (o.Price <= 0)
+                {
+                    res = "Не введена цена";
+                    rt = false;
+                    break;
+                }
+            }
+            return rt;
+        }
 
+        private bool? m_CloseDialog;
+        public bool? CloseDialog
+        {
+            get => m_CloseDialog;
+            set
+            {
+                m_CloseDialog = value;
+                OnPropertyChanged("CloseDialog");
             }
         }
 
