@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:core="clr-namespace:System;assembly=mscorlib"
              xmlns:local0="clr-namespace:SaaMedW"
-             mc:Ignorable="d" Tag="Счета"
+             mc:Ignorable="d" Tag="Заказы"
              d:DesignHeight="450" d:DesignWidth="800">
     <DockPanel LastChildFill="False">
         <WrapPanel DockPanel.Dock="Top">
@@ -48,13 +48,6 @@
                 <StackPanel Orientation="Horizontal">
                     <Image Source="..\image\icons8-request-money-32.png"></Image>
                     <TextBlock VerticalAlignment="Center" Margin="5,0,5,0">Возврат</TextBlock>
-                </StackPanel>
-            </Button>
-            <Button Height="32"
-                Command="{Binding BackMoneyCommand}" CommandParameter="{Binding}">
-                <StackPanel Orientation="Horizontal">
-                    <Image Source="..\image\delete_32.png"></Image>
-                    <TextBlock VerticalAlignment="Center" Margin="5,0,5,0">Удалить</TextBlock>
                 </StackPanel>
             </Button>
         </WrapPanel>
@@ -103,6 +96,8 @@
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
+                <DataGridTextColumn Header="№ полиса" Binding="{Binding Polis}" Width="Auto"></DataGridTextColumn>
+                <DataGridTextColumn Header="ДМС компания" Binding="{Binding DmsCompany.Name}" Width="Auto"></DataGridTextColumn>
                 <DataGridTextColumn Header="Возврат" Binding="{Binding Vozvrat, StringFormat={}{0:dd.MM.yyyy}}" Width="Auto">
                 </DataGridTextColumn>
             </DataGrid.Columns>

@@ -139,6 +139,11 @@ namespace SaaMedW
             }
         }
 
+        public RelayCommand DailyReportCmd
+        {
+            get => new RelayCommand(DailyReport)
+        }
+
         public object CmdUsers
         {
             get { return new ExecTypes { View = typeof(UsersView), ViewModel = typeof(UsersViewModel) }; }

@@ -200,6 +200,7 @@
           <Property Name="Polis" Type="nchar" MaxLength="50" />
           <Property Name="DmsCompanyId" Type="int" />
           <Property Name="Vozvrat" Type="date" />
+          <Property Name="Email" Type="nchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="Zakaz1">
           <Key>
@@ -1153,6 +1154,7 @@
           <NavigationProperty Name="Person" Relationship="SaaMedModel.FK_Zakaz_Person" FromRole="Zakaz" ToRole="Person" />
           <NavigationProperty Name="Zakaz1" Relationship="SaaMedModel.FK_Zakaz1_Zakaz" FromRole="Zakaz" ToRole="Zakaz1" />
           <Property Name="Vozvrat" Type="DateTime" Precision="0" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
         </EntityType>
         <EntityType Name="Zakaz1">
           <Key>
@@ -1435,6 +1437,7 @@
           <EntitySetMapping Name="Zakaz">
             <EntityTypeMapping TypeName="SaaMedModel.Zakaz">
               <MappingFragment StoreEntitySet="Zakaz">
+                <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="Vozvrat" ColumnName="Vozvrat" />
                 <ScalarProperty Name="DmsCompanyId" ColumnName="DmsCompanyId" />
                 <ScalarProperty Name="Polis" ColumnName="Polis" />

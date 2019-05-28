@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.Entity;
+using SaaMedW.Service;
 
 namespace SaaMedW
 {
@@ -112,12 +113,26 @@ namespace SaaMedW
 
         public RelayCommand BackMoneyCommand
         {
-            get => new RelayCommand(BackMoney, s => ZakazSel.Vozvrat == null);
+            get => new RelayCommand(BackMoney, s => ZakazSel != null && ZakazSel.Vozvrat == null);
         }
 
         private void BackMoney(object obj)
         {
-            throw new NotImplementedException();
+            IKkm kkm = ServiceLocator.Instance.GetService<IKkm>();
+            List<Tuple<string, int, decimal>> uslugi = new List<Tuple<string, int, decimal>>();
+            foreach (var o in ZakazSel.Zakaz1)
+            {
+                uslugi.Add(new Tuple<string, int, decimal>(o.BenefitName, o.Kol, o.Price));
+            }
+#if (!DEBUG)
+            if (kkm.Register(uslugi, ZakazSel.Sm, enumPaymentType.Возврат, ZakazSel.Email, ZakazSel.Email != null))
+#else
+            if (true)
+#endif
+            {
+                ZakazSel.Vozvrat = DateTime.Today;
+                ctx.SaveChanges();
+            }
         }
 
         public ZakazViewModel()

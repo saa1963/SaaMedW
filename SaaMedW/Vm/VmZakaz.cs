@@ -128,5 +128,14 @@ namespace SaaMedW
                 OnPropertyChanged("Vozvrat");
             }
         }
+        public string Email
+        {
+            get => m_object.Email;
+            set
+            {
+                m_object.Email = value;
+                OnPropertyChanged("Email");
+            }
+        }
     }
 }

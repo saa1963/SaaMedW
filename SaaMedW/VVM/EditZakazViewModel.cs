@@ -338,7 +338,7 @@ namespace SaaMedW
 #endif
                 {
                     o.NotPayed = false;
-                    o.Save();
+                    o.Save(viewModel.Email);
                     if (viewModel.IsElectronic)
                         MessageBox.Show("Электронный чек сформирован.");
                     o.CloseDialog = true;
@@ -350,7 +350,7 @@ namespace SaaMedW
             }
         }
 
-        private void Save()
+        private void Save(string email)
         {
             var zakaz = new Zakaz()
             {
@@ -362,6 +362,7 @@ namespace SaaMedW
                 Person = this.Person,
                 PersonId = this.Person.Id,
                 Polis = this.Polis,
+                Email = email
             };
             foreach (var o1 in this.Zakaz1List)
             {
