@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SaaMedW
 {
-    class VmZakaz1: NotifyPropertyChanged
+    public class VmZakaz1: NotifyPropertyChanged
     {
         protected Zakaz1 m_object;
 

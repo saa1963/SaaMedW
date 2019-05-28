@@ -7,15 +7,8 @@
              xmlns:local0="clr-namespace:SaaMedW"
              mc:Ignorable="d" Tag="Счета"
              d:DesignHeight="450" d:DesignWidth="800">
-    <DockPanel>
+    <DockPanel LastChildFill="False">
         <WrapPanel DockPanel.Dock="Top">
-            <Button Height="32"
-                Command="{Binding PrintAllCommand}" CommandParameter="{Binding}">
-                <StackPanel Orientation="Horizontal">
-                    <Image Source="..\image\icons8-печать-32.png"></Image>
-                    <TextBlock VerticalAlignment="Center" Margin="5,0,5,0">Комплект</TextBlock>
-                </StackPanel>
-            </Button>
             <Button Height="32"
                 Command="{Binding PrintDogovorCommand}" CommandParameter="{Binding}">
                 <StackPanel Orientation="Horizontal">
@@ -44,8 +37,7 @@
                     <TextBlock VerticalAlignment="Center" Margin="5,0,5,0">Заказ</TextBlock>
                 </StackPanel>
             </Button>
-            <Button Height="32"
-                >
+            <Button Height="32">
                 <StackPanel Orientation="Horizontal">
                     <Image Source="..\image\icons8-печать-32.png"></Image>
                     <TextBlock VerticalAlignment="Center" Margin="5,0,5,0">Квитанция</TextBlock>
@@ -83,30 +75,18 @@
                         SelectedValuePath="Id"
                         DisplayMemberPath="Obj.FioBirthday"
                         MinWidth="200"></ComboBox>
-                <Button Height="{Binding ElementName=tbPerson, Path=ActualHeight}"
+                <Button Height="25"
                     Command="{Binding ClearPersonSelCommand}">
                     <Image Source="..\image\delete_32.png"></Image>
                 </Button>
             </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <Label Content="Возврат"></Label>
-                <ComboBox ItemsSource="{Binding StatusList}"
-                        SelectedValue="{Binding StatusSel}"
-                        SelectedValuePath="Id"
-                        DisplayMemberPath="Name"
-                        Width="200"></ComboBox>
-            </StackPanel>
         </WrapPanel>
-        <local0:ScrollingDataGrid x:Name="g" ItemsSource="{Binding InvoiceList}" IsReadOnly="True" 
-                SelectedItem="{Binding InvoiceSel}" IsSynchronizedWithCurrentItem="True">
+        <local0:ScrollingDataGrid x:Name="g" ItemsSource="{Binding ZakazList}"
+                IsReadOnly="True" SelectedItem="{Binding ZakazSel}" IsSynchronizedWithCurrentItem="True">
             <DataGrid.Columns>
-                <DataGridTextColumn IsReadOnly="True" Header="Id" Binding="{Binding Id}" Width="Auto"></DataGridTextColumn>
+                <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="Auto"></DataGridTextColumn>
                 <DataGridTextColumn Header="Дата" Binding="{Binding Dt, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:dd.MM.yyyy}}" Width="Auto">
                 </DataGridTextColumn>
-                <DataGridComboBoxColumn Header="Статус" 
-                                        ItemsSource="{Binding Source={StaticResource InvoiceStatusEnum}}"
-                                        SelectedValueBinding="{Binding Status}"
-                                        Width="Auto"></DataGridComboBoxColumn>
                 <DataGridTextColumn Header="Пациент" 
                                     Binding="{Binding Person.FioBirthday, 
                                         UpdateSourceTrigger=PropertyChanged}" Width="Auto"></DataGridTextColumn>
@@ -122,6 +102,8 @@
                             <Setter Property="HorizontalAlignment" Value="Right"></Setter>
                         </Style>
                     </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Возврат" Binding="{Binding Vozvrat, StringFormat={}{0:dd.MM.yyyy}}" Width="Auto">
                 </DataGridTextColumn>
             </DataGrid.Columns>
         </local0:ScrollingDataGrid>

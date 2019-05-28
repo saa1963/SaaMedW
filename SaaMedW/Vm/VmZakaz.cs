@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SaaMedW
 {
-    class VmZakaz: NotifyPropertyChanged
+    public class VmZakaz: NotifyPropertyChanged
     {
         protected Zakaz m_object;
 
@@ -110,6 +110,22 @@ namespace SaaMedW
             {
                 m_object.Zakaz1 = value;
                 OnPropertyChanged("Zakaz1");
+            }
+        }
+        public decimal Sm
+        {
+            get
+            {
+                return m_object.Zakaz1.Sum(s => s.Kol * s.Price);
+            }
+        }
+        public DateTime? Vozvrat
+        {
+            get => m_object.Vozvrat;
+            set
+            {
+                m_object.Vozvrat = value;
+                OnPropertyChanged("Vozvrat");
             }
         }
     }

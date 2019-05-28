@@ -14,7 +14,7 @@ using System.Windows.Data;
 
 namespace SaaMedW
 {
-    class EditZakazViewModel : NotifyPropertyChanged, IDataErrorInfo
+    public class EditZakazViewModel : NotifyPropertyChanged, IDataErrorInfo
     {
         SaaMedEntities ctx = new SaaMedEntities();
         public EditZakazViewModel(int personId)
@@ -31,7 +31,7 @@ namespace SaaMedW
                 PersonalList.Add(new VmPersonal(p));
             }
             RefreshDmsCompanies();
-            m_Zakaz1List = new ObservableCollection<BenefitForZakaz>();
+            Zakaz1List = new ObservableCollection<BenefitForZakaz>();
         }
         private ObservableCollection<Person> m_PersonList = new ObservableCollection<Person>();
         public ObservableCollection<Person> PersonList
@@ -63,7 +63,7 @@ namespace SaaMedW
                 OnPropertyChanged("DmsCompanyList");
             }
         }
-        private ObservableCollection<BenefitForZakaz> m_Zakaz1List
+        public ObservableCollection<BenefitForZakaz> Zakaz1List { get; set; }
             = new ObservableCollection<BenefitForZakaz>();
         //public ObservableCollection<BenefitForZakaz> m_Zakaz1List
         //{
@@ -74,11 +74,11 @@ namespace SaaMedW
         //        OnPropertyChanged("m_Zakaz1List");
         //    }
         //}
-        public ICollectionView Zakaz1List
+        public ICollectionView Zakaz1ListView
         {
             get
             {
-                return CollectionViewSource.GetDefaultView(m_Zakaz1List);
+                return CollectionViewSource.GetDefaultView(Zakaz1List);
             }
         }
         private int m_Num;
@@ -196,8 +196,8 @@ namespace SaaMedW
                     Price = viewModel.BenefitSel.Price,
                     Sum = SetSum
                 };
-                m_Zakaz1List.Add(o);
-                Zakaz1List.MoveCurrentToLast();
+                Zakaz1List.Add(o);
+                Zakaz1ListView.MoveCurrentToLast();
                 RefreshItogo();
             }
         }
@@ -210,7 +210,7 @@ namespace SaaMedW
         private void RefreshItogo()
         {
             decimal sm = 0;
-            foreach(var o in m_Zakaz1List)
+            foreach (var o in Zakaz1List)
             {
                 sm += o.Kol * o.Price;
             }
@@ -227,131 +227,77 @@ namespace SaaMedW
                 Kol = 1,
                 Sum = SetSum
             };
-            m_Zakaz1List.Add(o);
-            Zakaz1List.MoveCurrentToLast();
+            Zakaz1List.Add(o);
+            Zakaz1ListView.MoveCurrentToLast();
             RefreshItogo();
         }
 
         public RelayCommand DelBenefitCommand
-            => new RelayCommand(DelBenefit, s => Zakaz1List.CurrentItem != null);
+            => new RelayCommand(DelBenefit, s => Zakaz1ListView.CurrentItem != null);
 
         private void DelBenefit(object obj)
         {
-            var benefit = Zakaz1List.CurrentItem as BenefitForZakaz;
+            var benefit = Zakaz1ListView.CurrentItem as BenefitForZakaz;
             Sm -= benefit.Kol * benefit.Price;
-            m_Zakaz1List.Remove(benefit);
-            Zakaz1List.MoveCurrentToPrevious();
+            Zakaz1List.Remove(benefit);
+            Zakaz1ListView.MoveCurrentToPrevious();
             RefreshItogo();
         }
 
         public bool IsOpenPrint { get; set; }
 
-        public RelayCommand PrintDogovorCommand { get; set; }
-            = new RelayCommand(PrintDogovor, IsPrintDovogor);
-
-        private static bool IsPrintDovogor(object obj)
+        public RelayCommand PrintDogovorCommand
         {
-            return true;
+            get => new RelayCommand(PrintDogovor);
         }
 
-        private static void PrintDogovor(object obj)
+        private void PrintDogovor(object obj)
         {
-            var o = obj as EditZakazViewModel;
-            var fname = new Dogovor().GetDogovorFname(o.Dt, o.Num, o.Person);
-            if (!o.IsOpenPrint)
-            {
-                o.HardCopy(fname);
-            }
-            else
-            {
-                System.Diagnostics.Process.Start(fname);
-            }
+            Print.PrintDogovor(Dt, Num, Person, IsOpenPrint);
         }
 
-        public RelayCommand PrintVmeshCommand { get; set; }
-            = new RelayCommand(PrintVmesh, IsPrintVmesh);
-
-        private static bool IsPrintVmesh(object obj)
+        public RelayCommand PrintVmeshCommand
         {
-            return true;
+            get => new RelayCommand(PrintVmesh);
         }
 
-        private static void PrintVmesh(object obj)
+        private void PrintVmesh(object obj)
         {
-            var o = obj as EditZakazViewModel;
-            var fname = new Vmesh().DoIt(o.Dt, o.Person);
-            if (!o.IsOpenPrint)
-            {
-                o.HardCopy(fname);
-            }
-            else
-            {
-                System.Diagnostics.Process.Start(fname);
-            }
+            Print.PrintVmesh(Dt, Person, IsOpenPrint);
         }
 
-        public RelayCommand PrintMedcardCommand { get; set; }
-            = new RelayCommand(PrintMedcard, IsPrintMedcard);
-
-        private static bool IsPrintMedcard(object obj)
+        public RelayCommand PrintMedcardCommand
         {
-            return true;
+            get => new RelayCommand(PrintMedcard);
         }
 
-        private static void PrintMedcard(object obj)
+        private void PrintMedcard(object obj)
         {
-            var o = obj as EditZakazViewModel;
-            var fname = new MedCard().DoIt(o.Person);
-            if (!o.IsOpenPrint)
-            {
-                o.HardCopy(fname);
-            }
-            else
-            {
-                System.Diagnostics.Process.Start(fname);
-            }
+            Print.PrintMedcard(Person, IsOpenPrint);
         }
 
-        public RelayCommand ZakazReportCommand { get; set; }
-            = new RelayCommand(ZakazReport);
-
-        private static void ZakazReport(object obj)
+        public RelayCommand ZakazReportCommand
         {
-            var o = obj as EditZakazViewModel;
-            if (!o.ValidZakaz()) return;
-            var fname = new ZakazReport().DoIt(o.Dt, o.Num, o.Person, o.Dms, o.m_Zakaz1List);
-            if (!o.IsOpenPrint)
-            {
-                try
-                {
-                    o.HardCopy(fname);
-                }
-                catch(Exception e)
-                {
-                    MessageBox.Show(e.Message);
-                }
-            }
-            else
-            {
-                System.Diagnostics.Process.Start(fname);
-            }
+            get => new RelayCommand(PrintZakazReport, s => ValidZakaz());
         }
 
-        public RelayCommand PrintAllCommand { get; set; }
-            = new RelayCommand(PrintAll);
-
-        private static void PrintAll(object obj)
+        private void PrintZakazReport(object obj)
         {
-            var o = obj as EditZakazViewModel;
-            if (!o.ValidZakaz()) return;
-            var fname = new Dogovor().GetDogovorFname(o.Dt, o.Num, o.Person);
-            o.HardCopy(fname);
-            fname = new Vmesh().DoIt(o.Dt, o.Person);
-            o.HardCopy(fname);
-            fname = new MedCard().DoIt(o.Person);
-            o.HardCopy(fname);
-            fname = new ZakazReport().DoIt(o.Dt, o.Num, o.Person, o.Dms, o.m_Zakaz1List);
-            o.HardCopy(fname);
+            if (!ValidZakaz()) return;
+            Print.ZakazReport(Dt, Num, Person, Dms, Zakaz1List, IsOpenPrint);
+        }
+
+        public RelayCommand PrintAllCommand
+        { 
+            get => new RelayCommand(PrintAll, s => ValidZakaz());
+        }
+        public void PrintAll(object obj)
+        {
+            if (!ValidZakaz()) return;
+            Print.PrintDogovor(Dt, Num, Person, IsOpenPrint);
+            Print.PrintVmesh(Dt, Person, IsOpenPrint);
+            Print.PrintMedcard(Person, IsOpenPrint);
+            Print.ZakazReport(Dt, Num, Person, Dms, Zakaz1List, IsOpenPrint);
         }
 
         private bool m_NotPayed = true;
@@ -381,7 +327,7 @@ namespace SaaMedW
             var f = new PayInvoiceView() { DataContext = viewModel };
             if (f.ShowDialog() ?? false)
             {
-                foreach (var o1 in o.m_Zakaz1List)
+                foreach (var o1 in o.Zakaz1List)
                 {
                     uslugi.Add(new Tuple<string, int, decimal>(o1.BenefitName, o1.Kol, o1.Price));
                 }
@@ -417,7 +363,7 @@ namespace SaaMedW
                 PersonId = this.Person.Id,
                 Polis = this.Polis,
             };
-            foreach (var o1 in this.m_Zakaz1List)
+            foreach (var o1 in this.Zakaz1List)
             {
                 var zakaz1 = new Zakaz1()
                 {
@@ -433,17 +379,9 @@ namespace SaaMedW
             this.ctx.SaveChanges();
         }
 
-        private void HardCopy(string fname)
-        {
-            ProcessStartInfo info = new ProcessStartInfo(fname);
-            info.Verb = "Print";
-            info.CreateNoWindow = true;
-            info.WindowStyle = ProcessWindowStyle.Hidden;
-            var process = Process.Start(info);
-            process.WaitForExit(10000);
-        }
+        
 
-        private bool ValidZakaz()
+        public bool ValidZakaz()
         {
             string result = null;
             bool rt = true;
@@ -459,7 +397,7 @@ namespace SaaMedW
             {
                 result = "Не введена страховая компания";
             }
-            else if (m_Zakaz1List.Count == 0)
+            else if (Zakaz1List.Count == 0)
             {
                 result = "Не введены услуги";
             } else if (!ValidBenefits(out string res))
@@ -468,7 +406,7 @@ namespace SaaMedW
             }
             if (result != null)
             {
-                MessageBox.Show(result);
+                //MessageBox.Show(result);
                 rt = false;
             }
             return rt;
@@ -478,7 +416,7 @@ namespace SaaMedW
         {
             bool rt = true;
             res = null;
-            foreach(var o in m_Zakaz1List)
+            foreach(var o in Zakaz1List)
             {
                 if (String.IsNullOrWhiteSpace(o.BenefitName))
                 {
@@ -547,7 +485,7 @@ namespace SaaMedW
         public string Error => "";
     }
 
-    internal class BenefitForZakaz: NotifyPropertyChanged
+    public class BenefitForZakaz: NotifyPropertyChanged
     {
         public Action Sum { get; set; }
         private int? m_BenefitId;

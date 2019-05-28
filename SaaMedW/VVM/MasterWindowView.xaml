@@ -11,21 +11,24 @@
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
         <Menu Grid.Row="0" Name="MainMenu">
-            <MenuItem Header="Визиты" Command="{Binding Cmd}" 
+            <!--<MenuItem Header="Визиты" Command="{Binding Cmd}" 
                           CommandParameter="{Binding CmdVisit}">
-            </MenuItem>
+            </MenuItem>-->
             <MenuItem Header="Картотека" Command="{Binding Cmd}" 
                           CommandParameter="{Binding CmdCards}">
             </MenuItem>
-            <MenuItem Header="Бухгалтерия">
-                <MenuItem Header="Счета" Command="{Binding Cmd}" 
-                          CommandParameter="{Binding CmdInvoice}"></MenuItem>
-                <MenuItem Header="Открыть смену на кассе" Command="{Binding OpenShiftCommand}" 
+            <MenuItem Header="Заказы" Command="{Binding Cmd}" 
+                          CommandParameter="{Binding CmdZakaz}">
+            </MenuItem>
+            <MenuItem Header="Касса">
+                <!--<MenuItem Header="Счета" Command="{Binding Cmd}" 
+                          CommandParameter="{Binding CmdInvoice}"></MenuItem>-->
+                <MenuItem Header="Открыть смену" Command="{Binding OpenShiftCommand}" 
                           ></MenuItem>
-                <MenuItem Header="Закрыть смену на кассе" Command="{Binding ZReportCommand}" 
+                <MenuItem Header="Закрыть смену" Command="{Binding ZReportCommand}" 
                           ></MenuItem>
-                <MenuItem Header="Информация о чеке" Command="{Binding DataCheckCommand}" 
-                          ></MenuItem>
+                <!--<MenuItem Header="Информация о чеке" Command="{Binding DataCheckCommand}" 
+                          ></MenuItem>-->
             </MenuItem>
             <MenuItem Header="Персонал">
                 <MenuItem Header="Сотрудники" Command="{Binding Cmd}" 
