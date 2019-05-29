@@ -28,7 +28,15 @@ namespace SaaMedW
             }
             foreach (var p in ctx.Personal.Where(s => s.Active).OrderBy(s => s.Fio))
             {
-                PersonalList.Add(new VmPersonal(p));
+                foreach (var p1 in p.PersonalSpecialty)
+                {
+                    PersonalList.Add(new PersonalForZakaz1()
+                    {
+                        Id = p.Id,
+                        Name = p.Fio,
+                        SpecialtyId = Specialty.RootId(ctx, p1.SpecialtyId)
+                    });
+                }
             }
             RefreshDmsCompanies();
             Zakaz1List = new ObservableCollection<BenefitForZakaz>();
@@ -43,14 +51,21 @@ namespace SaaMedW
                 OnPropertyChanged("PersonList");
             }
         }
-        private ObservableCollection<VmPersonal> m_PersonalList = new ObservableCollection<VmPersonal>();
-        public ObservableCollection<VmPersonal> PersonalList
+        private ObservableCollection<PersonalForZakaz1> m_PersonalList = new ObservableCollection<PersonalForZakaz1>();
+        public ObservableCollection<PersonalForZakaz1> PersonalList
         {
             get => m_PersonalList;
             set
             {
                 m_PersonalList = value;
                 OnPropertyChanged("PersonalList");
+            }
+        }
+        public ICollectionView PersonalListView
+        {
+            get
+            {
+                return CollectionViewSource.GetDefaultView(PersonalList);
             }
         }
         private ObservableCollection<DmsCompany> m_DmsCompanyList = new ObservableCollection<DmsCompany>();
@@ -65,15 +80,7 @@ namespace SaaMedW
         }
         public ObservableCollection<BenefitForZakaz> Zakaz1List { get; set; }
             = new ObservableCollection<BenefitForZakaz>();
-        //public ObservableCollection<BenefitForZakaz> m_Zakaz1List
-        //{
-        //    get => mm_Zakaz1List;
-        //    set
-        //    {
-        //        mm_Zakaz1List = value;
-        //        OnPropertyChanged("m_Zakaz1List");
-        //    }
-        //}
+
         public ICollectionView Zakaz1ListView
         {
             get
@@ -190,7 +197,7 @@ namespace SaaMedW
             {
                 var o = new BenefitForZakaz()
                 {
-                    BenefitId = viewModel.BenefitSel.Id,
+                    //BenefitId = viewModel.BenefitSel.Id,
                     BenefitName = viewModel.BenefitSel.Name,
                     Kol = 1,
                     Price = viewModel.BenefitSel.Price,
@@ -459,6 +466,23 @@ namespace SaaMedW
             }
         }
 
+        private BenefitForZakaz m_Zakaz1Sel;
+        public BenefitForZakaz Zakaz1Sel
+        {
+            get => m_Zakaz1Sel;
+            set
+            {
+                m_Zakaz1Sel = value;
+                PersonalListView.Filter = s => ((PersonalForZakaz1)s).SpecialtyId == m_Zakaz1Sel.
+                //PersonalList.fi
+                //foreach (var p in ctx.Personal.Where(s => s.Active).OrderBy(s => s.Fio))
+                //{
+                //    PersonalList.Add(new VmPersonal(p));
+                //}
+                OnPropertyChanged("Zakaz1Sel");
+            }
+        }
+
         public string this[string columnName]
         {
             get
@@ -490,16 +514,16 @@ namespace SaaMedW
     public class BenefitForZakaz: NotifyPropertyChanged
     {
         public Action Sum { get; set; }
-        private int m_BenefitId;
-        public int BenefitId
-        {
-            get => m_BenefitId;
-            set
-            {
-                m_BenefitId = value;
-                OnPropertyChanged("BenefitId");
-            }
-        }
+        //private int m_BenefitId;
+        //public int BenefitId
+        //{
+        //    get => m_BenefitId;
+        //    set
+        //    {
+        //        m_BenefitId = value;
+        //        OnPropertyChanged("BenefitId");
+        //    }
+        //}
         private int m_PersonalId;
         public int PersonalId
         {
@@ -548,6 +572,40 @@ namespace SaaMedW
         {
             get => m_Price * m_Kol;
             set {}
+        }
+    }
+
+    public class PersonalForZakaz1: NotifyPropertyChanged
+    {
+        private int m_Id;
+        public int Id
+        {
+            get => m_Id;
+            set
+            {
+                m_Id = value;
+                OnPropertyChanged("Id");
+            }
+        }
+        private string m_Name;
+        public string Name
+        {
+            get => m_Name;
+            set
+            {
+                m_Name = value;
+                OnPropertyChanged("Name");
+            }
+        }
+        private int m_SpecialtyId;
+        public int SpecialtyId
+        {
+            get => m_SpecialtyId;
+            set
+            {
+                m_SpecialtyId = value;
+                OnPropertyChanged("SpecialtyId");
+            }
         }
     }
 }

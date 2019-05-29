@@ -172,7 +172,7 @@
                 <CheckBox DockPanel.Dock="Left" Content="Открывать документ при печати" 
                           IsChecked="{Binding IsOpenPrint}" VerticalAlignment="Center"></CheckBox>
             </DockPanel>
-            <local:ScrollingDataGrid ItemsSource="{Binding Zakaz1List}"
+            <local:ScrollingDataGrid ItemsSource="{Binding Zakaz1List}" SelectedItem="{Binding Zakaz1Sel}"
                         IsSynchronizedWithCurrentItem="True">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Наименование" Binding="{Binding BenefitName}" Width="450">
@@ -187,14 +187,14 @@
                         <DataGridComboBoxColumn.ElementStyle>
                             <Style TargetType="ComboBox">
                                 <Setter Property="ItemsSource" Value="{Binding 
-                        RelativeSource={RelativeSource FindAncestor, 
-                        AncestorType={x:Type Window}}, Path=DataContext.PersonalList}"/>
+                                    RelativeSource={RelativeSource FindAncestor, 
+                                    AncestorType={x:Type Window}}, Path=DataContext.PersonalList}"/>
                             </Style>
                         </DataGridComboBoxColumn.ElementStyle>
                         <DataGridComboBoxColumn.EditingElementStyle>
                             <Style TargetType="ComboBox">
                                 <Setter Property="ItemsSource" Value="{Binding RelativeSource={RelativeSource FindAncestor, 
-                        AncestorType={x:Type Window}}, Path=DataContext.PersonalList}"/>
+                                    AncestorType={x:Type Window}}, Path=DataContext.PersonalList}"/>
                             </Style>
                         </DataGridComboBoxColumn.EditingElementStyle>
                     </DataGridComboBoxColumn>
