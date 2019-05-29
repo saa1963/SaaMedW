@@ -15,15 +15,17 @@ namespace SaaMedW
     public partial class Zakaz1
     {
         public int Id { get; set; }
-        public Nullable<int> BenefitId { get; set; }
+        public int BenefitId { get; set; }
         public int PersonalId { get; set; }
         public decimal Price { get; set; }
         public int Kol { get; set; }
         public int ZakazId { get; set; }
         public string BenefitName { get; set; }
+        public int SpecialtyRootId { get; set; }
     
         public virtual Benefit Benefit { get; set; }
         public virtual Personal Personal { get; set; }
         public virtual Zakaz Zakaz { get; set; }
+        public virtual Specialty Specialty { get; set; }
     }
 }

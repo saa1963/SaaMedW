@@ -31,7 +31,7 @@ namespace SaaMedW
                 OnPropertyChanged("Id");
             }
         }
-        public int? BenefitId
+        public int BenefitId
         {
             get => m_object.BenefitId;
             set
@@ -110,6 +110,24 @@ namespace SaaMedW
             {
                 m_object.Zakaz = value;
                 OnPropertyChanged("Zakaz");
+            }
+        }
+        public int SpecialtyRootId
+        {
+            get => m_object.SpecialtyRootId;
+            set
+            {
+                m_object.SpecialtyRootId = value;
+                OnPropertyChanged("SpecialtyRootId");
+            }
+        }
+        public Specialty Specialty
+        {
+            get => m_object.Specialty;
+            set
+            {
+                m_object.Specialty = value;
+                OnPropertyChanged("Specialty");
             }
         }
     }

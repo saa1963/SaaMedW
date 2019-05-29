@@ -207,12 +207,13 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="BenefitId" Type="int" />
+          <Property Name="BenefitId" Type="int" Nullable="false" />
           <Property Name="PersonalId" Type="int" Nullable="false" />
           <Property Name="Price" Type="money" Nullable="false" />
           <Property Name="Kol" Type="int" Nullable="false" />
           <Property Name="ZakazId" Type="int" Nullable="false" />
           <Property Name="BenefitName" Type="nchar" MaxLength="200" Nullable="false" />
+          <Property Name="SpecialtyRootId" Type="int" Nullable="false" />
         </EntityType>
         <Association Name="FK_Benefit_ToTable">
           <End Role="Specialty" Type="Self.Specialty" Multiplicity="1" />
@@ -443,7 +444,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Zakaz1_Benefit">
-          <End Role="Benefit" Type="Self.Benefit" Multiplicity="0..1" />
+          <End Role="Benefit" Type="Self.Benefit" Multiplicity="1" />
           <End Role="Zakaz1" Type="Self.Zakaz1" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Benefit">
@@ -463,6 +464,18 @@
             </Principal>
             <Dependent Role="Zakaz1">
               <PropertyRef Name="PersonalId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Zakaz1_Specialty">
+          <End Role="Specialty" Type="Self.Specialty" Multiplicity="1" />
+          <End Role="Zakaz1" Type="Self.Zakaz1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Specialty">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Zakaz1">
+              <PropertyRef Name="SpecialtyRootId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -580,6 +593,10 @@
           </AssociationSet>
           <AssociationSet Name="FK_Zakaz1_Personal" Association="Self.FK_Zakaz1_Personal">
             <End Role="Personal" EntitySet="Personal" />
+            <End Role="Zakaz1" EntitySet="Zakaz1" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Zakaz1_Specialty" Association="Self.FK_Zakaz1_Specialty">
+            <End Role="Specialty" EntitySet="Specialty" />
             <End Role="Zakaz1" EntitySet="Zakaz1" />
           </AssociationSet>
           <AssociationSet Name="FK_Zakaz1_Zakaz" Association="Self.FK_Zakaz1_Zakaz">
@@ -740,11 +757,6 @@
           <EntitySet Name="MKB" EntityType="SaaMedModel.MKB" />
           <EntitySet Name="DmsCompany" EntityType="SaaMedModel.DmsCompany" />
           <EntitySet Name="Zakaz" EntityType="SaaMedModel.Zakaz" />
-          <EntitySet Name="Zakaz1" EntityType="SaaMedModel.Zakaz1" />
-          <AssociationSet Name="FK_Zakaz1_Benefit" Association="SaaMedModel.FK_Zakaz1_Benefit">
-            <End Role="Benefit" EntitySet="Benefit" />
-            <End Role="Zakaz1" EntitySet="Zakaz1" />
-          </AssociationSet>
           <AssociationSet Name="FK_Zakaz_DmsCompany" Association="SaaMedModel.FK_Zakaz_DmsCompany">
             <End Role="DmsCompany" EntitySet="DmsCompany" />
             <End Role="Zakaz" EntitySet="Zakaz" />
@@ -752,6 +764,11 @@
           <AssociationSet Name="FK_Zakaz_Person" Association="SaaMedModel.FK_Zakaz_Person">
             <End Role="Person" EntitySet="Person" />
             <End Role="Zakaz" EntitySet="Zakaz" />
+          </AssociationSet>
+          <EntitySet Name="Zakaz1" EntityType="SaaMedModel.Zakaz1" />
+          <AssociationSet Name="FK_Zakaz1_Benefit" Association="SaaMedModel.FK_Zakaz1_Benefit">
+            <End Role="Benefit" EntitySet="Benefit" />
+            <End Role="Zakaz1" EntitySet="Zakaz1" />
           </AssociationSet>
           <AssociationSet Name="FK_Zakaz1_Personal" Association="SaaMedModel.FK_Zakaz1_Personal">
             <End Role="Personal" EntitySet="Personal" />
@@ -761,7 +778,11 @@
             <End Role="Zakaz" EntitySet="Zakaz" />
             <End Role="Zakaz1" EntitySet="Zakaz1" />
           </AssociationSet>
-        </EntityContainer>
+          <AssociationSet Name="FK_Zakaz1_Specialty" Association="SaaMedModel.FK_Zakaz1_Specialty">
+            <End Role="Specialty" EntitySet="Specialty" />
+            <End Role="Zakaz1" EntitySet="Zakaz1" />
+          </AssociationSet>
+          </EntityContainer>
         <EntityType Name="Specialty">
           <Key>
             <PropertyRef Name="Id" />
@@ -773,6 +794,7 @@
           <Property Name="ParentId" Type="Int32" />
           <NavigationProperty Name="ChildSpecialties" Relationship="SaaMedModel.FK_Specialty_ToSpecialty" FromRole="Specialty" ToRole="Specialty1" />
           <NavigationProperty Name="ParentSpecialty" Relationship="SaaMedModel.FK_Specialty_ToSpecialty" FromRole="Specialty1" ToRole="Specialty" />
+          <NavigationProperty Name="Zakaz1" Relationship="SaaMedModel.FK_Zakaz1_Specialty" FromRole="Specialty" ToRole="Zakaz1" />
         </EntityType>
         <EntityType Name="Personal">
           <Key>
@@ -1152,37 +1174,10 @@
           <Property Name="DmsCompanyId" Type="Int32" />
           <NavigationProperty Name="DmsCompany" Relationship="SaaMedModel.FK_Zakaz_DmsCompany" FromRole="Zakaz" ToRole="DmsCompany" />
           <NavigationProperty Name="Person" Relationship="SaaMedModel.FK_Zakaz_Person" FromRole="Zakaz" ToRole="Person" />
-          <NavigationProperty Name="Zakaz1" Relationship="SaaMedModel.FK_Zakaz1_Zakaz" FromRole="Zakaz" ToRole="Zakaz1" />
           <Property Name="Vozvrat" Type="DateTime" Precision="0" />
           <Property Name="Email" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Zakaz1" Relationship="SaaMedModel.FK_Zakaz1_Zakaz" FromRole="Zakaz" ToRole="Zakaz1" />
         </EntityType>
-        <EntityType Name="Zakaz1">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="BenefitId" Type="Int32" />
-          <Property Name="PersonalId" Type="Int32" Nullable="false" />
-          <Property Name="Price" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
-          <Property Name="Kol" Type="Int32" Nullable="false" />
-          <Property Name="ZakazId" Type="Int32" Nullable="false" />
-          <Property Name="BenefitName" Type="String" Nullable="false" MaxLength="200" FixedLength="true" Unicode="true" />
-          <NavigationProperty Name="Benefit" Relationship="SaaMedModel.FK_Zakaz1_Benefit" FromRole="Zakaz1" ToRole="Benefit" />
-          <NavigationProperty Name="Personal" Relationship="SaaMedModel.FK_Zakaz1_Personal" FromRole="Zakaz1" ToRole="Personal" />
-          <NavigationProperty Name="Zakaz" Relationship="SaaMedModel.FK_Zakaz1_Zakaz" FromRole="Zakaz1" ToRole="Zakaz" />
-        </EntityType>
-        <Association Name="FK_Zakaz1_Benefit">
-          <End Type="SaaMedModel.Benefit" Role="Benefit" Multiplicity="0..1" />
-          <End Type="SaaMedModel.Zakaz1" Role="Zakaz1" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Benefit">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Zakaz1">
-              <PropertyRef Name="BenefitId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Zakaz_DmsCompany">
           <End Type="SaaMedModel.DmsCompany" Role="DmsCompany" Multiplicity="0..1" />
           <End Type="SaaMedModel.Zakaz" Role="Zakaz" Multiplicity="*" />
@@ -1204,6 +1199,35 @@
             </Principal>
             <Dependent Role="Zakaz">
               <PropertyRef Name="PersonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Zakaz1">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BenefitId" Type="Int32" Nullable="false" />
+          <Property Name="PersonalId" Type="Int32" Nullable="false" />
+          <Property Name="Price" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="Kol" Type="Int32" Nullable="false" />
+          <Property Name="ZakazId" Type="Int32" Nullable="false" />
+          <Property Name="BenefitName" Type="String" Nullable="false" MaxLength="200" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Benefit" Relationship="SaaMedModel.FK_Zakaz1_Benefit" FromRole="Zakaz1" ToRole="Benefit" />
+          <NavigationProperty Name="Personal" Relationship="SaaMedModel.FK_Zakaz1_Personal" FromRole="Zakaz1" ToRole="Personal" />
+          <NavigationProperty Name="Zakaz" Relationship="SaaMedModel.FK_Zakaz1_Zakaz" FromRole="Zakaz1" ToRole="Zakaz" />
+          <Property Name="SpecialtyRootId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Specialty" Relationship="SaaMedModel.FK_Zakaz1_Specialty" FromRole="Zakaz1" ToRole="Specialty" />
+        </EntityType>
+        <Association Name="FK_Zakaz1_Benefit">
+          <End Type="SaaMedModel.Benefit" Role="Benefit" Multiplicity="1" />
+          <End Type="SaaMedModel.Zakaz1" Role="Zakaz1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Benefit">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Zakaz1">
+              <PropertyRef Name="BenefitId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1231,7 +1255,19 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        <Association Name="FK_Zakaz1_Specialty">
+          <End Type="SaaMedModel.Specialty" Role="Specialty" Multiplicity="1" />
+          <End Type="SaaMedModel.Zakaz1" Role="Zakaz1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Specialty">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Zakaz1">
+              <PropertyRef Name="SpecialtyRootId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -1452,6 +1488,7 @@
           <EntitySetMapping Name="Zakaz1">
             <EntityTypeMapping TypeName="SaaMedModel.Zakaz1">
               <MappingFragment StoreEntitySet="Zakaz1">
+                <ScalarProperty Name="SpecialtyRootId" ColumnName="SpecialtyRootId" />
                 <ScalarProperty Name="BenefitName" ColumnName="BenefitName" />
                 <ScalarProperty Name="ZakazId" ColumnName="ZakazId" />
                 <ScalarProperty Name="Kol" ColumnName="Kol" />

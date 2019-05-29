@@ -372,7 +372,8 @@ namespace SaaMedW
                     BenefitName = o1.BenefitName,
                     Kol = o1.Kol,
                     PersonalId = o1.PersonalId,
-                    Price = o1.Price
+                    Price = o1.Price,
+                    SpecialtyRootId = Specialty.RootId(ctx, ctx.Benefit.Find(o1.BenefitId).SpecialtyId)
                 };
                 zakaz.Zakaz1.Add(zakaz1);
             }
@@ -489,8 +490,8 @@ namespace SaaMedW
     public class BenefitForZakaz: NotifyPropertyChanged
     {
         public Action Sum { get; set; }
-        private int? m_BenefitId;
-        public int? BenefitId
+        private int m_BenefitId;
+        public int BenefitId
         {
             get => m_BenefitId;
             set

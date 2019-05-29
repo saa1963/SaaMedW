@@ -38,13 +38,14 @@
         <EntityTypeShape EntityType="SaaMedModel.MKB" Width="1.5" PointX="10.375" PointY="9.75" />
         <EntityTypeShape EntityType="SaaMedModel.DmsCompany" Width="1.5" PointX="4.5" PointY="12" />
         <EntityTypeShape EntityType="SaaMedModel.Zakaz" Width="1.5" PointX="11.125" PointY="12.375" />
-        <EntityTypeShape EntityType="SaaMedModel.Zakaz1" Width="1.5" PointX="13.375" PointY="9.375" />
-        <AssociationConnector Association="SaaMedModel.FK_Zakaz1_Benefit" />
         <AssociationConnector Association="SaaMedModel.FK_Zakaz_DmsCompany" />
         <AssociationConnector Association="SaaMedModel.FK_Zakaz_Person" />
+        <EntityTypeShape EntityType="SaaMedModel.Zakaz1" Width="2.375" PointX="13.375" PointY="9.5" />
+        <AssociationConnector Association="SaaMedModel.FK_Zakaz1_Benefit" />
         <AssociationConnector Association="SaaMedModel.FK_Zakaz1_Personal" />
         <AssociationConnector Association="SaaMedModel.FK_Zakaz1_Zakaz" />
-      </Diagram>
+        <AssociationConnector Association="SaaMedModel.FK_Zakaz1_Specialty" />
+        </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>

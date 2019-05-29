@@ -20,6 +20,7 @@ namespace SaaMedW
             this.Benefit = new HashSet<Benefit>();
             this.PersonalSpecialty = new HashSet<PersonalSpecialty>();
             this.ChildSpecialties = new HashSet<Specialty>();
+            this.Zakaz1 = new HashSet<Zakaz1>();
         }
     
         public int Id { get; set; }
@@ -33,5 +34,7 @@ namespace SaaMedW
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Specialty> ChildSpecialties { get; set; }
         public virtual Specialty ParentSpecialty { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Zakaz1> Zakaz1 { get; set; }
     }
 }

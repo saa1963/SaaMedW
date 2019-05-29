@@ -19,15 +19,10 @@ namespace SaaMedW
             return r;
         }
 
-        public static void AllBorderAround(this ExcelRange r)
+        public static ExcelRange WrapText(this ExcelRange r)
         {
-            foreach (var o in r)
-            {
-                o.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
-                o.Style.Border.Left.Style = ExcelBorderStyle.Thin;
-                o.Style.Border.Top.Style = ExcelBorderStyle.Thin;
-                o.Style.Border.Right.Style = ExcelBorderStyle.Thin;
-            }
+            r.Style.WrapText = true;
+            return r;
         }
     }
 }
