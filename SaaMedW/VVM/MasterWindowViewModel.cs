@@ -141,7 +141,21 @@ namespace SaaMedW
 
         public RelayCommand DailyReportCmd
         {
-            get => new RelayCommand(DailyReport)
+            get => new RelayCommand(DailyReport);
+        }
+
+        private void DailyReport(object obj)
+        {
+            var vm = new EditDateViewModel()
+            {
+                Header = "За дату",
+                Dt = DateTime.Today
+            };
+            var f = new EditDateView() { DataContext = vm };
+            if (f.ShowDialog() ?? false)
+            {
+                Print.DailyReport(vm.Dt);
+            }
         }
 
         public object CmdUsers

@@ -1,0 +1,25 @@
+﻿<Window x:Class="SaaMedW.EditDateView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" Style="{StaticResource {x:Type Window}}"
+        SizeToContent="Height"  Width="400"
+        WindowStartupLocation="CenterScreen" FocusManager.FocusedElement="{Binding ElementName=tbDate}">
+    <Grid>
+        <Grid Margin="15,15,15,15" HorizontalAlignment="Stretch">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0">
+                <Label Content="{Binding Header}"></Label>
+                <DatePicker Name="tbDate" SelectedDate="{Binding Path=Dt}"></DatePicker>
+            </StackPanel>
+            <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Width="60" Margin="10" IsDefault="True" Click="Button_Click">ОК</Button>
+                <Button Width="60" Margin="10" IsCancel="True">Отмена</Button>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>

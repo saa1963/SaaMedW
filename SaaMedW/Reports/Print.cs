@@ -71,5 +71,11 @@ namespace SaaMedW
             var process = Process.Start(info);
             process.WaitForExit(10000);
         }
+
+        internal static void DailyReport(DateTime dt)
+        {
+            string fname = new DailyReport().DoIt(dt);
+            System.Diagnostics.Process.Start(fname);
+        }
     }
 }

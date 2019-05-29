@@ -36,9 +36,9 @@
                 <MenuItem Header="График приема" Command="{Binding Cmd}" 
                           CommandParameter="{Binding CmdGraphic}"></MenuItem>
             </MenuItem>
-            <MenuItem Header="Статистика" Command="{Binding DmsCompanyCommand}">
+            <MenuItem Header="Статистика">
                 <MenuItem Header="Ежедневный отчет" Command="{Binding DailyReportCmd}" 
-                          IsEnabled="{Binding IsAdmin}"></MenuItem>
+                          ></MenuItem>
             </MenuItem>
             <MenuItem Header="Справочники">
                 <MenuItem Header="Пользователи" Command="{Binding Cmd}" 

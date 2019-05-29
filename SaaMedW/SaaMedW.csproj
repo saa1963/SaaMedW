@@ -158,12 +158,18 @@
     <Compile Include="DmsCompany.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Extentions\ExcelRangeExtentions.cs" />
+    <Compile Include="Reports\DailyReport.cs" />
+    <Compile Include="VVM\EditDateView.xaml.cs">
+      <DependentUpon>EditDateView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Reports\ZakazReport.cs" />
-    <Compile Include="Service\Print.cs" />
+    <Compile Include="Reports\Print.cs" />
     <Compile Include="VVM\DmsCompanyViewModel.cs" />
     <Compile Include="VVM\DmsCompanyView.xaml.cs">
       <DependentUpon>DmsCompanyView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="VVM\EditDateViewModel.cs" />
     <Compile Include="VVM\EditZakazViewModel.cs" />
     <Compile Include="VVM\EditZakazView.xaml.cs">
       <DependentUpon>EditZakazView.xaml</DependentUpon>
@@ -432,6 +438,10 @@
     <Compile Include="VVM\ZakazView.xaml.cs">
       <DependentUpon>ZakazView.xaml</DependentUpon>
     </Compile>
+    <Page Include="VVM\EditDateView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="VVM\DmsCompanyView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
