@@ -41,6 +41,7 @@ namespace SaaMedW
             RefreshDmsCompanies();
             Zakaz1List = new ObservableCollection<BenefitForZakaz>();
         }
+
         private ObservableCollection<Person> m_PersonList = new ObservableCollection<Person>();
         public ObservableCollection<Person> PersonList
         {
@@ -67,6 +68,7 @@ namespace SaaMedW
             {
                 return CollectionViewSource.GetDefaultView(PersonalList);
             }
+            set { }
         }
         private ObservableCollection<DmsCompany> m_DmsCompanyList = new ObservableCollection<DmsCompany>();
         public ObservableCollection<DmsCompany> DmsCompanyList
@@ -195,13 +197,16 @@ namespace SaaMedW
             var f = new SelectSpecialtyView() { DataContext = viewModel };
             if (f.ShowDialog() ?? false)
             {
+                var rootSpecialty = Specialty.RootId(ctx, viewModel.SpecialtySel.Id);
                 var o = new BenefitForZakaz()
                 {
-                    //BenefitId = viewModel.BenefitSel.Id,
+                    BenefitId = viewModel.BenefitSel.Id,
                     BenefitName = viewModel.BenefitSel.Name,
                     Kol = 1,
                     Price = viewModel.BenefitSel.Price,
-                    Sum = SetSum
+                    Sum = SetSum,
+                    RootSpecialty = rootSpecialty,
+                    PersonalList = PersonalList.Where(s => s.SpecialtyId == rootSpecialty).ToList()
                 };
                 Zakaz1List.Add(o);
                 Zakaz1ListView.MoveCurrentToLast();
@@ -339,7 +344,7 @@ namespace SaaMedW
                     uslugi.Add(new Tuple<string, int, decimal>(o1.BenefitName, o1.Kol, o1.Price));
                 }
 #if (!DEBUG)
-  ...           if (kkm.Register(uslugi, viewModel.Sm, viewModel.PaymentType, viewModel.Email, viewModel.IsElectronic))
+                if (kkm.Register(uslugi, viewModel.Sm, viewModel.PaymentType, viewModel.Email, viewModel.IsElectronic))
 #else
                 if (true)
 #endif
@@ -380,7 +385,7 @@ namespace SaaMedW
                     Kol = o1.Kol,
                     PersonalId = o1.PersonalId,
                     Price = o1.Price,
-                    SpecialtyRootId = Specialty.RootId(ctx, ctx.Benefit.Find(o1.BenefitId).SpecialtyId)
+                    SpecialtyRootId = o1.RootSpecialty
                 };
                 zakaz.Zakaz1.Add(zakaz1);
             }
@@ -466,23 +471,6 @@ namespace SaaMedW
             }
         }
 
-        private BenefitForZakaz m_Zakaz1Sel;
-        public BenefitForZakaz Zakaz1Sel
-        {
-            get => m_Zakaz1Sel;
-            set
-            {
-                m_Zakaz1Sel = value;
-                PersonalListView.Filter = s => ((PersonalForZakaz1)s).SpecialtyId == m_Zakaz1Sel.
-                //PersonalList.fi
-                //foreach (var p in ctx.Personal.Where(s => s.Active).OrderBy(s => s.Fio))
-                //{
-                //    PersonalList.Add(new VmPersonal(p));
-                //}
-                OnPropertyChanged("Zakaz1Sel");
-            }
-        }
-
         public string this[string columnName]
         {
             get
@@ -514,16 +502,16 @@ namespace SaaMedW
     public class BenefitForZakaz: NotifyPropertyChanged
     {
         public Action Sum { get; set; }
-        //private int m_BenefitId;
-        //public int BenefitId
-        //{
-        //    get => m_BenefitId;
-        //    set
-        //    {
-        //        m_BenefitId = value;
-        //        OnPropertyChanged("BenefitId");
-        //    }
-        //}
+        private int m_BenefitId;
+        public int BenefitId
+        {
+            get => m_BenefitId;
+            set
+            {
+                m_BenefitId = value;
+                OnPropertyChanged("BenefitId");
+            }
+        }
         private int m_PersonalId;
         public int PersonalId
         {
@@ -532,6 +520,16 @@ namespace SaaMedW
             {
                 m_PersonalId = value;
                 OnPropertyChanged("PersonalId");
+            }
+        }
+        private List<PersonalForZakaz1> m_PersonalList;
+        public List<PersonalForZakaz1> PersonalList
+        {
+            get => m_PersonalList;
+            set
+            {
+                m_PersonalList = value;
+                OnPropertyChanged("PersonalList");
             }
         }
         private decimal m_Price;
@@ -572,6 +570,16 @@ namespace SaaMedW
         {
             get => m_Price * m_Kol;
             set {}
+        }
+        private int m_RootSpecialty;
+        public int RootSpecialty
+        {
+            get => m_RootSpecialty;
+            set
+            {
+                m_RootSpecialty = value;
+                OnPropertyChanged("RootSpecialty");
+            }
         }
     }
 

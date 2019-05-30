@@ -39,12 +39,12 @@ namespace SaaMedW
                     var row0 = row;
                     decimal sm = 0;
                     wsh.Cells[row, 1].WrapText().Value = sp.Name;
-                    //var lst = ctx.Zakaz1.Where(s => s.Zakaz.Dt == dt).GroupBy(s => s.Personal).ToList();
                     // услуги за день по выбранному направлению
                     foreach (var z1 in ctx.Zakaz1.Where(s => s.Zakaz.Dt == dt && s.SpecialtyRootId == sp.Id).GroupBy(s => s.Personal))
                     {
                         wsh.Cells[row, 2].BorderAround().WrapText().Value = z1.Key.Fio;
                         wsh.Cells[row, 3].BorderAround().Value = z1.Sum(s => s.Kol * s.Price);
+                        wsh.Cells[row, 3].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
                         sm += z1.Sum(s => s.Kol * s.Price);
                         row++;
                     }
