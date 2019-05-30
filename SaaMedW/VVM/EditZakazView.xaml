@@ -20,15 +20,6 @@
             <RowDefinition></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
-        <!--<Menu Grid.Row="0">
-            <MenuItem Header="Комплект" Command="{Binding PrintAllCommand}" CommandParameter="{Binding}"></MenuItem>
-            <MenuItem Header="Договор" Command="{Binding PrintDogovorCommand}" CommandParameter="{Binding}"></MenuItem>
-            <MenuItem Header="Согласие" Command="{Binding PrintVmeshCommand}" CommandParameter="{Binding}"></MenuItem>
-            <MenuItem Header="Медкарта" Command="{Binding PrintMedcardCommand}" CommandParameter="{Binding}"></MenuItem>
-            <MenuItem Header="Заказ" Command="{Binding ZakazReportCommand}" CommandParameter="{Binding}"></MenuItem>
-            <MenuItem Header="Квитанция"></MenuItem>
-            <MenuItem Header="Оплатить" Command="{Binding PayCommand}" CommandParameter="{Binding}" IsEnabled="{Binding NotPayed}"></MenuItem>
-        </Menu>-->
         <DockPanel Grid.Row="0" LastChildFill="False">
             <Button DockPanel.Dock="Left" 
                 Height="32"
@@ -68,14 +59,6 @@
                 <StackPanel Orientation="Horizontal">
                     <Image Source="..\image\icons8-печать-32.png"></Image>
                     <TextBlock VerticalAlignment="Center" Margin="5,0,5,0">Заказ</TextBlock>
-                </StackPanel>
-            </Button>
-            <Button DockPanel.Dock="Left" 
-                Height="32"
-                >
-                <StackPanel Orientation="Horizontal">
-                    <Image Source="..\image\icons8-печать-32.png"></Image>
-                    <TextBlock VerticalAlignment="Center" Margin="5,0,5,0">Квитанция</TextBlock>
                 </StackPanel>
             </Button>
             <Button DockPanel.Dock="Left" 

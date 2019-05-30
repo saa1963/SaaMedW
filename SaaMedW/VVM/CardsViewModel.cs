@@ -171,7 +171,8 @@ namespace SaaMedW
         {
             if (CardsSel == null) return;
             VmPerson person = CardsSel;
-            new Vmesh().DoIt(DateTime.Now, person.Obj);
+            var fname = new Vmesh().DoIt(DateTime.Now, person.Obj);
+            System.Diagnostics.Process.Start(fname);
         }
 
         public RelayCommand PersonsInfoCommand => new RelayCommand(PersonsInfo, s => CardsSel != null);
