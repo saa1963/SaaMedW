@@ -333,32 +333,41 @@ namespace SaaMedW
         {
             var o = obj as EditZakazViewModel;
             if (!o.ValidZakaz()) return;
-            List<Tuple<string, int, decimal>> uslugi = new List<Tuple<string, int, decimal>>();
-            IKkm kkm = ServiceLocator.Instance.GetService<IKkm>();
-            var viewModel = new PayInvoiceViewModel() { КОплате = o.Sm };
-            var f = new PayInvoiceView() { DataContext = viewModel };
-            if (f.ShowDialog() ?? false)
+            if (!o.Dms)
             {
-                foreach (var o1 in o.Zakaz1List)
+                List<Tuple<string, int, decimal>> uslugi = new List<Tuple<string, int, decimal>>();
+                IKkm kkm = ServiceLocator.Instance.GetService<IKkm>();
+                var viewModel = new PayInvoiceViewModel() { КОплате = o.Sm };
+                var f = new PayInvoiceView() { DataContext = viewModel };
+                if (f.ShowDialog() ?? false)
                 {
-                    uslugi.Add(new Tuple<string, int, decimal>(o1.BenefitName, o1.Kol, o1.Price));
-                }
+                    foreach (var o1 in o.Zakaz1List)
+                    {
+                        uslugi.Add(new Tuple<string, int, decimal>(o1.BenefitName, o1.Kol, o1.Price));
+                    }
 #if (!DEBUG)
-                if (kkm.Register(uslugi, viewModel.Sm, viewModel.PaymentType, viewModel.Email, viewModel.IsElectronic))
+                    if (kkm.Register(uslugi, viewModel.Sm, viewModel.PaymentType, viewModel.Email, viewModel.IsElectronic))
 #else
-                if (true)
+                    if (true)
 #endif
-                {
-                    o.NotPayed = false;
-                    o.Save(viewModel.Email);
-                    if (viewModel.IsElectronic)
-                        MessageBox.Show("Электронный чек сформирован.");
-                    o.CloseDialog = true;
+                    {
+                        o.NotPayed = false;
+                        o.Save(viewModel.Email);
+                        if (viewModel.IsElectronic)
+                            MessageBox.Show("Электронный чек сформирован.");
+                        o.CloseDialog = true;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Ошибка регистрации кассового чека.");
+                    }
                 }
-                else
-                {
-                    MessageBox.Show("Ошибка регистрации кассового чека.");
-                }
+            }
+            else
+            {
+                o.NotPayed = false;
+                o.Save("");
+                o.CloseDialog = true;
             }
         }
 
