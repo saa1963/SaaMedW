@@ -34,6 +34,7 @@ namespace SaaMedW
                     doc.Bookmarks["datedog"].Paragraph.Font(new Font("Times New Roman")).FontSize(9);
                     doc.InsertAtBookmark(person.Fio, "patient");
                     doc.Bookmarks["patient"].Paragraph.Font(new Font("Times New Roman")).FontSize(9);
+
                     doc.InsertAtBookmark(person.FullAddress, "patient_address");
                     doc.Bookmarks["patient_address"].Paragraph.Font(new Font("Times New Roman")).FontSize(9);
                     doc.InsertAtBookmark(person.Phone, "patient_phone");
