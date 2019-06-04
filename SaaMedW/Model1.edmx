@@ -121,6 +121,8 @@
           <Property Name="Mestnost" Type="int" />
           <Property Name="CreateDate" Type="datetime" Nullable="false" />
           <Property Name="RepresentativeId" Type="int" />
+          <Property Name="Polis" Type="nvarchar" MaxLength="50" />
+          <Property Name="DmsCompanyId" Type="int" />
         </EntityType>
         <EntityType Name="Person2">
           <Key>
@@ -272,6 +274,18 @@
             </Principal>
             <Dependent Role="Pays">
               <PropertyRef Name="PersonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Person_DmsCompany">
+          <End Role="DmsCompany" Type="Self.DmsCompany" Multiplicity="0..1" />
+          <End Role="Person" Type="Self.Person" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DmsCompany">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Person">
+              <PropertyRef Name="DmsCompanyId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -531,6 +545,10 @@
             <End Role="Person" EntitySet="Person" />
             <End Role="Pays" EntitySet="Pays" />
           </AssociationSet>
+          <AssociationSet Name="FK_Person_DmsCompany" Association="Self.FK_Person_DmsCompany">
+            <End Role="DmsCompany" EntitySet="DmsCompany" />
+            <End Role="Person" EntitySet="Person" />
+          </AssociationSet>
           <AssociationSet Name="FK_Person_DocumentType" Association="Self.FK_Person_DocumentType">
             <End Role="DocumentType" EntitySet="DocumentType" />
             <End Role="Person" EntitySet="Person" />
@@ -650,6 +668,9 @@
           <Property Name="RepresentativeId" Type="Int32" />
           <NavigationProperty Name="Representative" Relationship="SaaMedModel.FK_Person_Representative" FromRole="Person1" ToRole="Person" />
           <NavigationProperty Name="Zakaz" Relationship="SaaMedModel.FK_Zakaz_Person" FromRole="Person" ToRole="Zakaz" />
+          <Property Name="Polis" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DmsCompanyId" Type="Int32" />
+          <NavigationProperty Name="DmsCompany" Relationship="SaaMedModel.FK_Person_DmsCompany" FromRole="Person" ToRole="DmsCompany" />
           </EntityType>
         <EntityType Name="Users">
           <Key>
@@ -781,6 +802,10 @@
           <AssociationSet Name="FK_Zakaz1_Specialty" Association="SaaMedModel.FK_Zakaz1_Specialty">
             <End Role="Specialty" EntitySet="Specialty" />
             <End Role="Zakaz1" EntitySet="Zakaz1" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Person_DmsCompany" Association="SaaMedModel.FK_Person_DmsCompany">
+            <End Role="DmsCompany" EntitySet="DmsCompany" />
+            <End Role="Person" EntitySet="Person" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="Specialty">
@@ -1160,6 +1185,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Zakaz" Relationship="SaaMedModel.FK_Zakaz_DmsCompany" FromRole="DmsCompany" ToRole="Zakaz" />
+          <NavigationProperty Name="Person" Relationship="SaaMedModel.FK_Person_DmsCompany" FromRole="DmsCompany" ToRole="Person" />
         </EntityType>
         <EntityType Name="Zakaz">
           <Key>
@@ -1267,6 +1293,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Person_DmsCompany">
+          <End Type="SaaMedModel.DmsCompany" Role="DmsCompany" Multiplicity="0..1" />
+          <End Type="SaaMedModel.Person" Role="Person" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DmsCompany">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Person">
+              <PropertyRef Name="DmsCompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1284,7 +1322,9 @@
     <EntitySetMapping Name="Person">
       <EntityTypeMapping TypeName="IsTypeOf(SaaMedModel.Person)">
         <MappingFragment StoreEntitySet="Person">
-          <ScalarProperty Name="RepresentativeId" ColumnName="RepresentativeId" />
+          <ScalarProperty Name="DmsCompanyId" ColumnName="DmsCompanyId" />
+                <ScalarProperty Name="Polis" ColumnName="Polis" />
+                <ScalarProperty Name="RepresentativeId" ColumnName="RepresentativeId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="LastName" ColumnName="LastName" />
           <ScalarProperty Name="FirstName" ColumnName="FirstName" />

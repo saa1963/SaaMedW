@@ -223,5 +223,32 @@ namespace SaaMedW
         {
             return (LastName + " " + FirstName + " " + MiddleName ?? "").TrimEnd();
         }
+        public string Polis
+        {
+            get => m_object.Polis;
+            set
+            {
+                m_object.Polis = value;
+                OnPropertyChanged("Polis");
+            }
+        }
+        public int? DmsCompanyId
+        {
+            get => m_object.DmsCompanyId;
+            set
+            {
+                m_object.DmsCompanyId = value;
+                OnPropertyChanged("DmsCompanyId");
+            }
+        }
+        public DmsCompany DmsCompany
+        {
+            get => m_object.DmsCompany;
+            set
+            {
+                m_object.DmsCompany = value;
+                OnPropertyChanged("DmsCompany");
+            }
+        }
     }
 }

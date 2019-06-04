@@ -18,6 +18,7 @@ namespace SaaMedW
         public DmsCompany()
         {
             this.Zakaz = new HashSet<Zakaz>();
+            this.Person = new HashSet<Person>();
         }
     
         public int Id { get; set; }
@@ -25,5 +26,7 @@ namespace SaaMedW
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Zakaz> Zakaz { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Person> Person { get; set; }
     }
 }

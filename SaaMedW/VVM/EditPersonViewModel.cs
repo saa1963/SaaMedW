@@ -20,9 +20,11 @@ namespace SaaMedW
         public EditPersonViewModel()
         {
             FillDocType();
+            RefreshDmsCompanies();
         }
         public EditPersonViewModel(Person par)
         {
+            RefreshDmsCompanies();
             CopyProperties(par);
             FillDocType();
         }
@@ -47,6 +49,8 @@ namespace SaaMedW
             m_Phone = obj.Phone;
             m_Sex = obj.Sex;
             m_Snils = obj.Snils;
+            m_Polis = obj.Polis;
+            m_DmsCompanyId = obj.DmsCompany?.Id;
         }
         private void FillDocType()
         {
@@ -289,6 +293,59 @@ namespace SaaMedW
             {
                 m_Mestnost = value;
                 OnPropertyChanged("Mestnost");
+            }
+        }
+        private string m_Polis;
+        public string Polis
+        {
+            get => m_Polis;
+            set
+            {
+                m_Polis = value;
+                OnPropertyChanged("Polis");
+            }
+        }
+        private int? m_DmsCompanyId;
+        public int? DmsCompanyId
+        {
+            get => m_DmsCompanyId;
+            set
+            {
+                m_DmsCompanyId = value;
+                OnPropertyChanged("DmsCompanyId");
+            }
+        }
+        private ObservableCollection<DmsCompany> m_DmsCompanyList = new ObservableCollection<DmsCompany>();
+        public ObservableCollection<DmsCompany> DmsCompanyList
+        {
+            get => m_DmsCompanyList;
+            set
+            {
+                m_DmsCompanyList = value;
+                OnPropertyChanged("DmsCompanyList");
+            }
+        }
+        public RelayCommand DmsCompanyClassificatorCommand
+            => new RelayCommand(DmsCompanyClassificatorOpen);
+
+        private void DmsCompanyClassificatorOpen(object obj)
+        {
+            var modelView = new DmsCompanyViewModel(ctx);
+            var f = new DmsCompanyView() { DataContext = modelView };
+            if (f.ShowDialog() ?? false)
+            {
+                RefreshDmsCompanies();
+                var o = modelView.View.CurrentItem as VmDmsCompany;
+                DmsCompanyId = o.Obj.Id;
+            }
+        }
+
+        private void RefreshDmsCompanies()
+        {
+            DmsCompanyList.Clear();
+            foreach (var p in ctx.DmsCompany.OrderBy(s => s.Name))
+            {
+                DmsCompanyList.Add(p);
             }
         }
         public string FullName

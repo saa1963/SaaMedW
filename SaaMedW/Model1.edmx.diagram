@@ -45,6 +45,7 @@
         <AssociationConnector Association="SaaMedModel.FK_Zakaz1_Personal" />
         <AssociationConnector Association="SaaMedModel.FK_Zakaz1_Zakaz" />
         <AssociationConnector Association="SaaMedModel.FK_Zakaz1_Specialty" />
+        <AssociationConnector Association="SaaMedModel.FK_Person_DmsCompany" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

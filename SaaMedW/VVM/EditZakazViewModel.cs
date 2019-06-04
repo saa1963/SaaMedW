@@ -17,7 +17,7 @@ namespace SaaMedW
     public class EditZakazViewModel : NotifyPropertyChanged, IDataErrorInfo
     {
         SaaMedEntities ctx = new SaaMedEntities();
-        public EditZakazViewModel(int personId)
+        public EditZakazViewModel(int personId, int? dmscompanyId)
         {
             Person = ctx.Person.Find(personId);
             foreach (var p in ctx.Person.OrderBy(s => s.LastName)
@@ -39,6 +39,7 @@ namespace SaaMedW
                 }
             }
             RefreshDmsCompanies();
+            DmsCompany = ctx.DmsCompany.Find(dmscompanyId);
             Zakaz1List = new ObservableCollection<BenefitForZakaz>();
         }
 
@@ -400,6 +401,7 @@ namespace SaaMedW
             }
             this.ctx.Zakaz.Add(zakaz);
             this.ctx.SaveChanges();
+            Options.SetParameter<int>(enumParameterType.Номер_договора, Num + 1);
         }
 
         

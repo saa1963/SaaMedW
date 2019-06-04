@@ -41,6 +41,7 @@
                         <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
                     </Grid.RowDefinitions>
                     <StackPanel Grid.Row="0">
                         <Label>Фамилия</Label>
@@ -110,6 +111,11 @@
                         <TextBox Text="{Binding Path=DocNumber, ValidatesOnDataErrors=True, 
                             UpdateSourceTrigger=PropertyChanged}" MaxLength="50"></TextBox>
                     </StackPanel>
+                    <StackPanel Grid.Row="9">
+                        <Label>Местность</Label>
+                        <ComboBox ItemsSource="{Binding MestnostList}" 
+                                  SelectedValue="{Binding Mestnost}"/>
+                    </StackPanel>
                 </Grid>
             </Grid>
             <Grid Grid.Column="1">
@@ -123,46 +129,67 @@
                         <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
                     </Grid.RowDefinitions>
                     <StackPanel Grid.Row="0">
-                        <Label>Местность</Label>
-                        <ComboBox ItemsSource="{Binding MestnostList}" 
-                                  SelectedValue="{Binding Mestnost}"/>
-                    </StackPanel>
-                    <StackPanel Grid.Row="1">
                         <Label>Регион</Label>
                         <TextBox Text="{Binding Path=AddressSubject, ValidatesOnDataErrors=True, 
                             UpdateSourceTrigger=PropertyChanged}" MaxLength="50"></TextBox>
                     </StackPanel>
-                    <StackPanel Grid.Row="2">
+                    <StackPanel Grid.Row="1">
                         <Label>Район</Label>
                         <TextBox Text="{Binding Path=AddressRaion, ValidatesOnDataErrors=True, 
                             UpdateSourceTrigger=PropertyChanged}" MaxLength="50"></TextBox>
                     </StackPanel>
-                    <StackPanel Grid.Row="3">
+                    <StackPanel Grid.Row="2">
                         <Label>Город</Label>
                         <TextBox Text="{Binding Path=AddressCity, ValidatesOnDataErrors=True, 
                             UpdateSourceTrigger=PropertyChanged}" MaxLength="50"></TextBox>
                     </StackPanel>
-                    <StackPanel Grid.Row="4">
+                    <StackPanel Grid.Row="3">
                         <Label>Нас.пункт</Label>
                         <TextBox Text="{Binding Path=AddressPunkt, ValidatesOnDataErrors=True, 
                             UpdateSourceTrigger=PropertyChanged}" MaxLength="50"></TextBox>
                     </StackPanel>
-                    <StackPanel Grid.Row="5">
+                    <StackPanel Grid.Row="4">
                         <Label>Улица</Label>
                         <TextBox Text="{Binding Path=AddressStreet, ValidatesOnDataErrors=True, 
                             UpdateSourceTrigger=PropertyChanged}" MaxLength="50"></TextBox>
                     </StackPanel>
-                    <StackPanel Grid.Row="6">
+                    <StackPanel Grid.Row="5">
                         <Label>Дом</Label>
                         <TextBox Text="{Binding Path=AddressHouse, ValidatesOnDataErrors=True, 
                             UpdateSourceTrigger=PropertyChanged}" MaxLength="50"></TextBox>
                     </StackPanel>
-                    <StackPanel Grid.Row="7">
+                    <StackPanel Grid.Row="6">
                         <Label>Квартира</Label>
                         <TextBox Text="{Binding Path=AddressFlat, ValidatesOnDataErrors=True, 
                             UpdateSourceTrigger=PropertyChanged}" MaxLength="50"></TextBox>
+                    </StackPanel>
+                    <StackPanel Grid.Row="7">
+                        <Label>№ полиса ДМС</Label>
+                        <TextBox Text="{Binding Path=Polis, ValidatesOnDataErrors=True, 
+                            UpdateSourceTrigger=PropertyChanged}" MaxLength="50"></TextBox>
+                    </StackPanel>
+                    <StackPanel Grid.Row="8">
+                        <Label>ДМС компания</Label>
+                        <DockPanel>
+                            <Button DockPanel.Dock="Right" Margin="0, 0, 0, 0"
+                                Width="32"
+                                Command="{Binding DmsCompanyClassificatorCommand}">
+                                <Image Source="..\image\icons8-literature-32.png"></Image>
+                                <Button.Style>
+                                    <Style TargetType="Button">
+                                        <Setter Property="ToolTip" Value="Открыть справочник"></Setter>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
+                            <ComboBox DockPanel.Dock="Left"
+                              ItemsSource="{Binding DmsCompanyList}"
+                              DisplayMemberPath="Name"
+                              SelectedValue="{Binding DmsCompanyId}" SelectedValuePath="Id">
+                            </ComboBox>
+                        </DockPanel>
                     </StackPanel>
                 </Grid>
             </Grid>

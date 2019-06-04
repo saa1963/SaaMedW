@@ -47,6 +47,8 @@ namespace SaaMedW
         public Nullable<enMestnost> Mestnost { get; set; }
         public System.DateTime CreateDate { get; set; }
         public Nullable<int> RepresentativeId { get; set; }
+        public string Polis { get; set; }
+        public Nullable<int> DmsCompanyId { get; set; }
     
         public virtual DocumentType DocumentType { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -62,5 +64,6 @@ namespace SaaMedW
         public virtual Person Representative { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Zakaz> Zakaz { get; set; }
+        public virtual DmsCompany DmsCompany { get; set; }
     }
 }

@@ -85,7 +85,9 @@ namespace SaaMedW
                     MiddleName = modelView.MiddleName,
                     Phone = modelView.Phone,
                     Sex = modelView.Sex,
-                    Snils = modelView.Snils
+                    Snils = modelView.Snils,
+                    Polis = modelView.Polis,
+                    DmsCompanyId = modelView.DmsCompanyId
                 };
                 ctx.Person.Add(o.Obj);
                 ctx.SaveChanges();
@@ -122,6 +124,8 @@ namespace SaaMedW
                 CardsSel.Phone = modelView.Phone;
                 CardsSel.Sex = modelView.Sex;
                 CardsSel.Snils = modelView.Snils;
+                CardsSel.Polis = modelView.Polis;
+                CardsSel.DmsCompany = ctx.DmsCompany.Find(modelView.DmsCompanyId);
                 ctx.SaveChanges();
             }
         }
@@ -216,10 +220,12 @@ namespace SaaMedW
         private void NewZakaz(object obj)
         {
             VmPerson person = CardsSel;
-            var viewModel = new EditZakazViewModel(person.Id)
+            var viewModel = new EditZakazViewModel(person.Id, person.DmsCompany?.Id)
             {
                 Num = Options.GetParameter<int>(enumParameterType.Номер_договора),
-                Dt = DateTime.Today
+                Dt = DateTime.Today,
+                Dms = !String.IsNullOrWhiteSpace(person.Polis) || person.DmsCompanyId.HasValue,
+                Polis = person.Polis
             };
             var f = new EditZakazView() { DataContext = viewModel };
             f.ShowDialog();
