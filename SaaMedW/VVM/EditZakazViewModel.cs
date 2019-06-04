@@ -353,7 +353,7 @@ namespace SaaMedW
 #endif
                     {
                         o.NotPayed = false;
-                        o.Save(viewModel.Email);
+                        o.Save(viewModel.PaymentType, viewModel.Email);
                         if (viewModel.IsElectronic)
                             MessageBox.Show("Электронный чек сформирован.");
                         o.CloseDialog = true;
@@ -367,12 +367,12 @@ namespace SaaMedW
             else
             {
                 o.NotPayed = false;
-                o.Save("");
+                o.Save(null, "");
                 o.CloseDialog = true;
             }
         }
 
-        private void Save(string email)
+        private void Save(enumPaymentType? pt, string email)
         {
             var zakaz = new Zakaz()
             {
@@ -384,8 +384,13 @@ namespace SaaMedW
                 Person = this.Person,
                 PersonId = this.Person.Id,
                 Polis = this.Polis,
-                Email = email
+                Email = email,
+                Card = false
             };
+            if (pt.HasValue && pt.Value == enumPaymentType.Безналичные)
+            {
+                zakaz.Card = true;
+            }
             foreach (var o1 in this.Zakaz1List)
             {
                 var zakaz1 = new Zakaz1()

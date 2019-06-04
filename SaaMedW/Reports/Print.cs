@@ -72,9 +72,9 @@ namespace SaaMedW
             process.WaitForExit(10000);
         }
 
-        internal static void DailyReport(DateTime dt)
+        internal static void DailyReport(DateTime dt1, DateTime dt2)
         {
-            string fname = new DailyReport().DoIt(dt);
+            string fname = new DailyReport().DoIt(dt1, dt2);
             System.Diagnostics.Process.Start(fname);
         }
     }

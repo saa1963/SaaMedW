@@ -198,11 +198,12 @@
           <Property Name="Dt" Type="date" Nullable="false" />
           <Property Name="Num" Type="int" Nullable="false" />
           <Property Name="PersonId" Type="int" Nullable="false" />
-          <Property Name="Dms" Type="bit" Nullable="false" />
-          <Property Name="Polis" Type="nchar" MaxLength="50" />
-          <Property Name="DmsCompanyId" Type="int" />
           <Property Name="Vozvrat" Type="date" />
           <Property Name="Email" Type="nchar" MaxLength="100" />
+          <Property Name="Dms" Type="bit" Nullable="false" />
+          <Property Name="Polis" Type="nvarchar" MaxLength="50" />
+          <Property Name="DmsCompanyId" Type="int" />
+          <Property Name="Card" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Zakaz1">
           <Key>
@@ -1196,13 +1197,14 @@
           <Property Name="Num" Type="Int32" Nullable="false" />
           <Property Name="PersonId" Type="Int32" Nullable="false" />
           <Property Name="Dms" Type="Boolean" Nullable="false" />
-          <Property Name="Polis" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+          <Property Name="Polis" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="DmsCompanyId" Type="Int32" />
           <NavigationProperty Name="DmsCompany" Relationship="SaaMedModel.FK_Zakaz_DmsCompany" FromRole="Zakaz" ToRole="DmsCompany" />
           <NavigationProperty Name="Person" Relationship="SaaMedModel.FK_Zakaz_Person" FromRole="Zakaz" ToRole="Person" />
           <Property Name="Vozvrat" Type="DateTime" Precision="0" />
           <Property Name="Email" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
           <NavigationProperty Name="Zakaz1" Relationship="SaaMedModel.FK_Zakaz1_Zakaz" FromRole="Zakaz" ToRole="Zakaz1" />
+          <Property Name="Card" Type="Boolean" Nullable="false" />
         </EntityType>
         <Association Name="FK_Zakaz_DmsCompany">
           <End Type="SaaMedModel.DmsCompany" Role="DmsCompany" Multiplicity="0..1" />
@@ -1513,6 +1515,7 @@
           <EntitySetMapping Name="Zakaz">
             <EntityTypeMapping TypeName="SaaMedModel.Zakaz">
               <MappingFragment StoreEntitySet="Zakaz">
+                <ScalarProperty Name="Card" ColumnName="Card" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="Vozvrat" ColumnName="Vozvrat" />
                 <ScalarProperty Name="DmsCompanyId" ColumnName="DmsCompanyId" />

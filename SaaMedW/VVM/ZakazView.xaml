@@ -98,6 +98,7 @@
                 </DataGridTextColumn>
                 <DataGridTextColumn Header="№ полиса" Binding="{Binding Polis}" Width="Auto"></DataGridTextColumn>
                 <DataGridTextColumn Header="ДМС компания" Binding="{Binding DmsCompany.Name}" Width="Auto"></DataGridTextColumn>
+                <DataGridCheckBoxColumn Header="Карта" Binding="{Binding Card}" Width="Auto"></DataGridCheckBoxColumn>
                 <DataGridTextColumn Header="Возврат" Binding="{Binding Vozvrat, StringFormat={}{0:dd.MM.yyyy}}" Width="Auto">
                 </DataGridTextColumn>
             </DataGrid.Columns>

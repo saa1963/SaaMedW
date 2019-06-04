@@ -137,5 +137,14 @@ namespace SaaMedW
                 OnPropertyChanged("Email");
             }
         }
+        public bool Card
+        {
+            get => m_object.Card;
+            set
+            {
+                m_object.Card = value;
+                OnPropertyChanged("Card");
+            }
+        }
     }
 }
