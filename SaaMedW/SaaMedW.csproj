@@ -32,7 +32,7 @@
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>index.html</WebPage>
     <TrustUrlParameters>true</TrustUrlParameters>
-    <ApplicationRevision>60</ApplicationRevision>
+    <ApplicationRevision>63</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -164,6 +164,9 @@
     <Compile Include="DocumentType.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="VVM\EditPeriodView.xaml.cs">
+      <DependentUpon>EditPeriodView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="enMestnost.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -237,6 +240,7 @@
       <DependentUpon>DmsCompanyView.xaml</DependentUpon>
     </Compile>
     <Compile Include="VVM\EditDateViewModel.cs" />
+    <Compile Include="VVM\EditPeriodViewModel.cs" />
     <Compile Include="VVM\EditZakazViewModel.cs" />
     <Compile Include="VVM\EditZakazView.xaml.cs">
       <DependentUpon>EditZakazView.xaml</DependentUpon>
@@ -439,6 +443,10 @@
     <Compile Include="Zakaz1.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Page Include="VVM\EditPeriodView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="VVM\EditDateView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

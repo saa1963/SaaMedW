@@ -39,6 +39,8 @@ namespace SaaMedW
                 wsh.Cells[5, 7].BorderAround().WrapText().Value = "в т.ч. карты";
                 wsh.Cells[5, 8].BorderAround().WrapText().Value = "в т.ч. ДМС";
 
+                wsh.PrinterSettings.Orientation = eOrientation.Landscape;
+
                 decimal sm0 = 0;
                 decimal sm0_dms = 0;
                 decimal sm0_card = 0;
@@ -52,7 +54,7 @@ namespace SaaMedW
                     decimal sm_card = 0;
                     wsh.Cells[row, 1].WrapText().Value = sp.Name;
                     // услуги за день по выбранному направлению
-                    foreach (var z1 in ctx.Zakaz1.Where(s => s.Zakaz.Dt >= dt1 && s.Zakaz.Dt <= dt2 && s.SpecialtyRootId == sp.Id).GroupBy(s => s.Personal))
+                    foreach (var z1 in ctx.Zakaz1.Where(s => s.Zakaz.Dt >= dt1 && s.Zakaz.Dt <= dt2 && s.SpecialtyRootId == sp.Id && s.Zakaz.Vozvrat == null).GroupBy(s => s.Personal))
                     {
                         wsh.Cells[row, 2].BorderAround().WrapText().Value = z1.Key.Fio;
                         wsh.Cells[row, 3].BorderAround().Value = z1.Sum(s => s.Kol * s.Price);

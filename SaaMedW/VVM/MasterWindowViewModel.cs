@@ -146,15 +146,15 @@ namespace SaaMedW
 
         private void DailyReport(object obj)
         {
-            var vm = new EditDateViewModel()
+            var vm = new EditPeriodViewModel()
             {
-                Header = "За дату",
-                Dt = DateTime.Today
+               Dt1 = DateTime.Today,
+               Dt2 = DateTime.Today
             };
-            var f = new EditDateView() { DataContext = vm };
+            var f = new EditPeriodView() { DataContext = vm };
             if (f.ShowDialog() ?? false)
             {
-                Print.DailyReport(vm.Dt);
+                Print.DailyReport(vm.Dt1, vm.Dt2);
             }
         }
 

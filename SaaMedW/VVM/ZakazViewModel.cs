@@ -118,17 +118,25 @@ namespace SaaMedW
 
         private void BackMoney(object obj)
         {
-            IKkm kkm = ServiceLocator.Instance.GetService<IKkm>();
-            List<Tuple<string, int, decimal>> uslugi = new List<Tuple<string, int, decimal>>();
-            foreach (var o in ZakazSel.Zakaz1)
+            if (!ZakazSel.Dms)
             {
-                uslugi.Add(new Tuple<string, int, decimal>(o.BenefitName, o.Kol, o.Price));
-            }
+                IKkm kkm = ServiceLocator.Instance.GetService<IKkm>();
+                List<Tuple<string, int, decimal>> uslugi = new List<Tuple<string, int, decimal>>();
+                foreach (var o in ZakazSel.Zakaz1)
+                {
+                    uslugi.Add(new Tuple<string, int, decimal>(o.BenefitName, o.Kol, o.Price));
+                }
 #if (!DEBUG)
-            if (kkm.Register(uslugi, ZakazSel.Sm, enumPaymentType.Возврат, ZakazSel.Email, ZakazSel.Email != null))
+                if (kkm.Register(uslugi, ZakazSel.Sm, enumPaymentType.Возврат, ZakazSel.Email, ZakazSel.Email != null))
 #else
             if (true)
 #endif
+                {
+                    ZakazSel.Vozvrat = DateTime.Today;
+                    ctx.SaveChanges();
+                }
+            }
+            else
             {
                 ZakazSel.Vozvrat = DateTime.Today;
                 ctx.SaveChanges();
