@@ -8,6 +8,7 @@
         WindowStartupLocation="CenterScreen"
         local:DialogCloser.DialogResult="{Binding CloseDialog}"
         Style="{StaticResource {x:Type Window}}"
+        Name="MyWindow"
         Title="Заказ" Height="600" Width="1000">
     <Window.Resources>
         <local:VisibilityToBoolConverter x:Key="VisibilityToBoolConverter" />
@@ -73,21 +74,26 @@
         <WrapPanel Grid.Row="1">
             <StackPanel>
                 <Label Margin="10, 10, 10, 0" Content="Номер"></Label>
-                <local:ClickSelectTextBox Margin="10, 0, 10, 10" Width="50" 
+                <local:ClickSelectTextBox Margin="10, 0, 10, 10" 
+                                          Width="50" 
+                                          IsEnabled="{Binding NewMode}"
                                           Text="{Binding Num, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"></local:ClickSelectTextBox>
             </StackPanel>
             <StackPanel>
                 <Label Margin="10, 10, 10, 0" Content="Дата"></Label>
-                <DatePicker Margin="10, 0, 10, 10" SelectedDate="{Binding Dt}"></DatePicker>
+                <DatePicker Margin="10, 0, 10, 10" SelectedDate="{Binding Dt}" IsEnabled="{Binding NewMode}"></DatePicker>
             </StackPanel>
             <StackPanel Width="200">
                 <Label Margin="10, 10, 10, 0" Content="Пациент"></Label>
                 <ComboBox ItemsSource="{Binding PersonList}" 
+                          IsEnabled="{Binding NewMode}"
                           DisplayMemberPath="FioBirthday" SelectedItem="{Binding Person}">
                 </ComboBox>
             </StackPanel>
             <CheckBox Margin="10" Content="ДМС?" 
-                      VerticalAlignment="Bottom" IsChecked="{Binding Dms}"></CheckBox>
+                      VerticalAlignment="Bottom" 
+                      IsEnabled="{Binding NewMode}"
+                      IsChecked="{Binding Dms}"></CheckBox>
             <StackPanel Orientation="Horizontal" Visibility="{Binding Dms, Converter={StaticResource VisibilityToBoolConverter}}">
                 <StackPanel VerticalAlignment="Bottom">
                     <Label Margin="10, 10, 10, 0" Content="Полис"></Label>
@@ -157,8 +163,13 @@
             </DockPanel>
             <local:ScrollingDataGrid ItemsSource="{Binding Zakaz1List}"
                         IsSynchronizedWithCurrentItem="True">
+                <DataGrid.Resources>
+                    <FrameworkElement x:Key="ProxyElement" DataContext="{Binding}"/>
+                </DataGrid.Resources>
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Наименование" Binding="{Binding BenefitName}" Width="450">
+                    <DataGridTextColumn Header="Наименование" 
+                            IsReadOnly="{Binding DataContext.EditMode, Source={StaticResource ProxyElement}}"
+                        Binding="{Binding BenefitName}" Width="450">
                         <DataGridTextColumn.ElementStyle>
                             <Style TargetType="TextBlock">
                                 <Setter Property="TextWrapping" Value="Wrap"></Setter>

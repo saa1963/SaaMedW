@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.Entity;
 using SaaMedW.Service;
+using System.ComponentModel;
+using System.Windows.Data;
 
 namespace SaaMedW
 {
@@ -19,6 +21,10 @@ namespace SaaMedW
         {
             get => m_lst;
             set { m_lst = value; OnPropertyChanged("ZakazList"); }
+        }
+        public ICollectionView ZakazListView
+        {
+            get => CollectionViewSource.GetDefaultView(ZakazList);
         }
         public VmZakaz ZakazSel { get; set; }
         #endregion
@@ -177,6 +183,19 @@ namespace SaaMedW
             {
                 ZakazList.Add(new VmZakaz(o));
             }
+        }
+
+        public RelayCommand EditZakazCommand
+        {
+            get => new RelayCommand(EditZakaz, s => ZakazSel != null);
+        }
+
+        private void EditZakaz(object obj)
+        {
+            VmZakaz zakaz = obj as VmZakaz;
+            var vm = new EditZakazViewModel(zakaz.Id);
+            var f = new EditZakazView() { DataContext = vm };
+            f.ShowDialog();
         }
     }
 }

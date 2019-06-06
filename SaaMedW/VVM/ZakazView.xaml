@@ -68,8 +68,14 @@
                 </Button>
             </StackPanel>
         </WrapPanel>
-        <local0:ScrollingDataGrid x:Name="g" ItemsSource="{Binding ZakazList}"
+        <local0:ScrollingDataGrid x:Name="g" ItemsSource="{Binding ZakazListView}"
                 IsReadOnly="True" SelectedItem="{Binding ZakazSel}" IsSynchronizedWithCurrentItem="True">
+            <DataGrid.InputBindings>
+                <MouseBinding
+                MouseAction="LeftDoubleClick"
+                Command="{Binding EditZakazCommand}"
+                CommandParameter="{Binding ZakazListView/}"/>
+            </DataGrid.InputBindings>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="Auto"></DataGridTextColumn>
                 <DataGridTextColumn Header="Дата" Binding="{Binding Dt, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:dd.MM.yyyy}}" Width="Auto">

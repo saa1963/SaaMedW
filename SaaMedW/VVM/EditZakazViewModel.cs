@@ -17,15 +17,81 @@ namespace SaaMedW
     public class EditZakazViewModel : NotifyPropertyChanged, IDataErrorInfo
     {
         SaaMedEntities ctx = new SaaMedEntities();
+        private bool m_NewMode;
+        public bool NewMode
+        {
+            get => m_NewMode;
+            set
+            {
+                m_NewMode = value;
+                OnPropertyChanged("NewMode");
+                OnPropertyChanged("EditMode");
+            }
+        }
+        public bool EditMode
+        {
+            get => !m_NewMode;
+            set
+            {
+                OnPropertyChanged("EditMode");
+            }
+        }
+
+        public EditZakazViewModel(int zakazId)
+        {
+            var zakaz = ctx.Zakaz.Find(zakazId);
+            Person = zakaz.Person;
+            InitPerson();
+            InitPersonal();
+            RefreshDmsCompanies();
+            DmsCompany = zakaz.DmsCompany;
+            Num = zakaz.Num;
+            Dt = zakaz.Dt;
+            Dms = zakaz.Dms;
+            Polis = zakaz.Polis;
+
+            Zakaz1List = new ObservableCollection<BenefitForZakaz>();
+            foreach (var z1 in zakaz.Zakaz1)
+            {
+                Zakaz1List.Add(new BenefitForZakaz()
+                {
+                     BenefitId = z1.BenefitId,
+                     BenefitName = z1.BenefitName,
+                     Kol = z1.Kol,
+                     PersonalId = z1.PersonalId,
+                     Price = z1.Price,
+                     RootSpecialty = z1.SpecialtyRootId,
+                     Sm = z1.Kol * z1.Price,
+                     Sum = SetSum,
+                     PersonalList = PersonalList.Where(s => s.SpecialtyId == z1.SpecialtyRootId).ToList()
+                });
+            }
+            NewMode = false;
+        }
         public EditZakazViewModel(int personId, int? dmscompanyId)
         {
             Person = ctx.Person.Find(personId);
+            InitPerson();
+            InitPersonal();
+            RefreshDmsCompanies();
+            DmsCompany = ctx.DmsCompany.Find(dmscompanyId);
+            Zakaz1List = new ObservableCollection<BenefitForZakaz>();
+            NewMode = true;
+        }
+
+        private void InitPerson()
+        {
+            
             foreach (var p in ctx.Person.OrderBy(s => s.LastName)
                 .ThenBy(s => s.FirstName).ThenBy(s => s.MiddleName)
                 .ThenBy(s => s.BirthDate))
             {
                 PersonList.Add(p);
             }
+        }
+
+        private void InitPersonal()
+        {
             foreach (var p in ctx.Personal.Where(s => s.Active).OrderBy(s => s.Fio))
             {
                 foreach (var p1 in p.PersonalSpecialty)
@@ -38,9 +104,6 @@ namespace SaaMedW
                     });
                 }
             }
-            RefreshDmsCompanies();
-            DmsCompany = ctx.DmsCompany.Find(dmscompanyId);
-            Zakaz1List = new ObservableCollection<BenefitForZakaz>();
         }
 
         private ObservableCollection<Person> m_PersonList = new ObservableCollection<Person>();
@@ -327,8 +390,12 @@ namespace SaaMedW
         public RelayCommand PayCommand { get; set; }
             = new RelayCommand(Pay, s => ServiceLocator.Instance.GetService<IKkm>().IsInitialized);
 #else
-        public RelayCommand PayCommand { get; set; }
-            = new RelayCommand(Pay);
+        public RelayCommand PayCommand
+        {
+            get => new RelayCommand(Pay, s => NewMode);
+        }
+
+            
 #endif
         private static void Pay(object obj)
         {
