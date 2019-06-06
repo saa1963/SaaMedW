@@ -161,6 +161,7 @@
     <Compile Include="Benefit.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="BindingProxy.cs" />
     <Compile Include="Converters\VisibilityToBoolConverter.cs" />
     <Compile Include="DmsCompany.cs">
       <DependentUpon>Model1.tt</DependentUpon>

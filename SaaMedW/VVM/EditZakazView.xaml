@@ -164,11 +164,11 @@
             <local:ScrollingDataGrid ItemsSource="{Binding Zakaz1List}"
                         IsSynchronizedWithCurrentItem="True">
                 <DataGrid.Resources>
-                    <FrameworkElement x:Key="ProxyElement" DataContext="{Binding}"/>
+                    <local:BindingProxy x:Key="proxy" Data="{Binding}" />
                 </DataGrid.Resources>
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Наименование" 
-                            IsReadOnly="{Binding DataContext.EditMode, Source={StaticResource ProxyElement}}"
+                            IsReadOnly="{Binding Data.EditMode, Source={StaticResource proxy}}"
                         Binding="{Binding BenefitName}" Width="450">
                         <DataGridTextColumn.ElementStyle>
                             <Style TargetType="TextBlock">
@@ -189,8 +189,12 @@
                             </Style>
                         </DataGridComboBoxColumn.EditingElementStyle>
                     </DataGridComboBoxColumn>
-                    <DataGridTextColumn Header="Цена" Binding="{Binding Price, StringFormat={}{0:#0.00}, UpdateSourceTrigger=PropertyChanged}" Width="100"/>
-                    <DataGridTextColumn Header="К-во" Binding="{Binding Kol, StringFormat={}{0:#0}, UpdateSourceTrigger=PropertyChanged}" Width="100"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Цена" 
+                                        IsReadOnly="{Binding Data.EditMode, Source={StaticResource proxy}}"
+                                        Binding="{Binding Price, StringFormat={}{0:#0.00}, UpdateSourceTrigger=PropertyChanged}" Width="100"/>
+                    <DataGridTextColumn Header="К-во" 
+                                        IsReadOnly="{Binding Data.EditMode, Source={StaticResource proxy}}"
+                                        Binding="{Binding Kol, StringFormat={}{0:#0}, UpdateSourceTrigger=PropertyChanged}" Width="100"></DataGridTextColumn>
                     <DataGridTextColumn IsReadOnly="True" Header="Сумма" Binding="{Binding Sm, StringFormat={}{0:#0.00}}" Width="100"/>
                 </DataGrid.Columns>
             </local:ScrollingDataGrid>
