@@ -32,8 +32,8 @@
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>index.html</WebPage>
     <TrustUrlParameters>true</TrustUrlParameters>
-    <ApplicationRevision>63</ApplicationRevision>
-    <ApplicationVersion>1.0.0.63</ApplicationVersion>
+    <ApplicationRevision>65</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -645,6 +645,7 @@
     <Resource Include="image\icons8-round-32.png" />
     <Resource Include="image\icons8-literature-32.png" />
     <Resource Include="image\icons8-literature-48.png" />
+    <Resource Include="image\icons8-save-48.png" />
     <Content Include="templates\согласие2019.docx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

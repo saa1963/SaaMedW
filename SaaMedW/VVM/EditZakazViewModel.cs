@@ -37,9 +37,10 @@ namespace SaaMedW
             }
         }
 
+        private Zakaz zakaz;
         public EditZakazViewModel(int zakazId)
         {
-            var zakaz = ctx.Zakaz.Find(zakazId);
+            zakaz = ctx.Zakaz.Find(zakazId);
             Person = zakaz.Person;
             InitPerson();
             InitPersonal();
@@ -55,6 +56,7 @@ namespace SaaMedW
             {
                 Zakaz1List.Add(new BenefitForZakaz()
                 {
+                     zakaz1Id = z1.Id,
                      BenefitId = z1.BenefitId,
                      BenefitName = z1.BenefitName,
                      Kol = z1.Kol,
@@ -387,29 +389,36 @@ namespace SaaMedW
             }
         }
 #if (!DEBUG)
-        public RelayCommand PayCommand { get; set; }
-            = new RelayCommand(Pay, s => ServiceLocator.Instance.GetService<IKkm>().IsInitialized);
+        public RelayCommand PayCommand
+        {
+            get => new RelayCommand(Pay, s => ServiceLocator.Instance.GetService<IKkm>().IsInitialized && ValidZakaz());
+        }
+        //public RelayCommand PayCommand { get; set; }
+        //    = new RelayCommand(Pay, s => ServiceLocator.Instance.GetService<IKkm>().IsInitialized);
 #else
         public RelayCommand PayCommand
         {
-            get => new RelayCommand(Pay, s => NewMode);
+            get => new RelayCommand(Pay, s => ValidZakaz());
         }
-
             
 #endif
-        private static void Pay(object obj)
+        private void Pay(object obj)
         {
-            var o = obj as EditZakazViewModel;
-            if (!o.ValidZakaz()) return;
-            if (!o.Dms)
+            //var o = obj as EditZakazViewModel;
+            if (!ValidZakaz())
+            {
+                MessageBox.Show(ValidZakazResult);
+                return;
+            }
+            if (!Dms)
             {
                 List<Tuple<string, int, decimal>> uslugi = new List<Tuple<string, int, decimal>>();
                 IKkm kkm = ServiceLocator.Instance.GetService<IKkm>();
-                var viewModel = new PayInvoiceViewModel() { КОплате = o.Sm };
+                var viewModel = new PayInvoiceViewModel() { КОплате = Sm };
                 var f = new PayInvoiceView() { DataContext = viewModel };
                 if (f.ShowDialog() ?? false)
                 {
-                    foreach (var o1 in o.Zakaz1List)
+                    foreach (var o1 in Zakaz1List)
                     {
                         uslugi.Add(new Tuple<string, int, decimal>(o1.BenefitName, o1.Kol, o1.Price));
                     }
@@ -419,11 +428,11 @@ namespace SaaMedW
                     if (true)
 #endif
                     {
-                        o.NotPayed = false;
-                        o.Save(viewModel.PaymentType, viewModel.Email);
+                        NotPayed = false;
+                        Save(viewModel.PaymentType, viewModel.Email);
                         if (viewModel.IsElectronic)
                             MessageBox.Show("Электронный чек сформирован.");
-                        o.CloseDialog = true;
+                        CloseDialog = true;
                     }
                     else
                     {
@@ -433,9 +442,9 @@ namespace SaaMedW
             }
             else
             {
-                o.NotPayed = false;
-                o.Save(null, "");
-                o.CloseDialog = true;
+                NotPayed = false;
+                Save(null, "");
+                CloseDialog = true;
             }
         }
 
@@ -476,7 +485,7 @@ namespace SaaMedW
             Options.SetParameter<int>(enumParameterType.Номер_договора, Num + 1);
         }
 
-        
+        private string ValidZakazResult;
 
         public bool ValidZakaz()
         {
@@ -503,8 +512,12 @@ namespace SaaMedW
             }
             if (result != null)
             {
-                //MessageBox.Show(result);
+                ValidZakazResult = result;
                 rt = false;
+            }
+            else
+            {
+                ValidZakazResult = null;
             }
             return rt;
         }
@@ -554,6 +567,23 @@ namespace SaaMedW
             }
         }
 
+        public RelayCommand SaveCommand
+        {
+            get => new RelayCommand(Save, s => ValidZakaz());
+        }
+
+        private void Save(object obj)
+        {
+            zakaz.Polis = Polis;
+            zakaz.DmsCompany = DmsCompany;
+            foreach(var z1 in zakaz.Zakaz1)
+            {
+                z1.PersonalId = Zakaz1List.Single(s => s.zakaz1Id == z1.Id).PersonalId;
+            }
+            ctx.SaveChanges();
+            CloseDialog = true;
+        }
+
         public string this[string columnName]
         {
             get
@@ -584,6 +614,7 @@ namespace SaaMedW
 
     public class BenefitForZakaz: NotifyPropertyChanged
     {
+        public int zakaz1Id { get; set; }
         public Action Sum { get; set; }
         private int m_BenefitId;
         public int BenefitId

@@ -64,10 +64,20 @@
             </Button>
             <Button DockPanel.Dock="Left" 
                 Height="32"
+                Visibility="{Binding NewMode, Converter={StaticResource VisibilityToBoolConverter}}"
                 Command="{Binding PayCommand}" CommandParameter="{Binding}">
                 <StackPanel Orientation="Horizontal">
                     <Image Source="..\image\icons8-ruble-32.png"></Image>
                     <TextBlock VerticalAlignment="Center" Margin="5,0,5,0">Оплата</TextBlock>
+                </StackPanel>
+            </Button>
+            <Button DockPanel.Dock="Left" 
+                Height="32"
+                    Visibility="{Binding EditMode, Converter={StaticResource VisibilityToBoolConverter}}"
+                Command="{Binding SaveCommand}" CommandParameter="{Binding}">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="..\image\icons8-save-48.png"></Image>
+                    <TextBlock VerticalAlignment="Center" Margin="5,0,5,0">Сохранить</TextBlock>
                 </StackPanel>
             </Button>
         </DockPanel>
@@ -125,6 +135,7 @@
         <DockPanel Grid.Row="2" DockPanel.Dock="Top" LastChildFill="False">
             <Button DockPanel.Dock="Left" 
                 Height="25" Width="25"
+                    IsEnabled="{Binding NewMode}"
                 Command="{Binding AddBenefitCommand}">
                 <Image Source="..\image\add_32.png"></Image>
                 <Button.Style>
@@ -133,18 +144,9 @@
                     </Style>
                 </Button.Style>
             </Button>
-            <!--<Button DockPanel.Dock="Left" 
-                Height="25" Width="25"
-                Command="{Binding AddEmptyBenefitCommand}">
-                <Image Source="..\image\icons8-round-32.png"></Image>
-                <Button.Style>
-                    <Style TargetType="Button">
-                        <Setter Property="ToolTip" Value="Добавить пустую строку"></Setter>
-                    </Style>
-                </Button.Style>
-            </Button>-->
             <Button DockPanel.Dock="Left" 
                 Height="25" Width="25"
+                    IsEnabled="{Binding NewMode}"
                 Command="{Binding DelBenefitCommand}">
                 <Image Source="..\image\delete_32.png"></Image>
                 <Button.Style>
