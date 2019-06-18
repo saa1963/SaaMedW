@@ -11,11 +11,13 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using log4net;
 
 namespace SaaMedW
 {
     public class EditZakazViewModel : NotifyPropertyChanged, IDataErrorInfo
     {
+        ILog log;
         SaaMedEntities ctx = new SaaMedEntities();
         private bool m_NewMode;
         public bool NewMode
@@ -40,6 +42,7 @@ namespace SaaMedW
         private Zakaz zakaz;
         public EditZakazViewModel(int zakazId)
         {
+            log = log4net.LogManager.GetLogger(this.GetType());
             zakaz = ctx.Zakaz.Find(zakazId);
             Person = zakaz.Person;
             InitPerson();
@@ -72,6 +75,7 @@ namespace SaaMedW
         }
         public EditZakazViewModel(int personId, int? dmscompanyId)
         {
+            log = log4net.LogManager.GetLogger(this.GetType());
             Person = ctx.Person.Find(personId);
             InitPerson();
             InitPersonal();
@@ -372,10 +376,17 @@ namespace SaaMedW
         public void PrintAll(object obj)
         {
             if (!ValidZakaz()) return;
-            Print.PrintDogovor(Dt, Num, Person, false);
-            Print.PrintVmesh(Dt, Person, false);
-            Print.PrintMedcard(Person, false);
-            Print.ZakazReport(Dt, Num, Person, Dms, Zakaz1List, false);
+            try
+            {
+                Print.PrintDogovor(Dt, Num, Person, false);
+                Print.PrintVmesh(Dt, Person, false);
+                Print.PrintMedcard(Person, false);
+                Print.ZakazReport(Dt, Num, Person, Dms, Zakaz1List, false);
+            }
+            catch (Exception e)
+            {
+                log.Error("Ошибка печати комплекта", e);
+            }
         }
 
         private bool m_NotPayed = true;
