@@ -25,10 +25,10 @@ namespace SaaMedW
                 wsh.Column(4).Width = 11;
                 wsh.Column(5).Width = 11;
                 wsh.Column(6).Width = 11;
-                wsh.Column(7).Width = 11;
-                wsh.Column(8).Width = 11;
-                wsh.Column(9).Width = 11;
-                wsh.Column(10).Width = 11;
+                //wsh.Column(7).Width = 11;
+                //wsh.Column(8).Width = 11;
+                //wsh.Column(9).Width = 11;
+                //wsh.Column(10).Width = 11;
                 wsh.Cells[1, 1].Value = $"Отчет за оказанные мед.услуги за период с {dt1.ToLongDateString()} по {dt2.ToLongDateString()}";
                 wsh.Cells[3, 1].Value = $"Медрегистратор {Global.Source.RUser.Fio}";
                 wsh.Cells[5, 1].BorderAround().Value = "НАПРАВЛЕНИЕ";
@@ -37,10 +37,10 @@ namespace SaaMedW
                 wsh.Cells[5, 4].BorderAround().WrapText().Value = "КАРТЫ";
                 wsh.Cells[5, 5].BorderAround().WrapText().Value = "ДМС";
                 wsh.Cells[5, 6].BorderAround().Value = "СУММА";
-                wsh.Cells[5, 7].BorderAround().WrapText().Value = "НАЛИЧНЫЕ";
-                wsh.Cells[5, 8].BorderAround().WrapText().Value = "КАРТЫ";
-                wsh.Cells[5, 9].BorderAround().WrapText().Value = "ДМС";
-                wsh.Cells[5, 10].BorderAround().WrapText().Value = "СУММА";
+                //wsh.Cells[5, 7].BorderAround().WrapText().Value = "НАЛИЧНЫЕ";
+                //wsh.Cells[5, 8].BorderAround().WrapText().Value = "КАРТЫ";
+                //wsh.Cells[5, 9].BorderAround().WrapText().Value = "ДМС";
+                //wsh.Cells[5, 10].BorderAround().WrapText().Value = "СУММА";
 
                 wsh.PrinterSettings.Orientation = eOrientation.Landscape;
 
@@ -84,28 +84,28 @@ namespace SaaMedW
                         wsh.Cells[row, 4].BorderAround();
                         wsh.Cells[row, 5].BorderAround();
                         wsh.Cells[row, 6].BorderAround();
-                        wsh.Cells[row, 7].BorderAround();
-                        wsh.Cells[row, 8].BorderAround();
-                        wsh.Cells[row, 9].BorderAround();
-                        wsh.Cells[row, 10].BorderAround();
+                        //wsh.Cells[row, 7].BorderAround();
+                        //wsh.Cells[row, 8].BorderAround();
+                        //wsh.Cells[row, 9].BorderAround();
+                        //wsh.Cells[row, 10].BorderAround();
                         row++;
                     }
                     else
                     {
                         wsh.Cells[row0, 1].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
-                        wsh.Cells[row0, 7].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
-                        wsh.Cells[row0, 7].Value = sm_nal;
-                        wsh.Cells[row0, 8].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
-                        wsh.Cells[row0, 8].Value = sm_card;
-                        wsh.Cells[row0, 9].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
-                        wsh.Cells[row0, 9].Value = sm_dms;
-                        wsh.Cells[row0, 10].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
-                        wsh.Cells[row0, 10].Value = sm;
+                        //wsh.Cells[row0, 7].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                        //wsh.Cells[row0, 7].Value = sm_nal;
+                        //wsh.Cells[row0, 8].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                        //wsh.Cells[row0, 8].Value = sm_card;
+                        //wsh.Cells[row0, 9].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                        //wsh.Cells[row0, 9].Value = sm_dms;
+                        //wsh.Cells[row0, 10].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                        //wsh.Cells[row0, 10].Value = sm;
                         wsh.Cells[row0, 1, row - 1, 1].BorderAround().Merge = true;
-                        wsh.Cells[row0, 7, row - 1, 7].BorderAround().Merge = true;
-                        wsh.Cells[row0, 8, row - 1, 8].BorderAround().Merge = true;
-                        wsh.Cells[row0, 9, row - 1, 9].BorderAround().Merge = true;
-                        wsh.Cells[row0, 10, row - 1, 10].BorderAround().Merge = true;
+                        //wsh.Cells[row0, 7, row - 1, 7].BorderAround().Merge = true;
+                        //wsh.Cells[row0, 8, row - 1, 8].BorderAround().Merge = true;
+                        //wsh.Cells[row0, 9, row - 1, 9].BorderAround().Merge = true;
+                        //wsh.Cells[row0, 10, row - 1, 10].BorderAround().Merge = true;
                         sm0 += sm;
                         sm0_dms += sm_dms;
                         sm0_card += sm_card;
@@ -117,10 +117,10 @@ namespace SaaMedW
                 wsh.Cells[row, 4].Value = sm0_card;
                 wsh.Cells[row, 5].Value = sm0_dms;
                 wsh.Cells[row, 6].Value = sm0;
-                wsh.Cells[row, 7].Value = sm0_nal;
-                wsh.Cells[row, 8].Value = sm0_card;
-                wsh.Cells[row, 9].Value = sm0_dms;
-                wsh.Cells[row, 10].Value = sm0;
+                //wsh.Cells[row, 7].Value = sm0_nal;
+                //wsh.Cells[row, 8].Value = sm0_card;
+                //wsh.Cells[row, 9].Value = sm0_dms;
+                //wsh.Cells[row, 10].Value = sm0;
 
                 pack.Save();
                 return tmpName;
