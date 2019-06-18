@@ -372,10 +372,10 @@ namespace SaaMedW
         public void PrintAll(object obj)
         {
             if (!ValidZakaz()) return;
-            Print.PrintDogovor(Dt, Num, Person, IsOpenPrint);
-            Print.PrintVmesh(Dt, Person, IsOpenPrint);
-            Print.PrintMedcard(Person, IsOpenPrint);
-            Print.ZakazReport(Dt, Num, Person, Dms, Zakaz1List, IsOpenPrint);
+            Print.PrintDogovor(Dt, Num, Person, false);
+            Print.PrintVmesh(Dt, Person, false);
+            Print.PrintMedcard(Person, false);
+            Print.ZakazReport(Dt, Num, Person, Dms, Zakaz1List, false);
         }
 
         private bool m_NotPayed = true;
