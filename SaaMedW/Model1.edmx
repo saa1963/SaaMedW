@@ -166,7 +166,7 @@
           <Property Name="Password" Type="varbinary" MaxLength="50" />
           <Property Name="Role" Type="int" Nullable="false" />
           <Property Name="Disabled" Type="bit" Nullable="false" />
-          <Property Name="Inn" Type="nchar" MaxLength="12" Nullable="false" />
+          <Property Name="Inn" Type="nchar" MaxLength="12" />
         </EntityType>
         <EntityType Name="Visit">
           <Key>
@@ -683,7 +683,7 @@
           <Property Name="Password" Type="Binary" MaxLength="50" FixedLength="false" />
           <Property Name="Role" Type="Int32" Nullable="false" />
           <Property Name="Disabled" Type="Boolean" Nullable="false" />
-          <Property Name="Inn" Type="String" Nullable="false" MaxLength="12" FixedLength="true" Unicode="true" />
+          <Property Name="Inn" Type="String" MaxLength="12" FixedLength="true" Unicode="true" />
         </EntityType>
         <Association Name="FK_Person_DocumentType">
           <End Role="DocumentType" Type="Self.DocumentType" Multiplicity="0..1" />

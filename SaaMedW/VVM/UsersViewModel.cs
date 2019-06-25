@@ -71,7 +71,7 @@ namespace SaaMedW
                     viewUsers.MoveCurrentTo(vmuser);
                 }
             }
-            catch(DbEntityValidationException e)
+            catch(Exception e)
             {
                 var msg = "Ошибка добавления пользователя";
                 log.Error(msg, e);
