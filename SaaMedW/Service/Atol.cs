@@ -459,6 +459,27 @@ namespace SaaMedW.Service
             return rt;
         }
 
+        /// <summary>
+        /// Печать документа из ФН по номеру
+        /// </summary>
+        /// <returns></returns>
+        public void PrintDocFN(int num)
+        {
+            try
+            {
+                OpenConnection();
+
+                fptr.setParam(Constants.LIBFPTR_PARAM_REPORT_TYPE, Constants.LIBFPTR_RT_FN_DOC_BY_NUMBER);
+                fptr.setParam(Constants.LIBFPTR_PARAM_DOCUMENT_NUMBER, num);
+                fptr.report();
+            }
+            catch (Exception e)
+            {
+                var msg = "Ошибка печати копии документа из ФН";
+                log.Error(msg, e);
+            }
+        }
+
         public string Model => "АТОЛ";
     }
 }

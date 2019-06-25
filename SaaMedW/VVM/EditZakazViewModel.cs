@@ -469,6 +469,10 @@ namespace SaaMedW
                 Email = email,
                 Card = false
             };
+            if (docnum != -1)
+            {
+                zakaz.CheckNum = docnum;
+            }
             if (pt.HasValue && pt.Value == enumPaymentType.Безналичные)
             {
                 zakaz.Card = true;

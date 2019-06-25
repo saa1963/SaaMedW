@@ -112,6 +112,20 @@ namespace SaaMedW
             get => new RelayCommand(ClearPersonSel, s => PersonSel != 0);
         }
 
+        public RelayCommand CheckCopyCommand
+        {
+            get => new RelayCommand(CheckCopy, s => ZakazSel != null && ZakazSel.CheckNum != null);
+        }
+
+        private void CheckCopy(object obj)
+        {
+            IKkm kkm = ServiceLocator.Instance.GetService<IKkm>();
+            if (kkm.IsInitialized)
+            {
+                ((AtolService)kkm).PrintDocFN(ZakazSel.CheckNum.Value);
+            }
+        }
+
         private void ClearPersonSel(object obj)
         {
             PersonSel = 0;

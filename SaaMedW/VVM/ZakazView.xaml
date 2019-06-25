@@ -38,6 +38,13 @@
                 </StackPanel>
             </Button>
             <Button Height="32"
+                Command="{Binding CheckCopyCommand}" CommandParameter="{Binding}">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="..\image\icons8-печать-32.png"></Image>
+                    <TextBlock VerticalAlignment="Center" Margin="5,0,5,0">Чек</TextBlock>
+                </StackPanel>
+            </Button>
+            <Button Height="32"
                 Command="{Binding BackMoneyCommand}" CommandParameter="{Binding}">
                 <StackPanel Orientation="Horizontal">
                     <Image Source="..\image\icons8-request-money-32.png"></Image>

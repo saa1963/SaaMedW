@@ -30,6 +30,7 @@ namespace SaaMedW
         public Nullable<System.DateTime> Vozvrat { get; set; }
         public string Email { get; set; }
         public bool Card { get; set; }
+        public Nullable<int> CheckNum { get; set; }
     
         public virtual DmsCompany DmsCompany { get; set; }
         public virtual Person Person { get; set; }

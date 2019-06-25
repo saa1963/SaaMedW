@@ -146,5 +146,14 @@ namespace SaaMedW
                 OnPropertyChanged("Card");
             }
         }
+        public int? CheckNum
+        {
+            get => m_object.CheckNum;
+            set
+            {
+                m_object.CheckNum = value;
+                OnPropertyChanged("CheckNum");
+            }
+        }
     }
 }
