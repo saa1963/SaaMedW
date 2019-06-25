@@ -119,6 +119,10 @@ namespace SaaMedW.Service
             string emailOrPhone, bool electron)
         {
             bool rt = false;
+#pragma warning disable CS0162
+#if (DEBUG)
+            return true;
+#endif
             try
             {
                 OpenConnection();
@@ -181,6 +185,7 @@ namespace SaaMedW.Service
             if (fptr.isOpened()) fptr.close();
             return rt;
         }
+#pragma warning restore CS0162
 
         public static string ShowProperties()
         {
@@ -426,6 +431,29 @@ namespace SaaMedW.Service
             catch (Exception e)
             {
                 var msg = "Ошибка чтения информации о сроке действия ФН.";
+                log.Error(msg, e);
+            }
+            return rt;
+        }
+
+        /// <summary>
+        /// Номер последнего документа
+        /// </summary>
+        /// <returns></returns>
+        public int LastDocNumber()
+        {
+            int rt = -1;
+            try
+            {
+                OpenConnection();
+
+                fptr.setParam(Constants.LIBFPTR_PARAM_FN_DATA_TYPE, Constants.LIBFPTR_FNDT_LAST_DOCUMENT);
+                fptr.fnQueryData();
+                rt = (int)fptr.getParamInt(Constants.LIBFPTR_PARAM_DOCUMENT_NUMBER);
+            }
+            catch (Exception e)
+            {
+                var msg = "Ошибка чтения номера последнего документа";
                 log.Error(msg, e);
             }
             return rt;

@@ -246,8 +246,6 @@ namespace SaaMedW
 
         private decimal m_Sm = 0;
 
-        public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
-
         public decimal Sm
         {
             get => m_Sm;
@@ -433,14 +431,11 @@ namespace SaaMedW
                     {
                         uslugi.Add(new Tuple<string, int, decimal>(o1.BenefitName, o1.Kol, o1.Price));
                     }
-#if (!DEBUG)
                     if (kkm.Register(uslugi, viewModel.Sm, viewModel.PaymentType, viewModel.Email, viewModel.IsElectronic))
-#else
-                    if (true)
-#endif
                     {
+                        int docnum = ((AtolService)kkm).LastDocNumber();
                         NotPayed = false;
-                        Save(viewModel.PaymentType, viewModel.Email);
+                        Save(viewModel.PaymentType, viewModel.Email, docnum);
                         if (viewModel.IsElectronic)
                             MessageBox.Show("Электронный чек сформирован.");
                         CloseDialog = true;
@@ -454,12 +449,12 @@ namespace SaaMedW
             else
             {
                 NotPayed = false;
-                Save(null, "");
+                Save(null, "", -1);
                 CloseDialog = true;
             }
         }
 
-        private void Save(enumPaymentType? pt, string email)
+        private void Save(enumPaymentType? pt, string email, int docnum)
         {
             var zakaz = new Zakaz()
             {
