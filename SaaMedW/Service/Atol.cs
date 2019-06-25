@@ -385,6 +385,51 @@ namespace SaaMedW.Service
             }
             return rt;
         }
+        /// <summary>
+        /// Количество не переданных в ОФД документов
+        /// </summary>
+        /// <returns></returns>
+        public int NoSend()
+        {
+            int rt = -1;
+            try
+            {
+                OpenConnection();
+
+                fptr.setParam(Constants.LIBFPTR_PARAM_FN_DATA_TYPE, Constants.LIBFPTR_FN_DOC_EXCHANGE_STATUS);
+                fptr.fnQueryData();
+                uint kol = fptr.getParamInt(1097);
+                rt = (int)kol;
+            }
+            catch (Exception e)
+            {
+                var msg = "Ошибка чтения информации о не переданных документах.";
+                log.Error(msg, e);
+            }
+            return rt;
+        }
+        /// <summary>
+        /// Срок действия ФН
+        /// </summary>
+        /// <returns></returns>
+        public DateTime? SrokFN()
+        {
+            DateTime? rt = null;
+            try
+            {
+                OpenConnection();
+
+                fptr.setParam(Constants.LIBFPTR_PARAM_FN_DATA_TYPE, Constants.LIBFPTR_FNDT_VALIDITY);
+                fptr.fnQueryData();
+                rt = fptr.getParamDateTime(Constants.LIBFPTR_PARAM_DATE_TIME);
+            }
+            catch (Exception e)
+            {
+                var msg = "Ошибка чтения информации о сроке действия ФН.";
+                log.Error(msg, e);
+            }
+            return rt;
+        }
 
         public string Model => "АТОЛ";
     }

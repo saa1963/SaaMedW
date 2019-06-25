@@ -69,6 +69,25 @@ namespace SaaMedW
             }
         }
 
+        public RelayCommand NoSendCommand
+        {
+            get
+            {
+                return new RelayCommand(NoSend,
+                    s => ServiceLocator.Instance.GetService<IKkm>().IsInitialized);
+            }
+        }
+
+        private void NoSend(object obj)
+        {
+            var kkt = ServiceLocator.Instance.GetService<IKkm>();
+            int kol;
+            if ((kol = ((AtolService)kkt).NoSend()) != -1)
+                MessageBox.Show($"Не передано {kol} документов");
+            else
+                MessageBox.Show("Ошибка чтения документа");
+        }
+
         public RelayCommand ZReportCommand
         {
             get

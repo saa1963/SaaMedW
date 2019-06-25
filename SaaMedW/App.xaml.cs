@@ -84,6 +84,24 @@ namespace SaaMedW
                 {
                     MessageBox.Show("Ошибка инициализации драйвера ККТ");
                 }
+                else
+                {
+                    int kol;
+                    kol = ((AtolService)fptr).NoSend();
+                    if (kol > 0)
+                    {
+                        MessageBox.Show($"Внимание! В ОФД не передано {kol} документов.");
+                    }
+                    DateTime? srok;
+                    srok = ((AtolService)fptr).SrokFN();
+                    if (srok.HasValue)
+                    {
+                        if ((srok.Value - DateTime.Now).Days < 30)
+                        {
+                            MessageBox.Show("Окончание срока действия фискального накопителя " + srok.Value.ToString("dd.MM.yyyy") + " !");
+                        }
+                    }
+                }
 
                 Options.SetParameter<string>(enumParameterType.Последний_логин, loginViewModel.Login);
                 this.ShutdownMode = ShutdownMode.OnMainWindowClose;

@@ -29,6 +29,8 @@
                           ></MenuItem>
                 <!--<MenuItem Header="Информация о чеке" Command="{Binding DataCheckCommand}" 
                           ></MenuItem>-->
+                <MenuItem Header="Количество не переданных документов в ОФД" Command="{Binding NoSendCommand}" 
+                          ></MenuItem>
             </MenuItem>
             <MenuItem Header="Персонал">
                 <MenuItem Header="Сотрудники" Command="{Binding Cmd}" 

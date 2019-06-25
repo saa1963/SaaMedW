@@ -1,8 +1,10 @@
-﻿using SaaMedW.View;
+﻿using log4net;
+using SaaMedW.View;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,10 +15,12 @@ namespace SaaMedW
 {
     public class UsersViewModel
     {
+        ILog log;
         private SaaMedEntities ctx = new SaaMedEntities();
 
         public UsersViewModel()
         {
+            log = log4net.LogManager.GetLogger(this.GetType());
             foreach (var o in  ctx.Users)
             {
                 UsersList.Add(new VmUsers(o));
@@ -44,25 +48,33 @@ namespace SaaMedW
 
         private void AddUser(object obj)
         {
-            var modelView = new EditUserViewModel();
-            var f = new EditUserView() { DataContext = modelView };
-            if (f.ShowDialog() ?? false)
+            try
             {
-                var user = new Users();
-                user.Fio = modelView.Fio;
-                user.Login = modelView.Login;
-                user.Role = modelView.RoleSel.Id;
-                if (!String.IsNullOrWhiteSpace(modelView.Password))
+                var modelView = new EditUserViewModel();
+                var f = new EditUserView() { DataContext = modelView };
+                if (f.ShowDialog() ?? false)
                 {
-                    user.Password = new System.Security.Cryptography.SHA1CryptoServiceProvider()
-                        .ComputeHash(System.Text.Encoding.ASCII.GetBytes(modelView.Password));
+                    var user = new Users();
+                    user.Fio = modelView.Fio;
+                    user.Login = modelView.Login;
+                    user.Role = modelView.RoleSel.Id;
+                    if (!String.IsNullOrWhiteSpace(modelView.Password))
+                    {
+                        user.Password = new System.Security.Cryptography.SHA1CryptoServiceProvider()
+                            .ComputeHash(System.Text.Encoding.ASCII.GetBytes(modelView.Password));
+                    }
+                    user.Disabled = modelView.Disabled;
+                    ctx.Users.Add(user);
+                    ctx.SaveChanges();
+                    var vmuser = new VmUsers(user);
+                    UsersList.Add(vmuser);
+                    viewUsers.MoveCurrentTo(vmuser);
                 }
-                user.Disabled = modelView.Disabled;
-                ctx.Users.Add(user);
-                ctx.SaveChanges();
-                var vmuser = new VmUsers(user);
-                UsersList.Add(vmuser);
-                viewUsers.MoveCurrentTo(vmuser);
+            }
+            catch(DbEntityValidationException e)
+            {
+                var msg = "Ошибка добавления пользователя";
+                log.Error(msg, e);
             }
         }
 
