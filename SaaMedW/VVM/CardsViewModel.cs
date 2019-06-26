@@ -262,5 +262,14 @@ namespace SaaMedW
         {
             RefreshData();
         }
+
+        public RelayCommand PersonHistoryCommand => new RelayCommand(PersonHistory, s => CardsSel != null);
+
+        private void PersonHistory(object obj)
+        {
+            var vm = new PersonHistoryViewModel(CardsSel.Obj);
+            var f = new PersonHistoryView() { DataContext = vm };
+            f.ShowDialog();
+        }
     }
 }

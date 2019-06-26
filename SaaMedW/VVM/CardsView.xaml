@@ -42,7 +42,9 @@
             </MenuItem>
             <MenuItem Visibility="Collapsed"  Header="Запись к специалисту" Command="{Binding NewVisitCommand}">
             </MenuItem>
-            <MenuItem Header="Лица для информирования" Command="{Binding PersonsInfoCommand}">
+            <MenuItem Visibility="Collapsed" Header="Лица для информирования" Command="{Binding PersonsInfoCommand}">
+            </MenuItem>
+            <MenuItem Header="История" Command="{Binding PersonHistoryCommand}">
             </MenuItem>
         </Menu>
         <WrapPanel Grid.Row="1" Margin="5">
