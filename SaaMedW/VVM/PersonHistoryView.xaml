@@ -5,12 +5,42 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SaaMedW"
         mc:Ignorable="d"
-        Title="{Binding Fio}" Height="450" Width="800">
+        Title="{Binding Fio}" Height="450" Width="800"
+        Style="{StaticResource {x:Type Window}}"
+        WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <Style x:Key="Labels" TargetType="TextBlock">
+            <Setter Property="FontWeight" Value="Bold"></Setter>
+            <Setter Property="Margin" Value="5,0,5,0"></Setter>
+            <Setter Property="TextAlignment"  Value="Right"></Setter>
+        </Style>
+        <local:BoolToYesNoConverter x:Key="BoolToYesNoConverter"></local:BoolToYesNoConverter>
+    </Window.Resources>
     <Grid>
         <ItemsControl ItemsSource="{Binding ZakazList}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <WrapPanel Grid.Row="0">
+                            <TextBlock Text="Дата:"></TextBlock>
+                            <TextBlock Text="{Binding Dt, StringFormat={}{0:dd.MM.yyyy}}" Style="{StaticResource Labels}"></TextBlock>
+                            <TextBlock Text="№:"></TextBlock>
+                            <TextBlock Text="{Binding Num, StringFormat={}{0:######0}}" Style="{StaticResource Labels}"></TextBlock>
+                            <TextBlock Text="Сумма:"></TextBlock>
+                            <TextBlock Text="{Binding Sm, StringFormat={}{0:#0.00}}" Style="{StaticResource Labels}" Width="60"></TextBlock>
+                            <TextBlock Text="ДМС:"></TextBlock>
+                            <TextBlock Text="{Binding Dms, Converter={StaticResource BoolToYesNoConverter}}" Style="{StaticResource Labels}"></TextBlock>
+                            <TextBlock Text="Карта:"></TextBlock>
+                            <TextBlock Text="{Binding Card, Converter={StaticResource BoolToYesNoConverter}}" Style="{StaticResource Labels}"></TextBlock>
+                        </WrapPanel>
+                        <ItemsControl>
+                            
+                        </ItemsControl>
+                    </Grid>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>

@@ -33,7 +33,7 @@ namespace SaaMedW
         public PersonHistoryViewModel(Person person)
         {
             Fio = person.Fio;
-            foreach(var z in ctx.Zakaz.Where(s => s.PersonId == person.Id).OrderByDescending(s => s.Dt))
+            foreach(var z in ctx.Zakaz.Where(s => s.PersonId == person.Id && s.Vozvrat == null).OrderByDescending(s => s.Dt))
             {
                 m_ZakazList.Add(new VmZakaz(z));
             }
