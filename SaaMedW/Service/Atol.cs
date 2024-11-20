@@ -207,7 +207,7 @@ namespace SaaMedW.Service
                 var msg = "Ошибка закрытия смены.";
                 log.Error(msg, e);
             }
-            if (fptr.isOpened()) fptr.close();
+            //if (fptr.isOpened()) fptr.close();
 
             log.Info("fptr.close");
 
@@ -259,7 +259,7 @@ namespace SaaMedW.Service
                 var msg = "Ошибка закрытия смены.";
                 log.Error(msg, e);
             }
-            if (fptr.isOpened()) fptr.close();
+            //if (fptr.isOpened()) fptr.close();
             return rt;
         }
 
