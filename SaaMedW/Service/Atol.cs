@@ -125,7 +125,10 @@ namespace SaaMedW.Service
 #endif
             try
             {
+                log.Info("OpenConnection");
                 OpenConnection();
+
+                log.Info("vidOplata");
 
                 // Открытие чека
                 if (vidOplata != enumPaymentType.Возврат)
@@ -136,13 +139,20 @@ namespace SaaMedW.Service
                 {
                     fptr.setParam(Constants.LIBFPTR_PARAM_RECEIPT_TYPE, Constants.LIBFPTR_RT_SELL_RETURN);
                 }
-                
+
+                log.Info("electron");
+
                 if (electron)
                 {
                     fptr.setParam(Constants.LIBFPTR_PARAM_RECEIPT_ELECTRONICALLY, true);
                     fptr.setParam(1008, emailOrPhone);
                 }
+
+                log.Info("openReceipt");
+
                 if (fptr.openReceipt() < 0) throw AtolException();
+
+                log.Info("foreach");
 
                 foreach (var o in uslugi)
                 {
@@ -158,6 +168,9 @@ namespace SaaMedW.Service
                     fptr.setParam(1212, 4); // признак предмета расчета (в случае 4 - УСЛУГА, 3 - РАБОТА)
                     fptr.registration();
                 }
+
+                log.Info("cash");
+
                 // Оплата наличными
                 if (vidOplata != enumPaymentType.Безналичные)
                 {
@@ -167,13 +180,25 @@ namespace SaaMedW.Service
                 {
                     fptr.setParam(Constants.LIBFPTR_PARAM_PAYMENT_TYPE, Constants.LIBFPTR_PT_ELECTRONICALLY);
                 }
+
+                log.Info("sum");
+
                 fptr.setParam(Constants.LIBFPTR_PARAM_PAYMENT_SUM, Convert.ToDouble(oplata));
+
+                log.Info("payment");
+
                 fptr.payment();
+
+                log.Info("closeReceipt");
 
                 // Закрытие чека
                 fptr.closeReceipt();
 
+                log.Info("CheckDocumentClosed");
+
                 CheckDocumentClosed(true);
+
+                log.Info("rt = true");
 
                 rt = true;
             }
@@ -183,6 +208,9 @@ namespace SaaMedW.Service
                 log.Error(msg, e);
             }
             if (fptr.isOpened()) fptr.close();
+
+            log.Info("fptr.close");
+
             return rt;
         }
 #pragma warning restore CS0162

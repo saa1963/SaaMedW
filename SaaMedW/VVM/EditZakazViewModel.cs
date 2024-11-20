@@ -433,9 +433,12 @@ namespace SaaMedW
                     }
                     if (kkm.Register(uslugi, viewModel.Sm, viewModel.PaymentType, viewModel.Email, viewModel.IsElectronic))
                     {
+                        log.Info("Кассовый чек зарегистрирован");
                         int docnum = ((AtolService)kkm).LastDocNumber();
+                        log.Info("Получен номер последнего документа " + docnum.ToString());
                         NotPayed = false;
                         Save(viewModel.PaymentType, viewModel.Email, docnum);
+                        log.Info("Сохранено в базе " + docnum.ToString());
                         if (viewModel.IsElectronic)
                             MessageBox.Show("Электронный чек сформирован.");
                         CloseDialog = true;
